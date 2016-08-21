@@ -1,10 +1,14 @@
 /*File contenente le strutture dati*/
 
-const unsigned int N_BARRIERE = 4;	//numero delle barriere presenti a partita
-const unsigned int LARG_BARRIERA = 20;	//largezza della barriera	//------------>DA CONTROLLARE<-------------
-const unsigned int ALT_BARRIERA = 10;	//altezza della barriera	//------------>DA CONTROLLARE<-------------
-const unsigned int N_FILE_MOSTRI = 5;	//numero delle file di mostri
-const unsigned int N_COL_MOSTRI = 11;	//numero delle colonne di mostri
+#include <iostream>
+#include <cassert>
+using namespace std;
+
+const unsigned int N_BARRIERE = 4; /*numero delle barriere presenti a partita*/
+const unsigned int LARG_BARRIERA = 20; /*largezza della barriera*/	//------------>DA CONTROLLARE<-------------
+const unsigned int ALT_BARRIERA = 10; /*altezza della barriera*/	//------------>DA CONTROLLARE<-------------
+const unsigned int N_FILE_MOSTRI = 5; /*numero delle file di mostri*/
+const unsigned int N_COL_MOSTRI = 11; /*numero delle colonne di mostri*/
 
 /* Tipo grafica per impostazioni.
  *

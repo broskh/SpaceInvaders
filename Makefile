@@ -1,4 +1,4 @@
-OBJ = SpaceInvaders.o
+OBJ = SpaceInvaders.o gestione_impostazioni.o
 CXXFLAGS=$(DEBUG_FLAGS) -Wall -lallegro
 LDFLAGS=-export-dynamic -lallegro
 
