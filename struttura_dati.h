@@ -4,11 +4,13 @@
 #include <cassert>
 using namespace std;
 
-const unsigned int N_BARRIERE = 4; /*numero delle barriere presenti a partita*/
-const unsigned int LARG_BARRIERA = 20; /*largezza della barriera*/	//------------>DA CONTROLLARE<-------------
-const unsigned int ALT_BARRIERA = 10; /*altezza della barriera*/	//------------>DA CONTROLLARE<-------------
-const unsigned int N_FILE_MOSTRI = 5; /*numero delle file di mostri*/
-const unsigned int N_COL_MOSTRI = 11; /*numero delle colonne di mostri*/
+const unsigned int N_BARRIERE = 4; /*Numero delle barriere presenti a partita*/
+const unsigned int LARG_BARRIERA = 20; /*Largezza della barriera*/	//------------>DA CONTROLLARE<-------------
+const unsigned int ALT_BARRIERA = 10; /*Altezza della barriera*/	//------------>DA CONTROLLARE<-------------
+const unsigned int N_FILE_MOSTRI = 5; /*Numero delle file di mostri*/
+const unsigned int N_COL_MOSTRI = 11; /*Numero delle colonne di mostri*/
+const unsigned int CARATTERI_NOME = 4; /*Numero di caratteri per le stringhe contente il nome del realizzatore di un punteggio.*/
+const unsigned int N_HIGHSCORES = 10; /*Numero di punteggi presenti nella classifica degli highscores.*/
 
 /* Tipo grafica per impostazioni.
  *
@@ -34,6 +36,17 @@ enum stato {distrutto, parziale, intero};
  * la direzione che stanno tenendo in un determinato momento.
  */
 enum direzione {destra, sinistra};
+
+/*
+ * Struttura per il punteggio.
+ *
+ * Conserva le informazioni relative ad un singolo punteggio.
+ */
+struct punteggio
+{
+	char nome [CARATTERI_NOME]; /*Nome del giocatore*/
+	int valore; /*Valore del punteggio*/
+}
 
 /*
  * Struttura delle impostazioni.
@@ -73,7 +86,7 @@ struct ondata
  */
 struct partita
 {
-	int punteggio;	/*Punteggio*/
+	punteggio punteggio_att	/*Punteggio della partita*/
 	unsigned int vite_rimanenti;	/*Vite rimanenti*/
 	stato barriere [ALT_BARRIERA] [LARG_BARRIERA] [N_BARRIERE];	/*Stato attuale delle barriere*/
 	ondata ondata_att;	/*Ondata di mostri attuale*/
@@ -90,5 +103,5 @@ struct spaceInvaders
 {
 	impostazioni impost_att;	/*Impostazioni attuali*/
 	partita partita_att;	/*Partita attuale*/
-	unsigned int max_score;	/*Punteggio massimo*/
+	punteggio highscores [N_HIGHSCORES];	/*Highscores*/
 };
