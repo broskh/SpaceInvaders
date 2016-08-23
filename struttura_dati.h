@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <cassert>
+#include <fstream>
+#include <cstring>
 using namespace std;
 
 const unsigned int N_BARRIERE = 4; /*Numero delle barriere presenti a partita*/
@@ -10,7 +12,7 @@ const unsigned int ALT_BARRIERA = 10; /*Altezza della barriera*/	//------------>
 const unsigned int N_FILE_MOSTRI = 5; /*Numero delle file di mostri*/
 const unsigned int N_COL_MOSTRI = 11; /*Numero delle colonne di mostri*/
 const unsigned int CARATTERI_NOME = 4; /*Numero di caratteri per le stringhe contente il nome del realizzatore di un punteggio.*/
-const unsigned int N_HIGHSCORES = 10; /*Numero di punteggi presenti nella classifica degli highscores.*/
+const unsigned int MAX_HIGHSCORES = 10; /*Numero di punteggi presenti nella classifica degli highscores.*/
 
 /* Tipo grafica per impostazioni.
  *
@@ -19,7 +21,7 @@ const unsigned int N_HIGHSCORES = 10; /*Numero di punteggi presenti nella classi
  * se i mostri sono colorati attraverso fasce adiacenti di colori differenti; e infine "misto"
  * se vogliamo che i mostri siano di colori differenti, e mai uguali per due mostri adiacenti.
  */
-enum grafica {mono_bianco, mono_giallo, mono_verde, fasce_vert, fasce_oriz, misto};	//aggiungere altre mono?
+enum grafica {mono_bianco, mono_giallo, mono_verde, fasce_vert, fasce_oriz, misto};	//----------------------->aggiungere altre mono?<--------------------
 
 /* Tipo stato per ogni quadrato che costituisce la barriera.
  *
@@ -46,7 +48,7 @@ struct punteggio
 {
 	char nome [CARATTERI_NOME]; /*Nome del giocatore*/
 	int valore; /*Valore del punteggio*/
-}
+};
 
 /*
  * Struttura delle impostazioni.
@@ -57,10 +59,10 @@ struct punteggio
  */
 struct impostazioni
 {
-	bool musica;	/*Musica on/off*/
+	bool musica; /*Musica on/off*/
 	bool eff_audio;	/*Effetti  audio on/off*/
-	grafica mod_grafica;	/*Modalità grafica*/
-	unsigned int vite_iniziali;	/*Vite iniziali*/
+	grafica mod_grafica; /*Modalità grafica*/
+	unsigned int vite_iniziali; /*Vite iniziali*/
 };
 
 /*
@@ -72,9 +74,9 @@ struct impostazioni
  */
 struct ondata
 {
-	bool mostri [N_FILE_MOSTRI] [N_COL_MOSTRI];	/*Stato mostri*/
-	int mostri_rimasti;	/*Numero di mostri rimasti*/
-	direzione dir_mostri;	/*Direzione dello zig-zag*/
+	bool mostri [N_FILE_MOSTRI] [N_COL_MOSTRI]; /*Stato mostri*/
+	int mostri_rimasti; /*Numero di mostri rimasti*/
+	direzione dir_mostri; /*Direzione dello zig-zag*/
 };
 
 /*
@@ -86,10 +88,10 @@ struct ondata
  */
 struct partita
 {
-	punteggio punteggio_att	/*Punteggio della partita*/
-	unsigned int vite_rimanenti;	/*Vite rimanenti*/
-	stato barriere [ALT_BARRIERA] [LARG_BARRIERA] [N_BARRIERE];	/*Stato attuale delle barriere*/
-	ondata ondata_att;	/*Ondata di mostri attuale*/
+	punteggio punteggio_att; /*Punteggio della partita*/
+	unsigned int vite_rimanenti; /*Vite rimanenti*/
+	stato barriere [ALT_BARRIERA] [LARG_BARRIERA] [N_BARRIERE]; /*Stato attuale delle barriere*/
+	ondata ondata_att; /*Ondata di mostri attuale*/
 };
 
 /*
@@ -101,7 +103,7 @@ struct partita
  */
 struct spaceInvaders
 {
-	impostazioni impost_att;	/*Impostazioni attuali*/
-	partita partita_att;	/*Partita attuale*/
-	punteggio highscores [N_HIGHSCORES];	/*Highscores*/
+	impostazioni impost_att; /*Impostazioni attuali*/
+	punteggio highscores [MAX_HIGHSCORES]; /*Highscores*/
+	unsigned int n_highscores; /*Numero di punteggi memorizzati nell'array :highscores*/
 };

@@ -29,5 +29,11 @@
 *.app
 SpaceInvaders
 
-#temprary files
+# Temprary files
 *~
+prova*
+
+# Configuration and save files
+.config
+highscores
+
