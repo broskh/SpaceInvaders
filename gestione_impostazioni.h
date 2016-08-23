@@ -1,8 +1,6 @@
 /*
- * Header file contenente l'interfaccia del modulo di salvataggio/caricamento delle impostazioni.
+ * Header file contenente l'interfaccia del modulo di gestione delle impostazioni.
  */
-
-#include <fstream>
 
 //INIZIO INTERFACCIA
 
@@ -13,7 +11,7 @@ const unsigned int DEFAULT_VITE_INIZIALI = 3; /*Valore di default del campo vite
 
 /*
  * Carica da un file di configurazione le impostazioni e le memorizza in un'apposita struttura.
- * Ritorna false nel caso in cui il file passato come parametro non esiste.
+ * Ritorna false nel caso in cui il caricamento non sia riuscito.
  * 
  * impo Struttura "impostazioni" nella quale memorizzare i valori.
  * file File di configurazione dal quale caricare le impostazioni.

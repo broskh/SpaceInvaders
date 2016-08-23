@@ -1,15 +1,13 @@
 /*
- * File contenente il modulo di salvataggio/caricamento delle impostazioni.
+ * File contenente il modulo di gestione delle impostazioni.
  */
 
-#include <cstring>
 #include "struttura_dati.h"
 #include "gestione_impostazioni.h"
 
 const unsigned int MAX_STRING = 15;
 
 //INIZIO MODULO
-
 
 bool caricaImpostazioni (impostazioni &impo, const char file [])
 {
