@@ -78,4 +78,12 @@ void impostaValoraImpostazioniDefault (impostazioni &impo)
 	inizializzaImpostazioni (impo, DEFAULT_MUSICA, DEFAULT_EFFETTI_AUDIO, DEFAULT_MODALITA_GRAFICA, DEFAULT_VITE_INIZIALI);
 }
 
+void stampa (impostazioni impo)
+{
+	cout<<impo.musica<<endl;
+	cout<<impo.eff_audio<<endl;
+	cout<<impo.mod_grafica<<endl;
+	cout<<impo.vite_iniziali<<endl;
+}
+
 //FINE MODULO

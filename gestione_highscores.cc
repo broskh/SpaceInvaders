@@ -84,4 +84,18 @@ bool aggiungiPunteggio (punteggio (&highscores) [MAX_HIGHSCORES], unsigned int &
 	return false;
 }
 
+void stampa (punteggio punt)
+{
+	cout<<punt.nome<<" "<<punt.valore;	
+}
+
+void stampa (punteggio highscores [], int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		stampa (highscores [i]);
+		cout<<endl;
+	}
+}
+
 //FINE MODULO
