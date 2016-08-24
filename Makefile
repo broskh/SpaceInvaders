@@ -1,4 +1,4 @@
-OBJ = SpaceInvaders.o gestione_impostazioni.o gestione_highscores.o
+OBJ = SpaceInvaders.o gestione_impostazioni.o gestione_highscores.o gestione_partita.o
 CXXFLAGS=$(DEBUG_FLAGS) -Wall -lallegro
 LDFLAGS=-export-dynamic -lallegro
 
