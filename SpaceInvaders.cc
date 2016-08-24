@@ -41,6 +41,10 @@
 
 using namespace std;
 
+const char FILE_HIGHSCORES [] = "highscores"; /*Nome del file contenente gli highscores.*/
+const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /*Nome del file contenente le impostazioni salvate.*/
+const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /*Nome del file contenente la partita salvata.*/
+
 /*
  * FARE DOCUMENTAZIONE PER MAIN
  */

@@ -88,9 +88,8 @@ struct ondata
  */
 struct partita
 {
-	punteggio punteggio_att; /*Punteggio della partita*/
 	unsigned int vite_rimanenti; /*Vite rimanenti*/
-	stato barriere [ALT_BARRIERA] [LARG_BARRIERA] [N_BARRIERE]; /*Stato attuale delle barriere*/
+	stato barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA]; /*Stato attuale delle barriere*/
 	ondata ondata_att; /*Ondata di mostri attuale*/
 };
 
