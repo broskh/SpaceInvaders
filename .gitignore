@@ -29,9 +29,10 @@
 *.app
 SpaceInvaders
 
-# Temprary files
+# Temporary files
 *~
-prova*
+prova*.cc
+prova*.x
 
 # Configuration and save files
 *.config
