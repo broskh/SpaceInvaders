@@ -4,28 +4,30 @@
 
 //INIZIO INTERFACCIA
 
-/*
+/**
  * Carica da un file una partita lasciata in sospeso.
- * Ritorna false nel caso in cui il caricamento non sia riuscito.
  * 
- * salvataggio Struttura :partita contente i dati della partita caricata.
- * file File dal quale caricare la partita.
+ * @param salvataggio Struttura {@link partita} contenente i dati della partita caricata.
+ * @param file File dal quale caricare la partita.
+ * 
+ * @return "false" nel caso in cui il caricamento non sia riuscito, "true" altrimenti.
  */
 bool caricaPartita (partita &salvataggio, const char file []);
 
-/*
- * Salva una partita da sospendere su file.
+/**
+ * Salva una partita da sospendere su un file.
  *
- * salvataggio struttura :partita contenente i dati della partita da salvare sul file. 
+ * salvataggio struttura {@link partita} contenente i dati della partita da salvare sul file. 
  * file File nel quale salvare la partita.
  */
 void salvaPartita (partita salvataggio, const char file []);
 
-/*
+/**
  * Elimina un file di salvataggio nel caso in cui esista.
- * Ritorna "true" se il file era presente ed è stato eliminato, "false" altrimenti.
  *
- * file File di salvataggio da eliminare.
+ * @param file File di salvataggio da eliminare.
+ * 
+ * @return "true" se il file era presente ed è stato eliminato, "false" altrimenti.
  */
 bool eliminaFileSalvataggio (const char file []);
 
