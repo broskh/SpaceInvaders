@@ -6,6 +6,10 @@
 #include <cassert>
 #include <fstream>
 #include <cstring>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+
 using namespace std;
 
 const unsigned int N_BARRIERE = 4; /**<Numero delle barriere presenti in una partita*/

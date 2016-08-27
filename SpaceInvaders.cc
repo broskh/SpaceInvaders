@@ -1,5 +1,4 @@
-/*
- *
+/**
  * Riproduzione del celebre videogioco "Space Inavaders" con qualche lieve
  * variazione rispetto all'originale.
  * 
@@ -34,61 +33,88 @@
  * File contenente il modulo Main.
  */
 
-#include <iostream>
-#include "struttura_dati.h"
 #include <stdio.h>
-#include <allegro5/allegro.h>
+#include "struttura_dati.h"
+#include "gestione_input-output.h"
 
 using namespace std;
 
-const char FILE_HIGHSCORES [] = "highscores"; /*Nome del file contenente gli highscores.*/
-const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /*Nome del file contenente le impostazioni salvate.*/
-const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /*Nome del file contenente la partita salvata.*/
+const char FILE_HIGHSCORES [] = "highscores"; /**<Nome del file contenente gli highscores.*/
+const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Nome del file contenente le impostazioni salvate.*/
+const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Nome del file contenente la partita salvata.*/
 
-/*
+/**
  * FARE DOCUMENTAZIONE PER MAIN
  */
 int main ()
 {
 	ALLEGRO_DISPLAY *display = NULL;
-   	ALLEGRO_EVENT_QUEUE *event_queue = NULL;
+   	ALLEGRO_EVENT_QUEUE *coda_eventi = NULL;
+	int mostra_menu = 0;
  
 	if(!al_init())
 	{
-		fprintf(stderr, "failed to initialize allegro!\n");
+		fprintf(stderr, "Inizializzazione di allegro fallita!\n");
 	      	return -1;
    	}
+	al_init_font_addon();
+	al_init_ttf_addon();
  
-   	display = al_create_display(640, 480);
+   	display = al_create_display(LARGHEZZA_DISPLAY, ALTEZZA_DISPLAY);
    	if(!display)
 	{
-	      	fprintf(stderr, "failed to create display!\n");
+	      	fprintf(stderr, "Creazione del display fallita!\n");
 	     	return -1;
 	}
  
-   	event_queue = al_create_event_queue();
-   	if(!event_queue)
+   	coda_eventi = al_create_event_queue();
+   	if(!coda_eventi)
 	{
-      		fprintf(stderr, "failed to create event_queue!\n");
+      		fprintf(stderr, "Creazione della coda degli eventi fallita!\n");
       		al_destroy_display(display);
 		return -1;
-	}      
+	}
  
-   	al_register_event_source(event_queue, al_get_display_event_source(display));
- 
-   	al_clear_to_color(al_map_rgb(0,0,0));
- 
-   	al_flip_display();
- 
+   	al_register_event_source(coda_eventi, al_get_display_event_source(display));
+	al_clear_to_color(al_map_rgb(0,0,0));
+ 	
+	while (true)
+	{
+		switch (mostra_menu)
+		{
+			case 0:
+				menuPrincipale ();
+				break;
+			case 1:
+				//gioco
+				break;
+			case 2:
+				//carica
+				break;
+			case 3:
+				//opzioni
+				break;
+			case 4:
+				//highscores
+				break;
+			case 5:
+				//pausa
+				break;
+			default:
+				return 1;
+		}
+	}
+	
+	/*
    	while(true)
    	{
       		ALLEGRO_EVENT ev;
 		ALLEGRO_TIMEOUT timeout;
       		al_init_timeout(&timeout, 0.06);
  
-      		bool get_event = al_wait_for_event_until(event_queue, &ev, &timeout);
+      		bool evento = al_wait_for_event_until(coda_eventi, &ev, &timeout);
  
-      		if(get_event && ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+      		if(evento && ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 		{
          		break;
       		}
@@ -96,9 +122,11 @@ int main ()
       		al_clear_to_color(al_map_rgb(0,0,0));
       		al_flip_display();
    	}
+
+	*/
  
    	al_destroy_display(display);
-   	al_destroy_event_queue(event_queue);
+   	al_destroy_event_queue(coda_eventi);
  
    	return 0;
 }
