@@ -46,6 +46,19 @@ enum stato {distrutto, parziale, intero};
 enum direzione {destra, sinistra};
 
 /**
+ * Tipo che indica una schermata dell'applicazione.
+ *
+ * All'esecuzione dell'applicaizone ci troveremo nel menù iniziale dal quale poi potremo cambiare schermata.
+ * Potremo iniziare a giocare, modificare le opzioni o guardare la classifica dei punteggi migliori.
+ */
+enum schermata {s_menu, s_gioca, s_opzioni, s_highscores, s_pausa};
+
+/**
+ * Tipo che indica una voce del menù iniziale.
+ */
+enum voce_menu {v_gioca, v_carica, v_opzioni, v_highscores};
+
+/**
  * Struttura per il punteggio.
  *
  * Conserva le informazioni relative ad un singolo punteggio.
