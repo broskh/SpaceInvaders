@@ -24,7 +24,7 @@ bool caricaPunteggi (punteggio (&highscores) [MAX_HIGHSCORES], unsigned int &n_h
 		i++;
     	}
 
-	assert (i > 9);
+	assert (i <= 10);
 	
 	if (i == 0)
 	{

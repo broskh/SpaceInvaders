@@ -73,7 +73,7 @@ void inizializzaImpostazioni (impostazioni &impo, bool musica, bool effetti_audi
 	impo.vite_iniziali = vite_iniziali;
 }
 
-void impostaValoraImpostazioniDefault (impostazioni &impo)
+void impostaValoriImpostazioniDefault (impostazioni &impo)
 {
 	inizializzaImpostazioni (impo, DEFAULT_MUSICA, DEFAULT_EFFETTI_AUDIO, DEFAULT_MODALITA_GRAFICA, DEFAULT_VITE_INIZIALI);
 }

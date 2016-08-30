@@ -43,6 +43,6 @@ void inizializzaImpostazioni (impostazioni &impo, bool musica, bool effetti_audi
  *
  * @param impo Struttura {@link impostazioni} nella quale vengono settati i valori di default.
  */
-void impostaValoraImpostazioniDefault (impostazioni &impo);
+void impostaValoriImpostazioniDefault (impostazioni &impo);
 
 //FINE INTERFACCIA
