@@ -61,7 +61,7 @@ const unsigned int DIM_MOSTRI = 20; /**<Dimensione del font utilizzato per i mos
 
 const char M_10 [] = "B"; /**<Stringa per rappresentare il mostro da 10 punti.*/
 const char M_20 [] = "D"; /**<Stringa per rappresentare il mostro da 20 punti.*/
-const char M_40 [] = "F"; /**<Stringa per rappresentare il mostro da 40 punti.*/
+const char M_30 [] = "F"; /**<Stringa per rappresentare il mostro da 40 punti.*/
 const char M_X [] = "2"; /**<Stringa per rappresentare la navicella misteriosa.*/
 
 const char FRECCIA [] = "<-"; /**<Stringa per rappresentare la freccia di selezione del menù.*/
@@ -74,15 +74,6 @@ const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Nome del file cont
 const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Nome del file contenente la partita salvata.*/
 
 const char FILE_MUSICA_PRINCIPALE [] = "Sounds/principale.flac"; /**<Nome del file contenente la musica principale.*/
-
-/**
- * Calcola il valore della prossima schermata da mostrare.
- * 
- * @param voce Voce di menu attualmente selezionata.
- *
- * @return il valore della prossima schermata da mostrare.
- */
-schermata cambiaSchermata (voce_menu_principale voce);
 
 /**
  * Mostra il menù principale e ne gestisce il contenuto.
@@ -224,12 +215,9 @@ int main ()
 					}
 					else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 					{
-						al_destroy_timer(frame_rate);
-						al_destroy_timer(lampeggio_voce);
-						al_destroy_display(display);
-   						al_destroy_event_queue(coda_eventi);
-						al_destroy_sample(musica_principale);
-						return 0;
+						schermata_att = s_esci;
+						cambia_schermata = true;
+						break;
 					}
 					else if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
 					{
@@ -242,7 +230,7 @@ int main ()
 								voceSuc (menu_principale);
 								break;
 							case ALLEGRO_KEY_ENTER:
-								schermata_att = cambiaSchermata (static_cast <voce_menu_principale> (menu_principale.voce_sel));
+								schermata_att = cambiaSchermataMenuPrincipale (static_cast <voce_menu_principale> (menu_principale.voce_sel));
 								cambia_schermata = true;
 								break;
 						}
@@ -285,12 +273,9 @@ int main ()
 					}
 					else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 					{
-						al_destroy_timer(frame_rate);
-						al_destroy_timer(lampeggio_voce);
-						al_destroy_display(display);
-   						al_destroy_event_queue(coda_eventi);
-						al_destroy_sample(musica_principale);
-						return 0;
+						schermata_att = s_esci;
+						cambia_schermata = true;
+						break;
 					}
 					else if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
 					{
@@ -348,12 +333,9 @@ int main ()
 					}
 					else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 					{
-						al_destroy_timer(frame_rate);
-						al_destroy_timer(lampeggio_voce);
-						al_destroy_display(display);
-   						al_destroy_event_queue(coda_eventi);
-						al_destroy_sample(musica_principale);
-						return 0;
+						schermata_att = s_esci;
+						cambia_schermata = true;
+						break;
 					}
 					else if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
 					{
@@ -377,14 +359,21 @@ int main ()
 			case s_pausa:
 				//pausa
 				break;
+			case s_esci:
+				al_destroy_display(display);
+				al_destroy_timer(frame_rate);
+				al_destroy_timer(lampeggio_voce);
+				al_destroy_event_queue(coda_eventi);
+				al_destroy_sample(musica_principale);
+				return 0;
 			default:
 				return 2;
 		}
 	}
  
+   	al_destroy_display(display);
 	al_destroy_timer(frame_rate);
 	al_destroy_timer(lampeggio_voce);
-   	al_destroy_display(display);
    	al_destroy_event_queue(coda_eventi);
 	al_destroy_sample(musica_principale);
    	return 1;
@@ -397,9 +386,9 @@ inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, 
 	const unsigned int LARG_PUNTEGGIO = LARGHEZZA_DISPLAY * 0.55; /*Larghezza del display dal quale mostrare i punteggi.*/
 	const unsigned int LARG_FRECCIA = LARGHEZZA_DISPLAY * 0.7; /*Larghezza del display dal quale mostrare la freccia di selezione del menu.*/
 
-	const unsigned int ALT_TITOLO = ALTEZZA_DISPLAY * 0.07; /*Altezza del display dal quale mostrare il titolo.*/
-	const unsigned int ALT_MOSTRI = ALTEZZA_DISPLAY* 0.44; /*Altezza del display dal quale mostrare i mostri.*/
-	const unsigned int ALT_MENU = ALTEZZA_DISPLAY * 0.73; /*Altezza del display dal quale mostrare il menu.*/
+	const unsigned int ALT_TITOLO = ALTEZZA_DISPLAY * 0.05; /*Altezza del display dal quale mostrare il titolo.*/
+	const unsigned int ALT_MOSTRI = ALTEZZA_DISPLAY* 0.42; /*Altezza del display dal quale mostrare i mostri.*/
+	const unsigned int ALT_MENU = ALTEZZA_DISPLAY * 0.71; /*Altezza del display dal quale mostrare il menu.*/
 
 	unsigned int alt_attuale = ALT_TITOLO;
 	unsigned alt_freccia = ALT_MENU + (SPAZIO_TESTO + DIM_FONT_TEXT) * menu.voce_sel;
@@ -418,8 +407,8 @@ inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, 
 	al_draw_text(font_menu, al_map_rgb(0, 255, 0), LARG_PUNTEGGIO, alt_attuale, ALLEGRO_ALIGN_CENTRE, "=      20  PTS");
 
 	alt_attuale = ALT_MOSTRI + (SPAZIO_TESTO + DIM_MOSTRI) * 2;
-	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), LARG_MOSTRI, alt_attuale, ALLEGRO_ALIGN_CENTRE, M_40);
-	al_draw_text(font_menu, al_map_rgb(0, 255, 0), LARG_PUNTEGGIO, alt_attuale, ALLEGRO_ALIGN_CENTRE, "=      40  PTS");
+	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), LARG_MOSTRI, alt_attuale, ALLEGRO_ALIGN_CENTRE, M_30);
+	al_draw_text(font_menu, al_map_rgb(0, 255, 0), LARG_PUNTEGGIO, alt_attuale, ALLEGRO_ALIGN_CENTRE, "=      30  PTS");
 
 	alt_attuale = ALT_MOSTRI + (SPAZIO_TESTO + DIM_MOSTRI) * 3;
 	al_draw_text(font_mostri, al_map_rgb(255, 0, 0), LARG_MOSTRI, alt_attuale, ALLEGRO_ALIGN_CENTRE, M_X);
@@ -551,27 +540,5 @@ inline void classificaHighscores (ALLEGRO_FONT *font_text, Punteggio highscores 
 	//FINE DELLA VISUALIZZAZIONE DEL PREMI ENTER
 
 	al_flip_display();
-}
-
-schermata cambiaSchermata (voce_menu_principale voce)
-{
-	if (voce == v_gioca)
-	{
-		return s_gioca;
-	}
-	else if (voce == v_carica)
-	{
-		//INSERIRE PARTICOLARE PER CARICAMENTO
-		return s_gioca;
-	}
-	else if (voce == v_opzioni)
-	{
-		return s_opzioni;
-	}
-	else if (voce == v_highscores)
-	{
-		return s_highscores;
-	}
-	return s_pausa;	
 }
 

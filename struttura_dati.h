@@ -57,12 +57,12 @@ enum direzione {destra, sinistra};
  * All'esecuzione dell'applicaizone ci troveremo nel menù iniziale dal quale poi potremo cambiare schermata.
  * Potremo iniziare a giocare, modificare le opzioni o guardare la classifica dei punteggi migliori.
  */
-enum schermata {s_menu, s_gioca, s_opzioni, s_highscores, s_pausa};
+enum schermata {s_menu, s_gioca, s_opzioni, s_highscores, s_pausa, s_esci};
 
 /**
  * Tipo che indica una voce del menù principale.
  */
-enum voce_menu_principale {v_gioca, v_carica, v_opzioni, v_highscores};
+enum voce_menu_principale {v_gioca, v_carica, v_opzioni, v_highscores, v_esci};
 
 /**
  * Tipo che indica una voce del menù impostazioni.
