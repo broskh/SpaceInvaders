@@ -12,7 +12,7 @@
  * 
  * @return "false" nel caso in cui il caricamento non sia riuscito, "true" altrimenti.
  */
-bool caricaPartita (partita &salvataggio, const char file []);
+bool caricaPartita (Partita &salvataggio, const char file []);
 
 /**
  * Salva una partita da sospendere su un file.
@@ -20,7 +20,7 @@ bool caricaPartita (partita &salvataggio, const char file []);
  * salvataggio struttura {@link partita} contenente i dati della partita da salvare sul file. 
  * file File nel quale salvare la partita.
  */
-void salvaPartita (partita salvataggio, const char file []);
+void salvaPartita (Partita salvataggio, const char file []);
 
 /**
  * Elimina un file di salvataggio nel caso in cui esista.

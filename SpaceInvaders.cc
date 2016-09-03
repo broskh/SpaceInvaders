@@ -34,21 +34,28 @@
  */
 
 #include <stdio.h>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include "struttura_dati.h"
 #include "gestione_impostazioni.h"
 #include "gestione_highscores.h"
+#include "gestione_menu.h"
 
 using namespace std;
 
 const unsigned int LARGHEZZA_DISPLAY = 640; /**<Larghezza della finestra del gioco.*/
 const unsigned int ALTEZZA_DISPLAY = 480; /**<Altezza della finestra del gioco.*/
+
 const float FPS = 60;  /**<FPS del gioco.*/
-const float FPS_LAMPEGGIO_MENU = 5; /**FPS per mostrare l'effetto di lampeggio sull'opzione selezionata del menù.*/
+const float FPS_LAMPEGGIO_MENU = 3.5; /**FPS per mostrare l'effetto di lampeggio sull'opzione selezionata del menù.*/
 const unsigned int CENTRO_ORIZ = LARGHEZZA_DISPLAY / 2; /**<Posizione centrale della larghezza del display.*/
+
 const unsigned int SPAZIO_TESTO = 10; /**<Spazio fra righe di testo adiacenti.*/
 const unsigned int DIM_FONT_TITOLO = 140; /**<Dimensione del font utilizzato per il titolo.*/
 const unsigned int DIM_FONT_TEXT = 15; /**<Dimensione del font utilizzato per i testi generali.*/
 const unsigned int DIM_MOSTRI = 20; /**<Dimensione del font utilizzato per i mostri*/
+//const float RAPP_DIM = 0.9;
 
 const char M_10 [] = "B"; /**<Stringa per rappresentare il mostro da 10 punti.*/
 const char M_20 [] = "D"; /**<Stringa per rappresentare il mostro da 20 punti.*/
@@ -64,8 +71,14 @@ const char FILE_HIGHSCORES [] = "highscores"; /**<Nome del file contenente gli h
 const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Nome del file contenente le impostazioni salvate.*/
 const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Nome del file contenente la partita salvata.*/
 
-const char MENU_PRINCIPALE [] [15] = {"Gioca", "Carica partita", "Opzioni", "Highscores"}; /**<Voci del munù iniziale*/
-const int N_VOCI_MENU = 4; /**<Numero di voci del menù.*/
+/**
+ * Calcola il valore della prossima schermata da mostrare.
+ * 
+ * @param voce Voce di menu attualmente selezionata.
+ *
+ * @return il valore della prossima schermata da mostrare.
+ */
+schermata cambiaSchermata (voce_menu_principale voce);
 
 /**
  * Mostra il menù principale e ne gestisce il contenuto.
@@ -76,47 +89,27 @@ const int N_VOCI_MENU = 4; /**<Numero di voci del menù.*/
  * @param voce Voce di menù selezionata.
  * @param redraw_lampeggio Indica se la voce di menù è da ridisegnare o no (utilizzato per mostrare l'effetto lampeggiante sull'opzione di menù selezioanta).
  */
-inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, ALLEGRO_FONT *font_mostri, voce_menu &voce, bool &redraw_lampeggio);
+inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, ALLEGRO_FONT *font_mostri, Menu menu, bool &redraw_lampeggio);
 
 /**
- * Mostra la classifica dei migliori punteggi..
+ * Mostra il menu di modifica delle impostazioni.
  * 
- * @param font_titolo Font utilizzato per scrivere il titolo.
  * @param font_text Font utilizzato per scrivere la classifica dei punteggi.
- * @param highscors Array di strutture punteggio contenente i migliori punteggi.
+ * @param impostazioni Impostazioni attuali.
+ * @param voce Voce del menù impostazioni selezionata.
+ * @param redraw_lampeggio Indica se la voce del menù è da ridisegnare o no (utilizzato per mostrare l'effetto lampeggiante sull'opzione di menù selezioanta).
+ */
+inline void modificaImpostazioni (ALLEGRO_FONT *font_text, Impostazioni impostazioni, Menu menu, bool redraw_lampeggio);
+
+/**
+ * Mostra la classifica dei migliori punteggi.
+ * 
+ * @param font_text Font utilizzato per scrivere la classifica dei punteggi.
+ * @param highscors Array di strutture {@link Punteggio} contenente i migliori punteggi.
  * @param n_punteggi Numero di punteggi presenti nelal classifica.
  * @param redraw_lampeggio Indica se la dicitura premi enter è da ridisegnare o no (utilizzato per mostrare l'effetto lampeggiante sulla dicitura).
  */
-inline void classificaHighscores (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_text, punteggio highscores [], int n_punteggi, bool &redraw_lampeggio);
-
-/**
- * Calcola il valore della voce di menù precedente a quella attuale.
- * 
- * @param voce Valore relativo alla voce di menù attuale.
- * @param n_voci Numero totale delle voci di menù esistenti.
- *
- * @return il valore della voce di menù precedente.
- */
-voce_menu prevVoce (voce_menu voce, int n_voci);
-
-/**
- * Calcola il valore della voce di menù successiva a quella attuale.
- * 
- * @param voce Valore relativo alla voce di menù attuale.
- * @param n_voci Numero totale delle voci di menù esistenti.
- *
- * @return il valore della voce di menù successiva.
- */
-voce_menu nextVoce (voce_menu voce, int n_voci);
-
-/**
- * Calcola il valore della prossima schermata da mostrare.
- * 
- * @param voce Voce di menu attualmente selezionata.
- *
- * @return il valore della prossima schermata da mostrare.
- */
-schermata cambiaSchermata (voce_menu voce);
+inline void classificaHighscores (ALLEGRO_FONT *font_text, Punteggio highscores [], int n_punteggi, bool &redraw_lampeggio);
 
 /**
  * FARE DOCUMENTAZIONE PER MAIN
@@ -162,11 +155,11 @@ int main ()
 	al_start_timer(frame_rate);
 	
 	//INIZIO INIZIALIZZAZIONE DELLA STRUTTURA PRINCIPALE//
-	spaceInvaders generale;
-	if (!caricaImpostazioni (generale.impost_att, FILE_IMPOSTAZIONI))
+	SpaceInvaders generale;
+	if (!caricaImpostazioni (generale.impostazioni, FILE_IMPOSTAZIONI))
 	{
-		impostaValoriImpostazioniDefault (generale.impost_att);
-		salvaImpostazioni (generale.impost_att, FILE_IMPOSTAZIONI);
+		impostaValoriImpostazioniDefault (generale.impostazioni);
+		salvaImpostazioni (generale.impostazioni, FILE_IMPOSTAZIONI);
 	}
 	if (!caricaPunteggi (generale.highscores, generale.n_highscores, FILE_HIGHSCORES))
 	{
@@ -177,7 +170,10 @@ int main ()
 	schermata schermata_att = s_menu;
 	bool cambia_schermata;
 	
-	voce_menu voce_att;
+	Menu menu_principale;
+	inizializzaMenu (menu_principale, MENU_PRINCIPALE, N_VOCI_MENU_PRINC, v_gioca);
+	Menu menu_impostazioni;
+	inizializzaMenu (menu_impostazioni, MENU_IMPOSTAZIONI, N_VOCI_MENU_IMPO, v_musica);
 	bool redraw_lampeggio;
 
 	while (true)
@@ -187,7 +183,7 @@ int main ()
 		switch (schermata_att)
 		{
 			case s_menu:
-				voce_att = v_gioca;
+				menu_principale.voce_sel = v_gioca;
 				al_start_timer(lampeggio_voce);
 				
 				while(!cambia_schermata)
@@ -220,13 +216,13 @@ int main ()
 						switch(ev.keyboard.keycode)
 						{
 							case ALLEGRO_KEY_UP:
-								voce_att = prevVoce (voce_att, N_VOCI_MENU);
+								vocePrec (menu_principale);
 								break;
 							case ALLEGRO_KEY_DOWN:
-								voce_att = nextVoce (voce_att, N_VOCI_MENU);
+								voceSuc (menu_principale);
 								break;
 							case ALLEGRO_KEY_ENTER:
-								schermata_att = cambiaSchermata (voce_att);
+								schermata_att = cambiaSchermata (static_cast <voce_menu_principale> (menu_principale.voce_sel));
 								cambia_schermata = true;
 								break;
 						}
@@ -235,7 +231,7 @@ int main ()
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
         					al_clear_to_color(al_map_rgb(0, 0, 0));
-						menuPrincipale (font_titolo, font_text, font_mostri, voce_att, redraw_lampeggio);
+						menuPrincipale (font_titolo, font_text, font_mostri, menu_principale, redraw_lampeggio);
 					}
 			   	}
 				al_stop_timer(lampeggio_voce);
@@ -244,9 +240,69 @@ int main ()
 				//gioco
 				break;
 			case s_opzioni:
-				//opzioni
+				al_start_timer(lampeggio_voce);
+				menu_impostazioni.voce_sel = v_musica;
+
+				while(!cambia_schermata)
+			   	{				
+					ALLEGRO_EVENT ev;
+					al_wait_for_event(coda_eventi, &ev);
+
+					if(ev.type == ALLEGRO_EVENT_TIMER)
+					{
+						if (ev.timer.source == frame_rate)
+						{
+							redraw = true;
+						}
+						else if (ev.timer.source == lampeggio_voce)
+						{
+							redraw_lampeggio = !redraw_lampeggio;
+						}
+					}
+					else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+					{
+						al_destroy_timer(frame_rate);
+						al_destroy_timer(lampeggio_voce);
+						al_destroy_display(display);
+   						al_destroy_event_queue(coda_eventi);
+						return 0;
+					}
+					else if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
+					{
+						switch(ev.keyboard.keycode)
+						{
+							case ALLEGRO_KEY_UP:
+								vocePrec (menu_impostazioni);
+								break;
+							case ALLEGRO_KEY_DOWN:
+								voceSuc (menu_impostazioni);
+								break;
+							case ALLEGRO_KEY_LEFT:
+								assert (valoreCampoImpostazioniPrec (static_cast <voce_menu_impostazioni> (menu_impostazioni.voce_sel), generale.impostazioni));
+								break;
+							case ALLEGRO_KEY_RIGHT:
+								assert (valoreCampoImpostazioniSuc (static_cast <voce_menu_impostazioni> (menu_impostazioni.voce_sel), generale.impostazioni));
+								break;
+							case ALLEGRO_KEY_ENTER:
+								salvaImpostazioni (generale.impostazioni, FILE_IMPOSTAZIONI);
+								schermata_att = s_menu;
+								cambia_schermata = true;
+								break;
+							case ALLEGRO_KEY_R:
+								impostaValoriImpostazioniDefault (generale.impostazioni);
+								break;
+						}
+					}
+
+					if(redraw && al_is_event_queue_empty(coda_eventi))
+					{
+        					al_clear_to_color(al_map_rgb(0, 0, 0));
+						modificaImpostazioni (font_text, generale.impostazioni, menu_impostazioni, redraw_lampeggio);
+					}
+			   	}
+				al_stop_timer(lampeggio_voce);
 				break;
-			case s_highscores:
+			case s_highscores:				
 				al_start_timer(lampeggio_voce);
 
 				while(!cambia_schermata)
@@ -287,7 +343,7 @@ int main ()
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
         					al_clear_to_color(al_map_rgb(0, 0, 0));
-						classificaHighscores (font_titolo, font_text, generale.highscores, generale.n_highscores, redraw_lampeggio);
+						classificaHighscores (font_text, generale.highscores, generale.n_highscores, redraw_lampeggio);
 					}
 			   	}
 				al_stop_timer(lampeggio_voce);
@@ -307,7 +363,7 @@ int main ()
    	return 1;
 }
 
-inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, ALLEGRO_FONT *font_mostri, voce_menu &voce, bool &redraw_lampeggio)
+inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, ALLEGRO_FONT *font_mostri, Menu menu, bool &redraw_lampeggio)
 {
 
 	const unsigned int LARG_MOSTRI = LARGHEZZA_DISPLAY * 0.4; /*Larghezza del display dal quale mostrare i mostri.*/
@@ -319,7 +375,7 @@ inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, 
 	const unsigned int ALT_MENU = ALTEZZA_DISPLAY * 0.73; /*Altezza del display dal quale mostrare il menu.*/
 
 	unsigned int alt_attuale = ALT_TITOLO;
-	unsigned alt_freccia = ALT_MENU + (SPAZIO_TESTO + DIM_FONT_TEXT) * voce;
+	unsigned alt_freccia = ALT_MENU + (SPAZIO_TESTO + DIM_FONT_TEXT) * menu.voce_sel;
 
 	//INIZIO DELLA VISUALIZZAZIONE DEL TITOLO
 	al_draw_text(font_titolo, al_map_rgb(0, 255, 0), CENTRO_ORIZ, alt_attuale, ALLEGRO_ALIGN_CENTRE, ".");
@@ -342,29 +398,17 @@ inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, 
 	al_draw_text(font_mostri, al_map_rgb(255, 0, 0), LARG_MOSTRI, alt_attuale, ALLEGRO_ALIGN_CENTRE, M_X);
 	al_draw_text(font_menu, al_map_rgb(0, 255, 0), LARG_PUNTEGGIO, alt_attuale, ALLEGRO_ALIGN_CENTRE, "=         ?  PTS");
 	//FINE DELLA VISUALIZZAZIONE DEI MOSTRI E I RELATIVI PUNTEGGI
-
-	//INIZIO DELLA VISUALIZZAZIONE DEL MENU
-	if (!(voce == v_gioca && !redraw_lampeggio))
-	{
-		alt_attuale = ALT_MENU;
-		al_draw_text(font_menu, al_map_rgb(0, 255, 0), CENTRO_ORIZ, alt_attuale, ALLEGRO_ALIGN_CENTRE, MENU_PRINCIPALE [0]);
-	}
-	if (!(voce == v_carica && !redraw_lampeggio))
-	{
-		alt_attuale = ALT_MENU + SPAZIO_TESTO + DIM_FONT_TEXT;
-		al_draw_text(font_menu, al_map_rgb(0, 255, 0), CENTRO_ORIZ, alt_attuale, ALLEGRO_ALIGN_CENTRE, MENU_PRINCIPALE [1]);
-	}
-	if (!(voce == v_opzioni && !redraw_lampeggio))
-	{
-		alt_attuale = ALT_MENU + (SPAZIO_TESTO + DIM_FONT_TEXT) * 2;
-		al_draw_text(font_menu, al_map_rgb(0, 255, 0), CENTRO_ORIZ, alt_attuale, ALLEGRO_ALIGN_CENTRE, MENU_PRINCIPALE [2]);
-	}
-	if (!(voce == v_highscores && !redraw_lampeggio))
-	{
-		alt_attuale = ALT_MENU + (SPAZIO_TESTO + DIM_FONT_TEXT) * 3;
-		al_draw_text(font_menu, al_map_rgb(0, 255, 0), CENTRO_ORIZ, alt_attuale, ALLEGRO_ALIGN_CENTRE, MENU_PRINCIPALE [3]);
-	}
 	
+	//INIZIO DELLA VISUALIZZAZIONE DEL MENU
+	for (int i = 0; i < menu.n_voci; i++)
+	{
+		if (!(menu.voce_sel == i && !redraw_lampeggio))
+		{
+			alt_attuale = ALT_MENU + (SPAZIO_TESTO + DIM_FONT_TEXT) * i;
+			al_draw_text(font_menu, al_map_rgb(0, 255, 0), CENTRO_ORIZ, alt_attuale, ALLEGRO_ALIGN_CENTRE, menu.testi_menu [i]);
+		}
+	}
+
 	if (redraw_lampeggio)
 	{
 		al_draw_text(font_menu, al_map_rgb(0, 255, 0), LARG_FRECCIA, alt_freccia, ALLEGRO_ALIGN_LEFT, FRECCIA);
@@ -374,10 +418,71 @@ inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, 
 	al_flip_display();
 }
 
-inline void classificaHighscores (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_text, punteggio highscores [], int n_punteggi, bool &redraw_lampeggio)
+inline void modificaImpostazioni (ALLEGRO_FONT *font_text, Impostazioni impostazioni, Menu menu, bool redraw_lampeggio)
 {
-	const unsigned int LARG_NUMERAZIONE = LARGHEZZA_DISPLAY * 0.41; /*Larghezza del display dal quale mostrare la numerazione dei punteggi.*/
-	const unsigned int LARG_PUNTEGGI = LARG_NUMERAZIONE + (DIM_FONT_TEXT * 3); /*Larghezza del display dal quale mostrare i punteggi.*/
+	const unsigned int LARG_BASE = LARGHEZZA_DISPLAY * 0.15; /*Larghezza del display dal quale mostrare  il contenuto.*/
+	const unsigned int LARG_VALORI = LARG_BASE + 200; /*Larghezza del display dal quale mostrare i valori dei vari campi impostazioni.*/
+
+	const unsigned int ALT_TITOLO = ALTEZZA_DISPLAY * 0.125; /*Altezza del display dal quale mostrare il titolo.*/
+	const unsigned int ALT_IMPOSTAZIONI = ALT_TITOLO + (DIM_FONT_TEXT * 3); /*Altezza del display dal quale mostrare l'elenco delle impostazioni.*/
+	const unsigned int ALT_INDICAZIONI = ALTEZZA_DISPLAY * 0.65; /*Altezza del display dal quale mostrare il premi enter.*/
+
+	unsigned int alt_attuale = ALT_TITOLO;
+	unsigned int larg_attuale = LARG_BASE;
+
+	//INIZIO DELLA VISUALIZZAZIONE DEL TITOLO
+	al_draw_text(font_text, al_map_rgb(0, 255, 0), larg_attuale, alt_attuale, ALLEGRO_ALIGN_LEFT, "IMPOSTAZIONI:");
+	//FINE DELLA VISUALIZZAZIONE DEL TITOLO
+
+	//INIZIO DELLA VISUALIZZAZIONE DELLE IMPOSTAZIONI
+	alt_attuale = ALT_IMPOSTAZIONI;
+	for (int i = 0; i < N_VOCI_MENU_IMPO; i++)
+	{	
+		alt_attuale += DIM_FONT_TEXT + SPAZIO_TESTO;
+		al_draw_text(font_text, al_map_rgb(0, 255, 0), LARG_BASE, alt_attuale, ALLEGRO_ALIGN_LEFT, menu.testi_menu [i]);
+		larg_attuale = LARG_VALORI;
+		if (!(menu.voce_sel == i && !redraw_lampeggio))
+		{
+			char str_stato [MAX_STRINGA_GENERICA] = "<    ";
+			char str_valore [MAX_STRINGA_GENERICA];
+			assert(stringaValoreVoceImpostazioni (str_valore, static_cast <voce_menu_impostazioni> (i), impostazioni));
+			strcat (str_stato, str_valore);
+			strcat (str_stato, "     >");
+			al_draw_text(font_text, al_map_rgb(0, 255, 0), larg_attuale, alt_attuale, ALLEGRO_ALIGN_LEFT, str_stato);
+		}
+	}
+	//FINE DELLA VISUALIZZAZIONE DELLE IMPOSTAZIONI
+	
+	//INIZIO DELLA VISUALIZZAZIONE DEL MENU
+	/*for (int i = 0; i < menu.n_voci; i++)
+	{
+		if (!(menu.voce_sel == i && !redraw_lampeggio))
+		{
+			alt_attuale = ALT_MENU + (SPAZIO_TESTO + DIM_FONT_TEXT) * i;
+			al_draw_text(font_menu, al_map_rgb(0, 255, 0), CENTRO_ORIZ, alt_attuale, ALLEGRO_ALIGN_CENTRE, menu.testi_menu [i]);
+		}
+	}
+
+	if (redraw_lampeggio)
+	{
+		al_draw_text(font_menu, al_map_rgb(0, 255, 0), LARG_FRECCIA, alt_freccia, ALLEGRO_ALIGN_LEFT, FRECCIA);
+	}*/
+	//FINE DELLA VISUALIZZAZIONE DEL MENU
+
+	alt_attuale = ALT_INDICAZIONI;
+	for (int i = 0; i < N_INDICAZIONI_MENU_IMPO; i++)
+	{
+		al_draw_text(font_text, al_map_rgb(0, 255, 0), CENTRO_ORIZ, alt_attuale, ALLEGRO_ALIGN_CENTER, INDICAZIONI_IMPOSTAZIONI [i]);
+		alt_attuale += DIM_FONT_TEXT * 2;
+	}	
+
+	al_flip_display();
+}
+
+inline void classificaHighscores (ALLEGRO_FONT *font_text, Punteggio highscores [], int n_punteggi, bool &redraw_lampeggio)
+{
+	const unsigned int LARG_BASE = LARGHEZZA_DISPLAY * 0.41; /*Larghezza del display dal quale mostrare il contenuto.*/
+	const unsigned int LARG_PUNTEGGI = LARG_BASE + (DIM_FONT_TEXT * 3); /*Larghezza del display dal quale mostrare i punteggi.*/
 
 	const unsigned int ALT_TITOLO = ALTEZZA_DISPLAY * 0.125; /*Altezza del display dal quale mostrare il titolo.*/
 	const unsigned int ALT_PUNTEGGI = ALT_TITOLO + (DIM_FONT_TEXT * 2); /*Altezza del display dal quale mostrare i punteggi.*/
@@ -386,35 +491,24 @@ inline void classificaHighscores (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_
 	unsigned int alt_attuale = ALT_TITOLO;
 
 	//INIZIO DELLA VISUALIZZAZIONE DEL TITOLO
-	al_draw_text(font_text, al_map_rgb(0, 255, 0), LARG_NUMERAZIONE, alt_attuale, ALLEGRO_ALIGN_LEFT, "HIGHSCORES:");
+	al_draw_text(font_text, al_map_rgb(0, 255, 0), LARG_BASE, alt_attuale, ALLEGRO_ALIGN_LEFT, "HIGHSCORES:");
 	//FINE DELLA VISUALIZZAZIONE DEL TITOLO
 
 	//INIZIO DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
 	alt_attuale = ALT_PUNTEGGI;
-	
-		//INIZIO CALCOLO DIMENSTIONE STRINGA PER CONTENERE IL VALORE DEL PUNTEGGIO (ALTRIMENTI DÀ ERRORE)
-	unsigned int max_caratteri_valore = 0;
-	if (n_punteggi > 0)
-	{
-		max_caratteri_valore = 1;
-		for (unsigned int i = highscores [0].valore ; i > 0; i = i / 10)
-		{
-			max_caratteri_valore++;
-		}
-	}
-		//FINE CALCOLO DIMENSTIONE STRINGA PER CONTENERE IL VALORE DEL PUNTEGGIO
+
 	for (int i = 0; i < n_punteggi; i++)
 	{
 		alt_attuale += DIM_FONT_TEXT + SPAZIO_TESTO;
-		char str_punteggio [] = "";
-		char str_numero [4] = "";
+		char str_numero [MAX_STRINGA_NUMERAZIONE] = "";
 		sprintf(str_numero, "%d", i + 1);
 		strcat (str_numero, ".");
-		al_draw_text(font_text, al_map_rgb(0, 255, 0), LARG_NUMERAZIONE, alt_attuale, ALLEGRO_ALIGN_LEFT, str_numero);
+		al_draw_text(font_text, al_map_rgb(0, 255, 0), LARG_BASE, alt_attuale, ALLEGRO_ALIGN_LEFT, str_numero);
 
+		char str_punteggio [MAX_STRINGA_GENERICA] = "";
 		strcpy (str_punteggio, highscores [i].nome);
 		strcat (str_punteggio, "   ");
-		char str_valore [max_caratteri_valore++] = "";
+		char str_valore [] = "";
 		sprintf(str_valore, "%d", highscores [i].valore);
 		strcat (str_punteggio, str_valore);
 		al_draw_text(font_text, al_map_rgb(0, 255, 0), LARG_PUNTEGGI, alt_attuale, ALLEGRO_ALIGN_LEFT, str_punteggio);
@@ -432,27 +526,7 @@ inline void classificaHighscores (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_
 	al_flip_display();
 }
 
-voce_menu prevVoce (voce_menu voce, int n_voci)
-{
-	voce_menu prev = static_cast <voce_menu> (voce - 1);
-	if (prev < 0)
-	{
-		prev = static_cast <voce_menu> (n_voci - 1);
-	}
-	return prev;
-}
-
-voce_menu nextVoce (voce_menu voce, int n_voci)
-{
-	voce_menu next = static_cast <voce_menu> (voce + 1);
-	if (next > (n_voci - 1))
-	{
-		next = static_cast <voce_menu> (0);
-	}
-	return next;
-}
-
-schermata cambiaSchermata (voce_menu voce)
+schermata cambiaSchermata (voce_menu_principale voce)
 {
 	if (voce == v_gioca)
 	{
@@ -473,3 +547,4 @@ schermata cambiaSchermata (voce_menu voce)
 	}
 	return s_pausa;	
 }
+

@@ -7,7 +7,7 @@
 
 //INIZIO MODULO
 
-bool caricaPunteggi (punteggio (&highscores) [MAX_HIGHSCORES], unsigned int &n_highscores, const char file [])
+bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], unsigned int &n_highscores, const char file [])
 {
 	ifstream f (file) ;
     	if (!f) {
@@ -35,7 +35,7 @@ bool caricaPunteggi (punteggio (&highscores) [MAX_HIGHSCORES], unsigned int &n_h
 	return true;
 }
 
-void salvaPunteggi (punteggio highscores [], unsigned int n_highscores, const char file [])
+void salvaPunteggi (Punteggio highscores [], unsigned int n_highscores, const char file [])
 {
 	ofstream f(file) ;
 	for (unsigned  int i = 0; i < n_highscores; i++)
@@ -44,31 +44,31 @@ void salvaPunteggi (punteggio highscores [], unsigned int n_highscores, const ch
 	}
 }
 
-void inizializzaPunteggio (punteggio &punteggio, char nome [], int valore)
+void inizializzaPunteggio (Punteggio &punteggio, char nome [], int valore)
 {
 	strncpy (punteggio.nome, nome, CARATTERI_NOME);
 	punteggio.valore = valore;
 }
 
-punteggio migliorPunteggio (punteggio highscores [])
+Punteggio migliorPunteggio (Punteggio highscores [])
 {
 	return highscores [0];
 }
 
-void scambiaPunteggio (punteggio &punt1, punteggio &punt2)
+void scambiaPunteggio (Punteggio &punt1, Punteggio &punt2)
 {
-	punteggio temp = punt2;
+	Punteggio temp = punt2;
 	punt2 = punt1;
 	punt1 = temp;
 }
 
-bool aggiungiPunteggio (punteggio (&highscores) [MAX_HIGHSCORES], unsigned int &n_highscores, punteggio nuovo_punteggio)
+bool aggiungiPunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], unsigned int &n_highscores, Punteggio nuovo_punteggio)
 {
 	for (unsigned int i = 0; i < n_highscores; i++)
 	{
 		if (nuovo_punteggio.valore > highscores [i].valore)
 		{
-			punteggio pros = nuovo_punteggio;
+			Punteggio pros = nuovo_punteggio;
 			while (i < n_highscores && i < MAX_HIGHSCORES)
 			{
 				scambiaPunteggio (highscores [i], pros);
@@ -84,12 +84,12 @@ bool aggiungiPunteggio (punteggio (&highscores) [MAX_HIGHSCORES], unsigned int &
 	return false;
 }
 
-void stampa (punteggio punt)
+void stampa (Punteggio punteggio)
 {
-	cout<<punt.nome<<" "<<punt.valore;	
+	cout<<punteggio.nome<<" "<<punteggio.valore;	
 }
 
-void stampa (punteggio highscores [], int n)
+void stampa (Punteggio highscores [], int n)
 {
 	for (int i = 0; i < n; i++)
 	{

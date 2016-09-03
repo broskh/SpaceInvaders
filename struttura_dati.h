@@ -7,9 +7,6 @@
 #include <fstream>
 #include <cstring>
 #include <cstdlib>
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
 
 using namespace std;
 
@@ -18,8 +15,16 @@ const unsigned int LARG_BARRIERA = 20; /**<Largezza della barriera*/ //---------
 const unsigned int ALT_BARRIERA = 10; /**<Altezza della barriera*/ //------------>DA CONTROLLARE<-------------
 const unsigned int N_FILE_MOSTRI = 5; /**<Numero delle file di mostri*/
 const unsigned int N_COL_MOSTRI = 11; /**<Numero delle colonne di mostri*/
+
+const unsigned int N_MODALITA_GRAFICHE = 6; /**<Numero di modalità grafiche disponibili*/
+const unsigned int MAX_VITE = 10; /**<Numero massimo di vite*/
 const unsigned int CARATTERI_NOME = 4; /**<Numero di caratteri per le stringhe contenti il nome del realizzatore di un punteggio.*/ 
 const unsigned int MAX_HIGHSCORES = 10; /**<Numero di punteggi presenti nella classifica degli highscores.*/
+
+const int MAX_STRINGA_GENERICA = 20; /**<Numero di caratteri masssimo utilizzato per stringhe generiche.*/
+const int MAX_STRINGA_NUMERAZIONE = 4; /**<Numero di caratteri massimo utilizzato per le stringhe conteneti la numerazione nella classifica degli highscore.*/
+const int MAX_STRINGA_GENERICA_LUNGA = 60; /**<Numero di caratteri masssimo utilizzato per stringhe generiche lunghe.*/
+const int MAX_N_VOCI = 5; /**<Numero di voci masssime presenti in un menu.*/
 
 /** Tipo che indica una determinata grafica.
  *
@@ -55,16 +60,21 @@ enum direzione {destra, sinistra};
 enum schermata {s_menu, s_gioca, s_opzioni, s_highscores, s_pausa};
 
 /**
- * Tipo che indica una voce del menù iniziale.
+ * Tipo che indica una voce del menù principale.
  */
-enum voce_menu {v_gioca, v_carica, v_opzioni, v_highscores};
+enum voce_menu_principale {v_gioca, v_carica, v_opzioni, v_highscores};
+
+/**
+ * Tipo che indica una voce del menù impostazioni.
+ */
+enum voce_menu_impostazioni {v_musica, v_eff_audio, v_mod_grafica, v_vite_iniziali};
 
 /**
  * Struttura per il punteggio.
  *
  * Conserva le informazioni relative ad un singolo punteggio.
  */
-struct punteggio
+struct Punteggio
 {
 	char nome [CARATTERI_NOME]; /**<Nome del giocatore*/
 	int valore; /**<Valore del punteggio*/
@@ -77,7 +87,7 @@ struct punteggio
  * è possibile sapere se la musica e gli effetti audio sono abilitati o meno, la modalità grafica scelta e
  * il numero delle vite iniziali.
  */
-struct impostazioni
+struct Impostazioni
 {
 	bool musica; /**<Musica on/off*/
 	bool eff_audio; /**<Effetti  audio on/off*/
@@ -92,7 +102,7 @@ struct impostazioni
  * di mostri non ancora abbattuti, l'indicazione di quali mostri sono vivi e quali no, e la direzione che si
  * sta seguendo nel continuo zig-zag dell'ondata
  */
-struct ondata
+struct Ondata
 {	
 	bool mostri [N_FILE_MOSTRI] [N_COL_MOSTRI]; /**<Stato mostri*/	
 	int mostri_rimasti; /**<Numero di mostri rimasti*/	
@@ -106,12 +116,12 @@ struct ondata
  * Conserva il punteggio che si sta accumulando, il numero di vite rimanenti, lo stato delle barriere
  * e le informazioni relative all'ondata di mostri che si sta combattendo.
  */
-struct partita
+struct Partita
 {
-	punteggio punteggio_att; /**<Punteggio attuale*/
+	Punteggio punteggio; /**<Punteggio attuale*/
 	unsigned int vite_rimanenti; /**<Vite rimanenti*/
 	stato barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA]; /**<Stato attuale delle barriere*/
-	ondata ondata_att; /**<Ondata di mostri attuale*/
+	Ondata ondata; /**<Ondata di mostri attuale*/
 };
 
 /**
@@ -121,9 +131,23 @@ struct partita
  * avviato il gioco. Conserva le informazioni relative alle impostazioni e ai miglioti punteggi
  * raggiunti.
  */
-struct spaceInvaders
+struct SpaceInvaders
 {	
-	impostazioni impost_att; /**<Impostazioni attuali*/
-	punteggio highscores [MAX_HIGHSCORES]; /**<Migliori punteggi raggiunti*/	
+	Impostazioni impostazioni; /**<Impostazioni attuali*/
+	Punteggio highscores [MAX_HIGHSCORES]; /**<Migliori punteggi raggiunti*/	
 	unsigned int n_highscores; /**<Numero di punteggi memorizzati nell'array "highscores"*/
+};
+
+/**
+ * Struttura per la gestione dei menu.
+ *
+ * Contiene le informazioni relative al numero di voci totali del menu e alla voce selezionata attualemtne.
+ * Inoltre contiene una variabile per sapere se la voce selezionata è da disegnare o no; in questo modo
+ * è possibile creare un effetto di lampeggiamento sulla voce selezionata.
+ */
+struct Menu
+{
+	char testi_menu [MAX_N_VOCI] [MAX_STRINGA_GENERICA];
+	int n_voci;
+	int voce_sel;
 };

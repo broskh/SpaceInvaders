@@ -9,7 +9,7 @@ const unsigned int MAX_STRING = 15;
 
 //INIZIO MODULO
 
-bool caricaImpostazioni (impostazioni &impo, const char file [])
+bool caricaImpostazioni (Impostazioni &impostazioni, const char file [])
 {
 	bool musica_trov = false, eff_audio_trov = false, mod_grafica_trov = false, vite_iniz_trov = false;
 	bool musica, eff_audio;
@@ -49,41 +49,41 @@ bool caricaImpostazioni (impostazioni &impo, const char file [])
     	}
 	if (musica_trov || eff_audio_trov || mod_grafica_trov || vite_iniz_trov)
 	{
-		inizializzaImpostazioni (impo, musica, eff_audio, mod_grafica, vite_iniziali);
+		inizializzaImpostazioni (impostazioni, musica, eff_audio, mod_grafica, vite_iniziali);
 		return true;
 	}
 	cerr<<"File di configurazione incompleto"<<endl;
 	return false;
 }
 
-void salvaImpostazioni (impostazioni impo, const char file [])
+void salvaImpostazioni (Impostazioni impostazioni, const char file [])
 {
 	ofstream f(file) ;
-	f<<"musica = "<<impo.musica<<endl;
-	f<<"effetti_audio = "<<impo.eff_audio<<endl;
-	f<<"grafica = "<<impo.mod_grafica<<endl;
-	f<<"vite_iniziali = "<<impo.vite_iniziali<<endl;
+	f<<"musica = "<<impostazioni.musica<<endl;
+	f<<"effetti_audio = "<<impostazioni.eff_audio<<endl;
+	f<<"grafica = "<<impostazioni.mod_grafica<<endl;
+	f<<"vite_iniziali = "<<impostazioni.vite_iniziali<<endl;
 }
 
-void inizializzaImpostazioni (impostazioni &impo, bool musica, bool effetti_audio, grafica modalita_grafica, unsigned int vite_iniziali)
+void inizializzaImpostazioni (Impostazioni &impostazioni, bool musica, bool effetti_audio, grafica modalita_grafica, unsigned int vite_iniziali)
 {
-	impo.musica = musica;
-	impo.eff_audio = effetti_audio;
-	impo.mod_grafica = modalita_grafica;
-	impo.vite_iniziali = vite_iniziali;
+	impostazioni.musica = musica;
+	impostazioni.eff_audio = effetti_audio;
+	impostazioni.mod_grafica = modalita_grafica;
+	impostazioni.vite_iniziali = vite_iniziali;
 }
 
-void impostaValoriImpostazioniDefault (impostazioni &impo)
+void impostaValoriImpostazioniDefault (Impostazioni &impostazioni)
 {
-	inizializzaImpostazioni (impo, DEFAULT_MUSICA, DEFAULT_EFFETTI_AUDIO, DEFAULT_MODALITA_GRAFICA, DEFAULT_VITE_INIZIALI);
+	inizializzaImpostazioni (impostazioni, DEFAULT_MUSICA, DEFAULT_EFFETTI_AUDIO, DEFAULT_MODALITA_GRAFICA, DEFAULT_VITE_INIZIALI);
 }
 
-void stampa (impostazioni impo)
+void stampa (Impostazioni impostazioni)
 {
-	cout<<impo.musica<<endl;
-	cout<<impo.eff_audio<<endl;
-	cout<<impo.mod_grafica<<endl;
-	cout<<impo.vite_iniziali<<endl;
+	cout<<impostazioni.musica<<endl;
+	cout<<impostazioni.eff_audio<<endl;
+	cout<<impostazioni.mod_grafica<<endl;
+	cout<<impostazioni.vite_iniziali<<endl;
 }
 
 //FINE MODULO
