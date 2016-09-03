@@ -37,6 +37,8 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include "struttura_dati.h"
 #include "gestione_impostazioni.h"
 #include "gestione_highscores.h"
@@ -64,12 +66,14 @@ const char M_X [] = "2"; /**<Stringa per rappresentare la navicella misteriosa.*
 
 const char FRECCIA [] = "<-"; /**<Stringa per rappresentare la freccia di selezione del menù.*/
 
-const char FONT_TEXT_FILE [] = "Fonts/space_invaders.ttf"; /**<File contenente il font utilizzato per i testi.*/
-const char FONT_IMAGE_FILE [] = "Fonts/dustbust_invaders.ttf"; /**<File contenente il font utilizzato per i mostri e tutte le altre immagini presenti nel gioco.*/
+const char FILE_FONT_TESTO [] = "Fonts/space_invaders.ttf"; /**<File contenente il font utilizzato per i testi.*/
+const char FILE_FONT_IMMAGINI [] = "Fonts/dustbust_invaders.ttf"; /**<File contenente il font utilizzato per i mostri e tutte le altre immagini presenti nel gioco.*/
 
 const char FILE_HIGHSCORES [] = "highscores"; /**<Nome del file contenente gli highscores.*/
 const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Nome del file contenente le impostazioni salvate.*/
 const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Nome del file contenente la partita salvata.*/
+
+const char FILE_MUSICA_PRINCIPALE [] = "Sounds/principale.flac"; /**<Nome del file contenente la musica principale.*/
 
 /**
  * Calcola il valore della prossima schermata da mostrare.
@@ -120,12 +124,16 @@ int main ()
    	ALLEGRO_EVENT_QUEUE *coda_eventi = NULL;
 	ALLEGRO_TIMER *frame_rate = NULL;
 	ALLEGRO_TIMER *lampeggio_voce = NULL;
+   	ALLEGRO_SAMPLE *musica_principale = NULL;
 	bool redraw = true;
  
 	assert (al_init());
 	assert (al_init_font_addon());
 	assert (al_init_ttf_addon()); 
-	assert(al_install_keyboard());
+	assert (al_install_keyboard());
+	assert (al_install_audio());
+	assert (al_init_acodec_addon());
+	assert (al_reserve_samples(true));
  
 	frame_rate = al_create_timer(1.0 / FPS);
 	assert (frame_rate);
@@ -139,12 +147,15 @@ int main ()
    	coda_eventi = al_create_event_queue();
    	assert (coda_eventi);
 
-	ALLEGRO_FONT *font_titolo = al_load_ttf_font(FONT_IMAGE_FILE, DIM_FONT_TITOLO, 0);
+	ALLEGRO_FONT *font_titolo = al_load_ttf_font(FILE_FONT_IMMAGINI, DIM_FONT_TITOLO, 0);
 	assert (font_titolo);
-	ALLEGRO_FONT *font_text = al_load_ttf_font(FONT_TEXT_FILE, DIM_FONT_TEXT, 0);
+	ALLEGRO_FONT *font_text = al_load_ttf_font(FILE_FONT_TESTO, DIM_FONT_TEXT, 0);
  	assert (font_text);
-	ALLEGRO_FONT *font_mostri = al_load_ttf_font(FONT_IMAGE_FILE, DIM_MOSTRI, 0);
+	ALLEGRO_FONT *font_mostri = al_load_ttf_font(FILE_FONT_IMMAGINI, DIM_MOSTRI, 0);
  	assert (font_mostri);
+
+	musica_principale = al_load_sample (FILE_MUSICA_PRINCIPALE);
+	assert (musica_principale);
  
    	al_register_event_source(coda_eventi, al_get_display_event_source(display));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(frame_rate));
@@ -177,12 +188,20 @@ int main ()
 	bool redraw_lampeggio;
 
 	while (true)
-	{		
+	{
 		cambia_schermata = false;
 		redraw_lampeggio = false;
 		switch (schermata_att)
 		{
 			case s_menu:
+				if (generale.impostazioni.musica)
+				{
+					al_play_sample(musica_principale, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+				}
+				else
+				{
+					al_stop_samples ();
+				}
 				menu_principale.voce_sel = v_gioca;
 				al_start_timer(lampeggio_voce);
 				
@@ -209,6 +228,7 @@ int main ()
 						al_destroy_timer(lampeggio_voce);
 						al_destroy_display(display);
    						al_destroy_event_queue(coda_eventi);
+						al_destroy_sample(musica_principale);
 						return 0;
 					}
 					else if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
@@ -237,6 +257,10 @@ int main ()
 				al_stop_timer(lampeggio_voce);
 				break;
 			case s_gioca:
+				if (generale.impostazioni.musica)
+				{
+					al_stop_samples();
+				}
 				//gioco
 				break;
 			case s_opzioni:
@@ -265,6 +289,7 @@ int main ()
 						al_destroy_timer(lampeggio_voce);
 						al_destroy_display(display);
    						al_destroy_event_queue(coda_eventi);
+						al_destroy_sample(musica_principale);
 						return 0;
 					}
 					else if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
@@ -327,6 +352,7 @@ int main ()
 						al_destroy_timer(lampeggio_voce);
 						al_destroy_display(display);
    						al_destroy_event_queue(coda_eventi);
+						al_destroy_sample(musica_principale);
 						return 0;
 					}
 					else if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
@@ -360,6 +386,7 @@ int main ()
 	al_destroy_timer(lampeggio_voce);
    	al_destroy_display(display);
    	al_destroy_event_queue(coda_eventi);
+	al_destroy_sample(musica_principale);
    	return 1;
 }
 
