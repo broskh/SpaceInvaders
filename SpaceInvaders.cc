@@ -64,8 +64,8 @@ const char M_X [] = "2"; /**<Stringa per rappresentare la navicella misteriosa.*
 
 const char FRECCIA [] = "<-"; /**<Stringa per rappresentare la freccia di selezione del menù.*/
 
-const char FONT_TEXT_FILE [] = "space_invaders.ttf"; /**<File contenente il font utilizzato per i testi.*/
-const char FONT_IMAGE_FILE [] = "dustbust_invaders.ttf"; /**<File contenente il font utilizzato per i mostri e tutte le altre immagini presenti nel gioco.*/
+const char FONT_TEXT_FILE [] = "Fonts/space_invaders.ttf"; /**<File contenente il font utilizzato per i testi.*/
+const char FONT_IMAGE_FILE [] = "Fonts/dustbust_invaders.ttf"; /**<File contenente il font utilizzato per i mostri e tutte le altre immagini presenti nel gioco.*/
 
 const char FILE_HIGHSCORES [] = "highscores"; /**<Nome del file contenente gli highscores.*/
 const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Nome del file contenente le impostazioni salvate.*/
