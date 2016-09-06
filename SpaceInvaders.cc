@@ -40,6 +40,7 @@
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 #include "struttura_dati.h"
+#include "gestione_partita.h"
 #include "gestione_impostazioni.h"
 #include "gestione_highscores.h"
 #include "gestione_menu.h"
@@ -58,11 +59,6 @@ const unsigned int DIM_FONT_TITOLO = 140; /**<Dimensione del font utilizzato per
 const unsigned int DIM_FONT_TEXT = 15; /**<Dimensione del font utilizzato per i testi generali.*/
 const unsigned int DIM_MOSTRI = 20; /**<Dimensione del font utilizzato per i mostri*/
 //const float RAPP_DIM = 0.9;
-
-const char M_10 [] = "B"; /**<Stringa per rappresentare il mostro da 10 punti.*/
-const char M_20 [] = "D"; /**<Stringa per rappresentare il mostro da 20 punti.*/
-const char M_30 [] = "F"; /**<Stringa per rappresentare il mostro da 40 punti.*/
-const char M_X [] = "2"; /**<Stringa per rappresentare la navicella misteriosa.*/
 
 const char FRECCIA [] = "<-"; /**<Stringa per rappresentare la freccia di selezione del menù.*/
 
@@ -83,8 +79,17 @@ const char FILE_MUSICA_PRINCIPALE [] = "Sounds/principale.flac"; /**<Nome del fi
  * @param font_titolo Font utilizzato per disegnare i mostri.
  * @param voce Voce di menù selezionata.
  * @param redraw_lampeggio Indica se la voce di menù è da ridisegnare o no (utilizzato per mostrare l'effetto lampeggiante sull'opzione di menù selezioanta).
+ * @param salvataggio Indica se esiste o meno il salvataggio di una partita precedente (necessario per sapere di che colore disegnare la voce di menù caric).
  */
-inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, ALLEGRO_FONT *font_mostri, Menu menu, bool &redraw_lampeggio);
+inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, ALLEGRO_FONT *font_mostri, Menu menu, bool &redraw_lampeggio, bool salvataggio);
+
+/**
+ * Mostra il gioco vero e proprio.
+ * 
+ * @param font_mostri Font con il quale vengono disegnati i mostri.
+ * @param impostazioni Impostazioni generali del gioco.
+ */
+inline void gioca (ALLEGRO_FONT *font_mostri, Impostazioni impostazioni);
 
 /**
  * Mostra il menu di modifica delle impostazioni.
@@ -167,8 +172,10 @@ int main ()
 	{
 		generale.n_highscores = 0;
 	}
+	generale.partita_salvata = esisteSalvataggio (FILE_SALVATAGGIO_PARTITA);
+	nuovaPartita (generale.partita_in_corso, generale.impostazioni);
 	//FINE INIZIALIZZAZIONE DELLA STRUTTURA PRINCIPALE//
-
+	
 	schermata schermata_att = s_menu;
 	bool cambia_schermata;
 	
@@ -198,7 +205,6 @@ int main ()
 				
 				while(!cambia_schermata)
 			   	{
-					
 					ALLEGRO_EVENT ev;
 					al_wait_for_event(coda_eventi, &ev);
 
@@ -224,10 +230,24 @@ int main ()
 						switch(ev.keyboard.keycode)
 						{
 							case ALLEGRO_KEY_UP:
-								vocePrec (menu_principale);
+								if (generale.partita_salvata)
+								{
+									vocePrec (menu_principale);
+								}
+								else
+								{
+									vocePrec (menu_principale, v_carica);
+								}
 								break;
 							case ALLEGRO_KEY_DOWN:
-								voceSuc (menu_principale);
+								if (generale.partita_salvata)
+								{
+									voceSuc (menu_principale);
+								}
+								else
+								{
+									voceSuc (menu_principale, v_carica);
+								}
 								break;
 							case ALLEGRO_KEY_ENTER:
 								schermata_att = cambiaSchermataMenuPrincipale (static_cast <voce_menu_principale> (menu_principale.voce_sel));
@@ -239,7 +259,7 @@ int main ()
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
         					al_clear_to_color(al_map_rgb(0, 0, 0));
-						menuPrincipale (font_titolo, font_text, font_mostri, menu_principale, redraw_lampeggio);
+						menuPrincipale (font_titolo, font_text, font_mostri, menu_principale, redraw_lampeggio, generale.partita_salvata);
 					}
 			   	}
 				al_stop_timer(lampeggio_voce);
@@ -249,7 +269,45 @@ int main ()
 				{
 					al_stop_samples();
 				}
-				//gioco
+				while(!cambia_schermata)
+			   	{
+					ALLEGRO_EVENT ev;
+					al_wait_for_event(coda_eventi, &ev);
+
+					if(ev.type == ALLEGRO_EVENT_TIMER)
+					{
+						if (ev.timer.source == frame_rate)
+						{
+							redraw = true;
+						}
+					}
+					else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+					{
+						schermata_att = s_esci;
+						cambia_schermata = true;
+						break;
+					}
+					else if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
+					{
+						switch(ev.keyboard.keycode)
+						{
+							case ALLEGRO_KEY_RIGHT:
+								break;
+							case ALLEGRO_KEY_LEFT:
+								break;
+							case ALLEGRO_KEY_SPACE:
+								break;
+							case ALLEGRO_KEY_ESCAPE:
+								break;
+						}
+					}
+
+					if(redraw && al_is_event_queue_empty(coda_eventi))
+					{
+        					al_clear_to_color(al_map_rgb(0, 0, 0));
+						gioca (font_mostri, generale.impostazioni);
+					}
+			   	}
 				break;
 			case s_opzioni:
 				al_start_timer(lampeggio_voce);
@@ -379,7 +437,7 @@ int main ()
    	return 1;
 }
 
-inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, ALLEGRO_FONT *font_mostri, Menu menu, bool &redraw_lampeggio)
+inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, ALLEGRO_FONT *font_mostri, Menu menu, bool &redraw_lampeggio, bool salvataggio)
 {
 
 	const unsigned int LARG_MOSTRI = LARGHEZZA_DISPLAY * 0.4; /*Larghezza del display dal quale mostrare i mostri.*/
@@ -399,19 +457,19 @@ inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, 
 
 	//INIZIO DELLA VISUALIZZAZIONE DEI MOSTRI E I RELATIVI PUNTEGGI
 	alt_attuale = ALT_MOSTRI;
-	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), LARG_MOSTRI, alt_attuale, ALLEGRO_ALIGN_CENTRE, M_10);
+	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), LARG_MOSTRI, alt_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_10);
 	al_draw_text(font_menu, al_map_rgb(0, 255, 0), LARG_PUNTEGGIO, alt_attuale, ALLEGRO_ALIGN_CENTRE, "=      10  PTS");
 
 	alt_attuale = ALT_MOSTRI + SPAZIO_TESTO + DIM_MOSTRI;
-	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), LARG_MOSTRI, alt_attuale, ALLEGRO_ALIGN_CENTRE, M_20);
+	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), LARG_MOSTRI, alt_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_20);
 	al_draw_text(font_menu, al_map_rgb(0, 255, 0), LARG_PUNTEGGIO, alt_attuale, ALLEGRO_ALIGN_CENTRE, "=      20  PTS");
 
 	alt_attuale = ALT_MOSTRI + (SPAZIO_TESTO + DIM_MOSTRI) * 2;
-	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), LARG_MOSTRI, alt_attuale, ALLEGRO_ALIGN_CENTRE, M_30);
+	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), LARG_MOSTRI, alt_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_30);
 	al_draw_text(font_menu, al_map_rgb(0, 255, 0), LARG_PUNTEGGIO, alt_attuale, ALLEGRO_ALIGN_CENTRE, "=      30  PTS");
 
 	alt_attuale = ALT_MOSTRI + (SPAZIO_TESTO + DIM_MOSTRI) * 3;
-	al_draw_text(font_mostri, al_map_rgb(255, 0, 0), LARG_MOSTRI, alt_attuale, ALLEGRO_ALIGN_CENTRE, M_X);
+	al_draw_text(font_mostri, al_map_rgb(255, 0, 0), LARG_MOSTRI, alt_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_X);
 	al_draw_text(font_menu, al_map_rgb(0, 255, 0), LARG_PUNTEGGIO, alt_attuale, ALLEGRO_ALIGN_CENTRE, "=         ?  PTS");
 	//FINE DELLA VISUALIZZAZIONE DEI MOSTRI E I RELATIVI PUNTEGGI
 	
@@ -421,7 +479,14 @@ inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, 
 		if (!(menu.voce_sel == i && !redraw_lampeggio))
 		{
 			alt_attuale = ALT_MENU + (SPAZIO_TESTO + DIM_FONT_TEXT) * i;
-			al_draw_text(font_menu, al_map_rgb(0, 255, 0), CENTRO_ORIZ, alt_attuale, ALLEGRO_ALIGN_CENTRE, menu.testi_menu [i]);
+			if ((!salvataggio) && (static_cast <voce_menu_principale> (i) == v_carica))
+			{
+				al_draw_text(font_menu, al_map_rgb(84, 84, 84), CENTRO_ORIZ, alt_attuale, ALLEGRO_ALIGN_CENTRE, menu.testi_menu [i]);
+			}
+			else
+			{
+				al_draw_text(font_menu, al_map_rgb(0, 255, 0), CENTRO_ORIZ, alt_attuale, ALLEGRO_ALIGN_CENTRE, menu.testi_menu [i]);
+			}
 		}
 	}
 
@@ -542,3 +607,19 @@ inline void classificaHighscores (ALLEGRO_FONT *font_text, Punteggio highscores 
 	al_flip_display();
 }
 
+inline void gioca (ALLEGRO_FONT *font_mostri, Impostazioni impostazioni)
+{
+	const unsigned int LARG_BASE = LARGHEZZA_DISPLAY * 0.1; /*Larghezza del display dal quale mostrare il contenuto.*/
+
+	const unsigned int ALT_BASE = ALTEZZA_DISPLAY * 0.1; /*Altezza del display dal quale mostrare il contenuto.*/
+
+	unsigned int alt_attuale = ALT_BASE;
+
+	//INIZIO DELLA VISUALIZZAZIONE DELL'ONDATA
+
+	
+
+	//FINE DELLA VISUALIZZAZIONE DELL'ONDATA
+
+	al_flip_display();
+}

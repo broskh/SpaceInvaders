@@ -52,9 +52,27 @@ void vocePrec (Menu &menu)
 	menu.voce_sel = precInRange (menu.voce_sel, menu.n_voci);
 }
 
+void vocePrec (Menu &menu, int voce_saltata)
+{
+	menu.voce_sel = precInRange (menu.voce_sel, menu.n_voci);
+	if (menu.voce_sel == voce_saltata)
+	{
+		menu.voce_sel = precInRange (menu.voce_sel, menu.n_voci);
+	}
+}
+
 void voceSuc (Menu &menu)
 {
 	menu.voce_sel = sucInRange (menu.voce_sel, menu.n_voci);
+}
+
+void voceSuc (Menu &menu, int voce_saltata)
+{
+	menu.voce_sel = sucInRange (menu.voce_sel, menu.n_voci);
+	if (menu.voce_sel == voce_saltata)
+	{
+		menu.voce_sel = sucInRange (menu.voce_sel, menu.n_voci);
+	}
 }
 
 void inizializzaMenu (Menu &menu, const char testi_menu [] [MAX_STRINGA_GENERICA], int n_voci, int voce_sel)
@@ -196,7 +214,7 @@ schermata cambiaSchermataMenuPrincipale (voce_menu_principale voce)
 	{
 		return s_esci;
 	}
-	return s_pausa;	
+	return s_menu;
 }
 
 //FINE MODULO

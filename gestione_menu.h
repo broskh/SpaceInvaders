@@ -19,11 +19,27 @@ const int N_INDICAZIONI_MENU_IMPO = 4; /**<Numero di indicazioni del menù impos
 void vocePrec (Menu &menu);
 
 /**
+ * Modifica il valore della voce selezionata impostandola alla precedente.
+ * 
+ * @param menu Menu nel quale modificare la voce di menù selezionata.
+ * @param voce_saltata Voce da saltare nella ricerca della voce precedente.
+ */
+void vocePrec (Menu &menu, int voce_saltata);
+
+/**
  * Modifica il valore della voce selezionata impostandola alla successiva.
  * 
  * @param menu Menu nel quale modificare la voce di menù selezionata.
  */
 void voceSuc (Menu &menu);
+
+/**
+ * Modifica il valore della voce selezionata impostandola alla successiva.
+ * 
+ * @param menu Menu nel quale modificare la voce di menù selezionata.
+ * @param voce_saltata Voce da saltare nella ricerca della voce successiva.
+ */
+void voceSuc (Menu &menu, int voce_saltata);
 
 /**
  * Memorizza in una struttura {@link Menu} i valori passati per parametro.

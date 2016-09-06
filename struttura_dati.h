@@ -10,18 +10,18 @@
 
 using namespace std;
 
-const unsigned int N_BARRIERE = 4; /**<Numero delle barriere presenti in una partita*/
-const unsigned int LARG_BARRIERA = 20; /**<Largezza della barriera*/ //------------>DA CONTROLLARE<-------------
-const unsigned int ALT_BARRIERA = 10; /**<Altezza della barriera*/ //------------>DA CONTROLLARE<-------------
-const unsigned int N_FILE_MOSTRI = 5; /**<Numero delle file di mostri*/
-const unsigned int N_COL_MOSTRI = 11; /**<Numero delle colonne di mostri*/
+const unsigned int N_BARRIERE = 4; /**<Numero delle barriere presenti in una partita.*/
+const unsigned int LARG_BARRIERA = 20; /**<Largezza della barriera.*/ //------------>DA CONTROLLARE<-------------
+const unsigned int ALT_BARRIERA = 10; /**<Altezza della barriera.*/ //------------>DA CONTROLLARE<-------------
+const unsigned int N_FILE_MOSTRI = 5; /**<Numero delle file di mostri.*/
+const unsigned int N_COL_MOSTRI = 11; /**<Numero delle colonne di mostri.*/
 
-const unsigned int N_MODALITA_GRAFICHE = 6; /**<Numero di modalità grafiche disponibili*/
-const unsigned int MAX_VITE = 10; /**<Numero massimo di vite*/
+const unsigned int N_MODALITA_GRAFICHE = 6; /**<Numero di modalità grafiche disponibili.*/
+const unsigned int MAX_VITE = 10; /**<Numero massimo di vite.*/
 const unsigned int CARATTERI_NOME = 4; /**<Numero di caratteri per le stringhe contenti il nome del realizzatore di un punteggio.*/ 
 const unsigned int MAX_HIGHSCORES = 10; /**<Numero di punteggi presenti nella classifica degli highscores.*/
 
-const int MAX_STRINGA_GENERICA = 20; /**<Numero di caratteri masssimo utilizzato per stringhe generiche.*/
+const int MAX_STRINGA_GENERICA = 20; /**<Numero di caratteri massimo utilizzato per stringhe generiche.*/
 const int MAX_STRINGA_NUMERAZIONE = 4; /**<Numero di caratteri massimo utilizzato per le stringhe conteneti la numerazione nella classifica degli highscore.*/
 const int MAX_STRINGA_GENERICA_LUNGA = 60; /**<Numero di caratteri masssimo utilizzato per stringhe generiche lunghe.*/
 const int MAX_N_VOCI = 5; /**<Numero di voci masssime presenti in un menu.*/
@@ -42,7 +42,7 @@ enum grafica {mono_bianco, mono_giallo, mono_verde, fasce_vert, fasce_oriz, mist
  * rappresentato dallo stato "parziale". Infine, quando verrà colpito per la seconda volta, il
  * suo stato diventerà "distrutto", e graficamente non sarà più visibile.
  */
-enum stato {distrutto, parziale, intero};
+enum stato_barriera {distrutto, parziale, intero};
 
 /** Tipo che indica una direzione.
  *
@@ -76,23 +76,35 @@ enum voce_menu_impostazioni {v_musica, v_eff_audio, v_mod_grafica, v_vite_inizia
  */
 struct Punteggio
 {
-	char nome [CARATTERI_NOME]; /**<Nome del giocatore*/
-	int valore; /**<Valore del punteggio*/
+	char nome [CARATTERI_NOME]; /**<Nome del giocatore.*/
+	int valore; /**<Valore del punteggio.*/
 };
 
 /**
  * Struttura per le impostazioni.
  *
- * Conserva tutte le informazioni relative alle impostazioni del gioco. Da questa struttra quindi
+ * Conserva tutte le informazioni relative alle impostazioni del gioco. Da questa struttura quindi
  * è possibile sapere se la musica e gli effetti audio sono abilitati o meno, la modalità grafica scelta e
  * il numero delle vite iniziali.
  */
 struct Impostazioni
 {
-	bool musica; /**<Musica on/off*/
-	bool eff_audio; /**<Effetti  audio on/off*/
-	grafica mod_grafica; /**<Modalità grafica*/
-	unsigned int vite_iniziali; /**<Vite iniziali*/
+	bool musica; /**<Musica on/off.*/
+	bool eff_audio; /**<Effetti  audio on/off.*/
+	grafica mod_grafica; /**<Modalità grafica.*/
+	unsigned int vite_iniziali; /**<Vite iniziali.*/
+};
+
+/**
+ * Struttura per i msotri.
+ * 
+ * Da questa struttura dati è possibile prelevare le informazioni relative allo stato e al punteggio di un mostro. 
+ */
+struct Mostro
+{
+	bool stato; /**<Stato del mostro.*/
+	unsigned int punteggio; /**<Punteggio derivante dalla distruzione di questo mostro.*/
+	char stringa [2]; /**<Stringa rappresentante un determinato mostro.*/
 };
 
 /**
@@ -104,9 +116,9 @@ struct Impostazioni
  */
 struct Ondata
 {	
-	bool mostri [N_FILE_MOSTRI] [N_COL_MOSTRI]; /**<Stato mostri*/	
-	int mostri_rimasti; /**<Numero di mostri rimasti*/	
-	direzione dir_mostri; /**<Direzione dello zig-zag*/
+	Mostro mostri [N_FILE_MOSTRI] [N_COL_MOSTRI]; /**<Stato mostri.*/	
+	int mostri_rimasti; /**<Numero di mostri rimasti.*/	
+	direzione dir_mostri; /**<Direzione dello zig-zag.*/
 };
 
 /**
@@ -118,10 +130,10 @@ struct Ondata
  */
 struct Partita
 {
-	Punteggio punteggio; /**<Punteggio attuale*/
-	unsigned int vite_rimanenti; /**<Vite rimanenti*/
-	stato barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA]; /**<Stato attuale delle barriere*/
-	Ondata ondata; /**<Ondata di mostri attuale*/
+	Punteggio punteggio; /**<Punteggio attuale.*/
+	unsigned int vite_rimanenti; /**<Vite rimanenti.*/
+	stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA]; /**<Stato attuale delle barriere.*/
+	Ondata ondata; /**<Ondata di mostri attuale.*/
 };
 
 /**
@@ -133,9 +145,11 @@ struct Partita
  */
 struct SpaceInvaders
 {	
-	Impostazioni impostazioni; /**<Impostazioni attuali*/
-	Punteggio highscores [MAX_HIGHSCORES]; /**<Migliori punteggi raggiunti*/	
-	unsigned int n_highscores; /**<Numero di punteggi memorizzati nell'array "highscores"*/
+	Impostazioni impostazioni; /**<Impostazioni attuali.*/
+	Punteggio highscores [MAX_HIGHSCORES]; /**<Migliori punteggi raggiunti.*/	
+	unsigned int n_highscores; /**<Numero di punteggi memorizzati nell'array "highscores".*/
+	bool partita_salvata; /**<Booleano che indica se è presente una partita salvata o no.*/
+	Partita partita_in_corso; /**<Struttura {@link Partita} che contiene le informazioni relative alla partita in corso, o alla prossima partita che si giocherà.*/
 };
 
 /**
@@ -147,7 +161,7 @@ struct SpaceInvaders
  */
 struct Menu
 {
-	char testi_menu [MAX_N_VOCI] [MAX_STRINGA_GENERICA];
-	int n_voci;
-	int voce_sel;
+	char testi_menu [MAX_N_VOCI] [MAX_STRINGA_GENERICA]; /**<Testi rappresentanti le voci del menù.*/
+	int n_voci; /**<Numero di voci presenti nel menù.*/
+	int voce_sel; /**<Voce del menù attualmente selezionata.*/
 };
