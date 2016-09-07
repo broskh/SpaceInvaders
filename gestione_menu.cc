@@ -199,8 +199,7 @@ schermata cambiaSchermataMenuPrincipale (voce_menu_principale voce)
 	}
 	else if (voce == v_carica)
 	{
-		//INSERIRE PARTICOLARE PER CARICAMENTO
-		return s_gioca;
+		return s_carica;
 	}
 	else if (voce == v_opzioni)
 	{

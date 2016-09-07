@@ -4,14 +4,17 @@
 
 //INIZIO INTERFACCIA
 
-const char STRINGA_M_10 [] = "B"; /**<Stringa per rappresentare il mostro da 10 punti.*/
-const unsigned int PUNTEGGIO_M_10 = 10; /**<Punteggio espresso tramite costante del mostro da 10 punti.*/
-const char STRINGA_M_20 [] = "D"; /**<Stringa per rappresentare il mostro da 20 punti.*/
-const unsigned int PUNTEGGIO_M_20 = 20; /**<Punteggio espresso tramite costante del mostro da 10 punti.*/
-const char STRINGA_M_30 [] = "F"; /**<Stringa per rappresentare il mostro da 40 punti.*/
-const unsigned int PUNTEGGIO_M_30 = 30; /**<Punteggio espresso tramite costante del mostro da 10 punti.*/
-const char STRINGA_M_X [] = "2"; /**<Stringa per rappresentare la navicella misteriosa.*/
-const unsigned int PUNTEGGIO_M_X = 100; /**<Punteggio espresso tramite costante del mostro da 10 punti.*/
+const char STRINGA_M_10 [] = "B"; /**<Stringa per rappresentare il mostro M_10.*/
+const unsigned int PUNTEGGIO_M_10 = 10; /**<Punteggio attribuito al mostro M_10.*/
+const char STRINGA_M_20 [] = "D"; /**<Stringa per rappresentare il mostro M_20.*/
+const unsigned int PUNTEGGIO_M_20 = 20; /**<Punteggio attribuito al mostro M_20.*/
+const char STRINGA_M_30 [] = "F"; /**<Stringa per rappresentare il mostro M_30.*/
+const unsigned int PUNTEGGIO_M_30 = 30; /**<Punteggio attribuito al mostro M_30.*/
+const char STRINGA_M_X [] = "2"; /**<Stringa per rappresentare la navicella misteriosa (M_X).*/
+const unsigned int PUNTEGGIO_M_X_MAX = 500; /**<Punteggio massimo attribuito al mostro M_X.*/
+const unsigned int PUNTEGGIO_M_X_MIN = 100; /**<Punteggio minimo attribuito al mostro M_X.*/
+const char STRINGA_CARRO_ARMATO [] = "-"; /**<Stringa per rappresentare il carro armato.*/
+const char STRINGA_SPARO [] = "|";
 
 const unsigned int N_MOSTRI_TOTALE = N_FILE_MOSTRI * N_COL_MOSTRI; /**<Numero totale dei mostri presenti inizialmente*/
 
