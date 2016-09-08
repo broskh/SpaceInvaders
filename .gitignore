@@ -38,3 +38,5 @@ prova*.x
 *.config
 highscores
 
+# GIMP projects
+*.xcf
