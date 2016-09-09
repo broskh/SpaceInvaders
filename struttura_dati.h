@@ -11,8 +11,8 @@
 using namespace std;
 
 const unsigned int N_BARRIERE = 4; /**<Numero delle barriere presenti in una partita.*/
-const unsigned int LARG_BARRIERA = 20; /**<Largezza della barriera.*/ //------------>DA CONTROLLARE<-------------
-const unsigned int ALT_BARRIERA = 10; /**<Altezza della barriera.*/ //------------>DA CONTROLLARE<-------------
+const unsigned int LARG_BARRIERA = 20; /**<Largezza della barriera.*/
+const unsigned int ALT_BARRIERA = 17; /**<Altezza della barriera.*/
 const unsigned int N_FILE_MOSTRI = 5; /**<Numero delle file di mostri.*/
 const unsigned int N_COL_MOSTRI = 11; /**<Numero delle colonne di mostri.*/
 
@@ -42,7 +42,7 @@ enum grafica {mono_bianco, mono_giallo, mono_verde, fasce_vert, fasce_oriz, mist
  * rappresentato dallo stato "parziale". Infine, quando verrà colpito per la seconda volta, il
  * suo stato diventerà "distrutto", e graficamente non sarà più visibile.
  */
-enum stato_barriera {distrutto, parziale, intero};
+enum stato_barriera {distrutta, parziale, integra};
 
 /** Tipo che indica una direzione.
  *

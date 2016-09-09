@@ -28,7 +28,7 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni)
 		{
 			for (unsigned int c = 0; c < LARG_BARRIERA; c++)
 			{
-				partita.barriere [n] [r] [c] = intero;
+				partita.barriere [n] [r] [c] = integra;
 			}
 		}
 	}
