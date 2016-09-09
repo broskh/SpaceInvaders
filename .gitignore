@@ -29,14 +29,10 @@
 *.app
 SpaceInvaders
 
-# Temporary files
-*~
-prova*.cc
-prova*.x
-
 # Configuration and save files
 *.config
 highscores
+*.sav
 
 # GIMP projects
 *.xcf
