@@ -119,6 +119,8 @@ struct Ondata
 	Mostro mostri [N_FILE_MOSTRI] [N_COL_MOSTRI]; /**<Stato mostri.*/	
 	int mostri_rimasti; /**<Numero di mostri rimasti.*/	
 	direzione dir_mostri; /**<Direzione dello zig-zag.*/
+	int offset_superiore; /**<Spostamento verso il basso rispetto al punto di partenza.*/
+	int offset_laterale; /**<Spostamento laterale rispetto al punto di partenza.*/
 };
 
 /**
@@ -134,6 +136,9 @@ struct Partita
 	unsigned int vite_rimanenti; /**<Vite rimanenti.*/
 	stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA]; /**<Stato attuale delle barriere.*/
 	Ondata ondata; /**<Ondata di mostri attuale.*/
+	bool sparo; /**<Indica se è stato sparato un colpo da parte del carro armato.*/
+	int offset_sparo; /**<Indica lo spostamento verso il basso del colpo sparato dal carro armato.*/
+	int offset_carro; /**<Indica lo spostamento del carro armato rispetto alla posizione centrale iniziale.*/
 };
 
 /**

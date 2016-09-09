@@ -3,9 +3,20 @@
  */
 
 #include "struttura_dati.h"
+#include "funzioni_generiche.h"
 #include "gestione_partita.h"
 
 //INIZIO MODULO
+
+int offsetDestraCarro (int offset_carro, int limite_offset)
+{
+	return sucInRange (offset_carro, LATO_UNITA, limite_offset);
+}
+
+int offsetSinistraCarro (int offset_carro, int limite_offset)
+{
+	return precInRange (offset_carro, LATO_UNITA, limite_offset);
+}
 
 bool esisteSalvataggio (const char file [])
 {
@@ -34,6 +45,12 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni)
 	}
 
 	nuovaOndata (partita.ondata);
+
+	partita.sparo = false;
+	
+	partita.offset_sparo = 0;
+	
+	partita.offset_carro = 0;
 }
 
 void nuovaOndata (Ondata &ondata)
@@ -77,24 +94,11 @@ void nuovaOndata (Ondata &ondata)
 	ondata.mostri_rimasti = N_MOSTRI_TOTALE;
 	
 	ondata.dir_mostri = destra;
+	
+	ondata.offset_superiore = 0;
+	
+	ondata.offset_laterale = 0;
 }
-
-/*void inizializzaPartita (Partita &partita, Punteggio punteggio, unsigned int vite_rimanenti, stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA], Ondata ondata)
-{
-	partita.punteggio = putneggio;
-	partita.vite_rimanenti = vite_rimanenti;
-	for (unsigned int n = 0; n < N_BARRIERE; n++)
-	{
-		for (unsigned int r = 0; r < ALT_BARRIERA; r++)
-		{
-			for (unsigned int c = 0; c < LARG_BARRIERA; c++)
-			{
-				partita.barriere [n] [r] [c] = barriere [n] [r] [c];
-			}
-		}
-	}
-	partita.ondata = ondata;
-}*/
 
 bool caricaPartita (Partita &salvataggio, const char file [])
 {
@@ -104,10 +108,12 @@ bool caricaPartita (Partita &salvataggio, const char file [])
 		return false ;
     	}
 	Partita temp;
+
 	if (!(f>>temp.vite_rimanenti))
 	{
 		return false;
 	}
+
 	for (unsigned int n = 0; n < N_BARRIERE; n++)
 	{
 		for (unsigned int r = 0; r < ALT_BARRIERA; r++)
@@ -126,6 +132,7 @@ bool caricaPartita (Partita &salvataggio, const char file [])
 			}
 		}
 	}
+
 	for (unsigned int i = 0; i < N_FILE_MOSTRI; i++)
 	{
 		for (unsigned int k = 0; k < N_COL_MOSTRI; k++)
@@ -149,6 +156,33 @@ bool caricaPartita (Partita &salvataggio, const char file [])
 	{
 		return false;
 	}
+	if (!(f>>temp.ondata.offset_superiore))
+	{
+		return false;
+	}
+	if (!(f>>temp.ondata.offset_laterale))
+	{
+		return false;
+	}
+	
+	
+	if (!(f>>temp.sparo))
+	{
+		return false;
+	}
+	
+	
+	if (!(f>>temp.offset_sparo))
+	{
+		return false;
+	}
+	
+	
+	if (!(f>>temp.offset_carro))
+	{
+		return false;
+	}
+
 	salvataggio = temp;
 	return true;
 }
@@ -158,6 +192,7 @@ void salvaPartita (Partita salvataggio, const char file [])
 	ofstream f(file);
 
 	f<<salvataggio.vite_rimanenti<<endl;
+
 	for (unsigned int n = 0; n < N_BARRIERE; n++)
 	{
 		for (unsigned int r = 0; r < ALT_BARRIERA; r++)
@@ -170,6 +205,7 @@ void salvaPartita (Partita salvataggio, const char file [])
 		}
 		f<<endl<<endl;
 	}
+
 	for (unsigned int i = 0; i < N_FILE_MOSTRI; i++)
 	{
 		for (unsigned int k = 0; k < N_COL_MOSTRI; k++)
@@ -179,7 +215,15 @@ void salvaPartita (Partita salvataggio, const char file [])
 		f<<endl;
 	}
 	f<<salvataggio.ondata.mostri_rimasti<<endl;
-	f<<salvataggio.ondata.dir_mostri;
+	f<<salvataggio.ondata.dir_mostri<<endl;
+	f<<salvataggio.ondata.offset_superiore<<endl;
+	f<<salvataggio.ondata.offset_laterale<<endl;
+
+	f<<salvataggio.sparo<<endl;
+
+	f<<salvataggio.offset_sparo<<endl;
+
+	f<<salvataggio.offset_carro<<endl;
 }
 
 bool eliminaFileSalvataggio (const char file [])
@@ -216,6 +260,11 @@ void stampa (Partita partita)
 	}
 	cout<<partita.ondata.mostri_rimasti<<endl;
 	cout<<partita.ondata.dir_mostri<<endl;
+	cout<<partita.ondata.offset_superiore<<endl;
+	cout<<partita.ondata.offset_laterale<<endl;
+	cout<<partita.sparo<<endl;
+	cout<<partita.offset_sparo<<endl;
+	cout<<partita.offset_carro<<endl;
 }
 
 //FINE MODULO

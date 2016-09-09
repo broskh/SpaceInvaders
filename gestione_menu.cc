@@ -3,75 +3,35 @@
  */
 
 #include "struttura_dati.h"
+#include "funzioni_generiche.h"
 #include "gestione_menu.h"
 
 //INIZIO MODULO
-
-int precInRange (int n, int max)
-{
-	n--;
-	if (n < 0)
-	{
-		n = max - 1;
-	}
-	return n;
-}
-
-int sucInRange (int n, int max)
-{
-	n++;
-	if (n > (max - 1))
-	{
-		n = 0;
-	}
-	return n;
-}
-
-int precInRange (int n, int max, int offset)
-{
-	n--;
-	if (n < (0 + offset))
-	{
-		n = max - 1 + offset;
-	}
-	return n;
-}
-
-int sucInRange (int n, int max, int offset)
-{
-	n++;
-	if (n > (max - 1 + offset))
-	{
-		n = 0 + offset;
-	}
-	return n;
-}
-
 void vocePrec (Menu &menu)
 {
-	menu.voce_sel = precInRange (menu.voce_sel, menu.n_voci);
+	menu.voce_sel = precInRangeCircuito (menu.voce_sel, 0, menu.n_voci);
 }
 
 void vocePrec (Menu &menu, int voce_saltata)
 {
-	menu.voce_sel = precInRange (menu.voce_sel, menu.n_voci);
+	menu.voce_sel = precInRangeCircuito (menu.voce_sel, 0, menu.n_voci);
 	if (menu.voce_sel == voce_saltata)
 	{
-		menu.voce_sel = precInRange (menu.voce_sel, menu.n_voci);
+		menu.voce_sel = precInRangeCircuito (menu.voce_sel, 0, menu.n_voci);
 	}
 }
 
 void voceSuc (Menu &menu)
 {
-	menu.voce_sel = sucInRange (menu.voce_sel, menu.n_voci);
+	menu.voce_sel = sucInRangeCircuito (menu.voce_sel, 0, menu.n_voci);
 }
 
 void voceSuc (Menu &menu, int voce_saltata)
 {
-	menu.voce_sel = sucInRange (menu.voce_sel, menu.n_voci);
+	menu.voce_sel = sucInRangeCircuito (menu.voce_sel, 0, menu.n_voci);
 	if (menu.voce_sel == voce_saltata)
 	{
-		menu.voce_sel = sucInRange (menu.voce_sel, menu.n_voci);
+		menu.voce_sel = sucInRangeCircuito (menu.voce_sel, 0, menu.n_voci);
 	}
 }
 
@@ -156,10 +116,10 @@ bool valoreCampoImpostazioniPrec (voce_menu_impostazioni voce, Impostazioni &imp
 			impostazioni.eff_audio = !impostazioni.eff_audio;
 			break;
 		case v_mod_grafica:
-			impostazioni.mod_grafica = static_cast <grafica> (precInRange (impostazioni.mod_grafica, N_MODALITA_GRAFICHE));
+			impostazioni.mod_grafica = static_cast <grafica> (precInRangeCircuito (impostazioni.mod_grafica, 0, N_MODALITA_GRAFICHE));
 			break;
 		case v_vite_iniziali:
-			impostazioni.vite_iniziali = precInRange (impostazioni.vite_iniziali, MAX_VITE, 1);
+			impostazioni.vite_iniziali = precInRangeCircuito (impostazioni.vite_iniziali, 1, MAX_VITE + 1);
 			break;
 		default:
 			return false;
@@ -179,10 +139,10 @@ bool valoreCampoImpostazioniSuc (voce_menu_impostazioni voce, Impostazioni &impo
 			impostazioni.eff_audio = !impostazioni.eff_audio;
 			break;
 		case v_mod_grafica:
-			impostazioni.mod_grafica = static_cast <grafica> (sucInRange (impostazioni.mod_grafica, N_MODALITA_GRAFICHE));
+			impostazioni.mod_grafica = static_cast <grafica> (sucInRangeCircuito (impostazioni.mod_grafica, 0, N_MODALITA_GRAFICHE));
 			break;
 		case v_vite_iniziali:
-			impostazioni.vite_iniziali = sucInRange (impostazioni.vite_iniziali, MAX_VITE, 1);
+			impostazioni.vite_iniziali = sucInRangeCircuito (impostazioni.vite_iniziali, 1, MAX_VITE + 1);
 			break;
 		default:
 			return false;
@@ -215,5 +175,4 @@ schermata cambiaSchermataMenuPrincipale (voce_menu_principale voce)
 	}
 	return s_menu;
 }
-
 //FINE MODULO

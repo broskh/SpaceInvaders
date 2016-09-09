@@ -54,13 +54,12 @@ const unsigned int ALTEZZA_DISPLAY = 480; /**<Altezza della finestra del gioco.*
 const float FPS = 60;  /**<FPS del gioco.*/
 const float FPS_LAMPEGGIO_MENU = 3.5; /**FPS per mostrare l'effetto di lampeggio sull'opzione selezionata del menù.*/
 const unsigned int CENTRO_ORIZ = LARGHEZZA_DISPLAY / 2; /**<Posizione centrale della larghezza del display.*/
+const unsigned int LIMITE_OFFSET_CARRO = CENTRO_ORIZ - 10; /**<Limite positivo dell'offset del carro.*/
 
 const unsigned int SPAZIO_TESTO = 10; /**<Spazio fra righe di testo adiacenti.*/
 const unsigned int DIM_FONT_TITOLO = 140; /**<Dimensione del font utilizzato per il titolo.*/
 const unsigned int DIM_FONT_TEXT = 15; /**<Dimensione del font utilizzato per i testi generali.*/
 const unsigned int DIM_MOSTRI = 20; /**<Dimensione del font utilizzato per i mostri*/
-
-const unsigned int LATO_UNITA_BARRIERA = 4; /**<Lunghezza in pixel di ogni unità costituente le barriere.*/
 
 const char FRECCIA [] = "<-"; /**<Stringa per rappresentare la freccia di selezione del menù.*/
 
@@ -311,16 +310,24 @@ int main ()
 					{
 						switch(ev.keyboard.keycode)
 						{
-							case ALLEGRO_KEY_RIGHT:
-								break;
-							case ALLEGRO_KEY_LEFT:
-								break;
-							case ALLEGRO_KEY_SPACE:
-								break;
 							case ALLEGRO_KEY_ESCAPE:
 								break;
 						}
 					}
+					else if(ev.type == ALLEGRO_EVENT_KEY_CHAR)
+					{
+						switch(ev.keyboard.keycode)
+						{
+							case ALLEGRO_KEY_RIGHT:
+								generale.partita_in_corso.offset_carro = offsetDestraCarro (generale.partita_in_corso.offset_carro, LIMITE_OFFSET_CARRO);
+								break;
+							case ALLEGRO_KEY_LEFT:
+								generale.partita_in_corso.offset_carro = offsetSinistraCarro (generale.partita_in_corso.offset_carro, LIMITE_OFFSET_CARRO * (-1));
+								break;
+							case ALLEGRO_KEY_SPACE:
+								break;
+						}
+					}				
 
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
@@ -330,7 +337,7 @@ int main ()
 			   	}
 				break;
 			case s_carica:
-				caricaPartita (generale.partita_in_corso, FILE_SALVATAGGIO_PARTITA);
+				assert (caricaPartita (generale.partita_in_corso, FILE_SALVATAGGIO_PARTITA));
 				schermata_att = s_gioca;
 				cambia_schermata = true;
 				break;
@@ -505,11 +512,6 @@ void disegnaBarriera (ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barrier
 		{
 			if (!(((i < ALT_INIZIO_SMUSSO_INFERIORE) && (j < (CENTRO_LARG - offset_no_disegno) || j > (CENTRO_LARG + 1 + offset_no_disegno))) ||((i >= ALT_INIZIO_SMUSSO_INFERIORE) && (j >= (LARG_PIEDE - 1 + offset_no_disegno) && j <= (LARG_BARRIERA - LARG_PIEDE - offset_no_disegno)))))
 			{
-				/*if (i == 7 && j == 5)
-				{
-					;
-				}
-				else{*/
 				if (barriera [i] [j] == integra)
 				{
 					al_draw_tinted_bitmap (barriera_integra, al_map_rgb(0, 255, 0), dx, dy, 0);
@@ -518,12 +520,11 @@ void disegnaBarriera (ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barrier
 				{
 					al_draw_tinted_bitmap (barriera_parziale, al_map_rgb(0, 255, 0), dx, dy, 0);
 				}
-				//}
 			}
-			dx += LATO_UNITA_BARRIERA;
+			dx += LATO_UNITA;
 		}
 		dx = pos_x;
-		dy += LATO_UNITA_BARRIERA;
+		dy += LATO_UNITA;
 	}
 }
 
@@ -598,12 +599,14 @@ inline void gioca (ALLEGRO_FONT *font_mostri, ALLEGRO_FONT *font_testo, ALLEGRO_
 	const unsigned int POS_Y_PRIMA_FILA = 60; /*Posizione rispetto all'asse y dalla quale mostrare la prima fila di mostri.*/
 	const unsigned int POS_Y_PRIMA_BARRIERA = 330; /*Posizone rispetto all'asse y dalla quale mostrare la prima barriera.*/
 	const unsigned int POS_Y_CARRO = 450; /*Posizione rispetto all'asse y dalla quale mostrare il carro armato.*/
+	const unsigned int POS_Y_INIZIO_SPARO = POS_Y_CARRO - DIM_MOSTRI; /*Posizione iniziale rispetto all'asse y dello sparo.*/
 
 	const unsigned int POS_X_PRIMO_ASSE = CENTRO_ORIZ - (SPAZIO_ASSI_COL * (N_COL_MOSTRI - 1) / 2); /*Posizone rispetto all'asse x nella quale è presente il primo asse delle colonne di mostri.*/
 
-	const unsigned int LUNGHEZZA_BARRIERA = LATO_UNITA_BARRIERA * LARG_BARRIERA;
-	const unsigned int DISTANZA_BARRIERE = (LARGHEZZA_DISPLAY - (LUNGHEZZA_BARRIERA * N_BARRIERE)) / (N_BARRIERE + 1);
+	const unsigned int LUNGHEZZA_BARRIERA = LATO_UNITA * LARG_BARRIERA; /*Lunghezza in pixel di una barriera.*/
+	const unsigned int DISTANZA_BARRIERE = (LARGHEZZA_DISPLAY - (LUNGHEZZA_BARRIERA * N_BARRIERE)) / (N_BARRIERE + 1); /*Distanza in pixel fra le barriere.*/
 
+	unsigned int pos_x_carro = CENTRO_ORIZ + partita.offset_carro;
 	unsigned int pos_y_attuale;
 	unsigned int pos_x_attuale;
 
@@ -651,12 +654,16 @@ inline void gioca (ALLEGRO_FONT *font_mostri, ALLEGRO_FONT *font_testo, ALLEGRO_
 	//FINE DELLA VISUALIZZAZIONE DELLE BARRIERE
 	
 	//INIZIO DELLA VISUALIZZAZIONE DELLO SPARO
-	pos_y_attuale = POS_Y_CARRO - DIM_MOSTRI;
-	al_draw_text(font_testo, al_map_rgb(0, 255, 0), CENTRO_ORIZ + 1, pos_y_attuale, ALLEGRO_ALIGN_CENTER, STRINGA_SPARO);
+	if (partita.sparo)
+	{
+		pos_y_attuale = POS_Y_INIZIO_SPARO + partita.offset_sparo;
+		pos_x_attuale = pos_x_carro + 1;
+		al_draw_text(font_testo, al_map_rgb(0, 255, 0), pos_x_attuale, pos_y_attuale, ALLEGRO_ALIGN_CENTER, STRINGA_SPARO);
+	}
 	//FINE DELLA VISUALIZZAIZOEN DELLO SPARO
 
 	//INIZIO DELLA VISUALIZZAZIOEN DEL CARRO ARMATO
-	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), CENTRO_ORIZ, POS_Y_CARRO, ALLEGRO_ALIGN_CENTER, STRINGA_CARRO_ARMATO);
+	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), pos_x_carro, POS_Y_CARRO, ALLEGRO_ALIGN_CENTER, STRINGA_CARRO_ARMATO);
 	//FINE DELLA VISUALIZZAZIONE DEL CARRO ARMATO
 
 	al_flip_display();
