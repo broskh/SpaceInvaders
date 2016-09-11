@@ -8,14 +8,49 @@
 
 //INIZIO MODULO
 
-int offsetDestraCarro (int offset_carro, int limite_offset)
+void muoviAlieni (Ondata &ondata, const unsigned int limite_sx, const unsigned int limite_dx, const unsigned int limite_inf, const unsigned int distanza_assi_colonne_mostri, const unsigned int larghezza_colonna, const unsigned int distanza_file_mostri)
 {
-	return sucInRange (offset_carro, LATO_UNITA, limite_offset);
+	unsigned int reale_limite_dx = limite_dx - ((N_COL_MOSTRI - 1) * distanza_assi_colonne_mostri + larghezza_colonna / 2);
+	if (ondata.mostri_rimasti)
+	{
+		if (ondata.dir_mostri == destra)
+		{
+			ondata.pos_x = sucInRange (ondata.pos_x, 2, reale_limite_dx);
+			if (ondata.pos_x == reale_limite_dx)
+			{
+				ondata.dir_mostri = sinistra;
+				ondata.pos_y = sucInRange (ondata.pos_y, distanza_file_mostri / 4, limite_inf);
+			}
+		}
+		else if (ondata.dir_mostri == sinistra)
+		{
+			ondata.pos_x = precInRange (ondata.pos_x, 2, limite_sx);
+			if (ondata.pos_x == limite_sx)
+			{
+				ondata.dir_mostri = destra;
+				ondata.pos_y = sucInRange (ondata.pos_y, distanza_file_mostri / 4, limite_inf);
+			}
+		}
+	}
 }
 
-int offsetSinistraCarro (int offset_carro, int limite_offset)
+void muoviSparoCarro (Sparo &sparo, const unsigned int limite_sup)
 {
-	return precInRange (offset_carro, LATO_UNITA, limite_offset);
+	sparo.pos_y = precInRange (sparo.pos_y, LATO_UNITA, limite_sup);
+	if (sparo.pos_y == limite_sup)
+	{
+		sparo.stato = false;
+	}
+}
+
+void muoviDestraCarro (unsigned int &pos_x_carro, const int limite_dx)
+{
+	pos_x_carro = sucInRange (pos_x_carro, LATO_UNITA, limite_dx);
+}
+
+void muoviSinistraCarro (unsigned int &pos_x_carro, const int limite_sx)
+{
+	pos_x_carro = precInRange (pos_x_carro, LATO_UNITA, limite_sx);
 }
 
 bool esisteSalvataggio (const char file [])
@@ -24,7 +59,7 @@ bool esisteSalvataggio (const char file [])
     	return f;
 }
 
-void nuovaPartita (Partita &partita, Impostazioni impostazioni)
+void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned int pos_x_iniziale_carro, const unsigned int pos_x_iniziale_ondata, const unsigned int pos_y_iniziale_ondata)
 {
 	Punteggio punteggio;
 	strcpy (punteggio.nome, "");
@@ -44,16 +79,16 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni)
 		}
 	}
 
-	nuovaOndata (partita.ondata);
+	nuovaOndata (partita.ondata, pos_x_iniziale_ondata, pos_y_iniziale_ondata);
+	
+	partita.pos_x_carro = pos_x_iniziale_carro;
 
-	partita.sparo = false;
-	
-	partita.offset_sparo = 0;
-	
-	partita.offset_carro = 0;
+	partita.sparo_carro.stato = false;
+
+	partita.sparo_mostri.stato = false;
 }
 
-void nuovaOndata (Ondata &ondata)
+void nuovaOndata (Ondata &ondata, const unsigned int pos_x_iniziale, const unsigned int pos_y_iniziale)
 {
 	int i = 0;
 	Mostro mostro;
@@ -95,9 +130,9 @@ void nuovaOndata (Ondata &ondata)
 	
 	ondata.dir_mostri = destra;
 	
-	ondata.offset_superiore = 0;
+	ondata.pos_x = pos_x_iniziale;
 	
-	ondata.offset_laterale = 0;
+	ondata.pos_y = pos_y_iniziale;
 }
 
 bool caricaPartita (Partita &salvataggio, const char file [])
@@ -156,29 +191,47 @@ bool caricaPartita (Partita &salvataggio, const char file [])
 	{
 		return false;
 	}
-	if (!(f>>temp.ondata.offset_superiore))
+	if (!(f>>temp.ondata.pos_x))
 	{
 		return false;
 	}
-	if (!(f>>temp.ondata.offset_laterale))
-	{
-		return false;
-	}
-	
-	
-	if (!(f>>temp.sparo))
+	if (!(f>>temp.ondata.pos_y))
 	{
 		return false;
 	}
 	
 	
-	if (!(f>>temp.offset_sparo))
+	if (!(f>>temp.pos_x_carro))
 	{
 		return false;
 	}
 	
+	if (!(f>>temp.sparo_carro.stato))
+	{
+		return false;
+	}
 	
-	if (!(f>>temp.offset_carro))
+	if (!(f>>temp.sparo_carro.pos_x))
+	{
+		return false;
+	}
+	
+	if (!(f>>temp.sparo_carro.pos_y))
+	{
+		return false;
+	}
+	
+	if (!(f>>temp.sparo_mostri.stato))
+	{
+		return false;
+	}
+	
+	if (!(f>>temp.sparo_mostri.pos_x))
+	{
+		return false;
+	}
+	
+	if (!(f>>temp.sparo_mostri.pos_y))
 	{
 		return false;
 	}
@@ -216,14 +269,18 @@ void salvaPartita (Partita salvataggio, const char file [])
 	}
 	f<<salvataggio.ondata.mostri_rimasti<<endl;
 	f<<salvataggio.ondata.dir_mostri<<endl;
-	f<<salvataggio.ondata.offset_superiore<<endl;
-	f<<salvataggio.ondata.offset_laterale<<endl;
+	f<<salvataggio.ondata.pos_x<<endl;
+	f<<salvataggio.ondata.pos_y<<endl;
 
-	f<<salvataggio.sparo<<endl;
+	f<<salvataggio.pos_x_carro<<endl;
 
-	f<<salvataggio.offset_sparo<<endl;
+	f<<salvataggio.sparo_carro.stato<<endl;
+	f<<salvataggio.sparo_carro.pos_x<<endl;
+	f<<salvataggio.sparo_carro.pos_y<<endl;
 
-	f<<salvataggio.offset_carro<<endl;
+	f<<salvataggio.sparo_mostri.stato<<endl;
+	f<<salvataggio.sparo_mostri.pos_x<<endl;
+	f<<salvataggio.sparo_mostri.pos_y<<endl;
 }
 
 bool eliminaFileSalvataggio (const char file [])
@@ -260,11 +317,15 @@ void stampa (Partita partita)
 	}
 	cout<<partita.ondata.mostri_rimasti<<endl;
 	cout<<partita.ondata.dir_mostri<<endl;
-	cout<<partita.ondata.offset_superiore<<endl;
-	cout<<partita.ondata.offset_laterale<<endl;
-	cout<<partita.sparo<<endl;
-	cout<<partita.offset_sparo<<endl;
-	cout<<partita.offset_carro<<endl;
+	cout<<partita.ondata.pos_x<<endl;
+	cout<<partita.ondata.pos_y<<endl;
+	cout<<partita.pos_x_carro<<endl;
+	cout<<partita.sparo_carro.stato<<endl;
+	cout<<partita.sparo_carro.pos_x<<endl;
+	cout<<partita.sparo_carro.pos_y<<endl;
+	cout<<partita.sparo_mostri.stato<<endl;
+	cout<<partita.sparo_mostri.pos_x<<endl;
+	cout<<partita.sparo_mostri.pos_y<<endl;
 }
 
 //FINE MODULO

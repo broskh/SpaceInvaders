@@ -21,27 +21,33 @@ const unsigned int LATO_UNITA = 4; /**<Lunghezza in pixel di ogni unità costitu
 
 const unsigned int N_MOSTRI_TOTALE = N_FILE_MOSTRI * N_COL_MOSTRI; /**<Numero totale dei mostri presenti inizialmente*/
 
-/*
+void muoviAlieni (Ondata &ondata, const unsigned int limite_sx, const unsigned int limite_dx, const unsigned int limite_inf, const unsigned int distanza_assi_colonne_mostri, const unsigned int larghezza_colonna, const unsigned int distanza_file_mostri);
+
+/**
+ * Stabilisce qual'è la posizione rispetto all'asse y dello sparo del carro armato in movimento.
+ * 
+ * @param sapro Sparo del carro armato.
+ * @param limite_sup Limite superiore dello sparo del carro armato.
+ */
+void muoviSparoCarro (Sparo &sparo, const unsigned int limite_sup);
+
+/**
  * Stabilisce qual'è il valore di offset del carro armato che deve andare verso destra.
  *
  * @param offset_carro Precedente valore dell'offset del carro armato.
- * @param limite_offset Limite dell'offset positivo.
- *
- * @return il nuovo valore dell'offset del carro armato.
+ * @param limite_dx Limite dello spostamento del carro armato verso destra.
  */
-int offsetDestraCarro (int offset_carro, int limite_offset);
+void muoviDestraCarro (unsigned int &pos_x_carro, const int limite_dx);
 
-/*
+/**
  * Stabilisce qual'è il valore di offset del carro armato che deve andare verso sinistra.
  *
  * @param offset_carro Precedente valore dell'offset del carro armato.
- * @param limite_offset Limite dell'offset negativo.
- *
- * @return il nuovo valore dell'offset del carro armato.
+ * @param limite_dx Limite dello spostamento del carro armato verso sinistra.
  */
-int offsetSinistraCarro (int offset_carro, int limite_offset);
+void muoviSinistraCarro (unsigned int &pos_x_carro, const int limite_sx);
 
-/*
+/**
  * Indica se esiste o meno una partita precedentemente salvata.
  * 
  * @param file Percorso del file dove verificare la presenza del salvataggio.
@@ -55,15 +61,16 @@ bool esisteSalvataggio (const char file []);
  *
  * @param ondata Struttura {@link Ondata} nella quale verranno memorizzati i valori.
  */
-void nuovaOndata (Ondata &ondata);
+void nuovaOndata (Ondata &ondata, const unsigned int pos_x_iniziale, const unsigned int pos_y_iniziale);
 
 /**
  * Memorizza in una struttura {@link Partita} i valori necessari per iniziare una nuova partita.
  *
  * @param partita Struttura {@link Partita} nella quale verranno memorizzati i valori.
  * @param impostazioni Struttura {@link Impostazioni} dal quale verranno prelevate alcune informazioni necessari per la corretta inizializzazione di una nuova partita.
+ * @param pos_x_iniziale_carro Posizione iniziale rispetto all'asse x del carro armato.
  */
-void nuovaPartita (Partita &partita, Impostazioni impostazioni);
+void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned int pos_x_iniziale_carro, const unsigned int pos_x_iniziale_ondata, const unsigned int pos_y_iniziale_ondata);
 
 /**
  * Carica da un file una partita lasciata in sospeso.

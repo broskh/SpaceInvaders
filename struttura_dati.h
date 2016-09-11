@@ -112,15 +112,28 @@ struct Mostro
  *
  * Ogni volta che si affronta una nuova ondata questa struttura ne conserva le varie informazioni: il numero
  * di mostri non ancora abbattuti, l'indicazione di quali mostri sono vivi e quali no, e la direzione che si
- * sta seguendo nel continuo zig-zag dell'ondata
+ * sta seguendo nel continuo zig-zag dell'ondata.
  */
 struct Ondata
 {	
 	Mostro mostri [N_FILE_MOSTRI] [N_COL_MOSTRI]; /**<Stato mostri.*/	
 	int mostri_rimasti; /**<Numero di mostri rimasti.*/	
 	direzione dir_mostri; /**<Direzione dello zig-zag.*/
-	int offset_superiore; /**<Spostamento verso il basso rispetto al punto di partenza.*/
-	int offset_laterale; /**<Spostamento laterale rispetto al punto di partenza.*/
+	unsigned int pos_x; /**<Indica la posizione rispetto all'asse delle x del mostro nella prima fila e prima colonna.*/
+	unsigned int pos_y; /**<Indica la posizione rispetto all'asse delle y del mostro nella prima fila e prima colonna.*/
+};
+
+/**
+ * Struttura per un singolo sparo.
+ *
+ * Sia il carro armato che gli alieni possono sparare dei colpi. Con questa struttua è possibile contenere le
+ * informazioni relative ad un singolo sparo.
+ */
+struct Sparo
+{
+	bool stato; /**<Indica se è stato sparato un colpo da parte del carro armato.*/
+	unsigned int pos_x; /**<Indica la posizione rispetto all'asse delle x del colpo sparato dal carro armato.*/
+	unsigned int pos_y; /**<Indica la posizione rispetto all'asse delle y del colpo sparato dal carro armato.*/
 };
 
 /**
@@ -136,9 +149,9 @@ struct Partita
 	unsigned int vite_rimanenti; /**<Vite rimanenti.*/
 	stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA]; /**<Stato attuale delle barriere.*/
 	Ondata ondata; /**<Ondata di mostri attuale.*/
-	bool sparo; /**<Indica se è stato sparato un colpo da parte del carro armato.*/
-	int offset_sparo; /**<Indica lo spostamento verso il basso del colpo sparato dal carro armato.*/
-	int offset_carro; /**<Indica lo spostamento del carro armato rispetto alla posizione centrale iniziale.*/
+	unsigned int pos_x_carro; /**<Indica lo spostamento del carro armato rispetto alla posizione centrale iniziale.*/
+	Sparo sparo_carro; /**<Informazioni relative allo sparo del carro armato.*/
+	Sparo sparo_mostri; /**<Informazioni relative allo sparo dei mostri.*/
 };
 
 /**

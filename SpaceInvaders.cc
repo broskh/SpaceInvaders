@@ -48,20 +48,50 @@
 
 using namespace std;
 
-const unsigned int LARGHEZZA_DISPLAY = 640; /**<Larghezza della finestra del gioco.*/
-const unsigned int ALTEZZA_DISPLAY = 480; /**<Altezza della finestra del gioco.*/
-
-const float FPS = 60;  /**<FPS del gioco.*/
+const float FPS_GENERALE = 60;  /**<FPS generale del gioco.*/
 const float FPS_LAMPEGGIO_MENU = 3.5; /**FPS per mostrare l'effetto di lampeggio sull'opzione selezionata del menù.*/
-const unsigned int CENTRO_ORIZ = LARGHEZZA_DISPLAY / 2; /**<Posizione centrale della larghezza del display.*/
-const unsigned int LIMITE_OFFSET_CARRO = CENTRO_ORIZ - 10; /**<Limite positivo dell'offset del carro.*/
 
 const unsigned int SPAZIO_TESTO = 10; /**<Spazio fra righe di testo adiacenti.*/
 const unsigned int DIM_FONT_TITOLO = 140; /**<Dimensione del font utilizzato per il titolo.*/
-const unsigned int DIM_FONT_TEXT = 15; /**<Dimensione del font utilizzato per i testi generali.*/
+const unsigned int DIM_FONT_TESTO = 15; /**<Dimensione del font utilizzato per i testi generali.*/
 const unsigned int DIM_MOSTRI = 20; /**<Dimensione del font utilizzato per i mostri*/
 
-const char FRECCIA [] = "<-"; /**<Stringa per rappresentare la freccia di selezione del menù.*/
+const unsigned int LARGHEZZA_DISPLAY = 640; /**<Larghezza della finestra del gioco.*/
+const unsigned int ALTEZZA_DISPLAY = 480; /**<Altezza della finestra del gioco.*/
+
+const unsigned int POS_X_ESEMPIO_MOSTRI = 255; /**<Posizione rispetto all'asse x dalla quale mostrare i mostri nel menù principale.*/
+const unsigned int POS_X_ESEMPIO_PUNTEGGIO = 350; /**<Posizione rispetto all'asse x dalla quale mostrare i punteggi nel menù principale.*/
+const unsigned int POS_X_FRECCIA_MENU_PRINCIPALE = 450; /**<Posizione rispetto all'asse x dalla quale mostrare la freccia di selezione del menu nel menù principale.*/
+const unsigned int POS_Y_TITOLO_MENU_PRINCIPALE = 25; /**<Posizione rispetto all'asse y dalla quale mostrare il titolo nel menù principale.*/
+const unsigned int POS_Y_ESMEPIO_MOSTRI = 200; /**<Posizione rispetto all'asse y dalla quale mostrare i mostri nel menù principale.*/
+const unsigned int POS_Y_VOCI_MENU_PRINCIPALE = 340; /**<Posizione rispetto all'asse y dalla quale mostrare il menu nel menù principale.*/
+
+const unsigned int POS_Y_INFORMAZIONI_PARTITA = 10; /**<Posizione rispetto all'asse y dalla quale mostrare le informazioni della partita.*/
+const unsigned int POS_Y_PRIMA_FILA_ONDATA = 80; /**<Posizione rispetto all'asse y dalla quale mostrare la prima fila di mostri.*/
+const unsigned int POS_Y_BARRIERE = 360; /**<Posizone rispetto all'asse y dalla quale mostrare la prima barriera.*/
+const unsigned int POS_Y_CARRO = 450; /**<Posizione rispetto all'asse y dalla quale mostrare il carro armato.*/
+const unsigned int POS_Y_SPARO = POS_Y_CARRO - DIM_FONT_TESTO - 1; /**<Posizione iniziale rispetto all'asse y dello sparo.*/
+
+const unsigned int POS_X_VOCI_IMPOSTAZIONI = 95; /**<Posizione rispetto all'asse x dalla quale mostrare  il contenuto.*/
+const unsigned int POS_X_VALORI_IMPOSTAZIONI = 295; /**<Posizione rispetto all'asse x dalla quale mostrare i valori dei vari campi impostazioni.*/
+const unsigned int POS_Y_TITOLO_IMPOSTAZIONI = 60; /**<Posizione rispetto all'asse y dalla quale mostrare il titolo.*/
+const unsigned int POS_Y_IMPOSTAZIONI = 105; /**<Posizione rispetto all'asse y dalla quale mostrare l'elenco delle impostazioni.*/
+const unsigned int POS_Y_INDICAZIONI_IMPOSTAZIONI = 310; /**<Posizione rispetto all'asse y dalla quale mostrare il premi enter.*/
+
+const unsigned int POS_X_NUMERAZIONE_PUNTEGGI = 260; /**<Posizione rispetto all'asse x dalla quale mostrare il contenuto.*/
+const unsigned int POS_X_ELENCO_PUNTEGGI = 305; /**<Posizione rispetto all'asse x dalla quale mostrare i punteggi.*/
+const unsigned int POS_Y_HIGHSCORES_TITOLO = 60; /**<Posizione rispetto all'asse y dalla quale mostrare il titolo.*/
+const unsigned int POS_Y_ELENCO_PUNTEGGI = 90; /**<Posizione rispetto all'asse y dalla quale mostrare i punteggi.*/
+const unsigned int POS_Y_INDICAZIONI_HIGHSCORES = 410; /**<Posizione rispetto all'asse y dalla quale mostrare il premi enter.*/
+
+const unsigned int CENTRO_ORIZ = LARGHEZZA_DISPLAY / 2; /**<Posizione centrale della larghezza del display.*/
+const unsigned int MARGINE_SX_GIOCO = 40; /**<Margine sinistro del gioco.*/
+const unsigned int MARGINE_DX_GIOCO = LARGHEZZA_DISPLAY - MARGINE_SX_GIOCO; /**<Margine destro del gioco.*/
+const unsigned int MARGINE_SUP_GIOCO = 25; /**<Margine superiore del gioco.*/
+
+const unsigned int DISTANZA_ASSI_COL_MOSTRI = 40; /**<Distanza fra gli assi delle colonne di mostri.*/
+const unsigned int DISTANZA_FILE_MOSTRI = 35; /**<Distamza fra le file di mostri.*/
+const unsigned int POS_X_PRIMO_ASSE_MOSTRI = CENTRO_ORIZ - (DISTANZA_ASSI_COL_MOSTRI * (N_COL_MOSTRI - 1) / 2); /**<Posizone rispetto all'asse x nella quale è presente il primo asse delle colonne di mostri.*/
 
 const char FILE_FONT_TESTO [] = "Fonts/space_invaders.ttf"; /**<File contenente il font utilizzato per i testi.*/
 const char FILE_FONT_IMMAGINI [] = "Fonts/dustbust_invaders.ttf"; /**<File contenente il font utilizzato per i mostri e tutte le altre immagini presenti nel gioco.*/
@@ -97,7 +127,7 @@ inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, 
  * @param partita Struttura {@link Partita} contenente le informazioni relative alla partita attuale.
  * @param impostazioni Impostazioni generali del gioco.
  */
-inline void gioca (ALLEGRO_FONT *font_mostri, ALLEGRO_FONT *font_testo, ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barriera_integra, Partita partita, Impostazioni impostazioni);
+inline void gioca (ALLEGRO_FONT *font_mostri, ALLEGRO_FONT *font_testo, ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barriera_integra, Partita &partita, Impostazioni impostazioni);
 
 /**
  * Mostra il menu di modifica delle impostazioni.
@@ -126,7 +156,7 @@ int main ()
 {
 	ALLEGRO_DISPLAY *display = NULL;
    	ALLEGRO_EVENT_QUEUE *coda_eventi = NULL;
-	ALLEGRO_TIMER *frame_rate = NULL;
+	ALLEGRO_TIMER *frame_rate_generale = NULL;
 	ALLEGRO_TIMER *lampeggio_voce = NULL;
 	ALLEGRO_FONT *font_titolo = NULL;
 	ALLEGRO_FONT *font_testo = NULL;
@@ -151,15 +181,15 @@ int main ()
    	coda_eventi = al_create_event_queue();
    	assert (coda_eventi);
  
-	frame_rate = al_create_timer(1.0 / FPS);
-	assert (frame_rate);
+	frame_rate_generale = al_create_timer(1.0 / FPS_GENERALE);
+	assert (frame_rate_generale);
 
 	lampeggio_voce = al_create_timer(1.0 / FPS_LAMPEGGIO_MENU);
 	assert (lampeggio_voce);
 
 	font_titolo = al_load_ttf_font(FILE_FONT_IMMAGINI, DIM_FONT_TITOLO, 0);
 	assert (font_titolo);
-	font_testo = al_load_ttf_font(FILE_FONT_TESTO, DIM_FONT_TEXT, 0);
+	font_testo = al_load_ttf_font(FILE_FONT_TESTO, DIM_FONT_TESTO, 0);
  	assert (font_testo);
 	font_mostri = al_load_ttf_font(FILE_FONT_IMMAGINI, DIM_MOSTRI, 0);
  	assert (font_mostri);
@@ -173,14 +203,16 @@ int main ()
 	assert (musica_principale);
  
    	al_register_event_source(coda_eventi, al_get_display_event_source(display));
-	al_register_event_source(coda_eventi, al_get_timer_event_source(frame_rate));
+	al_register_event_source(coda_eventi, al_get_timer_event_source(frame_rate_generale));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(lampeggio_voce));
 	al_register_event_source(coda_eventi, al_get_keyboard_event_source());
 
 	al_clear_to_color(al_map_rgb(0, 0, 0));
-	al_start_timer(frame_rate);
+	al_start_timer(frame_rate_generale);
+
+	const unsigned int LARGHEZZA_CARRO = al_get_text_width (font_mostri, STRINGA_CARRO_ARMATO); /*Larghezza del carro armato in piixel.*/
 	
-	//INIZIO INIZIALIZZAZIONE DELLA STRUTTURA PRINCIPALE//
+	//INIZIO INIZIALIZZAZIONE DELLA STRUTTURA PRINCIPALE
 	SpaceInvaders generale;
 	if (!caricaImpostazioni (generale.impostazioni, FILE_IMPOSTAZIONI))
 	{
@@ -192,8 +224,8 @@ int main ()
 		generale.n_highscores = 0;
 	}
 	generale.partita_salvata = esisteSalvataggio (FILE_SALVATAGGIO_PARTITA);
-	nuovaPartita (generale.partita_in_corso, generale.impostazioni);
-	//FINE INIZIALIZZAZIONE DELLA STRUTTURA PRINCIPALE//
+	nuovaPartita (generale.partita_in_corso, generale.impostazioni, CENTRO_ORIZ, POS_X_PRIMO_ASSE_MOSTRI, POS_Y_PRIMA_FILA_ONDATA);
+	//FINE INIZIALIZZAZIONE DELLA STRUTTURA PRINCIPALE
 	
 	schermata schermata_att = s_menu;
 	bool cambia_schermata;
@@ -229,7 +261,7 @@ int main ()
 
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == frame_rate)
+						if (ev.timer.source == frame_rate_generale)
 						{
 							redraw = true;
 						}
@@ -295,7 +327,7 @@ int main ()
 
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == frame_rate)
+						if (ev.timer.source == frame_rate_generale)
 						{
 							redraw = true;
 						}
@@ -318,13 +350,19 @@ int main ()
 					{
 						switch(ev.keyboard.keycode)
 						{
-							case ALLEGRO_KEY_RIGHT:
-								generale.partita_in_corso.offset_carro = offsetDestraCarro (generale.partita_in_corso.offset_carro, LIMITE_OFFSET_CARRO);
-								break;
 							case ALLEGRO_KEY_LEFT:
-								generale.partita_in_corso.offset_carro = offsetSinistraCarro (generale.partita_in_corso.offset_carro, LIMITE_OFFSET_CARRO * (-1));
+								muoviSinistraCarro (generale.partita_in_corso.pos_x_carro, MARGINE_SX_GIOCO);
+								break;
+							case ALLEGRO_KEY_RIGHT:
+								muoviDestraCarro (generale.partita_in_corso.pos_x_carro, MARGINE_DX_GIOCO);
 								break;
 							case ALLEGRO_KEY_SPACE:
+								if (!generale.partita_in_corso.sparo_carro.stato)
+								{
+									generale.partita_in_corso.sparo_carro.stato = true;
+									generale.partita_in_corso.sparo_carro.pos_x = generale.partita_in_corso.pos_x_carro + 1;
+									generale.partita_in_corso.sparo_carro.pos_y = POS_Y_SPARO;
+								}
 								break;
 						}
 					}				
@@ -352,7 +390,7 @@ int main ()
 
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == frame_rate)
+						if (ev.timer.source == frame_rate_generale)
 						{
 							redraw = true;
 						}
@@ -412,7 +450,7 @@ int main ()
 
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == frame_rate)
+						if (ev.timer.source == frame_rate_generale)
 						{
 							redraw = true;
 						}
@@ -452,7 +490,7 @@ int main ()
 			case s_esci:
 				al_destroy_display(display);
 				al_destroy_event_queue(coda_eventi);
-				al_destroy_timer(frame_rate);
+				al_destroy_timer(frame_rate_generale);
 				al_destroy_timer(lampeggio_voce);
    				al_destroy_bitmap(barriera_parziale);
    				al_destroy_bitmap(barriera_integra);
@@ -461,7 +499,7 @@ int main ()
 			default:
 				al_destroy_display(display);
 				al_destroy_event_queue(coda_eventi);
-				al_destroy_timer(frame_rate);
+				al_destroy_timer(frame_rate_generale);
 				al_destroy_timer(lampeggio_voce);
 				al_destroy_bitmap(barriera_parziale);
 				al_destroy_bitmap(barriera_integra);
@@ -472,7 +510,7 @@ int main ()
  
 	al_destroy_display(display);
 	al_destroy_event_queue(coda_eventi);
-	al_destroy_timer(frame_rate);
+	al_destroy_timer(frame_rate_generale);
 	al_destroy_timer(lampeggio_voce);
 	al_destroy_bitmap(barriera_parziale);
 	al_destroy_bitmap(barriera_integra);
@@ -530,38 +568,29 @@ void disegnaBarriera (ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barrier
 
 inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, ALLEGRO_FONT *font_mostri, Menu menu, bool &redraw_lampeggio, bool salvataggio)
 {
-
-	const unsigned int POS_X_MOSTRI = 255; /*Posizione rispetto all'asse x dalla quale mostrare i mostri.*/
-	const unsigned int POS_X_PUNTEGGIO = 350; /*Posizione rispetto all'asse x dalla quale mostrare i punteggi.*/
-	const unsigned int POS_X_FRECCIA = 450; /*Posizione rispetto all'asse x dalla quale mostrare la freccia di selezione del menu.*/
-
-	const unsigned int POS_Y_TITOLO = 25; /*Posizione rispetto all'asse y dalla quale mostrare il titolo.*/
-	const unsigned int POS_Y_MOSTRI = 200; /*Posizione rispetto all'asse y dalla quale mostrare i mostri.*/
-	const unsigned int POS_Y_MENU = 340; /*Posizione rispetto all'asse y dalla quale mostrare il menu.*/
-
-	unsigned int pos_y_attuale = POS_Y_TITOLO;
-	unsigned pos_y_freccia = POS_Y_MENU + (SPAZIO_TESTO + DIM_FONT_TEXT) * menu.voce_sel;
+	unsigned int pos_y_attuale = POS_Y_TITOLO_MENU_PRINCIPALE;
+	unsigned pos_y_freccia = POS_Y_VOCI_MENU_PRINCIPALE + (SPAZIO_TESTO + DIM_FONT_TESTO) * menu.voce_sel;
 
 	//INIZIO DELLA VISUALIZZAZIONE DEL TITOLO
 	al_draw_text(font_titolo, al_map_rgb(0, 255, 0), CENTRO_ORIZ, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, ".");
 	//FINE DELLA VISUALIZZAZIONE DEL TITOLO
 
 	//INIZIO DELLA VISUALIZZAZIONE DEI MOSTRI E I RELATIVI PUNTEGGI
-	pos_y_attuale = POS_Y_MOSTRI;
-	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), POS_X_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_10);
-	al_draw_text(font_menu, al_map_rgb(0, 255, 0), POS_X_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      10  PTS");
+	pos_y_attuale = POS_Y_ESMEPIO_MOSTRI;
+	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_10);
+	al_draw_text(font_menu, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      10  PTS");
 
-	pos_y_attuale = POS_Y_MOSTRI + SPAZIO_TESTO + DIM_MOSTRI;
-	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), POS_X_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_20);
-	al_draw_text(font_menu, al_map_rgb(0, 255, 0), POS_X_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      20  PTS");
+	pos_y_attuale = POS_Y_ESMEPIO_MOSTRI + SPAZIO_TESTO + DIM_MOSTRI;
+	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_20);
+	al_draw_text(font_menu, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      20  PTS");
 
-	pos_y_attuale = POS_Y_MOSTRI + (SPAZIO_TESTO + DIM_MOSTRI) * 2;
-	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), POS_X_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_30);
-	al_draw_text(font_menu, al_map_rgb(0, 255, 0), POS_X_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      30  PTS");
+	pos_y_attuale = POS_Y_ESMEPIO_MOSTRI + (SPAZIO_TESTO + DIM_MOSTRI) * 2;
+	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_30);
+	al_draw_text(font_menu, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      30  PTS");
 
-	pos_y_attuale = POS_Y_MOSTRI + (SPAZIO_TESTO + DIM_MOSTRI) * 3;
-	al_draw_text(font_mostri, al_map_rgb(255, 0, 0), POS_X_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_X);
-	al_draw_text(font_menu, al_map_rgb(0, 255, 0), POS_X_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=         ?  PTS");
+	pos_y_attuale = POS_Y_ESMEPIO_MOSTRI + (SPAZIO_TESTO + DIM_MOSTRI) * 3;
+	al_draw_text(font_mostri, al_map_rgb(255, 0, 0), POS_X_ESEMPIO_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_X);
+	al_draw_text(font_menu, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=         ?  PTS");
 	//FINE DELLA VISUALIZZAZIONE DEI MOSTRI E I RELATIVI PUNTEGGI
 	
 	//INIZIO DELLA VISUALIZZAZIONE DEL MENU
@@ -569,7 +598,7 @@ inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, 
 	{
 		if (!(menu.voce_sel == i && !redraw_lampeggio))
 		{
-			pos_y_attuale = POS_Y_MENU + (SPAZIO_TESTO + DIM_FONT_TEXT) * i;
+			pos_y_attuale = POS_Y_VOCI_MENU_PRINCIPALE + (SPAZIO_TESTO + DIM_FONT_TESTO) * i;
 			if ((!salvataggio) && (static_cast <voce_menu_principale> (i) == v_carica))
 			{
 				al_draw_text(font_menu, al_map_rgb(84, 84, 84), CENTRO_ORIZ, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, menu.testi_menu [i]);
@@ -583,30 +612,19 @@ inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, 
 
 	if (redraw_lampeggio)
 	{
-		al_draw_text(font_menu, al_map_rgb(0, 255, 0), POS_X_FRECCIA, pos_y_freccia, ALLEGRO_ALIGN_LEFT, FRECCIA);
+		al_draw_text(font_menu, al_map_rgb(0, 255, 0), POS_X_FRECCIA_MENU_PRINCIPALE, pos_y_freccia, ALLEGRO_ALIGN_LEFT, "<-");
 	}
 	//FINE DELLA VISUALIZZAZIONE DEL MENU
 
 	al_flip_display();
 }
 
-inline void gioca (ALLEGRO_FONT *font_mostri, ALLEGRO_FONT *font_testo, ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barriera_integra, Partita partita, Impostazioni impostazioni)
+inline void gioca (ALLEGRO_FONT *font_mostri, ALLEGRO_FONT *font_testo, ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barriera_integra, Partita &partita, Impostazioni impostazioni)
 {
-	const unsigned int SPAZIO_ASSI_COL = 40; /*Spazio fra gli assi delle colonne di mostri.*/
-	const unsigned int SPAZIO_FILE = 35; /*Spazio fra le file di mostri.*/
-
-	const unsigned int POS_Y_INFO = 20; /*Posizione rispetto all'asse y dalla quale mostrare le informazioni della partita.*/
-	const unsigned int POS_Y_PRIMA_FILA = 60; /*Posizione rispetto all'asse y dalla quale mostrare la prima fila di mostri.*/
-	const unsigned int POS_Y_PRIMA_BARRIERA = 330; /*Posizone rispetto all'asse y dalla quale mostrare la prima barriera.*/
-	const unsigned int POS_Y_CARRO = 450; /*Posizione rispetto all'asse y dalla quale mostrare il carro armato.*/
-	const unsigned int POS_Y_INIZIO_SPARO = POS_Y_CARRO - DIM_MOSTRI; /*Posizione iniziale rispetto all'asse y dello sparo.*/
-
-	const unsigned int POS_X_PRIMO_ASSE = CENTRO_ORIZ - (SPAZIO_ASSI_COL * (N_COL_MOSTRI - 1) / 2); /*Posizone rispetto all'asse x nella quale è presente il primo asse delle colonne di mostri.*/
 
 	const unsigned int LUNGHEZZA_BARRIERA = LATO_UNITA * LARG_BARRIERA; /*Lunghezza in pixel di una barriera.*/
 	const unsigned int DISTANZA_BARRIERE = (LARGHEZZA_DISPLAY - (LUNGHEZZA_BARRIERA * N_BARRIERE)) / (N_BARRIERE + 1); /*Distanza in pixel fra le barriere.*/
 
-	unsigned int pos_x_carro = CENTRO_ORIZ + partita.offset_carro;
 	unsigned int pos_y_attuale;
 	unsigned int pos_x_attuale;
 
@@ -616,31 +634,31 @@ inline void gioca (ALLEGRO_FONT *font_mostri, ALLEGRO_FONT *font_testo, ALLEGRO_
 	sprintf(valore_punteggio, "%d", partita.punteggio.valore);
 	strcat (stringa_punteggio, valore_punteggio);
 	pos_x_attuale = (CENTRO_ORIZ - al_get_text_width(font_testo, stringa_punteggio)) / 2;
-	al_draw_text(font_testo, al_map_rgb(0, 255, 0), pos_x_attuale, POS_Y_INFO, ALLEGRO_ALIGN_LEFT, stringa_punteggio);
+	al_draw_text(font_testo, al_map_rgb(0, 255, 0), pos_x_attuale, POS_Y_INFORMAZIONI_PARTITA, ALLEGRO_ALIGN_LEFT, stringa_punteggio);
 
 	char stringa_vite [] = "Vite:    ";
 	char valore_vite [MAX_STRINGA_GENERICA];
 	sprintf(valore_vite, "%d", partita.vite_rimanenti);
 	strcat (stringa_vite, valore_vite);
 	pos_x_attuale = (CENTRO_ORIZ - al_get_text_width(font_testo, stringa_vite)) / 2 + CENTRO_ORIZ;
-	al_draw_text(font_testo, al_map_rgb(0, 255, 0), pos_x_attuale, POS_Y_INFO, ALLEGRO_ALIGN_CENTRE, stringa_vite);
+	al_draw_text(font_testo, al_map_rgb(0, 255, 0), pos_x_attuale, POS_Y_INFORMAZIONI_PARTITA, ALLEGRO_ALIGN_CENTRE, stringa_vite);
 	//FINE DELLA VISUALIZZAZIONE DELLE INFORMAZIONI
 
 	//INIZIO DELLA VISUALIZZAZIONE DELL'ONDATA
-	pos_y_attuale = POS_Y_PRIMA_FILA;
+	pos_y_attuale = partita.ondata.pos_y;
 
 	for (unsigned int i = 0; i < N_FILE_MOSTRI; i++)
 	{
-		pos_x_attuale = POS_X_PRIMO_ASSE;
+		pos_x_attuale = partita.ondata.pos_x;
 		for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
 		{
 			if (partita.ondata.mostri [i] [j].stato)
 			{
 				al_draw_text(font_mostri, al_map_rgb(0, 255, 0), pos_x_attuale, pos_y_attuale, ALLEGRO_ALIGN_CENTER, partita.ondata.mostri [i] [j].stringa);
 			}
-			pos_x_attuale += SPAZIO_ASSI_COL;
+			pos_x_attuale += DISTANZA_ASSI_COL_MOSTRI;
 		}
-		pos_y_attuale += SPAZIO_FILE;
+		pos_y_attuale += DISTANZA_FILE_MOSTRI;
 	}
 	//FINE DELLA VISUALIZZAZIONE DELL'ONDATA
 
@@ -648,38 +666,31 @@ inline void gioca (ALLEGRO_FONT *font_mostri, ALLEGRO_FONT *font_testo, ALLEGRO_
 	pos_x_attuale = DISTANZA_BARRIERE;
 	for (unsigned int i = 0; i < N_BARRIERE; i++)
 	{
-		disegnaBarriera (barriera_parziale, barriera_integra, partita.barriere [i], pos_x_attuale, POS_Y_PRIMA_BARRIERA);
+		disegnaBarriera (barriera_parziale, barriera_integra, partita.barriere [i], pos_x_attuale, POS_Y_BARRIERE);
 		pos_x_attuale += DISTANZA_BARRIERE + LUNGHEZZA_BARRIERA;
 	}
 	//FINE DELLA VISUALIZZAZIONE DELLE BARRIERE
 	
 	//INIZIO DELLA VISUALIZZAZIONE DELLO SPARO
-	if (partita.sparo)
+	if (partita.sparo_carro.stato)
 	{
-		pos_y_attuale = POS_Y_INIZIO_SPARO + partita.offset_sparo;
-		pos_x_attuale = pos_x_carro + 1;
-		al_draw_text(font_testo, al_map_rgb(0, 255, 0), pos_x_attuale, pos_y_attuale, ALLEGRO_ALIGN_CENTER, STRINGA_SPARO);
+		al_draw_text(font_testo, al_map_rgb(0, 255, 0), partita.sparo_carro.pos_x, partita.sparo_carro.pos_y, ALLEGRO_ALIGN_CENTER, STRINGA_SPARO);
+		muoviSparoCarro (partita.sparo_carro, MARGINE_SUP_GIOCO);
 	}
 	//FINE DELLA VISUALIZZAIZOEN DELLO SPARO
 
 	//INIZIO DELLA VISUALIZZAZIOEN DEL CARRO ARMATO
-	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), pos_x_carro, POS_Y_CARRO, ALLEGRO_ALIGN_CENTER, STRINGA_CARRO_ARMATO);
+	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), partita.pos_x_carro, POS_Y_CARRO, ALLEGRO_ALIGN_CENTER, STRINGA_CARRO_ARMATO);
 	//FINE DELLA VISUALIZZAZIONE DEL CARRO ARMATO
 
 	al_flip_display();
+	muoviAlieni (partita.ondata, MARGINE_SX_GIOCO, MARGINE_DX_GIOCO, POS_Y_CARRO, DISTANZA_ASSI_COL_MOSTRI, al_get_text_width(font_mostri, STRINGA_M_30), DISTANZA_FILE_MOSTRI);
 }
 
 inline void modificaImpostazioni (ALLEGRO_FONT *font_testo, Impostazioni impostazioni, Menu menu, bool redraw_lampeggio)
 {
-	const unsigned int POS_X_BASE = 95; /*Posizione rispetto all'asse x dalla quale mostrare  il contenuto.*/
-	const unsigned int POS_X_VALORI = 295; /*Posizione rispetto all'asse x dalla quale mostrare i valori dei vari campi impostazioni.*/
-
-	const unsigned int POS_Y_TITOLO = 60; /*Posizione rispetto all'asse y dalla quale mostrare il titolo.*/
-	const unsigned int POS_Y_IMPOSTAZIONI = 105; /*Posizione rispetto all'asse y dalla quale mostrare l'elenco delle impostazioni.*/
-	const unsigned int POS_Y_INDICAZIONI = 310; /*Posizione rispetto all'asse y dalla quale mostrare il premi enter.*/
-
-	unsigned int pos_y_attuale = POS_Y_TITOLO;
-	unsigned int pos_x_attuale = POS_X_BASE;
+	unsigned int pos_y_attuale = POS_Y_TITOLO_IMPOSTAZIONI;
+	unsigned int pos_x_attuale = POS_X_VOCI_IMPOSTAZIONI;
 
 	//INIZIO DELLA VISUALIZZAZIONE DEL TITOLO
 	al_draw_text(font_testo, al_map_rgb(0, 255, 0), pos_x_attuale, pos_y_attuale, ALLEGRO_ALIGN_LEFT, "IMPOSTAZIONI:");
@@ -689,9 +700,9 @@ inline void modificaImpostazioni (ALLEGRO_FONT *font_testo, Impostazioni imposta
 	pos_y_attuale = POS_Y_IMPOSTAZIONI;
 	for (int i = 0; i < N_VOCI_MENU_IMPO; i++)
 	{	
-		pos_y_attuale += DIM_FONT_TEXT + SPAZIO_TESTO;
-		al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_BASE, pos_y_attuale, ALLEGRO_ALIGN_LEFT, menu.testi_menu [i]);
-		pos_x_attuale = POS_X_VALORI;
+		pos_y_attuale += DIM_FONT_TESTO + SPAZIO_TESTO;
+		al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_VOCI_IMPOSTAZIONI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, menu.testi_menu [i]);
+		pos_x_attuale = POS_X_VALORI_IMPOSTAZIONI;
 		if (!(menu.voce_sel == i && !redraw_lampeggio))
 		{
 			char str_stato [MAX_STRINGA_GENERICA] = "<    ";
@@ -705,11 +716,11 @@ inline void modificaImpostazioni (ALLEGRO_FONT *font_testo, Impostazioni imposta
 	//FINE DELLA VISUALIZZAZIONE DELLE IMPOSTAZIONI
 
 	//INIZIO DELLA VISUALIZZAZIONE DELLE INDICAZIONI
-	pos_y_attuale = POS_Y_INDICAZIONI;
+	pos_y_attuale = POS_Y_INDICAZIONI_IMPOSTAZIONI;
 	for (int i = 0; i < N_INDICAZIONI_MENU_IMPO; i++)
 	{
 		al_draw_text(font_testo, al_map_rgb(0, 255, 0), CENTRO_ORIZ, pos_y_attuale, ALLEGRO_ALIGN_CENTER, INDICAZIONI_IMPOSTAZIONI [i]);
-		pos_y_attuale += DIM_FONT_TEXT * 2;
+		pos_y_attuale += DIM_FONT_TESTO * 2;
 	}
 	//FINE DELLA VISUALIZZAZIONE DELLE INDICAZIONI	
 
@@ -718,29 +729,22 @@ inline void modificaImpostazioni (ALLEGRO_FONT *font_testo, Impostazioni imposta
 
 inline void classificaHighscores (ALLEGRO_FONT *font_testo, Punteggio highscores [], int n_punteggi, bool &redraw_lampeggio)
 {
-	const unsigned int POS_X_BASE = 260; /*Posizione rispetto all'asse x dalla quale mostrare il contenuto.*/
-	const unsigned int POS_X_PUNTEGGI = 305; /*Posizione rispetto all'asse x dalla quale mostrare i punteggi.*/
-
-	const unsigned int POS_Y_TITOLO = 60; /*Posizione rispetto all'asse y dalla quale mostrare il titolo.*/
-	const unsigned int POS_Y_PUNTEGGI = 90; /*Posizione rispetto all'asse y dalla quale mostrare i punteggi.*/
-	const unsigned int POS_Y_PREMI_ENTER = 410; /*Posizione rispetto all'asse y dalla quale mostrare il premi enter.*/
-
-	unsigned int pos_y_attuale = POS_Y_TITOLO;
+	unsigned int pos_y_attuale = POS_Y_HIGHSCORES_TITOLO;
 
 	//INIZIO DELLA VISUALIZZAZIONE DEL TITOLO
-	al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_BASE, pos_y_attuale, ALLEGRO_ALIGN_LEFT, "HIGHSCORES:");
+	al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_NUMERAZIONE_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, "HIGHSCORES:");
 	//FINE DELLA VISUALIZZAZIONE DEL TITOLO
 
 	//INIZIO DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
-	pos_y_attuale = POS_Y_PUNTEGGI;
+	pos_y_attuale = POS_Y_ELENCO_PUNTEGGI;
 
 	for (int i = 0; i < n_punteggi; i++)
 	{
-		pos_y_attuale += DIM_FONT_TEXT + SPAZIO_TESTO;
+		pos_y_attuale += DIM_FONT_TESTO + SPAZIO_TESTO;
 		char str_numero [MAX_STRINGA_NUMERAZIONE] = "";
 		sprintf(str_numero, "%d", i + 1);
 		strcat (str_numero, ".");
-		al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_BASE, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_numero);
+		al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_NUMERAZIONE_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_numero);
 
 		char str_punteggio [MAX_STRINGA_GENERICA] = "";
 		strcpy (str_punteggio, highscores [i].nome);
@@ -748,14 +752,14 @@ inline void classificaHighscores (ALLEGRO_FONT *font_testo, Punteggio highscores
 		char str_valore [] = "";
 		sprintf(str_valore, "%d", highscores [i].valore);
 		strcat (str_punteggio, str_valore);
-		al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_punteggio);
+		al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_ELENCO_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_punteggio);
 	}
 	//FINE DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
 
 	//INIZIO DELLA VISUALIZZAZIONE DEL PREMI ENTER
 	if (redraw_lampeggio)
 	{
-		pos_y_attuale = POS_Y_PREMI_ENTER;
+		pos_y_attuale = POS_Y_INDICAZIONI_HIGHSCORES;
 		al_draw_text(font_testo, al_map_rgb(0, 255, 0), CENTRO_ORIZ, pos_y_attuale, ALLEGRO_ALIGN_CENTER, "Premi enter per tornare al menu principale");
 	}
 	//FINE DELLA VISUALIZZAZIONE DEL PREMI ENTER
