@@ -111,6 +111,20 @@ const char FILE_BARRIERA_INTEGRA [] = "Images/barriera_integra.png";
 
 const char FILE_MUSICA_PRINCIPALE [] = "Sounds/principale.flac"; /**<Nome del file contenente la musica principale.*/
 
+static void stampa (Punteggio punteggio)
+{
+	cout<<punteggio.nome<<" "<<punteggio.valore;	
+}
+
+static void stampa (Punteggio highscores [], int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		stampa (highscores [i]);
+		cout<<endl;
+	}
+}
+
 /**
  * Calcola il valore della prossima schermata da mostrare nel menù principale.
  * 
@@ -172,9 +186,8 @@ inline void modificaImpostazioni (ALLEGRO_FONT *font_testo, Impostazioni imposta
  * @param font_testo Font utilizzato per scrivere la classifica dei punteggi.
  * @param highscors Array di strutture {@link Punteggio} contenente i migliori punteggi.
  * @param n_punteggi Numero di punteggi presenti nelal classifica.
- * @param redraw_lampeggio Indica se la dicitura premi enter è da ridisegnare o no (utilizzato per mostrare l'effetto lampeggiante sulla dicitura).
  */
-inline void classificaHighscores (ALLEGRO_FONT *font_testo, Punteggio highscores [], int n_punteggi, bool redraw_lampeggio);
+inline void classificaHighscores (ALLEGRO_FONT *font_testo, Punteggio highscores [], int n_punteggi);
 
 /**
  * Mostra il menù di pausa.
@@ -511,9 +524,7 @@ int main ()
 			   	}
 				al_stop_timer(lampeggio_voce);
 				break;
-			case s_highscores:				
-				al_start_timer(lampeggio_voce);
-
+			case s_highscores:
 				while(!cambia_schermata)
 			   	{				
 					ALLEGRO_EVENT ev;
@@ -550,10 +561,9 @@ int main ()
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
         					al_clear_to_color(al_map_rgb(0, 0, 0));
-						classificaHighscores (font_testo, generale.highscores, generale.n_highscores, redraw_lampeggio);
+						classificaHighscores (font_testo, generale.highscores, generale.n_highscores);
 					}
 			   	}
-				al_stop_timer(lampeggio_voce);
 				break;
 			case s_pausa:
 				menu_pausa.voce_sel = v_continua;
@@ -637,7 +647,9 @@ int main ()
 						switch(ev.keyboard.keycode)
 						{
 							case ALLEGRO_KEY_ENTER:
+								stampa (generale.highscores, generale.n_highscores);
 								aggiungiPunteggio (generale.highscores, generale.n_highscores, generale.partita_in_corso.punteggio, posizione);
+								stampa (generale.highscores, generale.n_highscores);
 								salvaPunteggi (generale.highscores, generale.n_highscores, FILE_HIGHSCORES);
 								nuovaPartita (generale.partita_in_corso, generale.impostazioni, CENTRO_ORIZ, POS_X_PRIMO_ASSE_MOSTRI, POS_Y_PRIMA_FILA_ONDATA);
 								schermata_att = s_menu;
@@ -924,7 +936,7 @@ inline void modificaImpostazioni (ALLEGRO_FONT *font_testo, Impostazioni imposta
 	al_flip_display();
 }
 
-inline void classificaHighscores (ALLEGRO_FONT *font_testo, Punteggio highscores [], int n_punteggi, bool redraw_lampeggio)
+inline void classificaHighscores (ALLEGRO_FONT *font_testo, Punteggio highscores [], int n_punteggi)
 {
 	unsigned int pos_y_attuale = POS_Y_HIGHSCORES_TITOLO;
 
@@ -951,11 +963,8 @@ inline void classificaHighscores (ALLEGRO_FONT *font_testo, Punteggio highscores
 	//FINE DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
 
 	//INIZIO DELLA VISUALIZZAZIONE DEL PREMI ENTER
-	if (redraw_lampeggio)
-	{
-		pos_y_attuale = POS_Y_INDICAZIONI_HIGHSCORES;
-		al_draw_text(font_testo, al_map_rgb(0, 255, 0), CENTRO_ORIZ, pos_y_attuale, ALLEGRO_ALIGN_CENTER, "Premi enter per tornare al menu principale");
-	}
+	pos_y_attuale = POS_Y_INDICAZIONI_HIGHSCORES;
+	al_draw_text(font_testo, al_map_rgb(0, 255, 0), CENTRO_ORIZ, pos_y_attuale, ALLEGRO_ALIGN_CENTER, "Premi enter per tornare al menu principale");
 	//FINE DELLA VISUALIZZAZIONE DEL PREMI ENTER
 
 	al_flip_display();
@@ -995,7 +1004,7 @@ inline void finePartita (ALLEGRO_FONT *font_testo, Punteggio highscores [], int 
 	//INIZIO DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
 	pos_y_attuale = POS_Y_ELENCO_PUNTEGGI;
 
-	for (int i = 0, p = 0; i < n_punteggi && i < MAX_HIGHSCORES; i++, p++)
+	for (int i = 0, p = 0; i <= n_punteggi&& i < MAX_HIGHSCORES; i++, p++)
 	{
 		pos_y_attuale += DIM_FONT_TESTO + SPAZIO_TESTO;
 		char str_numero [MAX_STRINGA_NUMERAZIONE] = "";

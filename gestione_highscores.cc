@@ -40,7 +40,7 @@ void salvaPunteggi (Punteggio highscores [], int n_highscores, const char file [
 	ofstream f(file) ;
 	for (int i = 0; i < n_highscores; i++)
 	{
-		f<<highscores [i].nome<< " "<<highscores [i].valore<<endl;
+		f<<highscores [i].nome<<" "<<highscores [i].valore<<endl;
 	}
 }
 
@@ -60,13 +60,13 @@ void scambiaPunteggio (Punteggio &punt1, Punteggio &punt2)
 void aggiungiPunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores, Punteggio nuovo_punteggio, int posizione)
 {
 	Punteggio pros = nuovo_punteggio;
-	for (int i = posizione; i < n_highscores; i++)
-	{
-		scambiaPunteggio (highscores [i], pros);
-	}
 	if (n_highscores < MAX_HIGHSCORES)
 	{
 		n_highscores++;
+	}
+	for (int i = posizione; i < n_highscores; i++)
+	{
+		scambiaPunteggio (highscores [i], pros);
 	}
 }
 
