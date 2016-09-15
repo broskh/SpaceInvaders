@@ -2,11 +2,126 @@
  * File contenente il modulo di salvataggio/caricamento delle impostazioni.
  */
 
+#include <allegro5/allegro_font.h>
 #include "struttura_dati.h"
 #include "funzioni_generiche.h"
 #include "gestione_partita.h"
 
 //INIZIO MODULO
+
+bool controlloCollisioneBarriere (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere)
+{
+	bool collisione = false;
+	if (partita.sparo_carro.stato)
+	{
+		unsigned int altezza_barriera = ALT_BARRIERA * LATO_UNITA;
+		if (partita.sparo_carro.pos_y >= pos_y_prima_barriera && partita.sparo_carro.pos_y <= pos_y_prima_barriera + altezza_barriera)
+		{
+			unsigned int pos_x_attuale = pos_x_prima_barriera;
+			for (unsigned int n = 0 ; n < N_BARRIERE; n++)
+			{
+				if (partita.sparo_carro.pos_x >= pos_x_attuale && partita.sparo_carro.pos_x <= pos_x_attuale + LUNGHEZZA_PIXEL_BARRIERA)
+				{
+					unsigned int pos_y_attuale = pos_y_prima_barriera;
+					for (unsigned int r = 0; r < ALT_BARRIERA; r++)
+					{
+						if (partita.sparo_carro.pos_y >= pos_y_attuale && partita.sparo_carro.pos_y <= pos_y_attuale + LATO_UNITA)
+						{
+							for (unsigned int c = 0; c < LARG_BARRIERA; c++)
+							{	
+								if (partita.sparo_carro.pos_x >= pos_x_attuale && partita.sparo_carro.pos_x <= pos_x_attuale + LATO_UNITA)
+								{
+									if (partita.barriere [n] [r] [c] != distrutta)
+									{
+										partita.barriere [n] [r] [c] = static_cast <stato_barriera> (precInRange (partita.barriere [n] [r] [c], 0));
+										partita.sparo_carro.stato = false;
+										collisione = true;
+									}
+									break;
+								}
+								pos_x_attuale += LATO_UNITA;								
+							}
+							break;
+						}
+						pos_y_attuale += LATO_UNITA;
+					}
+					break;
+				}
+				pos_x_attuale += LUNGHEZZA_PIXEL_BARRIERA + distanza_barriere;
+			}
+		}
+	}
+	return collisione;
+}
+
+bool controlloCollisioneCarro (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const unsigned int pos_y_carro)
+{
+	bool collisione = false;
+	unsigned int pos_y_fila  = partita.ondata.pos_y + dim_font_mostri + distanza_file_mostri * (N_FILE_MOSTRI - 1);
+	for (int i = N_FILE_MOSTRI - 1; i >= 0; i--)
+	{
+		if (pos_y_carro <= pos_y_fila)
+		{
+			for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
+			{
+				if (partita.ondata.mostri [i] [j].stato)
+				{
+					collisione = true;
+					break;
+				}
+			}
+			if (collisione)
+			{
+				break;
+			}
+			pos_y_fila -= distanza_file_mostri;
+		}
+		else
+		{
+			break;
+		}
+	}
+	return collisione;
+}
+
+bool controlloCollisioneAlieni (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_assi_col_mostri)
+{
+	bool collisione = false;
+	if (partita.sparo_carro.stato)
+	{
+		unsigned int pos_y_fila  = partita.ondata.pos_y + dim_font_mostri + distanza_file_mostri * (N_FILE_MOSTRI - 1);
+		for (int i = N_FILE_MOSTRI - 1; i >= 0; i--)
+		{
+			if (partita.sparo_carro.pos_y <= pos_y_fila && partita.sparo_carro.pos_y >= pos_y_fila - dim_font_mostri)
+			{
+				unsigned int larghezza_mostro = al_get_text_width (font_mostri, partita.ondata.mostri [i] [0].stringa);
+				unsigned int pos_x_fila = partita.ondata.pos_x - larghezza_mostro / 2;
+				for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
+				{
+					if (partita.sparo_carro.pos_x >= pos_x_fila && partita.sparo_carro.pos_x <= pos_x_fila + larghezza_mostro)
+					{
+						if (partita.ondata.mostri [i] [j].stato)
+						{
+							partita.ondata.mostri [i] [j].stato = false;
+							partita.punteggio.valore += partita.ondata.mostri [i] [j].punteggio;
+							partita.sparo_carro.stato = false;
+							partita.ondata.mostri_rimasti--;
+							collisione = true;
+						}
+						break;
+					}
+					pos_x_fila += distanza_assi_col_mostri;
+				}
+			}
+			if (partita.sparo_carro.pos_y > pos_y_fila || collisione)
+			{
+				break;
+			}
+			pos_y_fila -= distanza_file_mostri;
+		}
+	}
+	return collisione;
+}
 
 void muoviAlieni (Ondata &ondata, const unsigned int limite_sx, const unsigned int limite_dx, const unsigned int limite_inf, const unsigned int distanza_assi_colonne_mostri, const unsigned int larghezza_colonna, const unsigned int distanza_file_mostri)
 {
@@ -59,6 +174,45 @@ bool esisteSalvataggio (const char file [])
     	return f;
 }
 
+void inizializzaBarriere (stato_barriera barriera [ALT_BARRIERA] [LARG_BARRIERA])
+{
+	const unsigned int CENTRO_LARG = LARG_BARRIERA / 2 - 1;
+	const unsigned int ALT_INIZIO_SMUSSO_INFERIORE = ALT_BARRIERA / 2.3;
+
+	const unsigned int SMUSSO_SUPERIORE = 4;
+	const unsigned int LARG_PIEDE = LARG_BARRIERA / 4;
+	const unsigned int SMUSSO_INFERIORE = (LARG_BARRIERA - (LARG_PIEDE * 2)) / 2;
+
+	unsigned int offset_no_disegno = CENTRO_LARG - SMUSSO_SUPERIORE - 1;
+	for (unsigned int i = 0; i < ALT_BARRIERA; i++)
+	{
+		if (i <= SMUSSO_SUPERIORE)
+		{
+			offset_no_disegno ++;
+		}
+		else if (i == ALT_INIZIO_SMUSSO_INFERIORE)
+		{
+			offset_no_disegno = SMUSSO_INFERIORE;
+		}
+		else if (i > ALT_INIZIO_SMUSSO_INFERIORE && i < ALT_INIZIO_SMUSSO_INFERIORE + SMUSSO_INFERIORE)
+		{
+			offset_no_disegno --;
+		}
+
+		for (unsigned int j = 0; j < LARG_BARRIERA; j++)
+		{
+			if (!(((i < ALT_INIZIO_SMUSSO_INFERIORE) && (j < (CENTRO_LARG - offset_no_disegno) || j > (CENTRO_LARG + 1 + offset_no_disegno))) ||((i >= ALT_INIZIO_SMUSSO_INFERIORE) && (j >= (LARG_PIEDE - 1 + offset_no_disegno) && j <= (LARG_BARRIERA - LARG_PIEDE - offset_no_disegno)))))
+			{
+				barriera [i] [j] = integra;
+			}
+			else
+			{
+				barriera [i] [j] = distrutta;
+			}
+		}
+	}
+}
+
 void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned int pos_x_iniziale_carro, const unsigned int pos_x_iniziale_ondata, const unsigned int pos_y_iniziale_ondata)
 {
 	Punteggio punteggio;
@@ -68,15 +222,9 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned i
 
 	partita.vite_rimanenti = impostazioni.vite_iniziali;
 
-	for (unsigned int n = 0; n < N_BARRIERE; n++)
+	for (unsigned int i = 0; i < N_BARRIERE; i++)
 	{
-		for (unsigned int r = 0; r < ALT_BARRIERA; r++)
-		{
-			for (unsigned int c = 0; c < LARG_BARRIERA; c++)
-			{
-				partita.barriere [n] [r] [c] = integra;
-			}
-		}
+		inizializzaBarriere (partita.barriere [i]);
 	}
 
 	nuovaOndata (partita.ondata, pos_x_iniziale_ondata, pos_y_iniziale_ondata);
@@ -144,6 +292,11 @@ bool caricaPartita (Partita &salvataggio, const char file [])
     	}
 	Partita temp;
 
+	if (!(f>>temp.punteggio.valore))
+	{
+		return false;
+	}
+
 	if (!(f>>temp.vite_rimanenti))
 	{
 		return false;
@@ -172,7 +325,7 @@ bool caricaPartita (Partita &salvataggio, const char file [])
 	{
 		for (unsigned int k = 0; k < N_COL_MOSTRI; k++)
 		{
-			if (!(f>>temp.ondata.mostri [i] [k].stato && f>>temp.ondata.mostri [i] [k].punteggio))
+			if (!(f>>temp.ondata.mostri [i] [k].stato && f>>temp.ondata.mostri [i] [k].punteggio && f>>temp.ondata.mostri [i] [k].stringa))
 			{
 				return false;
 			}
@@ -191,47 +344,22 @@ bool caricaPartita (Partita &salvataggio, const char file [])
 	{
 		return false;
 	}
-	if (!(f>>temp.ondata.pos_x))
+	if (!(f>>temp.ondata.pos_x && f>>temp.ondata.pos_y))
 	{
 		return false;
 	}
-	if (!(f>>temp.ondata.pos_y))
-	{
-		return false;
-	}
-	
 	
 	if (!(f>>temp.pos_x_carro))
 	{
 		return false;
 	}
 	
-	if (!(f>>temp.sparo_carro.stato))
+	if (!(f>>temp.sparo_carro.stato && f>>temp.sparo_carro.pos_x && f>>temp.sparo_carro.pos_y))
 	{
 		return false;
 	}
 	
-	if (!(f>>temp.sparo_carro.pos_x))
-	{
-		return false;
-	}
-	
-	if (!(f>>temp.sparo_carro.pos_y))
-	{
-		return false;
-	}
-	
-	if (!(f>>temp.sparo_mostri.stato))
-	{
-		return false;
-	}
-	
-	if (!(f>>temp.sparo_mostri.pos_x))
-	{
-		return false;
-	}
-	
-	if (!(f>>temp.sparo_mostri.pos_y))
+	if (!(f>>temp.sparo_mostri.stato && f>>temp.sparo_mostri.pos_x && f>>temp.sparo_mostri.pos_y))
 	{
 		return false;
 	}
@@ -240,11 +368,14 @@ bool caricaPartita (Partita &salvataggio, const char file [])
 	return true;
 }
 
-void salvaPartita (Partita salvataggio, const char file [])
+void salvaPartita (SpaceInvaders &spaceInvaders, const char file [])
 {
 	ofstream f(file);
+	Partita partita = spaceInvaders.partita_in_corso;
 
-	f<<salvataggio.vite_rimanenti<<endl;
+	f<<partita.punteggio.valore<<endl<<endl;
+	
+	f<<partita.vite_rimanenti<<endl<<endl;
 
 	for (unsigned int n = 0; n < N_BARRIERE; n++)
 	{
@@ -252,7 +383,7 @@ void salvaPartita (Partita salvataggio, const char file [])
 		{
 			for (unsigned int c = 0; c < LARG_BARRIERA; c++)
 			{
-				f<<salvataggio.barriere [n] [r] [c]<<" ";
+				f<<partita.barriere [n] [r] [c]<<" ";
 			}
 			f<<endl;
 		}
@@ -263,30 +394,33 @@ void salvaPartita (Partita salvataggio, const char file [])
 	{
 		for (unsigned int k = 0; k < N_COL_MOSTRI; k++)
 		{
-			f<<salvataggio.ondata.mostri [i] [k].stato<<" "<<salvataggio.ondata.mostri [i] [k].punteggio<<"\t";
+			f<<partita.ondata.mostri [i] [k].stato<<" "<<partita.ondata.mostri [i] [k].punteggio<<" "<<partita.ondata.mostri [i] [k].stringa<<"\t";
 		}
 		f<<endl;
 	}
-	f<<salvataggio.ondata.mostri_rimasti<<endl;
-	f<<salvataggio.ondata.dir_mostri<<endl;
-	f<<salvataggio.ondata.pos_x<<endl;
-	f<<salvataggio.ondata.pos_y<<endl;
+	f<<partita.ondata.mostri_rimasti<<endl;
+	f<<partita.ondata.dir_mostri<<endl;
+	f<<partita.ondata.pos_x<<endl;
+	f<<partita.ondata.pos_y<<endl<<endl;
 
-	f<<salvataggio.pos_x_carro<<endl;
+	f<<partita.pos_x_carro<<endl<<endl;
 
-	f<<salvataggio.sparo_carro.stato<<endl;
-	f<<salvataggio.sparo_carro.pos_x<<endl;
-	f<<salvataggio.sparo_carro.pos_y<<endl;
+	f<<partita.sparo_carro.stato<<endl;
+	f<<partita.sparo_carro.pos_x<<endl;
+	f<<partita.sparo_carro.pos_y<<endl<<endl;
 
-	f<<salvataggio.sparo_mostri.stato<<endl;
-	f<<salvataggio.sparo_mostri.pos_x<<endl;
-	f<<salvataggio.sparo_mostri.pos_y<<endl;
+	f<<partita.sparo_mostri.stato<<endl;
+	f<<partita.sparo_mostri.pos_x<<endl;
+	f<<partita.sparo_mostri.pos_y;
+
+	spaceInvaders.partita_salvata = true;
 }
 
-bool eliminaFileSalvataggio (const char file [])
+bool eliminaFileSalvataggio (const char file [], SpaceInvaders &spaceInvaders)
 {
 	if (!remove (file))
 	{
+		spaceInvaders.partita_salvata = false;
 		return true;
 	}
 	return false;

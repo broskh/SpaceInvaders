@@ -150,29 +150,4 @@ bool valoreCampoImpostazioniSuc (voce_menu_impostazioni voce, Impostazioni &impo
 	}
 	return true;
 }
-
-schermata cambiaSchermataMenuPrincipale (voce_menu_principale voce)
-{
-	if (voce == v_gioca)
-	{
-		return s_gioca;
-	}
-	else if (voce == v_carica)
-	{
-		return s_carica;
-	}
-	else if (voce == v_opzioni)
-	{
-		return s_opzioni;
-	}
-	else if (voce == v_highscores)
-	{
-		return s_highscores;
-	}
-	else if (voce == v_esci)
-	{
-		return s_esci;
-	}
-	return s_menu;
-}
 //FINE MODULO

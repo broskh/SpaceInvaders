@@ -7,7 +7,7 @@
 
 //INIZIO MODULO
 
-bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], unsigned int &n_highscores, const char file [])
+bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores, const char file [])
 {
 	ifstream f (file) ;
     	if (!f) {
@@ -15,7 +15,7 @@ bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], unsigned int &n_h
 		return false ;
     	}
 	int i = 0;
-	char nome [CARATTERI_NOME];
+	char nome [CARATTERI_NOME + 1];
 	int valore;
 	while (f>>nome)
 	{
@@ -35,10 +35,10 @@ bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], unsigned int &n_h
 	return true;
 }
 
-void salvaPunteggi (Punteggio highscores [], unsigned int n_highscores, const char file [])
+void salvaPunteggi (Punteggio highscores [], int n_highscores, const char file [])
 {
 	ofstream f(file) ;
-	for (unsigned  int i = 0; i < n_highscores; i++)
+	for (int i = 0; i < n_highscores; i++)
 	{
 		f<<highscores [i].nome<< " "<<highscores [i].valore<<endl;
 	}
@@ -46,13 +46,8 @@ void salvaPunteggi (Punteggio highscores [], unsigned int n_highscores, const ch
 
 void inizializzaPunteggio (Punteggio &punteggio, char nome [], int valore)
 {
-	strncpy (punteggio.nome, nome, CARATTERI_NOME);
+	strcpy (punteggio.nome, nome);
 	punteggio.valore = valore;
-}
-
-Punteggio migliorPunteggio (Punteggio highscores [])
-{
-	return highscores [0];
 }
 
 void scambiaPunteggio (Punteggio &punt1, Punteggio &punt2)
@@ -62,26 +57,29 @@ void scambiaPunteggio (Punteggio &punt1, Punteggio &punt2)
 	punt1 = temp;
 }
 
-bool aggiungiPunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], unsigned int &n_highscores, Punteggio nuovo_punteggio)
+void aggiungiPunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores, Punteggio nuovo_punteggio, int posizione)
 {
-	for (unsigned int i = 0; i < n_highscores; i++)
+	Punteggio pros = nuovo_punteggio;
+	for (int i = posizione; i < n_highscores; i++)
+	{
+		scambiaPunteggio (highscores [i], pros);
+	}
+	if (n_highscores < MAX_HIGHSCORES)
+	{
+		n_highscores++;
+	}
+}
+
+int posizionePunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores, Punteggio nuovo_punteggio)
+{
+	for (int i = 0; i < n_highscores; i++)
 	{
 		if (nuovo_punteggio.valore > highscores [i].valore)
 		{
-			Punteggio pros = nuovo_punteggio;
-			while (i < n_highscores && i < MAX_HIGHSCORES)
-			{
-				scambiaPunteggio (highscores [i], pros);
-				i++;
-			}
-			if (n_highscores < MAX_HIGHSCORES)
-			{
-				n_highscores++;
-			}
-			return true;
+			return i;
 		}
 	}
-	return false;
+	return -1;
 }
 
 void stampa (Punteggio punteggio)

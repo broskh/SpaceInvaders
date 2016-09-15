@@ -13,7 +13,7 @@
  *
  * @return "false" nel caso in cui il caricamento non sia riuscito, "true" altrimenti.
  */
-bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], unsigned int &n_highscores, const char file []);
+bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores, const char file []);
 
 /**
  * Salva i migliori punteggi su file.
@@ -22,7 +22,7 @@ bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], unsigned int &n_h
  * @param n_highscores Numero di punteggi presenti attualmente nell'array "highscores".
  * @param file File nel quale salvare i punteggi.
  */
-void salvaPunteggi (Punteggio highscores [], unsigned int n_highscores, const char file []);
+void salvaPunteggi (Punteggio highscores [], int n_highscores, const char file []);
 
 /**
  * Memorizza in una struttura "Punteggio" i valori passati per parametro.
@@ -34,25 +34,26 @@ void salvaPunteggi (Punteggio highscores [], unsigned int n_highscores, const ch
 void inizializzaPunteggio (Punteggio &punteggio, char nome [], int valore);
 
 /**
- * Estrae da un array di strutture {@link Punteggio} il miglior punteggio in assoluto.
- *
- * @param highscores Array di strutture {@link Punteggio} dalla quale verrà estratto il miglior punteggio.
- *
- * @return il punteggio più alto presente negli highscores.
- */
-Punteggio migliorPunteggio (Punteggio highscores []);
-
-/**
- * Controlla se il nuovo punteggio merita di essere inserito fra gli highscores, e nel caso lo aggiunge.
- * Se il punteggio deve essere aggiunto agli highscores, dopo averlo messo nella corretta posizione,
- * rimuove il punteggio più basso. Altrimenti non lo aggiunge.
+ * Aggiunge il nuovo punteggio nella posizione specificata dell'array.
  *
  * @param highscores Array di strutture {@link punteggio} contenente i punteggi migliori.
  * @param n_highscores Numero di punteggi presenti attualmente nell'array "highscores".
  * @param nuovo_punteggio Nuovo punteggio raggiunto da aggiungere (se necessario) fra i punteggi migliori.
- *
- * @return "true" se il punteggio è stato aggiunto, altrimenti "false".
+ * @param posizione Posizione dell'array nella quale inserire il punteggio.
  */
-bool aggiungiPunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], unsigned int &n_highscores, Punteggio nuovo_punteggio);
+void aggiungiPunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores, Punteggio nuovo_punteggio, int posizione);
+
+/**
+ * Controlla in quale posizione della classifica degli highscores il nuovo punteggio merita di essere inserito.
+ * Se il punteggio non deve essere aggiunto agli highscores, il metodo ritorna il valore "-1".
+ *
+ * @param highscores Array di strutture {@link punteggio} contenente i punteggi migliori.
+ * @param n_highscores Numero di punteggi presenti attualmente nell'array "highscores".
+ * @param nuovo_punteggio Nuovo punteggio raggiunto da aggiungere (se necessario) fra i punteggi migliori.
+ * 
+ * @return la posizione dell'array degli highscores nella quale il nuovo punteggio andrebbe inserito; "-1" se
+ * il punteggio non merita di essere inserito.
+ */
+int posizionePunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores, Punteggio nuovo_punteggio);
 
 //FINE INTERFACCIA

@@ -16,10 +16,10 @@ const unsigned int ALT_BARRIERA = 17; /**<Altezza della barriera.*/
 const unsigned int N_FILE_MOSTRI = 5; /**<Numero delle file di mostri.*/
 const unsigned int N_COL_MOSTRI = 11; /**<Numero delle colonne di mostri.*/
 
-const unsigned int N_MODALITA_GRAFICHE = 6; /**<Numero di modalità grafiche disponibili.*/
-const unsigned int MAX_VITE = 10; /**<Numero massimo di vite.*/
-const unsigned int CARATTERI_NOME = 4; /**<Numero di caratteri per le stringhe contenti il nome del realizzatore di un punteggio.*/ 
-const unsigned int MAX_HIGHSCORES = 10; /**<Numero di punteggi presenti nella classifica degli highscores.*/
+const int N_MODALITA_GRAFICHE = 6; /**<Numero di modalità grafiche disponibili.*/
+const int MAX_VITE = 10; /**<Numero massimo di vite.*/
+const int CARATTERI_NOME = 3; /**<Numero di caratteri per le stringhe contenti il nome del realizzatore di un punteggio.*/ 
+const int MAX_HIGHSCORES = 10; /**<Numero di punteggi presenti nella classifica degli highscores.*/
 
 const int MAX_STRINGA_GENERICA = 20; /**<Numero di caratteri massimo utilizzato per stringhe generiche.*/
 const int MAX_STRINGA_NUMERAZIONE = 4; /**<Numero di caratteri massimo utilizzato per le stringhe conteneti la numerazione nella classifica degli highscore.*/
@@ -57,7 +57,7 @@ enum direzione {destra, sinistra};
  * All'esecuzione dell'applicaizone ci troveremo nel menù iniziale dal quale poi potremo cambiare schermata.
  * Potremo iniziare a giocare, modificare le opzioni o guardare la classifica dei punteggi migliori.
  */
-enum schermata {s_menu, s_gioca, s_carica, s_opzioni, s_highscores, s_pausa, s_esci};
+enum schermata {s_menu, s_gioca, s_carica, s_opzioni, s_highscores, s_pausa, s_fine_partita, s_esci};
 
 /**
  * Tipo che indica una voce del menù principale.
@@ -70,13 +70,18 @@ enum voce_menu_principale {v_gioca, v_carica, v_opzioni, v_highscores, v_esci};
 enum voce_menu_impostazioni {v_musica, v_eff_audio, v_mod_grafica, v_vite_iniziali};
 
 /**
+ * Tipo che indica una voce del menù di pausa.
+ */
+enum voce_menu_pausa {v_continua, v_salva, v_abbandona};
+
+/**
  * Struttura per il punteggio.
  *
  * Conserva le informazioni relative ad un singolo punteggio.
  */
 struct Punteggio
 {
-	char nome [CARATTERI_NOME]; /**<Nome del giocatore.*/
+	char nome [CARATTERI_NOME + 1]; /**<Nome del giocatore.*/
 	int valore; /**<Valore del punteggio.*/
 };
 
@@ -146,7 +151,7 @@ struct Sparo
 struct Partita
 {
 	Punteggio punteggio; /**<Punteggio attuale.*/
-	unsigned int vite_rimanenti; /**<Vite rimanenti.*/
+	int vite_rimanenti; /**<Vite rimanenti.*/
 	stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA]; /**<Stato attuale delle barriere.*/
 	Ondata ondata; /**<Ondata di mostri attuale.*/
 	unsigned int pos_x_carro; /**<Indica lo spostamento del carro armato rispetto alla posizione centrale iniziale.*/
@@ -165,7 +170,7 @@ struct SpaceInvaders
 {	
 	Impostazioni impostazioni; /**<Impostazioni attuali.*/
 	Punteggio highscores [MAX_HIGHSCORES]; /**<Migliori punteggi raggiunti.*/	
-	unsigned int n_highscores; /**<Numero di punteggi memorizzati nell'array "highscores".*/
+	int n_highscores; /**<Numero di punteggi memorizzati nell'array "highscores".*/
 	bool partita_salvata; /**<Booleano che indica se è presente una partita salvata o no.*/
 	Partita partita_in_corso; /**<Struttura {@link Partita} che contiene le informazioni relative alla partita in corso, o alla prossima partita che si giocherà.*/
 };

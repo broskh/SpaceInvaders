@@ -10,6 +10,8 @@ const char MENU_IMPOSTAZIONI [] [MAX_STRINGA_GENERICA] = {"Musica: ", "Effetti a
 const int N_VOCI_MENU_IMPO = 4; /**<Numero di voci del menù impostazioni.*/
 const char INDICAZIONI_IMPOSTAZIONI [] [MAX_STRINGA_GENERICA_LUNGA] = {"Usa le frecce su e giu' per cambiare opzione", "Usa le frecce destra e sinistra per modificare il valore", "Premi enter per salvare e tornare al menu principale", "Premi R per ripristinare i valori di default"}; /**<Indicazioni del menù impostazioni.*/
 const int N_INDICAZIONI_MENU_IMPO = 4; /**<Numero di indicazioni del menù impostazioni.*/
+const char MENU_PAUSA [] [MAX_STRINGA_GENERICA] = {"Continua partita", "Salva partita", "Abbandona partita"}; /**<Indicazioni del menù di pausa.*/
+const int N_VOCI_MENU_PAUSA = 3; /**<Numero di voci del menù di pausa.*/
 
 /**
  * Modifica il valore della voce selezionata impostandola alla precedente.
@@ -87,14 +89,4 @@ bool valoreCampoImpostazioniPrec (voce_menu_impostazioni voce, Impostazioni &imp
  * @return "true" se la voce di menù passata corrispone ad un tipo {@link voce_menu_impostazioni}, "false" altrimenti.
  */
 bool valoreCampoImpostazioniSuc (voce_menu_impostazioni voce, Impostazioni &impostazioni);
-
-/**
- * Calcola il valore della prossima schermata da mostrare nel menù principale.
- * 
- * @param voce Voce di menu attualmente selezionata.
- *
- * @return il valore della prossima schermata da mostrare.
- */
-schermata cambiaSchermataMenuPrincipale (voce_menu_principale voce);
-
 //FINE INTERFACCIA

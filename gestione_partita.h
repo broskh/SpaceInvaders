@@ -18,8 +18,15 @@ const char STRINGA_CARRO_ARMATO [] = "-"; /**<Stringa per rappresentare il carro
 const char STRINGA_SPARO [] = "|";
 
 const unsigned int LATO_UNITA = 4; /**<Lunghezza in pixel di ogni unità costituente le barriere.*/
+const unsigned int LUNGHEZZA_PIXEL_BARRIERA = LATO_UNITA * LARG_BARRIERA;
 
 const unsigned int N_MOSTRI_TOTALE = N_FILE_MOSTRI * N_COL_MOSTRI; /**<Numero totale dei mostri presenti inizialmente*/
+
+bool controlloCollisioneBarriere (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere);
+
+bool controlloCollisioneCarro (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const unsigned int pos_y_carro);
+
+bool controlloCollisioneAlieni (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_assi_col_mostri);
 
 void muoviAlieni (Ondata &ondata, const unsigned int limite_sx, const unsigned int limite_dx, const unsigned int limite_inf, const unsigned int distanza_assi_colonne_mostri, const unsigned int larghezza_colonna, const unsigned int distanza_file_mostri);
 
@@ -85,18 +92,19 @@ bool caricaPartita (Partita &salvataggio, const char file []);
 /**
  * Salva una partita da sospendere su un file.
  *
- * salvataggio struttura {@link partita} contenente i dati della partita da salvare sul file. 
- * file File nel quale salvare la partita.
+ * @param spaceInvaders struttura {@link SpaceInvaders} contenente tutte le informazioni relative al gioco in esecuzione.
+ * @param file File nel quale salvare la partita.
  */
-void salvaPartita (Partita salvataggio, const char file []);
+void salvaPartita (SpaceInvaders &spaceInvaders, const char file []);
 
 /**
  * Elimina un file di salvataggio nel caso in cui esista.
  *
  * @param file File di salvataggio da eliminare.
+ * @param spaceInvaders Struttura {@link SpaceInvaders} contenente tutte le informazioni relative al gioco in esecuzione.
  * 
  * @return "true" se il file era presente ed è stato eliminato, "false" altrimenti.
  */
-bool eliminaFileSalvataggio (const char file []);
+bool eliminaFileSalvataggio (const char file [], SpaceInvaders &spaceInvaders);
 
 //FINE INTERFACCIA
