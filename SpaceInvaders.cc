@@ -441,7 +441,7 @@ int main ()
 						gioca (font_mostri, font_testo, barriera_parziale, barriera_integra, generale.partita_in_corso, generale.impostazioni);
 
 						//INIZIO DEI CAMBIAMENTI
-						if (generale.partita_in_corso.vite_rimanenti < 0 || controlloCollisioneCarro (generale.partita_in_corso, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, POS_Y_CARRO))
+						if (generale.partita_in_corso.vite_rimanenti < 0 || controlloCollisioneCarro (generale.partita_in_corso, font_mostri, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, DISTANZA_ASSI_COL_MOSTRI, POS_Y_CARRO))
 						{
 							schermata_att = s_fine_partita;
 							cambia_schermata = true;

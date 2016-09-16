@@ -24,7 +24,7 @@ const unsigned int N_MOSTRI_TOTALE = N_FILE_MOSTRI * N_COL_MOSTRI; /**<Numero to
 
 bool controlloCollisioneBarriere (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere);
 
-bool controlloCollisioneCarro (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const unsigned int pos_y_carro);
+bool controlloCollisioneCarro (Partita &partita,  const ALLEGRO_FONT *font_mostri, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const unsigned int distanza_assi_col_mostri, const unsigned int pos_y_carro);
 
 bool controlloCollisioneAlieni (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_assi_col_mostri);
 

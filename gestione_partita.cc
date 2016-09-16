@@ -54,32 +54,35 @@ bool controlloCollisioneBarriere (Partita &partita, const unsigned int pos_x_pri
 	return collisione;
 }
 
-bool controlloCollisioneCarro (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const unsigned int pos_y_carro)
+bool controlloCollisioneCarro (Partita &partita,  const ALLEGRO_FONT *font_mostri, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const unsigned int distanza_assi_col_mostri, const unsigned int pos_y_carro)
 {
 	bool collisione = false;
 	unsigned int pos_y_fila  = partita.ondata.pos_y + dim_font_mostri + distanza_file_mostri * (N_FILE_MOSTRI - 1);
 	for (int i = N_FILE_MOSTRI - 1; i >= 0; i--)
 	{
-		if (pos_y_carro <= pos_y_fila)
+		if (pos_y_fila >= pos_y_carro)
 		{
+			unsigned int pos_x_mostro = partita.ondata.pos_x;
+			unsigned int larghezza_mostro = al_get_text_width (font_mostri, partita.ondata.mostri [i] [0].stringa);
 			for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
 			{
-				if (partita.ondata.mostri [i] [j].stato)
+				if (partita.ondata.mostri [i] [j].stato && (partita.pos_x_carro >= pos_x_mostro && partita.pos_x_carro <= pos_x_mostro + larghezza_mostro))
 				{
 					collisione = true;
 					break;
 				}
+				pos_x_mostro += distanza_assi_col_mostri;
 			}
 			if (collisione)
 			{
 				break;
 			}
-			pos_y_fila -= distanza_file_mostri;
 		}
 		else
 		{
 			break;
 		}
+		pos_y_fila -= distanza_file_mostri;
 	}
 	return collisione;
 }
