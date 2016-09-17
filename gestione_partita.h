@@ -20,9 +20,11 @@ const char STRINGA_SPARO [] = "|";
 const unsigned int LATO_UNITA = 4; /**<Lunghezza in pixel di ogni unità costituente le barriere.*/
 const unsigned int LUNGHEZZA_PIXEL_BARRIERA = LATO_UNITA * LARG_BARRIERA;
 
-bool controlloCollisioneBarriereSparoMostri (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere, const unsigned int altezza_sparo);
+bool controlloCollisioneCarroDaSparoMostri (Partita &partita, const unsigned int larghezza_carro, const unsigned int altezza_sparo, const unsigned int dim_font_mostri, const unsigned int pos_y_carro);
 
-bool controlloCollisioneBarriereSparoCarro (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere);
+bool controlloCollisioneBarriereDaSparoMostri (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere, const unsigned int altezza_sparo);
+
+bool controlloCollisioneBarriereDaSparoCarro (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere);
 
 ALLEGRO_BITMAP * sparoScelto (int pos_x, ALLEGRO_BITMAP *sparo_mostri_1, ALLEGRO_BITMAP *sparo_mostri_2);
 
@@ -30,9 +32,7 @@ const unsigned int N_MOSTRI_TOTALE = N_FILE_MOSTRI * N_COL_MOSTRI; /**<Numero to
 
 void creaSparoMostri (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_assi_col_mostri);
 
-bool controlloCollisioneBarriere (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere);
-
-bool controlloCollisioneCarro (Partita &partita,  const ALLEGRO_FONT *font_mostri, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const unsigned int distanza_assi_col_mostri, const unsigned int pos_y_carro);
+bool controlloCollisioneCarroDaOndata (Partita &partita,  const ALLEGRO_FONT *font_mostri, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const unsigned int distanza_assi_col_mostri, const unsigned int pos_y_carro);
 
 bool controlloCollisioneMostri (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_assi_col_mostri);
 

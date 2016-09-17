@@ -469,22 +469,27 @@ int main ()
         					al_clear_to_color(al_map_rgb(0, 0, 0));
 						gioca (font_mostri, font_testo, sparo_mostri_1, sparo_mostri_2, barriera_parziale, barriera_integra, generale.partita_in_corso, generale.impostazioni, ruota_sparo);
 
-						//INIZIO DEI CAMBIAMENTI
-						if (generale.partita_in_corso.vite_rimanenti < 0 || controlloCollisioneCarro (generale.partita_in_corso, font_mostri, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, DISTANZA_ASSI_COL_MOSTRI, POS_Y_CARRO))
+						//INIZIO DEI CONTROLLI
+						if (controlloCollisioneCarroDaSparoMostri (generale.partita_in_corso, al_get_text_width(font_mostri, STRINGA_CARRO_ARMATO), al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_mostri.pos_x, sparo_mostri_1, sparo_mostri_2)), DIM_MOSTRI, POS_Y_CARRO))
+						{
+						}
+						if (generale.partita_in_corso.vite_rimanenti < 0 || controlloCollisioneCarroDaOndata (generale.partita_in_corso, font_mostri, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, DISTANZA_ASSI_COL_MOSTRI, POS_Y_CARRO))
 						{
 							schermata_att = s_fine_partita;
 							cambia_schermata = true;
 							break;
 						}
-						controlloCollisioneMostri (generale.partita_in_corso, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, font_mostri, DISTANZA_ASSI_COL_MOSTRI);
-						if (controlloCollisioneBarriereSparoCarro (generale.partita_in_corso, DISTANZA_BARRIERE, POS_Y_BARRIERE, DISTANZA_BARRIERE))
+						if (controlloCollisioneMostri (generale.partita_in_corso, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, font_mostri, DISTANZA_ASSI_COL_MOSTRI))
 						{
-							generale.partita_in_corso.sparo_carro.stato = false;
 						}
-						if (controlloCollisioneBarriereSparoMostri (generale.partita_in_corso, DISTANZA_BARRIERE, POS_Y_BARRIERE, DISTANZA_BARRIERE, al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_mostri.pos_x, sparo_mostri_1, sparo_mostri_2))))
+						if (controlloCollisioneBarriereDaSparoCarro (generale.partita_in_corso, DISTANZA_BARRIERE, POS_Y_BARRIERE, DISTANZA_BARRIERE))
 						{
-							generale.partita_in_corso.sparo_mostri.stato = false;
 						}
+						if (controlloCollisioneBarriereDaSparoMostri (generale.partita_in_corso, DISTANZA_BARRIERE, POS_Y_BARRIERE, DISTANZA_BARRIERE, al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_mostri.pos_x, sparo_mostri_1, sparo_mostri_2))))
+						{
+						}
+						//FINE DEI CONTROLLI
+						//INIZIO DEI CAMBIAMENTI
 						if (generale.partita_in_corso.sparo_carro.stato)
 						{
 							muoviSparoCarro (generale.partita_in_corso.sparo_carro, MARGINE_SUP_GIOCO);
@@ -494,7 +499,7 @@ int main ()
 							muoviSparoMostri (generale.partita_in_corso.sparo_mostri, POS_Y_CARRO + DIM_MOSTRI - 8);
 						}
 						muoviMostri (generale.partita_in_corso.ondata, MARGINE_SX_GIOCO, MARGINE_DX_GIOCO, POS_Y_CARRO, DISTANZA_ASSI_COL_MOSTRI, al_get_text_width(font_mostri, STRINGA_M_30), DISTANZA_FILE_MOSTRI);
-						//FINE CAMBIAMENTI
+						//FINE DEI CAMBIAMENTI
 					}
 			   	}
 				al_stop_timer(timer_sparo_mostri);

@@ -10,20 +10,6 @@
 
 //INIZIO MODULO
 
-
-
-ALLEGRO_BITMAP * sparoScelto (int pos_x, ALLEGRO_BITMAP *sparo_mostri_1, ALLEGRO_BITMAP *sparo_mostri_2)
-{
-	if (pos_x % 2 == 0)
-	{
-		return sparo_mostri_1;		
-	}
-	else
-	{
-		return sparo_mostri_2;
-	}
-}
-
 bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x_sparo, unsigned int pos_y_sparo, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere)
 {
 	bool collisione = false;
@@ -65,6 +51,18 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 	return collisione;
 }
 
+ALLEGRO_BITMAP * sparoScelto (int pos_x, ALLEGRO_BITMAP *sparo_mostri_1, ALLEGRO_BITMAP *sparo_mostri_2)
+{
+	if (pos_x % 2 == 0)
+	{
+		return sparo_mostri_1;		
+	}
+	else
+	{
+		return sparo_mostri_2;
+	}
+}
+
 void creaSparoMostri (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_assi_col_mostri)
 {
 	srand (time(NULL));
@@ -101,27 +99,35 @@ void creaSparoMostri (Partita &partita, const unsigned int dim_font_mostri, cons
 	}
 }
 
-bool controlloCollisioneBarriereSparoCarro (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere)
+bool controlloCollisioneBarriereDaSparoCarro (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere)
 {
 	bool collisione = false;
 	if (partita.sparo_carro.stato)
 	{
 		collisione =  controlloCollisioneBarriere (partita.barriere, partita.sparo_carro.pos_x, partita.sparo_carro.pos_y, pos_x_prima_barriera, pos_y_prima_barriera, distanza_barriere);
 	}
+	if (collisione)
+	{
+		partita.sparo_carro.stato = false;
+	}
 	return collisione;
 }
 
-bool controlloCollisioneBarriereSparoMostri (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere, const unsigned int altezza_sparo)
+bool controlloCollisioneBarriereDaSparoMostri (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere, const unsigned int altezza_sparo)
 {
 	bool collisione = false;
 	if (partita.sparo_mostri.stato)
 	{
 		collisione =  controlloCollisioneBarriere (partita.barriere, partita.sparo_mostri.pos_x, partita.sparo_mostri.pos_y + altezza_sparo, pos_x_prima_barriera, pos_y_prima_barriera, distanza_barriere);
 	}
+	if (collisione)
+	{
+		partita.sparo_mostri.stato = false;
+	}
 	return collisione;
 }
 
-bool controlloCollisioneCarro (Partita &partita,  const ALLEGRO_FONT *font_mostri, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const unsigned int distanza_assi_col_mostri, const unsigned int pos_y_carro)
+bool controlloCollisioneCarroDaOndata (Partita &partita,  const ALLEGRO_FONT *font_mostri, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const unsigned int distanza_assi_col_mostri, const unsigned int pos_y_carro)
 {
 	bool collisione = false;
 	unsigned int pos_y_fila  = partita.ondata.pos_y + dim_font_mostri + distanza_file_mostri * (N_FILE_MOSTRI - 1);
@@ -150,6 +156,18 @@ bool controlloCollisioneCarro (Partita &partita,  const ALLEGRO_FONT *font_mostr
 			break;
 		}
 		pos_y_fila -= distanza_file_mostri;
+	}
+	return collisione;
+}
+
+bool controlloCollisioneCarroDaSparoMostri (Partita &partita, const unsigned int larghezza_carro, const unsigned int altezza_sparo, const unsigned int dim_font_mostri, const unsigned int pos_y_carro)
+{
+	bool collisione = false;
+	if (partita.sparo_mostri.stato && (partita.sparo_mostri.pos_y + altezza_sparo) >= pos_y_carro && (partita.sparo_mostri.pos_x >= partita.pos_x_carro - (larghezza_carro / 2) && partita.sparo_mostri.pos_x <= partita.pos_x_carro + (larghezza_carro / 2)))
+	{
+		partita.vite_rimanenti--;
+		partita.sparo_mostri.stato = false;
+		collisione = true;
 	}
 	return collisione;
 }
