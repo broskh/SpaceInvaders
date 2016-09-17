@@ -3,53 +3,120 @@
  */
 
 #include <allegro5/allegro_font.h>
+#include <allegro5/allegro_image.h>
 #include "struttura_dati.h"
 #include "funzioni_generiche.h"
 #include "gestione_partita.h"
 
 //INIZIO MODULO
 
-bool controlloCollisioneBarriere (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere)
+
+
+ALLEGRO_BITMAP * sparoScelto (int pos_x, ALLEGRO_BITMAP *sparo_mostri_1, ALLEGRO_BITMAP *sparo_mostri_2)
+{
+	if (pos_x % 2 == 0)
+	{
+		return sparo_mostri_1;		
+	}
+	else
+	{
+		return sparo_mostri_2;
+	}
+}
+
+bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x_sparo, unsigned int pos_y_sparo, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere)
+{
+	bool collisione = false;
+	unsigned int altezza_barriera = ALT_BARRIERA * LATO_UNITA;
+	if (pos_y_sparo >= pos_y_prima_barriera && pos_y_sparo <= pos_y_prima_barriera + altezza_barriera)
+	{
+		unsigned int pos_x_attuale = pos_x_prima_barriera;
+		for (unsigned int n = 0 ; n < N_BARRIERE; n++)
+		{
+			if (pos_x_sparo >= pos_x_attuale && pos_x_sparo <= pos_x_attuale + LUNGHEZZA_PIXEL_BARRIERA)
+			{
+				unsigned int pos_y_attuale = pos_y_prima_barriera;
+				for (unsigned int r = 0; r < ALT_BARRIERA; r++)
+				{
+					if (pos_y_sparo >= pos_y_attuale && pos_y_sparo <= pos_y_attuale + LATO_UNITA)
+					{
+						for (unsigned int c = 0; c < LARG_BARRIERA; c++)
+						{	
+							if (pos_x_sparo >= pos_x_attuale && pos_x_sparo <= pos_x_attuale + LATO_UNITA)
+							{
+								if (barriere [n] [r] [c] != distrutta)
+								{
+									barriere [n] [r] [c] = static_cast <stato_barriera> (precInRange (barriere [n] [r] [c], 0));
+									collisione = true;
+								}
+								break;
+							}
+							pos_x_attuale += LATO_UNITA;								
+						}
+						break;
+					}
+					pos_y_attuale += LATO_UNITA;
+				}
+				break;
+			}
+			pos_x_attuale += LUNGHEZZA_PIXEL_BARRIERA + distanza_barriere;
+		}
+	}
+	return collisione;
+}
+
+void creaSparoMostri (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_assi_col_mostri)
+{
+	srand (time(NULL));
+	int fattore_casuale ;
+	if (partita.ondata.mostri_rimasti < static_cast <int> (N_COL_MOSTRI))
+	{
+		fattore_casuale =  rand() % partita.ondata.mostri_rimasti;
+	}
+	else
+	{
+		fattore_casuale =  rand() % N_COL_MOSTRI;
+	}
+
+	unsigned int pos_y_attuale  = partita.ondata.pos_y + dim_font_mostri + distanza_file_mostri * (N_FILE_MOSTRI - 1);	
+	for (int i = N_FILE_MOSTRI - 1; i >= 0 && fattore_casuale >= 0; i--)
+	{
+		unsigned int larghezza_mostro = al_get_text_width (font_mostri, partita.ondata.mostri [i] [0].stringa);
+		unsigned int pos_x_attuale = partita.ondata.pos_x + larghezza_mostro / 2 - 3;
+		for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
+		{
+			if (partita.ondata.mostri [i] [j].stato)
+			{
+				if (fattore_casuale == 0)
+				{
+					partita.sparo_mostri.stato = true;
+					partita.sparo_mostri.pos_x = pos_x_attuale;
+					partita.sparo_mostri.pos_y = pos_y_attuale;
+				}
+				fattore_casuale--;
+			}
+			pos_x_attuale += distanza_assi_col_mostri;
+		}
+		pos_y_attuale -= distanza_file_mostri;
+	}
+}
+
+bool controlloCollisioneBarriereSparoCarro (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere)
 {
 	bool collisione = false;
 	if (partita.sparo_carro.stato)
 	{
-		unsigned int altezza_barriera = ALT_BARRIERA * LATO_UNITA;
-		if (partita.sparo_carro.pos_y >= pos_y_prima_barriera && partita.sparo_carro.pos_y <= pos_y_prima_barriera + altezza_barriera)
-		{
-			unsigned int pos_x_attuale = pos_x_prima_barriera;
-			for (unsigned int n = 0 ; n < N_BARRIERE; n++)
-			{
-				if (partita.sparo_carro.pos_x >= pos_x_attuale && partita.sparo_carro.pos_x <= pos_x_attuale + LUNGHEZZA_PIXEL_BARRIERA)
-				{
-					unsigned int pos_y_attuale = pos_y_prima_barriera;
-					for (unsigned int r = 0; r < ALT_BARRIERA; r++)
-					{
-						if (partita.sparo_carro.pos_y >= pos_y_attuale && partita.sparo_carro.pos_y <= pos_y_attuale + LATO_UNITA)
-						{
-							for (unsigned int c = 0; c < LARG_BARRIERA; c++)
-							{	
-								if (partita.sparo_carro.pos_x >= pos_x_attuale && partita.sparo_carro.pos_x <= pos_x_attuale + LATO_UNITA)
-								{
-									if (partita.barriere [n] [r] [c] != distrutta)
-									{
-										partita.barriere [n] [r] [c] = static_cast <stato_barriera> (precInRange (partita.barriere [n] [r] [c], 0));
-										partita.sparo_carro.stato = false;
-										collisione = true;
-									}
-									break;
-								}
-								pos_x_attuale += LATO_UNITA;								
-							}
-							break;
-						}
-						pos_y_attuale += LATO_UNITA;
-					}
-					break;
-				}
-				pos_x_attuale += LUNGHEZZA_PIXEL_BARRIERA + distanza_barriere;
-			}
-		}
+		collisione =  controlloCollisioneBarriere (partita.barriere, partita.sparo_carro.pos_x, partita.sparo_carro.pos_y, pos_x_prima_barriera, pos_y_prima_barriera, distanza_barriere);
+	}
+	return collisione;
+}
+
+bool controlloCollisioneBarriereSparoMostri (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere, const unsigned int altezza_sparo)
+{
+	bool collisione = false;
+	if (partita.sparo_mostri.stato)
+	{
+		collisione =  controlloCollisioneBarriere (partita.barriere, partita.sparo_mostri.pos_x, partita.sparo_mostri.pos_y + altezza_sparo, pos_x_prima_barriera, pos_y_prima_barriera, distanza_barriere);
 	}
 	return collisione;
 }
@@ -87,7 +154,7 @@ bool controlloCollisioneCarro (Partita &partita,  const ALLEGRO_FONT *font_mostr
 	return collisione;
 }
 
-bool controlloCollisioneAlieni (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_assi_col_mostri)
+bool controlloCollisioneMostri (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_assi_col_mostri)
 {
 	bool collisione = false;
 	if (partita.sparo_carro.stato)
@@ -126,7 +193,7 @@ bool controlloCollisioneAlieni (Partita &partita, const unsigned int dim_font_mo
 	return collisione;
 }
 
-void muoviAlieni (Ondata &ondata, const unsigned int limite_sx, const unsigned int limite_dx, const unsigned int limite_inf, const unsigned int distanza_assi_colonne_mostri, const unsigned int larghezza_colonna, const unsigned int distanza_file_mostri)
+void muoviMostri (Ondata &ondata, const unsigned int limite_sx, const unsigned int limite_dx, const unsigned int limite_inf, const unsigned int distanza_assi_colonne_mostri, const unsigned int larghezza_colonna, const unsigned int distanza_file_mostri)
 {
 	unsigned int reale_limite_dx = limite_dx - ((N_COL_MOSTRI - 1) * distanza_assi_colonne_mostri + larghezza_colonna / 2);
 	if (ondata.mostri_rimasti)
@@ -156,6 +223,15 @@ void muoviSparoCarro (Sparo &sparo, const unsigned int limite_sup)
 {
 	sparo.pos_y = precInRange (sparo.pos_y, LATO_UNITA, limite_sup);
 	if (sparo.pos_y == limite_sup)
+	{
+		sparo.stato = false;
+	}
+}
+
+void muoviSparoMostri (Sparo &sparo, const unsigned int limite_inf)
+{
+	sparo.pos_y = sucInRange (sparo.pos_y, LATO_UNITA, limite_inf);
+	if (sparo.pos_y >= limite_inf)
 	{
 		sparo.stato = false;
 	}

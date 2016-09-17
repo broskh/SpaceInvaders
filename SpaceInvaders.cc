@@ -50,6 +50,8 @@ using namespace std;
 
 const float FPS_GENERALE = 60;  /**<FPS generale del gioco.*/
 const float FPS_LAMPEGGIO_MENU = 3.5; /**FPS per mostrare l'effetto di lampeggio sull'opzione selezionata del menù.*/
+const float FPS_SPARO_ALIENI = 1.5;
+const float FPS_ROTAZIONE_SPARO = 5;
 
 const unsigned int SPAZIO_TESTO = 10; /**<Spazio fra righe di testo adiacenti.*/
 const unsigned int SPAZIO_TESTO_GRANDE = 30; /**<Spazio grande fra righe di testo adiacenti.*/
@@ -109,21 +111,10 @@ const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Nome del file conten
 const char FILE_BARRIERA_PARZIALE [] = "Images/barriera_parziale.png";
 const char FILE_BARRIERA_INTEGRA [] = "Images/barriera_integra.png";
 
+const char FILE_SPARO_MOSTRI_1 [] = "Images/sparo_mostri_1.png";
+const char FILE_SPARO_MOSTRI_2 [] = "Images/sparo_mostri_2.png";
+
 const char FILE_MUSICA_PRINCIPALE [] = "Sounds/principale.flac"; /**<Nome del file contenente la musica principale.*/
-
-static void stampa (Punteggio punteggio)
-{
-	cout<<punteggio.nome<<" "<<punteggio.valore;	
-}
-
-static void stampa (Punteggio highscores [], int n)
-{
-	for (int i = 0; i < n; i++)
-	{
-		stampa (highscores [i]);
-		cout<<endl;
-	}
-}
 
 /**
  * Calcola il valore della prossima schermata da mostrare nel menù principale.
@@ -168,7 +159,7 @@ inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, 
  * @param partita Struttura {@link Partita} contenente le informazioni relative alla partita attuale.
  * @param impostazioni Impostazioni generali del gioco.
  */
-inline void gioca (ALLEGRO_FONT *font_mostri, ALLEGRO_FONT *font_testo, ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barriera_integra, Partita &partita, Impostazioni impostazioni);
+inline void gioca (ALLEGRO_FONT *font_mostri, ALLEGRO_FONT *font_testo, ALLEGRO_BITMAP *sparo_mostri_1, ALLEGRO_BITMAP *sparo_mostri_2, ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barriera_integra, Partita &partita, Impostazioni impostazioni, bool ruota_sparo);
 
 /**
  * Mostra il menu di modifica delle impostazioni.
@@ -220,11 +211,15 @@ int main ()
    	ALLEGRO_EVENT_QUEUE *coda_eventi = NULL;
 	ALLEGRO_TIMER *frame_rate_generale = NULL;
 	ALLEGRO_TIMER *lampeggio_voce = NULL;
+	ALLEGRO_TIMER *timer_sparo_mostri= NULL;
+	ALLEGRO_TIMER *timer_rotazione_sparo = NULL;
 	ALLEGRO_FONT *font_titolo = NULL;
 	ALLEGRO_FONT *font_testo = NULL;
 	ALLEGRO_FONT *font_mostri = NULL;
 	ALLEGRO_BITMAP *barriera_parziale = NULL;
 	ALLEGRO_BITMAP *barriera_integra = NULL;
+	ALLEGRO_BITMAP *sparo_mostri_1 = NULL;
+	ALLEGRO_BITMAP *sparo_mostri_2 = NULL;
    	ALLEGRO_SAMPLE *musica_principale = NULL;
 	bool redraw = true;
  
@@ -249,6 +244,12 @@ int main ()
 	lampeggio_voce = al_create_timer(1.0 / FPS_LAMPEGGIO_MENU);
 	assert (lampeggio_voce);
 
+	timer_sparo_mostri = al_create_timer(1.0 / FPS_SPARO_ALIENI);
+	assert (timer_sparo_mostri);
+
+	timer_rotazione_sparo = al_create_timer(1.0 / FPS_ROTAZIONE_SPARO);
+	assert (timer_rotazione_sparo);
+
 	font_titolo = al_load_ttf_font(FILE_FONT_IMMAGINI, DIM_FONT_TITOLO, 0);
 	assert (font_titolo);
 	font_testo = al_load_ttf_font(FILE_FONT_TESTO, DIM_FONT_TESTO, 0);
@@ -260,6 +261,10 @@ int main ()
 	assert (barriera_parziale);
 	barriera_integra = al_load_bitmap(FILE_BARRIERA_INTEGRA);
 	assert (barriera_integra);
+	sparo_mostri_1 = al_load_bitmap(FILE_SPARO_MOSTRI_1);
+	assert (sparo_mostri_1);
+	sparo_mostri_2 = al_load_bitmap(FILE_SPARO_MOSTRI_2);
+	assert (sparo_mostri_2);
 
 	musica_principale = al_load_sample (FILE_MUSICA_PRINCIPALE);
 	assert (musica_principale);
@@ -267,6 +272,8 @@ int main ()
    	al_register_event_source(coda_eventi, al_get_display_event_source(display));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(frame_rate_generale));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(lampeggio_voce));
+	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_sparo_mostri));
+	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_rotazione_sparo));
 	al_register_event_source(coda_eventi, al_get_keyboard_event_source());
 
 	al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -297,6 +304,7 @@ int main ()
 	Menu menu_pausa;
 	inizializzaMenu (menu_pausa, MENU_PAUSA, N_VOCI_MENU_PAUSA, v_continua);
 	bool redraw_lampeggio;
+	bool ruota_sparo;
 
 	int posizione;
 	char input [] = " ";
@@ -305,6 +313,7 @@ int main ()
 	{
 		cambia_schermata = false;
 		redraw_lampeggio = false;
+		ruota_sparo = false;
 		switch (schermata_att)
 		{
 			case s_menu:
@@ -386,6 +395,9 @@ int main ()
 				{
 					al_stop_samples();
 				}
+				al_start_timer(timer_sparo_mostri);
+				al_start_timer(timer_rotazione_sparo);
+
 				while(!cambia_schermata)
 			   	{
 					ALLEGRO_EVENT ev;
@@ -396,6 +408,17 @@ int main ()
 						if (ev.timer.source == frame_rate_generale)
 						{
 							redraw = true;
+						}
+						else if (ev.timer.source == timer_rotazione_sparo)
+						{
+							ruota_sparo = !ruota_sparo;
+						}
+						else if (ev.timer.source == timer_sparo_mostri)
+						{
+							if (!generale.partita_in_corso.sparo_mostri.stato)
+							{
+								creaSparoMostri (generale.partita_in_corso, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, font_mostri, DISTANZA_ASSI_COL_MOSTRI);
+							}
 						}
 					}
 					else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
@@ -411,6 +434,12 @@ int main ()
 							case ALLEGRO_KEY_ESCAPE:
 								schermata_att = s_pausa;
 								cambia_schermata = true;
+								break;
+							case ALLEGRO_KEY_BACKSPACE:
+								while (true)
+								{
+									;
+								}
 								break;
 						}
 					}
@@ -438,7 +467,7 @@ int main ()
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
         					al_clear_to_color(al_map_rgb(0, 0, 0));
-						gioca (font_mostri, font_testo, barriera_parziale, barriera_integra, generale.partita_in_corso, generale.impostazioni);
+						gioca (font_mostri, font_testo, sparo_mostri_1, sparo_mostri_2, barriera_parziale, barriera_integra, generale.partita_in_corso, generale.impostazioni, ruota_sparo);
 
 						//INIZIO DEI CAMBIAMENTI
 						if (generale.partita_in_corso.vite_rimanenti < 0 || controlloCollisioneCarro (generale.partita_in_corso, font_mostri, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, DISTANZA_ASSI_COL_MOSTRI, POS_Y_CARRO))
@@ -447,16 +476,29 @@ int main ()
 							cambia_schermata = true;
 							break;
 						}
-						controlloCollisioneAlieni (generale.partita_in_corso, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, font_mostri, DISTANZA_ASSI_COL_MOSTRI);
-						controlloCollisioneBarriere (generale.partita_in_corso, DISTANZA_BARRIERE, POS_Y_BARRIERE, DISTANZA_BARRIERE);
+						controlloCollisioneMostri (generale.partita_in_corso, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, font_mostri, DISTANZA_ASSI_COL_MOSTRI);
+						if (controlloCollisioneBarriereSparoCarro (generale.partita_in_corso, DISTANZA_BARRIERE, POS_Y_BARRIERE, DISTANZA_BARRIERE))
+						{
+							generale.partita_in_corso.sparo_carro.stato = false;
+						}
+						if (controlloCollisioneBarriereSparoMostri (generale.partita_in_corso, DISTANZA_BARRIERE, POS_Y_BARRIERE, DISTANZA_BARRIERE, al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_mostri.pos_x, sparo_mostri_1, sparo_mostri_2))))
+						{
+							generale.partita_in_corso.sparo_mostri.stato = false;
+						}
 						if (generale.partita_in_corso.sparo_carro.stato)
 						{
 							muoviSparoCarro (generale.partita_in_corso.sparo_carro, MARGINE_SUP_GIOCO);
 						}
-						muoviAlieni (generale.partita_in_corso.ondata, MARGINE_SX_GIOCO, MARGINE_DX_GIOCO, POS_Y_CARRO, DISTANZA_ASSI_COL_MOSTRI, al_get_text_width(font_mostri, STRINGA_M_30), DISTANZA_FILE_MOSTRI);
+						if (generale.partita_in_corso.sparo_mostri.stato)
+						{
+							muoviSparoMostri (generale.partita_in_corso.sparo_mostri, POS_Y_CARRO + DIM_MOSTRI - 8);
+						}
+						muoviMostri (generale.partita_in_corso.ondata, MARGINE_SX_GIOCO, MARGINE_DX_GIOCO, POS_Y_CARRO, DISTANZA_ASSI_COL_MOSTRI, al_get_text_width(font_mostri, STRINGA_M_30), DISTANZA_FILE_MOSTRI);
 						//FINE CAMBIAMENTI
 					}
 			   	}
+				al_stop_timer(timer_sparo_mostri);
+				al_stop_timer(timer_rotazione_sparo);
 				break;
 			case s_carica:
 				assert (caricaPartita (generale.partita_in_corso, FILE_SALVATAGGIO_PARTITA));
@@ -647,9 +689,7 @@ int main ()
 						switch(ev.keyboard.keycode)
 						{
 							case ALLEGRO_KEY_ENTER:
-								stampa (generale.highscores, generale.n_highscores);
 								aggiungiPunteggio (generale.highscores, generale.n_highscores, generale.partita_in_corso.punteggio, posizione);
-								stampa (generale.highscores, generale.n_highscores);
 								salvaPunteggi (generale.highscores, generale.n_highscores, FILE_HIGHSCORES);
 								nuovaPartita (generale.partita_in_corso, generale.impostazioni, CENTRO_ORIZ, POS_X_PRIMO_ASSE_MOSTRI, POS_Y_PRIMA_FILA_ONDATA);
 								schermata_att = s_menu;
@@ -688,6 +728,10 @@ int main ()
 				al_destroy_event_queue(coda_eventi);
 				al_destroy_timer(frame_rate_generale);
 				al_destroy_timer(lampeggio_voce);
+				al_destroy_timer(timer_sparo_mostri);
+				al_destroy_timer(timer_rotazione_sparo);
+   				al_destroy_bitmap(sparo_mostri_1);
+   				al_destroy_bitmap(sparo_mostri_2);
    				al_destroy_bitmap(barriera_parziale);
    				al_destroy_bitmap(barriera_integra);
 				al_destroy_sample(musica_principale);
@@ -697,6 +741,10 @@ int main ()
 				al_destroy_event_queue(coda_eventi);
 				al_destroy_timer(frame_rate_generale);
 				al_destroy_timer(lampeggio_voce);
+				al_destroy_timer(timer_sparo_mostri);
+				al_destroy_timer(timer_rotazione_sparo);
+   				al_destroy_bitmap(sparo_mostri_1);
+   				al_destroy_bitmap(sparo_mostri_2);
 				al_destroy_bitmap(barriera_parziale);
 				al_destroy_bitmap(barriera_integra);
 				al_destroy_sample(musica_principale);
@@ -708,6 +756,10 @@ int main ()
 	al_destroy_event_queue(coda_eventi);
 	al_destroy_timer(frame_rate_generale);
 	al_destroy_timer(lampeggio_voce);
+	al_destroy_timer(timer_sparo_mostri);
+	al_destroy_timer(timer_rotazione_sparo);
+	al_destroy_bitmap(sparo_mostri_1);
+	al_destroy_bitmap(sparo_mostri_2);
 	al_destroy_bitmap(barriera_parziale);
 	al_destroy_bitmap(barriera_integra);
 	al_destroy_sample(musica_principale);
@@ -834,7 +886,7 @@ inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, 
 	al_flip_display();
 }
 
-inline void gioca (ALLEGRO_FONT *font_mostri, ALLEGRO_FONT *font_testo, ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barriera_integra, Partita &partita, Impostazioni impostazioni)
+inline void gioca (ALLEGRO_FONT *font_mostri, ALLEGRO_FONT *font_testo, ALLEGRO_BITMAP *sparo_mostri_1, ALLEGRO_BITMAP *sparo_mostri_2, ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barriera_integra, Partita &partita, Impostazioni impostazioni, bool ruota_sparo)
 {
 	unsigned int pos_y_attuale;
 	unsigned int pos_x_attuale;
@@ -872,6 +924,24 @@ inline void gioca (ALLEGRO_FONT *font_mostri, ALLEGRO_FONT *font_testo, ALLEGRO_
 		pos_y_attuale += DISTANZA_FILE_MOSTRI;
 	}
 	//FINE DELLA VISUALIZZAZIONE DELL'ONDATA
+
+	//INIZIO DELLA VISUALIZZAZIONE DELLO SPARO DEI MOSTRI
+	if (partita.sparo_mostri.stato)
+	{
+		int angolo;
+		ALLEGRO_BITMAP *sparo_attuale;
+		sparo_attuale = sparoScelto (partita.sparo_mostri.pos_x, sparo_mostri_1, sparo_mostri_2);
+		if (ruota_sparo)
+		{
+			angolo = 0;			
+		}
+		else
+		{
+			angolo = ALLEGRO_PI;
+		}
+		al_draw_tinted_rotated_bitmap(sparo_attuale, al_map_rgb(0, 255, 0), al_get_bitmap_width (sparo_attuale) / 2 + 1, al_get_bitmap_height (sparo_attuale) / 2, partita.sparo_mostri.pos_x, partita.sparo_mostri.pos_y, angolo, 0);
+	}
+	//FINE DELLA VISUALIZZAZIONE DELLO SPARO DEI MOSTRI
 
 	//INIZIO DELLA VISUALIZZAZIONE DELLE BARRIERE
 	pos_x_attuale = DISTANZA_BARRIERE;
