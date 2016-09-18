@@ -10,6 +10,26 @@
 
 //INIZIO MODULO
 
+void creaNavicellaMisteriosa (Partita &partita, const unsigned int pos_x_navicella)
+{
+	srand (time(NULL));	
+	if (rand() % (100 / PROBABILITA_COMPARSA_NAVICELLA) == 0)
+	{
+		partita.navicella_misteriosa.stato = true;
+		partita.navicella_misteriosa.punteggio = rand() % (PUNTEGGIO_M_X_MAX - PUNTEGGIO_M_X_MIN) + PUNTEGGIO_M_X_MIN;
+		partita.pos_x_navicella = pos_x_navicella;
+	}
+}
+
+void muoviNavicellaMisteriosa (Partita &partita, const unsigned int limite_dx)
+{
+	partita.pos_x_navicella = sucInRange (partita.pos_x_navicella, LATO_UNITA, limite_dx);
+	if (partita.pos_x_navicella == limite_dx)
+	{
+		partita.navicella_misteriosa.stato = false;
+	}
+}
+
 bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x_sparo, unsigned int pos_y_sparo, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere)
 {
 	bool collisione = false;
@@ -131,24 +151,17 @@ bool controlloCollisioneCarroDaOndata (Partita &partita,  const ALLEGRO_FONT *fo
 {
 	bool collisione = false;
 	unsigned int pos_y_fila  = partita.ondata.pos_y + dim_font_mostri + distanza_file_mostri * (N_FILE_MOSTRI - 1);
-	for (int i = N_FILE_MOSTRI - 1; i >= 0; i--)
+	for (int i = N_FILE_MOSTRI - 1; i >= 0 && (!collisione); i--)
 	{
 		if (pos_y_fila >= pos_y_carro)
 		{
-			unsigned int pos_x_mostro = partita.ondata.pos_x;
-			unsigned int larghezza_mostro = al_get_text_width (font_mostri, partita.ondata.mostri [i] [0].stringa);
 			for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
 			{
-				if (partita.ondata.mostri [i] [j].stato && (partita.pos_x_carro >= pos_x_mostro && partita.pos_x_carro <= pos_x_mostro + larghezza_mostro))
+				if (partita.ondata.mostri [i] [j].stato)
 				{
 					collisione = true;
 					break;
 				}
-				pos_x_mostro += distanza_assi_col_mostri;
-			}
-			if (collisione)
-			{
-				break;
 			}
 		}
 		else
@@ -167,6 +180,19 @@ bool controlloCollisioneCarroDaSparoMostri (Partita &partita, const unsigned int
 	{
 		partita.vite_rimanenti--;
 		partita.sparo_mostri.stato = false;
+		collisione = true;
+	}
+	return collisione;
+}
+
+bool controlloCollisioneNavicellaMisteriosa (Partita &partita, const unsigned int larghezza_navicella, const unsigned int altezza_navicella, const unsigned int pos_y_navicella)
+{
+	bool collisione = false;
+	if (partita.sparo_carro.stato && partita.sparo_carro.pos_y <= (pos_y_navicella + altezza_navicella) && (partita.sparo_carro.pos_x >= partita.pos_x_navicella && partita.sparo_carro.pos_x <= (partita.pos_x_navicella + larghezza_navicella)))
+	{
+		partita.navicella_misteriosa.stato = false;
+		partita.sparo_carro.stato = false;
+		partita.punteggio.valore += partita.navicella_misteriosa.punteggio;
 		collisione = true;
 	}
 	return collisione;
@@ -310,7 +336,7 @@ void inizializzaBarriere (stato_barriera barriera [ALT_BARRIERA] [LARG_BARRIERA]
 	}
 }
 
-void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned int pos_x_iniziale_carro, const unsigned int pos_x_iniziale_ondata, const unsigned int pos_y_iniziale_ondata)
+void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned int pos_x_iniziale_carro, const unsigned int pos_x_iniziale_ondata, const unsigned int pos_y_iniziale_ondata, const unsigned int pos_x_navicella)
 {
 	Punteggio punteggio;
 	strcpy (punteggio.nome, "");
@@ -331,6 +357,11 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned i
 	partita.sparo_carro.stato = false;
 
 	partita.sparo_mostri.stato = false;
+	
+	partita.navicella_misteriosa.stato = false;
+	strcpy (partita.navicella_misteriosa.stringa, STRINGA_M_X);
+
+	partita.pos_x_navicella = pos_x_navicella;
 }
 
 void nuovaOndata (Ondata &ondata, const unsigned int pos_x_iniziale, const unsigned int pos_y_iniziale)
@@ -460,6 +491,16 @@ bool caricaPartita (Partita &salvataggio, const char file [])
 	{
 		return false;
 	}
+	
+	if (!(f>>temp.navicella_misteriosa.stato && f>>temp.navicella_misteriosa.punteggio && f>>temp.navicella_misteriosa.stringa))
+	{
+		return false;
+	}
+	
+	if (!(f>>temp.pos_x_navicella))
+	{
+		return false;
+	}
 
 	salvataggio = temp;
 	return true;
@@ -508,7 +549,13 @@ void salvaPartita (SpaceInvaders &spaceInvaders, const char file [])
 
 	f<<partita.sparo_mostri.stato<<endl;
 	f<<partita.sparo_mostri.pos_x<<endl;
-	f<<partita.sparo_mostri.pos_y;
+	f<<partita.sparo_mostri.pos_y<<endl<<endl;
+
+	f<<partita.navicella_misteriosa.stato<<endl;
+	f<<partita.navicella_misteriosa.punteggio<<endl;
+	f<<partita.navicella_misteriosa.stringa<<endl<<endl;
+
+	f<<partita.pos_x_navicella;
 
 	spaceInvaders.partita_salvata = true;
 }

@@ -157,6 +157,8 @@ struct Partita
 	unsigned int pos_x_carro; /**<Indica lo spostamento del carro armato rispetto alla posizione centrale iniziale.*/
 	Sparo sparo_carro; /**<Informazioni relative allo sparo del carro armato.*/
 	Sparo sparo_mostri; /**<Informazioni relative allo sparo dei mostri.*/
+	Mostro navicella_misteriosa; /**<Informazioni generali relative alla navicella.*/
+	unsigned int pos_x_navicella; /**<Posizione relativa all'asse x della navicella misteriosa.*/
 };
 
 /**

@@ -13,12 +13,19 @@ const unsigned int PUNTEGGIO_M_30 = 30; /**<Punteggio attribuito al mostro M_30.
 const char STRINGA_M_X [] = "2"; /**<Stringa per rappresentare la navicella misteriosa (M_X).*/
 const unsigned int PUNTEGGIO_M_X_MAX = 500; /**<Punteggio massimo attribuito al mostro M_X.*/
 const unsigned int PUNTEGGIO_M_X_MIN = 100; /**<Punteggio minimo attribuito al mostro M_X.*/
+const unsigned int PROBABILITA_COMPARSA_NAVICELLA = 15;
 
 const char STRINGA_CARRO_ARMATO [] = "-"; /**<Stringa per rappresentare il carro armato.*/
 const char STRINGA_SPARO [] = "|";
 
 const unsigned int LATO_UNITA = 4; /**<Lunghezza in pixel di ogni unità costituente le barriere.*/
 const unsigned int LUNGHEZZA_PIXEL_BARRIERA = LATO_UNITA * LARG_BARRIERA;
+
+bool controlloCollisioneNavicellaMisteriosa (Partita &partita, const unsigned int larghezza_navicella, const unsigned int altezz_navicella, const unsigned int pos_y_navicella);
+
+void creaNavicellaMisteriosa (Partita &partita, const unsigned int pos_x_navicella);
+
+void muoviNavicellaMisteriosa (Partita &partita, const unsigned int limite_dx);
 
 bool controlloCollisioneCarroDaSparoMostri (Partita &partita, const unsigned int larghezza_carro, const unsigned int altezza_sparo, const unsigned int dim_font_mostri, const unsigned int pos_y_carro);
 
@@ -87,7 +94,7 @@ void nuovaOndata (Ondata &ondata, const unsigned int pos_x_iniziale, const unsig
  * @param impostazioni Struttura {@link Impostazioni} dal quale verranno prelevate alcune informazioni necessari per la corretta inizializzazione di una nuova partita.
  * @param pos_x_iniziale_carro Posizione iniziale rispetto all'asse x del carro armato.
  */
-void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned int pos_x_iniziale_carro, const unsigned int pos_x_iniziale_ondata, const unsigned int pos_y_iniziale_ondata);
+void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned int pos_x_iniziale_carro, const unsigned int pos_x_iniziale_ondata, const unsigned int pos_y_iniziale_ondata, const unsigned int pos_x_navicella);
 
 /**
  * Carica da un file una partita lasciata in sospeso.

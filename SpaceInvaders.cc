@@ -52,6 +52,7 @@ const float FPS_GENERALE = 60;  /**<FPS generale del gioco.*/
 const float FPS_LAMPEGGIO_MENU = 3.5; /**FPS per mostrare l'effetto di lampeggio sull'opzione selezionata del menù.*/
 const float FPS_SPARO_ALIENI = 1.5;
 const float FPS_ROTAZIONE_SPARO = 5;
+const float FPS_NAVICELLA_MISTERIOSA = 1;
 
 const unsigned int SPAZIO_TESTO = 10; /**<Spazio fra righe di testo adiacenti.*/
 const unsigned int SPAZIO_TESTO_GRANDE = 30; /**<Spazio grande fra righe di testo adiacenti.*/
@@ -94,7 +95,7 @@ const unsigned int POS_Y_TITOLO_PAUSA = 100; /**<Posizione rispetto all'asse y d
 const unsigned int CENTRO_ORIZ = LARGHEZZA_DISPLAY / 2; /**<Posizione centrale della larghezza del display.*/
 const unsigned int MARGINE_SX_GIOCO = 40; /**<Margine sinistro del gioco.*/
 const unsigned int MARGINE_DX_GIOCO = LARGHEZZA_DISPLAY - MARGINE_SX_GIOCO; /**<Margine destro del gioco.*/
-const unsigned int MARGINE_SUP_GIOCO = 25; /**<Margine superiore del gioco.*/
+const unsigned int MARGINE_SUP_GIOCO = 45; /**<Margine superiore del gioco.*/
 
 const unsigned int DISTANZA_ASSI_COL_MOSTRI = 40; /**<Distanza fra gli assi delle colonne di mostri.*/
 const unsigned int DISTANZA_FILE_MOSTRI = 35; /**<Distamza fra le file di mostri.*/
@@ -213,6 +214,7 @@ int main ()
 	ALLEGRO_TIMER *lampeggio_voce = NULL;
 	ALLEGRO_TIMER *timer_sparo_mostri= NULL;
 	ALLEGRO_TIMER *timer_rotazione_sparo = NULL;
+	ALLEGRO_TIMER *timer_comparsa_navicella = NULL;
 	ALLEGRO_FONT *font_titolo = NULL;
 	ALLEGRO_FONT *font_testo = NULL;
 	ALLEGRO_FONT *font_mostri = NULL;
@@ -250,6 +252,9 @@ int main ()
 	timer_rotazione_sparo = al_create_timer(1.0 / FPS_ROTAZIONE_SPARO);
 	assert (timer_rotazione_sparo);
 
+	timer_comparsa_navicella = al_create_timer(1.0 / FPS_NAVICELLA_MISTERIOSA);
+	assert (timer_comparsa_navicella);
+
 	font_titolo = al_load_ttf_font(FILE_FONT_IMMAGINI, DIM_FONT_TITOLO, 0);
 	assert (font_titolo);
 	font_testo = al_load_ttf_font(FILE_FONT_TESTO, DIM_FONT_TESTO, 0);
@@ -274,6 +279,7 @@ int main ()
 	al_register_event_source(coda_eventi, al_get_timer_event_source(lampeggio_voce));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_sparo_mostri));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_rotazione_sparo));
+	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_comparsa_navicella));
 	al_register_event_source(coda_eventi, al_get_keyboard_event_source());
 
 	al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -291,7 +297,7 @@ int main ()
 		generale.n_highscores = 0;
 	}
 	generale.partita_salvata = esisteSalvataggio (FILE_SALVATAGGIO_PARTITA);
-	nuovaPartita (generale.partita_in_corso, generale.impostazioni, CENTRO_ORIZ, POS_X_PRIMO_ASSE_MOSTRI, POS_Y_PRIMA_FILA_ONDATA);
+	nuovaPartita (generale.partita_in_corso, generale.impostazioni, CENTRO_ORIZ, POS_X_PRIMO_ASSE_MOSTRI, POS_Y_PRIMA_FILA_ONDATA, MARGINE_SX_GIOCO);
 	//FINE INIZIALIZZAZIONE DELLA STRUTTURA PRINCIPALE
 	
 	schermata schermata_att = s_menu;
@@ -397,6 +403,7 @@ int main ()
 				}
 				al_start_timer(timer_sparo_mostri);
 				al_start_timer(timer_rotazione_sparo);
+				al_start_timer(timer_comparsa_navicella);
 
 				while(!cambia_schermata)
 			   	{
@@ -420,6 +427,13 @@ int main ()
 								creaSparoMostri (generale.partita_in_corso, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, font_mostri, DISTANZA_ASSI_COL_MOSTRI);
 							}
 						}
+						else if (ev.timer.source == timer_comparsa_navicella)
+						{
+							if (!generale.partita_in_corso.navicella_misteriosa.stato)
+							{
+								creaNavicellaMisteriosa (generale.partita_in_corso, MARGINE_SX_GIOCO);
+							}
+						}
 					}
 					else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 					{
@@ -435,12 +449,12 @@ int main ()
 								schermata_att = s_pausa;
 								cambia_schermata = true;
 								break;
-							case ALLEGRO_KEY_BACKSPACE:
+							/*case ALLEGRO_KEY_BACKSPACE:
 								while (true)
 								{
 									;
 								}
-								break;
+								break;*/
 						}
 					}
 					else if(ev.type == ALLEGRO_EVENT_KEY_CHAR)
@@ -488,6 +502,9 @@ int main ()
 						if (controlloCollisioneBarriereDaSparoMostri (generale.partita_in_corso, DISTANZA_BARRIERE, POS_Y_BARRIERE, DISTANZA_BARRIERE, al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_mostri.pos_x, sparo_mostri_1, sparo_mostri_2))))
 						{
 						}
+						if (controlloCollisioneNavicellaMisteriosa (generale.partita_in_corso, al_get_text_width(font_mostri, STRINGA_M_X), DIM_MOSTRI, MARGINE_SUP_GIOCO))
+						{
+						}
 						//FINE DEI CONTROLLI
 						//INIZIO DEI CAMBIAMENTI
 						if (generale.partita_in_corso.sparo_carro.stato)
@@ -498,12 +515,17 @@ int main ()
 						{
 							muoviSparoMostri (generale.partita_in_corso.sparo_mostri, POS_Y_CARRO + DIM_MOSTRI - 8);
 						}
+						if (generale.partita_in_corso.navicella_misteriosa.stato)
+						{
+							muoviNavicellaMisteriosa (generale.partita_in_corso, MARGINE_DX_GIOCO + al_get_text_width(font_mostri, STRINGA_M_X));
+						}
 						muoviMostri (generale.partita_in_corso.ondata, MARGINE_SX_GIOCO, MARGINE_DX_GIOCO, POS_Y_CARRO, DISTANZA_ASSI_COL_MOSTRI, al_get_text_width(font_mostri, STRINGA_M_30), DISTANZA_FILE_MOSTRI);
 						//FINE DEI CAMBIAMENTI
 					}
 			   	}
 				al_stop_timer(timer_sparo_mostri);
 				al_stop_timer(timer_rotazione_sparo);
+				al_stop_timer(timer_comparsa_navicella);
 				break;
 			case s_carica:
 				assert (caricaPartita (generale.partita_in_corso, FILE_SALVATAGGIO_PARTITA));
@@ -696,7 +718,7 @@ int main ()
 							case ALLEGRO_KEY_ENTER:
 								aggiungiPunteggio (generale.highscores, generale.n_highscores, generale.partita_in_corso.punteggio, posizione);
 								salvaPunteggi (generale.highscores, generale.n_highscores, FILE_HIGHSCORES);
-								nuovaPartita (generale.partita_in_corso, generale.impostazioni, CENTRO_ORIZ, POS_X_PRIMO_ASSE_MOSTRI, POS_Y_PRIMA_FILA_ONDATA);
+								nuovaPartita (generale.partita_in_corso, generale.impostazioni, CENTRO_ORIZ, POS_X_PRIMO_ASSE_MOSTRI, POS_Y_PRIMA_FILA_ONDATA, MARGINE_SX_GIOCO);
 								schermata_att = s_menu;
 								cambia_schermata = true;
 								break;
@@ -735,6 +757,7 @@ int main ()
 				al_destroy_timer(lampeggio_voce);
 				al_destroy_timer(timer_sparo_mostri);
 				al_destroy_timer(timer_rotazione_sparo);
+				al_destroy_timer(timer_comparsa_navicella);
    				al_destroy_bitmap(sparo_mostri_1);
    				al_destroy_bitmap(sparo_mostri_2);
    				al_destroy_bitmap(barriera_parziale);
@@ -748,6 +771,7 @@ int main ()
 				al_destroy_timer(lampeggio_voce);
 				al_destroy_timer(timer_sparo_mostri);
 				al_destroy_timer(timer_rotazione_sparo);
+				al_destroy_timer(timer_comparsa_navicella);
    				al_destroy_bitmap(sparo_mostri_1);
    				al_destroy_bitmap(sparo_mostri_2);
 				al_destroy_bitmap(barriera_parziale);
@@ -763,6 +787,7 @@ int main ()
 	al_destroy_timer(lampeggio_voce);
 	al_destroy_timer(timer_sparo_mostri);
 	al_destroy_timer(timer_rotazione_sparo);
+	al_destroy_timer(timer_comparsa_navicella);
 	al_destroy_bitmap(sparo_mostri_1);
 	al_destroy_bitmap(sparo_mostri_2);
 	al_destroy_bitmap(barriera_parziale);
@@ -810,7 +835,7 @@ schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceIn
 	{
 		;
 	}
-	nuovaPartita (spaceInvaders.partita_in_corso, spaceInvaders.impostazioni, CENTRO_ORIZ, POS_X_PRIMO_ASSE_MOSTRI, POS_Y_PRIMA_FILA_ONDATA);
+	nuovaPartita (spaceInvaders.partita_in_corso, spaceInvaders.impostazioni, CENTRO_ORIZ, POS_X_PRIMO_ASSE_MOSTRI, POS_Y_PRIMA_FILA_ONDATA, MARGINE_SX_GIOCO);
 	return s_menu;
 }
 
@@ -911,6 +936,13 @@ inline void gioca (ALLEGRO_FONT *font_mostri, ALLEGRO_FONT *font_testo, ALLEGRO_
 	pos_x_attuale = (CENTRO_ORIZ - al_get_text_width(font_testo, stringa_vite)) / 2 + CENTRO_ORIZ;
 	al_draw_text(font_testo, al_map_rgb(0, 255, 0), pos_x_attuale, POS_Y_INFORMAZIONI_PARTITA, ALLEGRO_ALIGN_CENTRE, stringa_vite);
 	//FINE DELLA VISUALIZZAZIONE DELLE INFORMAZIONI
+
+	//INIZIO DELLA VISUALIZZAZIONE DELLA NAVICELLA MISTERIOSA
+	if (partita.navicella_misteriosa.stato)
+	{
+		al_draw_text(font_mostri, al_map_rgb(255, 0, 0), partita.pos_x_navicella, MARGINE_SUP_GIOCO, ALLEGRO_ALIGN_LEFT, partita.navicella_misteriosa.stringa);
+	}
+	//FINE DELLA VISUALIZZAZIONE DELLA NAVICELLA MISTERIOSA
 
 	//INIZIO DELLA VISUALIZZAZIONE DELL'ONDATA
 	pos_y_attuale = partita.ondata.pos_y;
