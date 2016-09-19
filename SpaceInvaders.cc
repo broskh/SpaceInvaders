@@ -487,7 +487,7 @@ int main ()
 						if (controlloCollisioneCarroDaSparoMostri (generale.partita_in_corso, al_get_text_width(font_mostri, STRINGA_CARRO_ARMATO), al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_mostri.pos_x, sparo_mostri_1, sparo_mostri_2)), DIM_MOSTRI, POS_Y_CARRO))
 						{
 						}
-						if (generale.partita_in_corso.vite_rimanenti < 0 || controlloCollisioneCarroDaOndata (generale.partita_in_corso, font_mostri, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, DISTANZA_ASSI_COL_MOSTRI, POS_Y_CARRO))
+						if (generale.partita_in_corso.vite_rimanenti < 0 || controlloCollisioneCarroDaOndata (generale.partita_in_corso, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, DISTANZA_ASSI_COL_MOSTRI, POS_Y_CARRO))
 						{
 							schermata_att = s_fine_partita;
 							cambia_schermata = true;
@@ -503,6 +503,9 @@ int main ()
 						{
 						}
 						if (controlloCollisioneNavicellaMisteriosa (generale.partita_in_corso, al_get_text_width(font_mostri, STRINGA_M_X), DIM_MOSTRI, MARGINE_SUP_GIOCO))
+						{
+						}
+						if (controlloCollisioneBarriereDaOndata (generale.partita_in_corso, DISTANZA_BARRIERE, POS_Y_BARRIERE, DISTANZA_BARRIERE, DIM_MOSTRI, font_mostri, DISTANZA_FILE_MOSTRI, DISTANZA_ASSI_COL_MOSTRI))
 						{
 						}
 						//FINE DEI CONTROLLI

@@ -21,6 +21,8 @@ const char STRINGA_SPARO [] = "|";
 const unsigned int LATO_UNITA = 4; /**<Lunghezza in pixel di ogni unità costituente le barriere.*/
 const unsigned int LUNGHEZZA_PIXEL_BARRIERA = LATO_UNITA * LARG_BARRIERA;
 
+bool controlloCollisioneBarriereDaOndata (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere, const unsigned int dim_font_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_file_mostri, const unsigned int distanza_assi_col_mostri);
+
 bool controlloCollisioneNavicellaMisteriosa (Partita &partita, const unsigned int larghezza_navicella, const unsigned int altezz_navicella, const unsigned int pos_y_navicella);
 
 void creaNavicellaMisteriosa (Partita &partita, const unsigned int pos_x_navicella);
@@ -39,7 +41,7 @@ const unsigned int N_MOSTRI_TOTALE = N_FILE_MOSTRI * N_COL_MOSTRI; /**<Numero to
 
 void creaSparoMostri (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_assi_col_mostri);
 
-bool controlloCollisioneCarroDaOndata (Partita &partita,  const ALLEGRO_FONT *font_mostri, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const unsigned int distanza_assi_col_mostri, const unsigned int pos_y_carro);
+bool controlloCollisioneCarroDaOndata (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const unsigned int distanza_assi_col_mostri, const unsigned int pos_y_carro);
 
 bool controlloCollisioneMostri (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_assi_col_mostri);
 

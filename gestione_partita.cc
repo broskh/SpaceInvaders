@@ -16,7 +16,7 @@ void creaNavicellaMisteriosa (Partita &partita, const unsigned int pos_x_navicel
 	if (rand() % (100 / PROBABILITA_COMPARSA_NAVICELLA) == 0)
 	{
 		partita.navicella_misteriosa.stato = true;
-		partita.navicella_misteriosa.punteggio = rand() % (PUNTEGGIO_M_X_MAX - PUNTEGGIO_M_X_MIN) + PUNTEGGIO_M_X_MIN;
+		partita.navicella_misteriosa.punteggio = (rand() % ((PUNTEGGIO_M_X_MAX - PUNTEGGIO_M_X_MIN) / 10)) * 10 + PUNTEGGIO_M_X_MIN;
 		partita.pos_x_navicella = pos_x_navicella;
 	}
 }
@@ -48,7 +48,7 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 					{
 						for (unsigned int c = 0; c < LARG_BARRIERA; c++)
 						{	
-							if (pos_x_sparo >= pos_x_attuale && pos_x_sparo <= pos_x_attuale + LATO_UNITA)
+							if (pos_x_sparo >= pos_x_attuale && pos_x_sparo <= pos_x_attuale + LATO_UNITA) 
 							{
 								if (barriere [n] [r] [c] != distrutta)
 								{
@@ -147,26 +147,50 @@ bool controlloCollisioneBarriereDaSparoMostri (Partita &partita, const unsigned 
 	return collisione;
 }
 
-bool controlloCollisioneCarroDaOndata (Partita &partita,  const ALLEGRO_FONT *font_mostri, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const unsigned int distanza_assi_col_mostri, const unsigned int pos_y_carro)
+bool controlloCollisioneBarriereDaOndata (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere, const unsigned int dim_font_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_file_mostri, const unsigned int distanza_assi_col_mostri)
 {
 	bool collisione = false;
 	unsigned int pos_y_fila  = partita.ondata.pos_y + dim_font_mostri + distanza_file_mostri * (N_FILE_MOSTRI - 1);
-	for (int i = N_FILE_MOSTRI - 1; i >= 0 && (!collisione); i--)
+	for (int i = N_FILE_MOSTRI - 1; i >= 0 && pos_y_fila >= pos_y_prima_barriera; i--)
 	{
-		if (pos_y_fila >= pos_y_carro)
+		unsigned int larghezza_mostro = al_get_text_width (font_mostri, partita.ondata.mostri [i] [0].stringa);
+		for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
 		{
-			for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
+			unsigned int pos_x_attuale = (partita.ondata.pos_x + distanza_assi_col_mostri * j) - larghezza_mostro / 2;
+			if (partita.ondata.mostri [i] [j].stato)
 			{
-				if (partita.ondata.mostri [i] [j].stato)
+				for (unsigned int k = 0; k < larghezza_mostro; k += LATO_UNITA)
 				{
-					collisione = true;
-					break;
+					for (unsigned int l = 0; l < LATO_UNITA * LATO_UNITA; l += LATO_UNITA)
+					{
+						if (controlloCollisioneBarriere (partita.barriere, pos_x_attuale, pos_y_fila - l, pos_x_prima_barriera, pos_y_prima_barriera, distanza_barriere))
+						{
+							collisione = true;
+						}
+					}
 				}
 			}
 		}
-		else
+		pos_y_fila -= distanza_file_mostri;
+	}
+	/////////////////////////
+	
+	return collisione;
+}
+
+bool controlloCollisioneCarroDaOndata (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const unsigned int distanza_assi_col_mostri, const unsigned int pos_y_carro)
+{
+	bool collisione = false;
+	unsigned int pos_y_fila  = partita.ondata.pos_y + dim_font_mostri + distanza_file_mostri * (N_FILE_MOSTRI - 1);
+	for (int i = N_FILE_MOSTRI - 1; i >= 0 && (!collisione) && pos_y_fila >= pos_y_carro; i--)
+	{
+		for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
 		{
-			break;
+			if (partita.ondata.mostri [i] [j].stato)
+			{
+				collisione = true;
+				break;
+			}
 		}
 		pos_y_fila -= distanza_file_mostri;
 	}
