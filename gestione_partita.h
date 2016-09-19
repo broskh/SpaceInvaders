@@ -3,7 +3,6 @@
  */
 
 //INIZIO INTERFACCIA
-
 const char STRINGA_M_10 [] = "B"; /**<Stringa per rappresentare il mostro M_10.*/
 const unsigned int PUNTEGGIO_M_10 = 10; /**<Punteggio attribuito al mostro M_10.*/
 const char STRINGA_M_20 [] = "D"; /**<Stringa per rappresentare il mostro M_20.*/
@@ -15,6 +14,8 @@ const unsigned int PUNTEGGIO_M_X_MAX = 500; /**<Punteggio massimo attribuito al 
 const unsigned int PUNTEGGIO_M_X_MIN = 100; /**<Punteggio minimo attribuito al mostro M_X.*/
 const unsigned int PROBABILITA_COMPARSA_NAVICELLA = 15;
 
+extern unsigned int MARGINE_SX_GIOCO;
+
 const char STRINGA_CARRO_ARMATO [] = "-"; /**<Stringa per rappresentare il carro armato.*/
 const char STRINGA_SPARO [] = "|";
 
@@ -25,7 +26,7 @@ bool controlloCollisioneBarriereDaOndata (Partita &partita, const unsigned int p
 
 bool controlloCollisioneNavicellaMisteriosa (Partita &partita, const unsigned int larghezza_navicella, const unsigned int altezz_navicella, const unsigned int pos_y_navicella);
 
-void creaNavicellaMisteriosa (Partita &partita, const unsigned int pos_x_navicella);
+void creaNavicellaMisteriosa (Partita &partita);
 
 void muoviNavicellaMisteriosa (Partita &partita, const unsigned int limite_dx);
 

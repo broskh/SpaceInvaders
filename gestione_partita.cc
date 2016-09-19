@@ -10,14 +10,14 @@
 
 //INIZIO MODULO
 
-void creaNavicellaMisteriosa (Partita &partita, const unsigned int pos_x_navicella)
+void creaNavicellaMisteriosa (Partita &partita)
 {
 	srand (time(NULL));	
 	if (rand() % (100 / PROBABILITA_COMPARSA_NAVICELLA) == 0)
 	{
 		partita.navicella_misteriosa.stato = true;
 		partita.navicella_misteriosa.punteggio = (rand() % ((PUNTEGGIO_M_X_MAX - PUNTEGGIO_M_X_MIN) / 10)) * 10 + PUNTEGGIO_M_X_MIN;
-		partita.pos_x_navicella = pos_x_navicella;
+		partita.pos_x_navicella = MARGINE_SX_GIOCO;
 	}
 }
 

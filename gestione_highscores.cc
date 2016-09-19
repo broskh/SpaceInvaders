@@ -79,6 +79,11 @@ int posizionePunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highsco
 			return i;
 		}
 	}
+	if (n_highscores < MAX_HIGHSCORES)
+	{
+		n_highscores++;
+		return n_highscores - 1;
+	}
 	return -1;
 }
 

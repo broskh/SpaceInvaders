@@ -93,7 +93,7 @@ const unsigned int POS_Y_VOCI_PAUSA = 220; /**<Posizione rispetto all'asse y dal
 const unsigned int POS_Y_TITOLO_PAUSA = 100; /**<Posizione rispetto all'asse y dalla quale mostrare il titolo del menù di pausa.*/
 
 const unsigned int CENTRO_ORIZ = LARGHEZZA_DISPLAY / 2; /**<Posizione centrale della larghezza del display.*/
-const unsigned int MARGINE_SX_GIOCO = 40; /**<Margine sinistro del gioco.*/
+unsigned int MARGINE_SX_GIOCO = 40; /**<Margine sinistro del gioco.*/
 const unsigned int MARGINE_DX_GIOCO = LARGHEZZA_DISPLAY - MARGINE_SX_GIOCO; /**<Margine destro del gioco.*/
 const unsigned int MARGINE_SUP_GIOCO = 45; /**<Margine superiore del gioco.*/
 
@@ -431,7 +431,7 @@ int main ()
 						{
 							if (!generale.partita_in_corso.navicella_misteriosa.stato)
 							{
-								creaNavicellaMisteriosa (generale.partita_in_corso, MARGINE_SX_GIOCO);
+								creaNavicellaMisteriosa (generale.partita_in_corso);
 							}
 						}
 					}
@@ -691,7 +691,7 @@ int main ()
 			case s_fine_partita:	
 				al_start_timer(lampeggio_voce);
 				posizione = posizionePunteggio (generale.highscores, generale.n_highscores, generale.partita_in_corso.punteggio);
-				
+				cout<<posizione<<endl;
 				while(!cambia_schermata)
 			   	{				
 					ALLEGRO_EVENT ev;
@@ -719,8 +719,12 @@ int main ()
 						switch(ev.keyboard.keycode)
 						{
 							case ALLEGRO_KEY_ENTER:
-								aggiungiPunteggio (generale.highscores, generale.n_highscores, generale.partita_in_corso.punteggio, posizione);
-								salvaPunteggi (generale.highscores, generale.n_highscores, FILE_HIGHSCORES);
+								if (posizione != -1)
+								{
+									aggiungiPunteggio (generale.highscores, generale.n_highscores, generale.partita_in_corso.punteggio, posizione);
+									salvaPunteggi (generale.highscores, generale.n_highscores, FILE_HIGHSCORES);
+								}
+
 								nuovaPartita (generale.partita_in_corso, generale.impostazioni, CENTRO_ORIZ, POS_X_PRIMO_ASSE_MOSTRI, POS_Y_PRIMA_FILA_ONDATA, MARGINE_SX_GIOCO);
 								schermata_att = s_menu;
 								cambia_schermata = true;
