@@ -6,12 +6,32 @@
 #include "gestione_highscores.h"
 
 //INIZIO MODULO
-
-bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores, const char file [])
+void output (Punteggio punteggio, ostream &os)
 {
-	ifstream f (file) ;
+	os<<punteggio.nome<<" "<<punteggio.valore;	
+}
+
+void output (Punteggio highscores [], int n, ostream &os)
+{
+	for (int i = 0; i < n; i++)
+	{
+		output (highscores [i], os);
+		os<<endl;
+	}
+}
+
+void scambiaPunteggio (Punteggio &punt1, Punteggio &punt2)
+{
+	Punteggio temp = punt2;
+	punt2 = punt1;
+	punt1 = temp;
+}
+
+bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores)
+{
+	ifstream f (FILE_HIGHSCORES) ;
     	if (!f) {
-		cerr<<"Errore nel caricamento del file "<<file<<endl;
+		cerr<<"Errore nel caricamento del file "<<FILE_HIGHSCORES<<endl;
 		return false ;
     	}
 	int i = 0;
@@ -35,26 +55,16 @@ bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores
 	return true;
 }
 
-void salvaPunteggi (Punteggio highscores [], int n_highscores, const char file [])
+void salvaPunteggi (Punteggio highscores [], int n_highscores)
 {
-	ofstream f(file) ;
-	for (int i = 0; i < n_highscores; i++)
-	{
-		f<<highscores [i].nome<<" "<<highscores [i].valore<<endl;
-	}
+	ofstream f(FILE_HIGHSCORES) ;
+	output (highscores, n_highscores, f);
 }
 
 void inizializzaPunteggio (Punteggio &punteggio, char nome [], int valore)
 {
 	strcpy (punteggio.nome, nome);
 	punteggio.valore = valore;
-}
-
-void scambiaPunteggio (Punteggio &punt1, Punteggio &punt2)
-{
-	Punteggio temp = punt2;
-	punt2 = punt1;
-	punt1 = temp;
 }
 
 void aggiungiPunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores, Punteggio nuovo_punteggio, int posizione)
@@ -89,16 +99,11 @@ int posizionePunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highsco
 
 void stampa (Punteggio punteggio)
 {
-	cout<<punteggio.nome<<" "<<punteggio.valore;	
+	output (punteggio, cout);
 }
 
 void stampa (Punteggio highscores [], int n)
 {
-	for (int i = 0; i < n; i++)
-	{
-		stampa (highscores [i]);
-		cout<<endl;
-	}
+	output (highscores, n, cout);
 }
-
 //FINE MODULO

@@ -48,32 +48,56 @@
 
 using namespace std;
 
-const float FPS_GENERALE = 60;  /**<FPS generale del gioco.*/
-const float FPS_LAMPEGGIO_MENU = 3.5; /**FPS per mostrare l'effetto di lampeggio sull'opzione selezionata del menù.*/
-const float FPS_SPARO_ALIENI = 1.5;
-const float FPS_ROTAZIONE_SPARO = 5;
-const float FPS_NAVICELLA_MISTERIOSA = 1;
+const float FPS_GENERALE = 60; /**<FPS generale del gioco.*/
+const float FPS_LAMPEGGIO_MENU = 3.5; /**<FPS per la frequenza in grado di consentire l'effetto di lampeggio sull'opzione selezionata dei menù.*/
+const float FPS_SPARO_ALIENI = 1.5; /**<FPS per la frequenza di creazione degli spari da parte degli alieni.*/
+const float FPS_CAMBIO_SPARO_ALIENI = 5; /**<FPS per la frequenza di cambiamento degli spari degli alieni.*/
+const float FPS_NAVICELLA_MISTERIOSA = 1; /**<FPS per la frequenza della possibile comparsa della navicella misteriosa.*/
+
+const char FILE_FONT_TESTO [] = "Fonts/space_invaders.ttf"; /**<File contenente il font utilizzato per i testi.*/
+const char FILE_FONT_IMMAGINI [] = "Fonts/dustbust_invaders.ttf"; /**<File contenente il font utilizzato per gli alieni e altri elementi in tema nel gioco.*/
+const char FILE_BARRIERA_PARZIALE [] = "Images/barriera_parziale.png"; /**<Percorso del file contenente l'immagine per rappresentare un elemento della barriera allo stato "parziale". (Deve essere 4x4 pixel)*/
+const char FILE_BARRIERA_INTEGRA [] = "Images/barriera_integra.png"; /**<Percorso del file contenente l'immagine per rappresentare un elemento della barriera allo stato "integra". (Deve essere 4x4 pixel)*/
+const char FILE_SPARO_MOSTRI_1 [] = "Images/sparo_mostri_1.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo degli alieni con posizione relativa all'asse x pari.*/
+const char FILE_SPARO_MOSTRI_2 [] = "Images/sparo_mostri_2.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo degli alieni con posizione relativa all'asse x dispari.*/
+const char FILE_MUSICA_PRINCIPALE [] = "Sounds/principale.flac"; /**<Percorso del file contenente la musica principale.*/
+char FILE_HIGHSCORES [] = "highscores"; /**<Percorso del file contenente gli highscores.*/
+char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Percorso del file contenente le impostazioni salvate.*/
+char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file contenente la partita salvata.*/
+
+char STRINGA_MOSTRO_3 [] = "B"; /**<Stringa per rappresentare il mostro 3.*/
+char STRINGA_MOSTRO_2 [] = "D"; /**<Stringa per rappresentare il mostro 2.*/
+char STRINGA_MOSTRO_1 [] = "F"; /**<Stringa per rappresentare il mostro 1.*/
+char STRINGA_NAVICELLA [] = "2"; /**<Stringa per rappresentare la navicella misteriosa.*/
+char STRINGA_CARRO_ARMATO [] = "-"; /**<Stringa per rappresentare il carro armato.*/
+char STRINGA_SPARO [] = "|"; /**<Stringa per rappresentare lo sparo del carro armato.*/
+
+unsigned int PUNTEGGIO_MOSTRO_3 = 10; /**<Punteggio attribuito al mostro 3.*/
+unsigned int PUNTEGGIO_MOSTRO_2 = 20; /**<Punteggio attribuito al mostro 2.*/
+unsigned int PUNTEGGIO_MOSTRO_1 = 30; /**<Punteggio attribuito al mostro 1.*/
+unsigned int PUNTEGGIO_NAVICELLA_MAX = 500; /**<Punteggio massimo attribuito alla navicella.*/
+unsigned int PUNTEGGIO_NAVICELLA_MIN = 100; /**<Punteggio minimo attribuito alla navicella.*/
+unsigned int PROBABILITA_COMPARSA_NAVICELLA = 15; /**<Probabilità percentuale di comparsa della navicella misteriosa.*/
 
 const unsigned int SPAZIO_TESTO = 10; /**<Spazio fra righe di testo adiacenti.*/
 const unsigned int SPAZIO_TESTO_GRANDE = 30; /**<Spazio grande fra righe di testo adiacenti.*/
 const unsigned int DIM_FONT_TITOLO = 140; /**<Dimensione del font utilizzato per il titolo.*/
-const unsigned int DIM_FONT_TESTO = 15; /**<Dimensione del font utilizzato per i testi generali.*/
-const unsigned int DIM_MOSTRI = 20; /**<Dimensione del font utilizzato per i mostri*/
+unsigned int DIM_FONT_TESTO = 15; /**<Dimensione del font utilizzato per i testi generali.*/
+unsigned int DIM_MOSTRI = 20; /**<Dimensione del font utilizzato per i mostri*/
 
-const unsigned int LARGHEZZA_DISPLAY = 640; /**<Larghezza della finestra del gioco.*/
-const unsigned int ALTEZZA_DISPLAY = 480; /**<Altezza della finestra del gioco.*/
+unsigned int LARGHEZZA_DISPLAY = 640; /**<Larghezza della finestra del gioco.*/
+unsigned int ALTEZZA_DISPLAY = 480; /**<Altezza della finestra del gioco.*/
 
 const unsigned int POS_X_ESEMPIO_MOSTRI = 255; /**<Posizione rispetto all'asse x dalla quale mostrare i mostri nel menù principale.*/
 const unsigned int POS_X_ESEMPIO_PUNTEGGIO = 350; /**<Posizione rispetto all'asse x dalla quale mostrare i punteggi nel menù principale.*/
-const unsigned int POS_X_FRECCIA_MENU_PRINCIPALE = 450; /**<Posizione rispetto all'asse x dalla quale mostrare la freccia di selezione del menu nel menù principale.*/
 const unsigned int POS_Y_TITOLO_MENU_PRINCIPALE = 25; /**<Posizione rispetto all'asse y dalla quale mostrare il titolo nel menù principale.*/
 const unsigned int POS_Y_ESMEPIO_MOSTRI = 200; /**<Posizione rispetto all'asse y dalla quale mostrare i mostri nel menù principale.*/
 const unsigned int POS_Y_VOCI_MENU_PRINCIPALE = 340; /**<Posizione rispetto all'asse y dalla quale mostrare il menu nel menù principale.*/
 
 const unsigned int POS_Y_INFORMAZIONI_PARTITA = 10; /**<Posizione rispetto all'asse y dalla quale mostrare le informazioni della partita.*/
-const unsigned int POS_Y_PRIMA_FILA_ONDATA = 80; /**<Posizione rispetto all'asse y dalla quale mostrare la prima fila di mostri.*/
-const unsigned int POS_Y_BARRIERE = 360; /**<Posizone rispetto all'asse y dalla quale mostrare la prima barriera.*/
-const unsigned int POS_Y_CARRO = 450; /**<Posizione rispetto all'asse y dalla quale mostrare il carro armato.*/
+unsigned int POS_Y_PRIMA_FILA_ONDATA = 80; /**<Posizione rispetto all'asse y dalla quale mostrare la prima fila di mostri.*/
+unsigned int POS_Y_BARRIERE = 360; /**<Posizone rispetto all'asse y dalla quale mostrare la prima barriera.*/
+unsigned int POS_Y_CARRO = 450; /**<Posizione rispetto all'asse y dalla quale mostrare il carro armato.*/
 const unsigned int POS_Y_SPARO = POS_Y_CARRO - DIM_FONT_TESTO - 1; /**<Posizione iniziale rispetto all'asse y dello sparo.*/
 
 const unsigned int POS_X_VOCI_IMPOSTAZIONI = 95; /**<Posizione rispetto all'asse x dalla quale mostrare  il contenuto.*/
@@ -94,28 +118,15 @@ const unsigned int POS_Y_TITOLO_PAUSA = 100; /**<Posizione rispetto all'asse y d
 
 const unsigned int CENTRO_ORIZ = LARGHEZZA_DISPLAY / 2; /**<Posizione centrale della larghezza del display.*/
 unsigned int MARGINE_SX_GIOCO = 40; /**<Margine sinistro del gioco.*/
-const unsigned int MARGINE_DX_GIOCO = LARGHEZZA_DISPLAY - MARGINE_SX_GIOCO; /**<Margine destro del gioco.*/
-const unsigned int MARGINE_SUP_GIOCO = 45; /**<Margine superiore del gioco.*/
+unsigned int MARGINE_DX_GIOCO = LARGHEZZA_DISPLAY - MARGINE_SX_GIOCO; /**<Margine destro del gioco.*/
+unsigned int MARGINE_SUP_GIOCO = 45; /**<Margine superiore del gioco.*/
+unsigned int MARGINE_INF_GIOCO = POS_Y_CARRO + DIM_MOSTRI; /**<Margine inferiore del gioco.*/
 
-const unsigned int DISTANZA_ASSI_COL_MOSTRI = 40; /**<Distanza fra gli assi delle colonne di mostri.*/
-const unsigned int DISTANZA_FILE_MOSTRI = 35; /**<Distamza fra le file di mostri.*/
-const unsigned int DISTANZA_BARRIERE = (LARGHEZZA_DISPLAY - (LUNGHEZZA_PIXEL_BARRIERA * N_BARRIERE)) / (N_BARRIERE + 1); /**<Distanza in pixel fra le barriere.*/
-const unsigned int POS_X_PRIMO_ASSE_MOSTRI = CENTRO_ORIZ - (DISTANZA_ASSI_COL_MOSTRI * (N_COL_MOSTRI - 1) / 2); /**<Posizone rispetto all'asse x nella quale è presente il primo asse delle colonne di mostri.*/
-
-const char FILE_FONT_TESTO [] = "Fonts/space_invaders.ttf"; /**<File contenente il font utilizzato per i testi.*/
-const char FILE_FONT_IMMAGINI [] = "Fonts/dustbust_invaders.ttf"; /**<File contenente il font utilizzato per i mostri e tutte le altre immagini presenti nel gioco.*/
-
-const char FILE_HIGHSCORES [] = "highscores"; /**<Nome del file contenente gli highscores.*/
-const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Nome del file contenente le impostazioni salvate.*/
-const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Nome del file contenente la partita salvata.*/
-
-const char FILE_BARRIERA_PARZIALE [] = "Images/barriera_parziale.png";
-const char FILE_BARRIERA_INTEGRA [] = "Images/barriera_integra.png";
-
-const char FILE_SPARO_MOSTRI_1 [] = "Images/sparo_mostri_1.png";
-const char FILE_SPARO_MOSTRI_2 [] = "Images/sparo_mostri_2.png";
-
-const char FILE_MUSICA_PRINCIPALE [] = "Sounds/principale.flac"; /**<Nome del file contenente la musica principale.*/
+unsigned int DISTANZA_ASSI_COL_MOSTRI = 40; /**<Distanza fra gli assi delle colonne di mostri.*/
+unsigned int DISTANZA_FILE_MOSTRI = 35; /**<Distamza fra le file di mostri.*/
+unsigned int DISTANZA_BARRIERE = (LARGHEZZA_DISPLAY - (LUNGHEZZA_PIXEL_BARRIERA * N_BARRIERE)) / (N_BARRIERE + 1); /**<Distanza in pixel fra le barriere.*/
+unsigned int POS_X_PRIMA_BARRIERA = DISTANZA_BARRIERE;
+unsigned int POS_X_PRIMO_ASSE_MOSTRI = CENTRO_ORIZ - (DISTANZA_ASSI_COL_MOSTRI * (N_COL_MOSTRI - 1) / 2); /**<Posizone rispetto all'asse x nella quale è presente il primo asse delle colonne di mostri.*/
 
 /**
  * Calcola il valore della prossima schermata da mostrare nel menù principale.
@@ -132,11 +143,10 @@ schermata cambiaSchermataMenuPrincipale (voce_menu_principale voce);
  * 
  * @param voce Voce di menu attualmente selezionata.
  * @param spaceInvaders Struttura {@link SpaceInvaders} contenente tutte le informazioni del gioco in esecuzione.
- * @param file_salvataggio File nel quale salvare la partita.
  *
  * @return il valore della prossima schermata da mostrare.
  */
-schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceInvaders, const char file_salvataggio []);
+schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceInvaders);
 
 /**
  * Mostra il menù principale e ne gestisce il contenuto.
@@ -249,7 +259,7 @@ int main ()
 	timer_sparo_mostri = al_create_timer(1.0 / FPS_SPARO_ALIENI);
 	assert (timer_sparo_mostri);
 
-	timer_rotazione_sparo = al_create_timer(1.0 / FPS_ROTAZIONE_SPARO);
+	timer_rotazione_sparo = al_create_timer(1.0 / FPS_CAMBIO_SPARO_ALIENI);
 	assert (timer_rotazione_sparo);
 
 	timer_comparsa_navicella = al_create_timer(1.0 / FPS_NAVICELLA_MISTERIOSA);
@@ -287,17 +297,17 @@ int main ()
 	
 	//INIZIO INIZIALIZZAZIONE DELLA STRUTTURA PRINCIPALE
 	SpaceInvaders generale;
-	if (!caricaImpostazioni (generale.impostazioni, FILE_IMPOSTAZIONI))
+	if (!caricaImpostazioni (generale.impostazioni))
 	{
 		impostaValoriImpostazioniDefault (generale.impostazioni);
-		salvaImpostazioni (generale.impostazioni, FILE_IMPOSTAZIONI);
+		salvaImpostazioni (generale.impostazioni);
 	}
-	if (!caricaPunteggi (generale.highscores, generale.n_highscores, FILE_HIGHSCORES))
+	if (!caricaPunteggi (generale.highscores, generale.n_highscores))
 	{
 		generale.n_highscores = 0;
 	}
-	generale.partita_salvata = esisteSalvataggio (FILE_SALVATAGGIO_PARTITA);
-	nuovaPartita (generale.partita_in_corso, generale.impostazioni, CENTRO_ORIZ, POS_X_PRIMO_ASSE_MOSTRI, POS_Y_PRIMA_FILA_ONDATA, MARGINE_SX_GIOCO);
+	generale.partita_salvata = esisteSalvataggio ();
+	nuovaPartita (generale.partita_in_corso, generale.impostazioni);
 	//FINE INIZIALIZZAZIONE DELLA STRUTTURA PRINCIPALE
 	
 	schermata schermata_att = s_menu;
@@ -396,7 +406,7 @@ int main ()
 				al_stop_timer(lampeggio_voce);
 				break;
 			case s_gioca:
-				eliminaFileSalvataggio (FILE_SALVATAGGIO_PARTITA, generale);
+				eliminaFileSalvataggio (generale);
 				if (generale.impostazioni.musica)
 				{
 					al_stop_samples();
@@ -424,7 +434,7 @@ int main ()
 						{
 							if (!generale.partita_in_corso.sparo_mostri.stato)
 							{
-								creaSparoMostri (generale.partita_in_corso, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, font_mostri, DISTANZA_ASSI_COL_MOSTRI);
+								creaSparoMostri (generale.partita_in_corso, font_mostri);
 							}
 						}
 						else if (ev.timer.source == timer_comparsa_navicella)
@@ -462,10 +472,10 @@ int main ()
 						switch(ev.keyboard.keycode)
 						{
 							case ALLEGRO_KEY_LEFT:
-								muoviSinistraCarro (generale.partita_in_corso.pos_x_carro, MARGINE_SX_GIOCO);
+								muoviSinistraCarro (generale.partita_in_corso.pos_x_carro);
 								break;
 							case ALLEGRO_KEY_RIGHT:
-								muoviDestraCarro (generale.partita_in_corso.pos_x_carro, MARGINE_DX_GIOCO);
+								muoviDestraCarro (generale.partita_in_corso.pos_x_carro);
 								break;
 							case ALLEGRO_KEY_SPACE:
 								if (!generale.partita_in_corso.sparo_carro.stato)
@@ -484,45 +494,45 @@ int main ()
 						gioca (font_mostri, font_testo, sparo_mostri_1, sparo_mostri_2, barriera_parziale, barriera_integra, generale.partita_in_corso, generale.impostazioni, ruota_sparo);
 
 						//INIZIO DEI CONTROLLI
-						if (controlloCollisioneCarroDaSparoMostri (generale.partita_in_corso, al_get_text_width(font_mostri, STRINGA_CARRO_ARMATO), al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_mostri.pos_x, sparo_mostri_1, sparo_mostri_2)), DIM_MOSTRI, POS_Y_CARRO))
+						if (controlloCollisioneCarroDaSparoMostri (generale.partita_in_corso, al_get_text_width(font_mostri, STRINGA_CARRO_ARMATO), al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_mostri.pos_x, sparo_mostri_1, sparo_mostri_2))))
 						{
 						}
-						if (generale.partita_in_corso.vite_rimanenti < 0 || controlloCollisioneCarroDaOndata (generale.partita_in_corso, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, DISTANZA_ASSI_COL_MOSTRI, POS_Y_CARRO))
+						if (generale.partita_in_corso.vite_rimanenti < 0 || controlloCollisioneCarroDaOndata (generale.partita_in_corso))
 						{
 							schermata_att = s_fine_partita;
 							cambia_schermata = true;
 							break;
 						}
-						if (controlloCollisioneMostri (generale.partita_in_corso, DIM_MOSTRI, DISTANZA_FILE_MOSTRI, font_mostri, DISTANZA_ASSI_COL_MOSTRI))
+						if (controlloCollisioneMostri (generale.partita_in_corso, font_mostri))
 						{
 						}
-						if (controlloCollisioneBarriereDaSparoCarro (generale.partita_in_corso, DISTANZA_BARRIERE, POS_Y_BARRIERE, DISTANZA_BARRIERE))
+						if (controlloCollisioneBarriereDaSparoCarro (generale.partita_in_corso))
 						{
 						}
-						if (controlloCollisioneBarriereDaSparoMostri (generale.partita_in_corso, DISTANZA_BARRIERE, POS_Y_BARRIERE, DISTANZA_BARRIERE, al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_mostri.pos_x, sparo_mostri_1, sparo_mostri_2))))
+						if (controlloCollisioneBarriereDaSparoMostri (generale.partita_in_corso, al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_mostri.pos_x, sparo_mostri_1, sparo_mostri_2))))
 						{
 						}
-						if (controlloCollisioneNavicellaMisteriosa (generale.partita_in_corso, al_get_text_width(font_mostri, STRINGA_M_X), DIM_MOSTRI, MARGINE_SUP_GIOCO))
+						if (controlloCollisioneNavicellaMisteriosa (generale.partita_in_corso, al_get_text_width(font_mostri, STRINGA_NAVICELLA)))
 						{
 						}
-						if (controlloCollisioneBarriereDaOndata (generale.partita_in_corso, DISTANZA_BARRIERE, POS_Y_BARRIERE, DISTANZA_BARRIERE, DIM_MOSTRI, font_mostri, DISTANZA_FILE_MOSTRI, DISTANZA_ASSI_COL_MOSTRI))
+						if (controlloCollisioneBarriereDaOndata (generale.partita_in_corso, font_mostri))
 						{
 						}
 						//FINE DEI CONTROLLI
 						//INIZIO DEI CAMBIAMENTI
 						if (generale.partita_in_corso.sparo_carro.stato)
 						{
-							muoviSparoCarro (generale.partita_in_corso.sparo_carro, MARGINE_SUP_GIOCO);
+							muoviSparoCarro (generale.partita_in_corso.sparo_carro);
 						}
 						if (generale.partita_in_corso.sparo_mostri.stato)
 						{
-							muoviSparoMostri (generale.partita_in_corso.sparo_mostri, POS_Y_CARRO + DIM_MOSTRI - 8);
+							muoviSparoMostri (generale.partita_in_corso.sparo_mostri, al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_mostri.pos_x, sparo_mostri_1, sparo_mostri_2)));
 						}
 						if (generale.partita_in_corso.navicella_misteriosa.stato)
 						{
-							muoviNavicellaMisteriosa (generale.partita_in_corso, MARGINE_DX_GIOCO + al_get_text_width(font_mostri, STRINGA_M_X));
+							muoviNavicellaMisteriosa (generale.partita_in_corso, al_get_text_width(font_mostri, STRINGA_NAVICELLA));
 						}
-						muoviMostri (generale.partita_in_corso.ondata, MARGINE_SX_GIOCO, MARGINE_DX_GIOCO, POS_Y_CARRO, DISTANZA_ASSI_COL_MOSTRI, al_get_text_width(font_mostri, STRINGA_M_30), DISTANZA_FILE_MOSTRI);
+						muoviMostri (generale.partita_in_corso.ondata, al_get_text_width(font_mostri, STRINGA_MOSTRO_1));
 						//FINE DEI CAMBIAMENTI
 					}
 			   	}
@@ -531,7 +541,7 @@ int main ()
 				al_stop_timer(timer_comparsa_navicella);
 				break;
 			case s_carica:
-				assert (caricaPartita (generale.partita_in_corso, FILE_SALVATAGGIO_PARTITA));
+				assert (caricaPartita (generale.partita_in_corso));
 				schermata_att = s_gioca;
 				cambia_schermata = true;
 				break;
@@ -578,7 +588,7 @@ int main ()
 								assert (valoreCampoImpostazioniSuc (static_cast <voce_menu_impostazioni> (menu_impostazioni.voce_sel), generale.impostazioni));
 								break;
 							case ALLEGRO_KEY_ENTER:
-								salvaImpostazioni (generale.impostazioni, FILE_IMPOSTAZIONI);
+								salvaImpostazioni (generale.impostazioni);
 								schermata_att = s_menu;
 								cambia_schermata = true;
 								break;
@@ -674,7 +684,7 @@ int main ()
 								voceSuc (menu_pausa);
 								break;
 							case ALLEGRO_KEY_ENTER:
-								schermata_att = cambiaSchermataMenuPausa (static_cast <voce_menu_pausa> (menu_pausa.voce_sel), generale, FILE_SALVATAGGIO_PARTITA);
+								schermata_att = cambiaSchermataMenuPausa (static_cast <voce_menu_pausa> (menu_pausa.voce_sel), generale);
 								cambia_schermata = true;
 								break;
 						}
@@ -691,7 +701,6 @@ int main ()
 			case s_fine_partita:	
 				al_start_timer(lampeggio_voce);
 				posizione = posizionePunteggio (generale.highscores, generale.n_highscores, generale.partita_in_corso.punteggio);
-				cout<<posizione<<endl;
 				while(!cambia_schermata)
 			   	{				
 					ALLEGRO_EVENT ev;
@@ -722,10 +731,10 @@ int main ()
 								if (posizione != -1)
 								{
 									aggiungiPunteggio (generale.highscores, generale.n_highscores, generale.partita_in_corso.punteggio, posizione);
-									salvaPunteggi (generale.highscores, generale.n_highscores, FILE_HIGHSCORES);
+									salvaPunteggi (generale.highscores, generale.n_highscores);
 								}
 
-								nuovaPartita (generale.partita_in_corso, generale.impostazioni, CENTRO_ORIZ, POS_X_PRIMO_ASSE_MOSTRI, POS_Y_PRIMA_FILA_ONDATA, MARGINE_SX_GIOCO);
+								nuovaPartita (generale.partita_in_corso, generale.impostazioni);
 								schermata_att = s_menu;
 								cambia_schermata = true;
 								break;
@@ -828,7 +837,7 @@ schermata cambiaSchermataMenuPrincipale (voce_menu_principale voce)
 	return s_menu;
 }
 
-schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceInvaders, const char file_salvataggio [])
+schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceInvaders)
 {
 	if (voce == v_continua)
 	{
@@ -836,13 +845,13 @@ schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceIn
 	}
 	else if (voce == v_salva)
 	{
-		salvaPartita (spaceInvaders, file_salvataggio);
+		salvaPartita (spaceInvaders);
 	}
 	else if (voce == v_abbandona)
 	{
 		;
 	}
-	nuovaPartita (spaceInvaders.partita_in_corso, spaceInvaders.impostazioni, CENTRO_ORIZ, POS_X_PRIMO_ASSE_MOSTRI, POS_Y_PRIMA_FILA_ONDATA, MARGINE_SX_GIOCO);
+	nuovaPartita (spaceInvaders.partita_in_corso, spaceInvaders.impostazioni);
 	return s_menu;
 }
 
@@ -863,17 +872,16 @@ void disegnaBarriera (ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barrier
 			{
 				al_draw_tinted_bitmap (barriera_parziale, al_map_rgb(0, 255, 0), dx, dy, 0);
 			}
-			dx += LATO_UNITA;
+			dx += DIMENSIONE_LATO_UNITA_BARRIERA;
 		}
 		dx = pos_x;
-		dy += LATO_UNITA;
+		dy += DIMENSIONE_LATO_UNITA_BARRIERA;
 	}
 }
 
 inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, ALLEGRO_FONT *font_mostri, Menu menu, bool redraw_lampeggio, bool salvataggio)
 {
 	unsigned int pos_y_attuale = POS_Y_TITOLO_MENU_PRINCIPALE;
-	unsigned pos_y_freccia = POS_Y_VOCI_MENU_PRINCIPALE + (SPAZIO_TESTO + DIM_FONT_TESTO) * menu.voce_sel;
 
 	//INIZIO DELLA VISUALIZZAZIONE DEL TITOLO
 	al_draw_text(font_titolo, al_map_rgb(0, 255, 0), CENTRO_ORIZ, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, ".");
@@ -881,19 +889,19 @@ inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, 
 
 	//INIZIO DELLA VISUALIZZAZIONE DEI MOSTRI E I RELATIVI PUNTEGGI
 	pos_y_attuale = POS_Y_ESMEPIO_MOSTRI;
-	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_10);
+	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_MOSTRO_3);
 	al_draw_text(font_menu, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      10  PTS");
 
 	pos_y_attuale = POS_Y_ESMEPIO_MOSTRI + SPAZIO_TESTO + DIM_MOSTRI;
-	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_20);
+	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_MOSTRO_2);
 	al_draw_text(font_menu, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      20  PTS");
 
 	pos_y_attuale = POS_Y_ESMEPIO_MOSTRI + (SPAZIO_TESTO + DIM_MOSTRI) * 2;
-	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_30);
+	al_draw_text(font_mostri, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_MOSTRO_1);
 	al_draw_text(font_menu, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      30  PTS");
 
 	pos_y_attuale = POS_Y_ESMEPIO_MOSTRI + (SPAZIO_TESTO + DIM_MOSTRI) * 3;
-	al_draw_text(font_mostri, al_map_rgb(255, 0, 0), POS_X_ESEMPIO_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_M_X);
+	al_draw_text(font_mostri, al_map_rgb(255, 0, 0), POS_X_ESEMPIO_MOSTRI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_NAVICELLA);
 	al_draw_text(font_menu, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=         ?  PTS");
 	//FINE DELLA VISUALIZZAZIONE DEI MOSTRI E I RELATIVI PUNTEGGI
 	
@@ -912,11 +920,6 @@ inline void menuPrincipale (ALLEGRO_FONT *font_titolo, ALLEGRO_FONT *font_menu, 
 				al_draw_text(font_menu, al_map_rgb(0, 255, 0), CENTRO_ORIZ, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, menu.testi_menu [i]);
 			}
 		}
-	}
-
-	if (redraw_lampeggio)
-	{
-		al_draw_text(font_menu, al_map_rgb(0, 255, 0), POS_X_FRECCIA_MENU_PRINCIPALE, pos_y_freccia, ALLEGRO_ALIGN_LEFT, "<-");
 	}
 	//FINE DELLA VISUALIZZAZIONE DEL MENU
 

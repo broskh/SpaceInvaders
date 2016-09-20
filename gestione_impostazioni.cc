@@ -8,19 +8,27 @@
 const unsigned int MAX_STRING = 15;
 
 //INIZIO MODULO
-
-bool caricaImpostazioni (Impostazioni &impostazioni, const char file [])
+void output (Impostazioni impostazioni, ostream &os)
 {
+	os<<"musica = "<<impostazioni.musica<<endl;
+	os<<"effetti_audio = "<<impostazioni.eff_audio<<endl;
+	os<<"grafica = "<<impostazioni.mod_grafica<<endl;
+	os<<"vite_iniziali = "<<impostazioni.vite_iniziali<<endl;
+}
+
+bool caricaImpostazioni (Impostazioni &impostazioni)
+{
+	ifstream f (FILE_IMPOSTAZIONI) ;
+    	if (!f) {
+		cerr<<"Errore nel caricamento del file "<<FILE_IMPOSTAZIONI<<endl;
+		return false ;
+    	}
 	bool musica_trov = false, eff_audio_trov = false, mod_grafica_trov = false, vite_iniz_trov = false;
 	bool musica, eff_audio;
 	grafica mod_grafica;
 	unsigned int vite_iniziali;
 	char voice [MAX_STRING];
-	ifstream f (file) ;
-    	if (!f) {
-		cerr<<"Errore nel caricamento del file "<<file<<endl;
-		return false ;
-    	}
+
 	while (f>>voice)
 	{
 		f.ignore (2, '=');
@@ -56,13 +64,10 @@ bool caricaImpostazioni (Impostazioni &impostazioni, const char file [])
 	return false;
 }
 
-void salvaImpostazioni (Impostazioni impostazioni, const char file [])
+void salvaImpostazioni (Impostazioni impostazioni)
 {
-	ofstream f(file) ;
-	f<<"musica = "<<impostazioni.musica<<endl;
-	f<<"effetti_audio = "<<impostazioni.eff_audio<<endl;
-	f<<"grafica = "<<impostazioni.mod_grafica<<endl;
-	f<<"vite_iniziali = "<<impostazioni.vite_iniziali<<endl;
+	ofstream f(FILE_IMPOSTAZIONI) ;
+	output (impostazioni, f);
 }
 
 void inizializzaImpostazioni (Impostazioni &impostazioni, bool musica, bool effetti_audio, grafica modalita_grafica, unsigned int vite_iniziali)
@@ -80,10 +85,6 @@ void impostaValoriImpostazioniDefault (Impostazioni &impostazioni)
 
 void stampa (Impostazioni impostazioni)
 {
-	cout<<impostazioni.musica<<endl;
-	cout<<impostazioni.eff_audio<<endl;
-	cout<<impostazioni.mod_grafica<<endl;
-	cout<<impostazioni.vite_iniziali<<endl;
+	output (impostazioni, cout);
 }
-
 //FINE MODULO

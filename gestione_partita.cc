@@ -9,46 +9,46 @@
 #include "gestione_partita.h"
 
 //INIZIO MODULO
-
 void creaNavicellaMisteriosa (Partita &partita)
 {
 	srand (time(NULL));	
 	if (rand() % (100 / PROBABILITA_COMPARSA_NAVICELLA) == 0)
 	{
 		partita.navicella_misteriosa.stato = true;
-		partita.navicella_misteriosa.punteggio = (rand() % ((PUNTEGGIO_M_X_MAX - PUNTEGGIO_M_X_MIN) / 10)) * 10 + PUNTEGGIO_M_X_MIN;
+		partita.navicella_misteriosa.punteggio = (rand() % ((PUNTEGGIO_NAVICELLA_MAX - PUNTEGGIO_NAVICELLA_MIN) / 10)) * 10 + PUNTEGGIO_NAVICELLA_MIN;
 		partita.pos_x_navicella = MARGINE_SX_GIOCO;
 	}
 }
 
-void muoviNavicellaMisteriosa (Partita &partita, const unsigned int limite_dx)
+void muoviNavicellaMisteriosa (Partita &partita, unsigned int larghezza_navicella)
 {
-	partita.pos_x_navicella = sucInRange (partita.pos_x_navicella, LATO_UNITA, limite_dx);
-	if (partita.pos_x_navicella == limite_dx)
+	unsigned int margine_dx = MARGINE_DX_GIOCO + larghezza_navicella;
+	partita.pos_x_navicella = sucInRange (partita.pos_x_navicella, DIMENSIONE_LATO_UNITA_BARRIERA, margine_dx);
+	if (partita.pos_x_navicella == margine_dx)
 	{
 		partita.navicella_misteriosa.stato = false;
 	}
 }
 
-bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x_sparo, unsigned int pos_y_sparo, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere)
+bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x_sparo, unsigned int pos_y_sparo)
 {
 	bool collisione = false;
-	unsigned int altezza_barriera = ALT_BARRIERA * LATO_UNITA;
-	if (pos_y_sparo >= pos_y_prima_barriera && pos_y_sparo <= pos_y_prima_barriera + altezza_barriera)
+	unsigned int altezza_barriera = ALT_BARRIERA * DIMENSIONE_LATO_UNITA_BARRIERA;
+	if (pos_y_sparo >= POS_Y_BARRIERE && pos_y_sparo <= POS_Y_BARRIERE + altezza_barriera)
 	{
-		unsigned int pos_x_attuale = pos_x_prima_barriera;
+		unsigned int pos_x_attuale = POS_X_PRIMA_BARRIERA;
 		for (unsigned int n = 0 ; n < N_BARRIERE; n++)
 		{
 			if (pos_x_sparo >= pos_x_attuale && pos_x_sparo <= pos_x_attuale + LUNGHEZZA_PIXEL_BARRIERA)
 			{
-				unsigned int pos_y_attuale = pos_y_prima_barriera;
+				unsigned int pos_y_attuale = POS_Y_BARRIERE;
 				for (unsigned int r = 0; r < ALT_BARRIERA; r++)
 				{
-					if (pos_y_sparo >= pos_y_attuale && pos_y_sparo <= pos_y_attuale + LATO_UNITA)
+					if (pos_y_sparo >= pos_y_attuale && pos_y_sparo <= pos_y_attuale + DIMENSIONE_LATO_UNITA_BARRIERA)
 					{
 						for (unsigned int c = 0; c < LARG_BARRIERA; c++)
 						{	
-							if (pos_x_sparo >= pos_x_attuale && pos_x_sparo <= pos_x_attuale + LATO_UNITA) 
+							if (pos_x_sparo >= pos_x_attuale && pos_x_sparo <= pos_x_attuale + DIMENSIONE_LATO_UNITA_BARRIERA) 
 							{
 								if (barriere [n] [r] [c] != distrutta)
 								{
@@ -57,15 +57,15 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 								}
 								break;
 							}
-							pos_x_attuale += LATO_UNITA;								
+							pos_x_attuale += DIMENSIONE_LATO_UNITA_BARRIERA;								
 						}
 						break;
 					}
-					pos_y_attuale += LATO_UNITA;
+					pos_y_attuale += DIMENSIONE_LATO_UNITA_BARRIERA;
 				}
 				break;
 			}
-			pos_x_attuale += LUNGHEZZA_PIXEL_BARRIERA + distanza_barriere;
+			pos_x_attuale += LUNGHEZZA_PIXEL_BARRIERA + DISTANZA_BARRIERE;
 		}
 	}
 	return collisione;
@@ -83,7 +83,7 @@ ALLEGRO_BITMAP * sparoScelto (int pos_x, ALLEGRO_BITMAP *sparo_mostri_1, ALLEGRO
 	}
 }
 
-void creaSparoMostri (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_assi_col_mostri)
+void creaSparoMostri (Partita &partita, const ALLEGRO_FONT *font_mostri)
 {
 	srand (time(NULL));
 	int fattore_casuale ;
@@ -96,7 +96,7 @@ void creaSparoMostri (Partita &partita, const unsigned int dim_font_mostri, cons
 		fattore_casuale =  rand() % N_COL_MOSTRI;
 	}
 
-	unsigned int pos_y_attuale  = partita.ondata.pos_y + dim_font_mostri + distanza_file_mostri * (N_FILE_MOSTRI - 1);	
+	unsigned int pos_y_attuale  = partita.ondata.pos_y + DIM_MOSTRI + DISTANZA_FILE_MOSTRI * (N_FILE_MOSTRI - 1);	
 	for (int i = N_FILE_MOSTRI - 1; i >= 0 && fattore_casuale >= 0; i--)
 	{
 		unsigned int larghezza_mostro = al_get_text_width (font_mostri, partita.ondata.mostri [i] [0].stringa);
@@ -113,18 +113,18 @@ void creaSparoMostri (Partita &partita, const unsigned int dim_font_mostri, cons
 				}
 				fattore_casuale--;
 			}
-			pos_x_attuale += distanza_assi_col_mostri;
+			pos_x_attuale += DISTANZA_ASSI_COL_MOSTRI;
 		}
-		pos_y_attuale -= distanza_file_mostri;
+		pos_y_attuale -= DISTANZA_FILE_MOSTRI;
 	}
 }
 
-bool controlloCollisioneBarriereDaSparoCarro (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere)
+bool controlloCollisioneBarriereDaSparoCarro (Partita &partita)
 {
 	bool collisione = false;
 	if (partita.sparo_carro.stato)
 	{
-		collisione =  controlloCollisioneBarriere (partita.barriere, partita.sparo_carro.pos_x, partita.sparo_carro.pos_y, pos_x_prima_barriera, pos_y_prima_barriera, distanza_barriere);
+		collisione =  controlloCollisioneBarriere (partita.barriere, partita.sparo_carro.pos_x, partita.sparo_carro.pos_y);
 	}
 	if (collisione)
 	{
@@ -133,12 +133,12 @@ bool controlloCollisioneBarriereDaSparoCarro (Partita &partita, const unsigned i
 	return collisione;
 }
 
-bool controlloCollisioneBarriereDaSparoMostri (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere, const unsigned int altezza_sparo)
+bool controlloCollisioneBarriereDaSparoMostri (Partita &partita, const unsigned int altezza_sparo_alieni)
 {
 	bool collisione = false;
 	if (partita.sparo_mostri.stato)
 	{
-		collisione =  controlloCollisioneBarriere (partita.barriere, partita.sparo_mostri.pos_x, partita.sparo_mostri.pos_y + altezza_sparo, pos_x_prima_barriera, pos_y_prima_barriera, distanza_barriere);
+		collisione =  controlloCollisioneBarriere (partita.barriere, partita.sparo_mostri.pos_x, partita.sparo_mostri.pos_y + altezza_sparo_alieni);
 	}
 	if (collisione)
 	{
@@ -147,23 +147,23 @@ bool controlloCollisioneBarriereDaSparoMostri (Partita &partita, const unsigned 
 	return collisione;
 }
 
-bool controlloCollisioneBarriereDaOndata (Partita &partita, const unsigned int pos_x_prima_barriera, const unsigned pos_y_prima_barriera, const unsigned int distanza_barriere, const unsigned int dim_font_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_file_mostri, const unsigned int distanza_assi_col_mostri)
+bool controlloCollisioneBarriereDaOndata (Partita &partita, const ALLEGRO_FONT *font_mostri)
 {
 	bool collisione = false;
-	unsigned int pos_y_fila  = partita.ondata.pos_y + dim_font_mostri + distanza_file_mostri * (N_FILE_MOSTRI - 1);
-	for (int i = N_FILE_MOSTRI - 1; i >= 0 && pos_y_fila >= pos_y_prima_barriera; i--)
+	unsigned int pos_y_fila  = partita.ondata.pos_y + DIM_MOSTRI + DISTANZA_FILE_MOSTRI * (N_FILE_MOSTRI - 1);
+	for (int i = N_FILE_MOSTRI - 1; i >= 0 && pos_y_fila >= POS_Y_BARRIERE; i--)
 	{
 		unsigned int larghezza_mostro = al_get_text_width (font_mostri, partita.ondata.mostri [i] [0].stringa);
 		for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
 		{
-			unsigned int pos_x_attuale = (partita.ondata.pos_x + distanza_assi_col_mostri * j) - larghezza_mostro / 2;
+			unsigned int pos_x_attuale = (partita.ondata.pos_x + DISTANZA_ASSI_COL_MOSTRI * j) - larghezza_mostro / 2;
 			if (partita.ondata.mostri [i] [j].stato)
 			{
-				for (unsigned int k = 0; k < larghezza_mostro; k += LATO_UNITA)
+				for (unsigned int k = 0; k < larghezza_mostro; k += DIMENSIONE_LATO_UNITA_BARRIERA)
 				{
-					for (unsigned int l = 0; l < LATO_UNITA * LATO_UNITA; l += LATO_UNITA)
+					for (unsigned int l = 0; l < DIMENSIONE_LATO_UNITA_BARRIERA * DIMENSIONE_LATO_UNITA_BARRIERA; l += DIMENSIONE_LATO_UNITA_BARRIERA)
 					{
-						if (controlloCollisioneBarriere (partita.barriere, pos_x_attuale, pos_y_fila - l, pos_x_prima_barriera, pos_y_prima_barriera, distanza_barriere))
+						if (controlloCollisioneBarriere (partita.barriere, pos_x_attuale, pos_y_fila - l))
 						{
 							collisione = true;
 						}
@@ -171,18 +171,17 @@ bool controlloCollisioneBarriereDaOndata (Partita &partita, const unsigned int p
 				}
 			}
 		}
-		pos_y_fila -= distanza_file_mostri;
+		pos_y_fila -= DISTANZA_FILE_MOSTRI;
 	}
-	/////////////////////////
 	
 	return collisione;
 }
 
-bool controlloCollisioneCarroDaOndata (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const unsigned int distanza_assi_col_mostri, const unsigned int pos_y_carro)
+bool controlloCollisioneCarroDaOndata (Partita &partita)
 {
 	bool collisione = false;
-	unsigned int pos_y_fila  = partita.ondata.pos_y + dim_font_mostri + distanza_file_mostri * (N_FILE_MOSTRI - 1);
-	for (int i = N_FILE_MOSTRI - 1; i >= 0 && (!collisione) && pos_y_fila >= pos_y_carro; i--)
+	unsigned int pos_y_fila  = partita.ondata.pos_y + DIM_MOSTRI + DISTANZA_FILE_MOSTRI * (N_FILE_MOSTRI - 1);
+	for (int i = N_FILE_MOSTRI - 1; i >= 0 && (!collisione) && pos_y_fila >= POS_Y_CARRO; i--)
 	{
 		for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
 		{
@@ -192,15 +191,15 @@ bool controlloCollisioneCarroDaOndata (Partita &partita, const unsigned int dim_
 				break;
 			}
 		}
-		pos_y_fila -= distanza_file_mostri;
+		pos_y_fila -= DISTANZA_FILE_MOSTRI;
 	}
 	return collisione;
 }
 
-bool controlloCollisioneCarroDaSparoMostri (Partita &partita, const unsigned int larghezza_carro, const unsigned int altezza_sparo, const unsigned int dim_font_mostri, const unsigned int pos_y_carro)
+bool controlloCollisioneCarroDaSparoMostri (Partita &partita, const unsigned int larghezza_carro, const unsigned int altezza_sparo)
 {
 	bool collisione = false;
-	if (partita.sparo_mostri.stato && (partita.sparo_mostri.pos_y + altezza_sparo) >= pos_y_carro && (partita.sparo_mostri.pos_x >= partita.pos_x_carro - (larghezza_carro / 2) && partita.sparo_mostri.pos_x <= partita.pos_x_carro + (larghezza_carro / 2)))
+	if (partita.sparo_mostri.stato && (partita.sparo_mostri.pos_y + altezza_sparo) >= POS_Y_CARRO && (partita.sparo_mostri.pos_x >= partita.pos_x_carro - (larghezza_carro / 2) && partita.sparo_mostri.pos_x <= partita.pos_x_carro + (larghezza_carro / 2)))
 	{
 		partita.vite_rimanenti--;
 		partita.sparo_mostri.stato = false;
@@ -209,10 +208,10 @@ bool controlloCollisioneCarroDaSparoMostri (Partita &partita, const unsigned int
 	return collisione;
 }
 
-bool controlloCollisioneNavicellaMisteriosa (Partita &partita, const unsigned int larghezza_navicella, const unsigned int altezza_navicella, const unsigned int pos_y_navicella)
+bool controlloCollisioneNavicellaMisteriosa (Partita &partita, const unsigned int larghezza_navicella)
 {
 	bool collisione = false;
-	if (partita.sparo_carro.stato && partita.sparo_carro.pos_y <= (pos_y_navicella + altezza_navicella) && (partita.sparo_carro.pos_x >= partita.pos_x_navicella && partita.sparo_carro.pos_x <= (partita.pos_x_navicella + larghezza_navicella)))
+	if (partita.sparo_carro.stato && partita.sparo_carro.pos_y <= (MARGINE_SUP_GIOCO + DIM_MOSTRI) && (partita.sparo_carro.pos_x >= partita.pos_x_navicella && partita.sparo_carro.pos_x <= (partita.pos_x_navicella + larghezza_navicella)))
 	{
 		partita.navicella_misteriosa.stato = false;
 		partita.sparo_carro.stato = false;
@@ -222,15 +221,15 @@ bool controlloCollisioneNavicellaMisteriosa (Partita &partita, const unsigned in
 	return collisione;
 }
 
-bool controlloCollisioneMostri (Partita &partita, const unsigned int dim_font_mostri, const unsigned int distanza_file_mostri, const ALLEGRO_FONT *font_mostri, const unsigned int distanza_assi_col_mostri)
+bool controlloCollisioneMostri (Partita &partita, const ALLEGRO_FONT *font_mostri)
 {
 	bool collisione = false;
 	if (partita.sparo_carro.stato)
 	{
-		unsigned int pos_y_fila  = partita.ondata.pos_y + dim_font_mostri + distanza_file_mostri * (N_FILE_MOSTRI - 1);
+		unsigned int pos_y_fila  = partita.ondata.pos_y + DIM_MOSTRI + DISTANZA_FILE_MOSTRI * (N_FILE_MOSTRI - 1);
 		for (int i = N_FILE_MOSTRI - 1; i >= 0; i--)
 		{
-			if (partita.sparo_carro.pos_y <= pos_y_fila && partita.sparo_carro.pos_y >= pos_y_fila - dim_font_mostri)
+			if (partita.sparo_carro.pos_y <= pos_y_fila && partita.sparo_carro.pos_y >= pos_y_fila - DIM_MOSTRI)
 			{
 				unsigned int larghezza_mostro = al_get_text_width (font_mostri, partita.ondata.mostri [i] [0].stringa);
 				unsigned int pos_x_fila = partita.ondata.pos_x - larghezza_mostro / 2;
@@ -248,76 +247,78 @@ bool controlloCollisioneMostri (Partita &partita, const unsigned int dim_font_mo
 						}
 						break;
 					}
-					pos_x_fila += distanza_assi_col_mostri;
+					pos_x_fila += DISTANZA_ASSI_COL_MOSTRI;
 				}
 			}
 			if (partita.sparo_carro.pos_y > pos_y_fila || collisione)
 			{
 				break;
 			}
-			pos_y_fila -= distanza_file_mostri;
+			pos_y_fila -= DISTANZA_FILE_MOSTRI;
 		}
 	}
 	return collisione;
 }
 
-void muoviMostri (Ondata &ondata, const unsigned int limite_sx, const unsigned int limite_dx, const unsigned int limite_inf, const unsigned int distanza_assi_colonne_mostri, const unsigned int larghezza_colonna, const unsigned int distanza_file_mostri)
+void muoviMostri (Ondata &ondata, const unsigned int larghezza_colonna)
 {
-	unsigned int reale_limite_dx = limite_dx - ((N_COL_MOSTRI - 1) * distanza_assi_colonne_mostri + larghezza_colonna / 2);
+	unsigned int reale_MARGINE_DX_GIOCO = MARGINE_DX_GIOCO - ((N_COL_MOSTRI - 1) * DISTANZA_ASSI_COL_MOSTRI + larghezza_colonna / 2);
+	int peso_spostamento_laterale = N_MOSTRI_TOTALE / ondata.mostri_rimasti;
 	if (ondata.mostri_rimasti)
 	{
 		if (ondata.dir_mostri == destra)
 		{
-			ondata.pos_x = sucInRange (ondata.pos_x, 2, reale_limite_dx);
-			if (ondata.pos_x == reale_limite_dx)
+			ondata.pos_x = sucInRange (ondata.pos_x, peso_spostamento_laterale, reale_MARGINE_DX_GIOCO);
+			if (ondata.pos_x == reale_MARGINE_DX_GIOCO)
 			{
 				ondata.dir_mostri = sinistra;
-				ondata.pos_y = sucInRange (ondata.pos_y, distanza_file_mostri / 4, limite_inf);
+				ondata.pos_y = sucInRange (ondata.pos_y, DISTANZA_FILE_MOSTRI / 4, POS_Y_CARRO);
 			}
 		}
 		else if (ondata.dir_mostri == sinistra)
 		{
-			ondata.pos_x = precInRange (ondata.pos_x, 2, limite_sx);
-			if (ondata.pos_x == limite_sx)
+			ondata.pos_x = precInRange (ondata.pos_x, peso_spostamento_laterale, MARGINE_SX_GIOCO);
+			if (ondata.pos_x == MARGINE_SX_GIOCO)
 			{
 				ondata.dir_mostri = destra;
-				ondata.pos_y = sucInRange (ondata.pos_y, distanza_file_mostri / 4, limite_inf);
+				ondata.pos_y = sucInRange (ondata.pos_y, DISTANZA_FILE_MOSTRI / 4, POS_Y_CARRO);
 			}
 		}
 	}
 }
 
-void muoviSparoCarro (Sparo &sparo, const unsigned int limite_sup)
+void muoviSparoCarro (Sparo &sparo)
 {
-	sparo.pos_y = precInRange (sparo.pos_y, LATO_UNITA, limite_sup);
-	if (sparo.pos_y == limite_sup)
+	sparo.pos_y = precInRange (sparo.pos_y, DIMENSIONE_LATO_UNITA_BARRIERA, MARGINE_SUP_GIOCO);
+	if (sparo.pos_y == MARGINE_SUP_GIOCO)
 	{
 		sparo.stato = false;
 	}
 }
 
-void muoviSparoMostri (Sparo &sparo, const unsigned int limite_inf)
+void muoviSparoMostri (Sparo &sparo, const unsigned int altezza_sparo_alieno)
 {
-	sparo.pos_y = sucInRange (sparo.pos_y, LATO_UNITA, limite_inf);
+	unsigned int limite_inf = MARGINE_INF_GIOCO - altezza_sparo_alieno;
+	sparo.pos_y = sucInRange (sparo.pos_y, DIMENSIONE_LATO_UNITA_BARRIERA, limite_inf);
 	if (sparo.pos_y >= limite_inf)
 	{
 		sparo.stato = false;
 	}
 }
 
-void muoviDestraCarro (unsigned int &pos_x_carro, const int limite_dx)
+void muoviDestraCarro (unsigned int &pos_x_carro)
 {
-	pos_x_carro = sucInRange (pos_x_carro, LATO_UNITA, limite_dx);
+	pos_x_carro = sucInRange (pos_x_carro, DIMENSIONE_LATO_UNITA_BARRIERA, MARGINE_DX_GIOCO);
 }
 
-void muoviSinistraCarro (unsigned int &pos_x_carro, const int limite_sx)
+void muoviSinistraCarro (unsigned int &pos_x_carro)
 {
-	pos_x_carro = precInRange (pos_x_carro, LATO_UNITA, limite_sx);
+	pos_x_carro = precInRange (pos_x_carro, DIMENSIONE_LATO_UNITA_BARRIERA, MARGINE_SX_GIOCO);
 }
 
-bool esisteSalvataggio (const char file [])
+bool esisteSalvataggio ()
 {
-	ifstream f (file);
+	ifstream f (FILE_SALVATAGGIO_PARTITA);
     	return f;
 }
 
@@ -360,7 +361,7 @@ void inizializzaBarriere (stato_barriera barriera [ALT_BARRIERA] [LARG_BARRIERA]
 	}
 }
 
-void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned int pos_x_iniziale_carro, const unsigned int pos_x_iniziale_ondata, const unsigned int pos_y_iniziale_ondata, const unsigned int pos_x_navicella)
+void nuovaPartita (Partita &partita, Impostazioni impostazioni)
 {
 	Punteggio punteggio;
 	strcpy (punteggio.nome, "");
@@ -374,28 +375,28 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned i
 		inizializzaBarriere (partita.barriere [i]);
 	}
 
-	nuovaOndata (partita.ondata, pos_x_iniziale_ondata, pos_y_iniziale_ondata);
+	nuovaOndata (partita.ondata);
 	
-	partita.pos_x_carro = pos_x_iniziale_carro;
+	partita.pos_x_carro = LARGHEZZA_DISPLAY / 2;
 
 	partita.sparo_carro.stato = false;
 
 	partita.sparo_mostri.stato = false;
 	
 	partita.navicella_misteriosa.stato = false;
-	strcpy (partita.navicella_misteriosa.stringa, STRINGA_M_X);
+	strcpy (partita.navicella_misteriosa.stringa, STRINGA_NAVICELLA);
 
-	partita.pos_x_navicella = pos_x_navicella;
+	partita.pos_x_navicella = MARGINE_SX_GIOCO;
 }
 
-void nuovaOndata (Ondata &ondata, const unsigned int pos_x_iniziale, const unsigned int pos_y_iniziale)
+void nuovaOndata (Ondata &ondata)
 {
 	int i = 0;
 	Mostro mostro;
 
 	mostro.stato = true;
-	mostro.punteggio = PUNTEGGIO_M_30;
-	strcpy (mostro.stringa, STRINGA_M_30);
+	mostro.punteggio = PUNTEGGIO_MOSTRO_1;
+	strcpy (mostro.stringa, STRINGA_MOSTRO_1);
 	for (; i < 2; i++)
 	{
 		for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
@@ -405,8 +406,8 @@ void nuovaOndata (Ondata &ondata, const unsigned int pos_x_iniziale, const unsig
 	}
 
 	mostro.stato = true;
-	mostro.punteggio = PUNTEGGIO_M_20;
-	strcpy (mostro.stringa, STRINGA_M_20);
+	mostro.punteggio = PUNTEGGIO_MOSTRO_2;
+	strcpy (mostro.stringa, STRINGA_MOSTRO_2);
 	for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
 	{
 		ondata.mostri [i] [j] = mostro;
@@ -414,8 +415,8 @@ void nuovaOndata (Ondata &ondata, const unsigned int pos_x_iniziale, const unsig
 	i++;
 
 	mostro.stato = true;
-	mostro.punteggio = PUNTEGGIO_M_10;
-	strcpy (mostro.stringa, STRINGA_M_10);
+	mostro.punteggio = PUNTEGGIO_MOSTRO_3;
+	strcpy (mostro.stringa, STRINGA_MOSTRO_3);
 	for (; i < 5; i++)
 	{
 		for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
@@ -430,16 +431,16 @@ void nuovaOndata (Ondata &ondata, const unsigned int pos_x_iniziale, const unsig
 	
 	ondata.dir_mostri = destra;
 	
-	ondata.pos_x = pos_x_iniziale;
+	ondata.pos_x = POS_X_PRIMO_ASSE_MOSTRI;
 	
-	ondata.pos_y = pos_y_iniziale;
+	ondata.pos_y = POS_Y_PRIMA_FILA_ONDATA;
 }
 
-bool caricaPartita (Partita &salvataggio, const char file [])
+bool caricaPartita (Partita &salvataggio)
 {
-	ifstream f (file);
+	ifstream f (FILE_SALVATAGGIO_PARTITA);
     	if (!f) {
-		cerr<<"Errore nel caricamento del file "<<file<<endl;
+		cerr<<"Errore nel caricamento del file "<<FILE_SALVATAGGIO_PARTITA<<endl;
 		return false ;
     	}
 	Partita temp;
@@ -530,14 +531,11 @@ bool caricaPartita (Partita &salvataggio, const char file [])
 	return true;
 }
 
-void salvaPartita (SpaceInvaders &spaceInvaders, const char file [])
+void output (Partita partita, ostream &os)
 {
-	ofstream f(file);
-	Partita partita = spaceInvaders.partita_in_corso;
-
-	f<<partita.punteggio.valore<<endl<<endl;
+	os<<partita.punteggio.valore<<endl<<endl;
 	
-	f<<partita.vite_rimanenti<<endl<<endl;
+	os<<partita.vite_rimanenti<<endl<<endl;
 
 	for (unsigned int n = 0; n < N_BARRIERE; n++)
 	{
@@ -545,48 +543,56 @@ void salvaPartita (SpaceInvaders &spaceInvaders, const char file [])
 		{
 			for (unsigned int c = 0; c < LARG_BARRIERA; c++)
 			{
-				f<<partita.barriere [n] [r] [c]<<" ";
+				os<<partita.barriere [n] [r] [c]<<" ";
 			}
-			f<<endl;
+			os<<endl;
 		}
-		f<<endl<<endl;
+		os<<endl<<endl;
 	}
 
 	for (unsigned int i = 0; i < N_FILE_MOSTRI; i++)
 	{
 		for (unsigned int k = 0; k < N_COL_MOSTRI; k++)
 		{
-			f<<partita.ondata.mostri [i] [k].stato<<" "<<partita.ondata.mostri [i] [k].punteggio<<" "<<partita.ondata.mostri [i] [k].stringa<<"\t";
+			os<<partita.ondata.mostri [i] [k].stato<<" "<<partita.ondata.mostri [i] [k].punteggio<<" "<<partita.ondata.mostri [i] [k].stringa<<"\t";
 		}
-		f<<endl;
+		os<<endl;
 	}
-	f<<partita.ondata.mostri_rimasti<<endl;
-	f<<partita.ondata.dir_mostri<<endl;
-	f<<partita.ondata.pos_x<<endl;
-	f<<partita.ondata.pos_y<<endl<<endl;
+	os<<partita.ondata.mostri_rimasti<<endl;
+	os<<partita.ondata.dir_mostri<<endl;
+	os<<partita.ondata.pos_x<<endl;
+	os<<partita.ondata.pos_y<<endl<<endl;
 
-	f<<partita.pos_x_carro<<endl<<endl;
+	os<<partita.pos_x_carro<<endl<<endl;
 
-	f<<partita.sparo_carro.stato<<endl;
-	f<<partita.sparo_carro.pos_x<<endl;
-	f<<partita.sparo_carro.pos_y<<endl<<endl;
+	os<<partita.sparo_carro.stato<<endl;
+	os<<partita.sparo_carro.pos_x<<endl;
+	os<<partita.sparo_carro.pos_y<<endl<<endl;
 
-	f<<partita.sparo_mostri.stato<<endl;
-	f<<partita.sparo_mostri.pos_x<<endl;
-	f<<partita.sparo_mostri.pos_y<<endl<<endl;
+	os<<partita.sparo_mostri.stato<<endl;
+	os<<partita.sparo_mostri.pos_x<<endl;
+	os<<partita.sparo_mostri.pos_y<<endl<<endl;
 
-	f<<partita.navicella_misteriosa.stato<<endl;
-	f<<partita.navicella_misteriosa.punteggio<<endl;
-	f<<partita.navicella_misteriosa.stringa<<endl<<endl;
+	os<<partita.navicella_misteriosa.stato<<endl;
+	os<<partita.navicella_misteriosa.punteggio<<endl;
+	os<<partita.navicella_misteriosa.stringa<<endl<<endl;
 
-	f<<partita.pos_x_navicella;
+	os<<partita.pos_x_navicella;
+}
+
+void salvaPartita (SpaceInvaders &spaceInvaders)
+{
+	ofstream f(FILE_SALVATAGGIO_PARTITA);
+	Partita partita = spaceInvaders.partita_in_corso;
+
+	output (partita, f);
 
 	spaceInvaders.partita_salvata = true;
 }
 
-bool eliminaFileSalvataggio (const char file [], SpaceInvaders &spaceInvaders)
+bool eliminaFileSalvataggio (SpaceInvaders &spaceInvaders)
 {
-	if (!remove (file))
+	if (!remove (FILE_SALVATAGGIO_PARTITA))
 	{
 		spaceInvaders.partita_salvata = false;
 		return true;
@@ -596,38 +602,6 @@ bool eliminaFileSalvataggio (const char file [], SpaceInvaders &spaceInvaders)
 
 void stampa (Partita partita)
 {
-	cout<<partita.vite_rimanenti<<endl;
-	for (unsigned int n = 0; n < N_BARRIERE; n++)
-	{
-		for (unsigned int r = 0; r < ALT_BARRIERA; r++)
-		{
-			for (unsigned int c = 0; c < LARG_BARRIERA; c++)
-			{
-				cout<<partita.barriere [n] [r] [c]<<" ";
-			}
-			cout<<endl;
-		}
-		cout<<endl<<endl;
-	}
-	for (unsigned int i = 0; i < N_FILE_MOSTRI; i++)
-	{
-		for (unsigned int k = 0; k < N_COL_MOSTRI; k++)
-		{
-			cout<<partita.ondata.mostri [i] [k].stato<<" "<<partita.ondata.mostri [i] [k].punteggio<<"\t";
-		}
-		cout<<endl;
-	}
-	cout<<partita.ondata.mostri_rimasti<<endl;
-	cout<<partita.ondata.dir_mostri<<endl;
-	cout<<partita.ondata.pos_x<<endl;
-	cout<<partita.ondata.pos_y<<endl;
-	cout<<partita.pos_x_carro<<endl;
-	cout<<partita.sparo_carro.stato<<endl;
-	cout<<partita.sparo_carro.pos_x<<endl;
-	cout<<partita.sparo_carro.pos_y<<endl;
-	cout<<partita.sparo_mostri.stato<<endl;
-	cout<<partita.sparo_mostri.pos_x<<endl;
-	cout<<partita.sparo_mostri.pos_y<<endl;
+	output (partita, cout);
 }
-
 //FINE MODULO

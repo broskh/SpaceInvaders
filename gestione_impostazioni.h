@@ -2,30 +2,29 @@
  * Header file contenente l'interfaccia del modulo di gestione delle impostazioni.
  */
 
-//INIZIO INTERFACCIA
-
 const bool DEFAULT_MUSICA = true; /**<Valore di default del campo musica.*/
 const bool DEFAULT_EFFETTI_AUDIO = true; /**<Valore di default del campo effetti_audio.*/
 const grafica DEFAULT_MODALITA_GRAFICA = mono_bianco; /**<Valore di default del campo mod_grafica.*/
 const unsigned int DEFAULT_VITE_INIZIALI = 3; /**<Valore di default del campo vite_iniziali.*/
 
+extern char FILE_IMPOSTAZIONI [];
+
+//INIZIO INTERFACCIA
 /**
  * Carica da un file di configurazione le impostazioni e le memorizza in un'apposita struttura.
  * 
  * @param impostazioni Struttura {@link Impostazioni} nella quale memorizzare i valori.
- * @param file File di configurazione dal quale caricare le impostazioni.
  * 
  * @return "false" nel caso in cui il caricamento non sia riuscito, "true" altrimenti.
  */
-bool caricaImpostazioni (Impostazioni &impostazioni, const char file []);
+bool caricaImpostazioni (Impostazioni &impostazioni);
 
 /**
  * Salva le impostazioni su un file di configurazione.
  *
- * @param impostazioni Struttura {@link Impostazioni} che contiene le impostazioni da salvare nel file di configurazione. 
- * @param file File di configurazione nel quale salvare le impostazioni.
+ * @param impostazioni Struttura {@link Impostazioni} che contiene le impostazioni da salvare nel file di configurazione.
  */
-void salvaImpostazioni (Impostazioni impostazioni, const char file []);
+void salvaImpostazioni (Impostazioni impostazioni);
 
 /**
  * Memorizza in una struttura {@link Impostazioni} i valori passati per parametro.
@@ -45,4 +44,9 @@ void inizializzaImpostazioni (Impostazioni &impostazioni, bool musica, bool effe
  */
 void impostaValoriImpostazioniDefault (Impostazioni &impostazioni);
 
+/*
+ * Stampa a console le impostazioni.
+ * @param impostazioni {@link Impostazioni} da stampare.
+ */
+void stampa (Impostazioni impostazioni);
 //FINE INTERFACCIA

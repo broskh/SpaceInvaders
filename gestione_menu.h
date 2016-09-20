@@ -2,8 +2,6 @@
  * Header file contenente l'interfaccia del modulo di gestione degi menu.
  */
 
-//INIZIO INTERFACCIA
-
 const char MENU_PRINCIPALE [] [MAX_STRINGA_GENERICA] = {"Gioca", "Carica partita", "Opzioni", "Highscores", "Esci"}; /**<Voci del munù principale*/
 const int N_VOCI_MENU_PRINC = 5; /**<Numero di voci del menù principale.*/
 const char MENU_IMPOSTAZIONI [] [MAX_STRINGA_GENERICA] = {"Musica: ", "Effetti audio: ", "Modalita' grafica: ", "Vite iniziali: "}; /**<Voci del munù impostazioni.*/
@@ -13,6 +11,7 @@ const int N_INDICAZIONI_MENU_IMPO = 4; /**<Numero di indicazioni del menù impos
 const char MENU_PAUSA [] [MAX_STRINGA_GENERICA] = {"Continua partita", "Salva partita", "Abbandona partita"}; /**<Indicazioni del menù di pausa.*/
 const int N_VOCI_MENU_PAUSA = 3; /**<Numero di voci del menù di pausa.*/
 
+//INIZIO INTERFACCIA
 /**
  * Modifica il valore della voce selezionata impostandola alla precedente.
  * 

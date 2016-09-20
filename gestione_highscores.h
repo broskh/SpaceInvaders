@@ -2,27 +2,43 @@
  * Header file contenente l'interfaccia del modulo di gestione degli highscores.
  */
 
+extern char FILE_HIGHSCORES [];
+
 //INIZIO INTERFACCIA
+/**
+ * Stampa su console un {@link Punteggio}.
+ * 
+ * @param punteggio {@link Punteggio} da stampare.
+ * 
+ */
+void stampa (Punteggio punteggio);
+
+/**
+ * Stampa su console un'array di punteggi.
+ * 
+ * @param highscores Array dei punteggi da stampare.
+ * @param n Numero di punteggi nell'array.
+ * 
+ */
+void stampa (Punteggio highscores [], int n);
 
 /**
  * Carica da un file i migliori punteggi e li memorizza in un'apposita struttura.
  * 
  * @param highscores Array di strutture {@link Punteggio} nel quale memorizzare i valori.
  * @param n_highscores Numero di punteggi presenti attualmente nell'array "highscores".
- * @param file File dal quale caricare i punteggi.
  *
  * @return "false" nel caso in cui il caricamento non sia riuscito, "true" altrimenti.
  */
-bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores, const char file []);
+bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores);
 
 /**
  * Salva i migliori punteggi su file.
  *
  * @param highscores Array di strutture {@link Punteggio} che contiene i punteggi da salvare nel file.
  * @param n_highscores Numero di punteggi presenti attualmente nell'array "highscores".
- * @param file File nel quale salvare i punteggi.
  */
-void salvaPunteggi (Punteggio highscores [], int n_highscores, const char file []);
+void salvaPunteggi (Punteggio highscores [], int n_highscores);
 
 /**
  * Memorizza in una struttura "Punteggio" i valori passati per parametro.
@@ -55,5 +71,4 @@ void aggiungiPunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highsco
  * il punteggio non merita di essere inserito.
  */
 int posizionePunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores, Punteggio nuovo_punteggio);
-
 //FINE INTERFACCIA
