@@ -2,19 +2,11 @@
  * File contenente le strutture dati.
  */
 
-#include <iostream>
-#include <cassert>
-#include <fstream>
-#include <cstring>
-#include <cstdlib>
-
-using namespace std;
-
 const unsigned int N_BARRIERE = 4; /**<Numero delle barriere presenti in una partita.*/
 const unsigned int LARG_BARRIERA = 20; /**<Largezza della barriera.*/
 const unsigned int ALT_BARRIERA = 17; /**<Altezza della barriera.*/
-const unsigned int N_FILE_MOSTRI = 5; /**<Numero delle file di mostri.*/
-const unsigned int N_COL_MOSTRI = 11; /**<Numero delle colonne di mostri.*/
+const unsigned int N_FILE_ALIENI = 5; /**<Numero delle file di alieni.*/
+const unsigned int N_COL_ALIENI = 11; /**<Numero delle colonne di alieni.*/
 
 const int N_MODALITA_GRAFICHE = 6; /**<Numero di modalità grafiche disponibili.*/
 const int MAX_VITE = 10; /**<Numero massimo di vite.*/
@@ -30,8 +22,8 @@ const int MAX_N_VOCI = 5; /**<Numero di voci masssime presenti in un menu.*/
  *
  * Sono presenti diverse modalità grafiche:
  * - "mono_bianco", "mono_giallo" e "mono_verde" se si tratta di una grafica monocroma del colore indicato;
- * - "fasce_vert" e "fasce_oriz" se i mostri sono colorati attraverso fasce adiacenti di colori differenti;
- * - "misto" se vogliamo che i mostri siano di colori differenti, e mai uguali per due mostri adiacenti.
+ * - "fasce_vert" e "fasce_oriz" se i alieni sono colorati attraverso fasce adiacenti di colori differenti;
+ * - "misto" se vogliamo che i alieni siano di colori differenti, e mai uguali per due alieni adiacenti.
  */
 enum grafica {mono_bianco, mono_giallo, mono_verde, fasce_vert, fasce_oriz, misto};	//----------------------->aggiungere altre mono?<--------------------
 
@@ -46,7 +38,7 @@ enum stato_barriera {distrutta, parziale, integra};
 
 /** Tipo che indica una direzione.
  *
- * I mostri eseguono continuamentente un movimento a zig zag. Con questo tipo è possibile indicare
+ * I alieni eseguono continuamentente un movimento a zig zag. Con questo tipo è possibile indicare
  * la direzione che stanno tenendo in un determinato momento.
  */
 enum direzione {destra, sinistra};
@@ -103,29 +95,29 @@ struct Impostazioni
 /**
  * Struttura per i msotri.
  * 
- * Da questa struttura dati è possibile prelevare le informazioni relative allo stato e al punteggio di un mostro. 
+ * Da questa struttura dati è possibile prelevare le informazioni relative allo stato e al punteggio di un alieno. 
  */
-struct Mostro
+struct Alieno
 {
-	bool stato; /**<Stato del mostro.*/
-	unsigned int punteggio; /**<Punteggio derivante dalla distruzione di questo mostro.*/
-	char stringa [2]; /**<Stringa rappresentante un determinato mostro.*/
+	bool stato; /**<Stato del alieno.*/
+	unsigned int punteggio; /**<Punteggio derivante dalla distruzione di questo alieno.*/
+	char stringa [2]; /**<Stringa rappresentante un determinato alieno.*/
 };
 
 /**
  * Struttura per una singola ondata.
  *
  * Ogni volta che si affronta una nuova ondata questa struttura ne conserva le varie informazioni: il numero
- * di mostri non ancora abbattuti, l'indicazione di quali mostri sono vivi e quali no, e la direzione che si
+ * di alieni non ancora abbattuti, l'indicazione di quali alieni sono vivi e quali no, e la direzione che si
  * sta seguendo nel continuo zig-zag dell'ondata.
  */
 struct Ondata
 {	
-	Mostro mostri [N_FILE_MOSTRI] [N_COL_MOSTRI]; /**<Stato mostri.*/	
-	int mostri_rimasti; /**<Numero di mostri rimasti.*/	
-	direzione dir_mostri; /**<Direzione dello zig-zag.*/
-	unsigned int pos_x; /**<Indica la posizione rispetto all'asse delle x del mostro nella prima fila e prima colonna.*/
-	unsigned int pos_y; /**<Indica la posizione rispetto all'asse delle y del mostro nella prima fila e prima colonna.*/
+	Alieno alieni [N_FILE_ALIENI] [N_COL_ALIENI]; /**<Stato alieni.*/	
+	int alieni_rimasti; /**<Numero di alieni rimasti.*/	
+	direzione dir_alieni; /**<Direzione dello zig-zag.*/
+	unsigned int pos_x; /**<Indica la posizione rispetto all'asse delle x del alieno nella prima fila e prima colonna.*/
+	unsigned int pos_y; /**<Indica la posizione rispetto all'asse delle y del alieno nella prima fila e prima colonna.*/
 };
 
 /**
@@ -146,18 +138,18 @@ struct Sparo
  *
  * Ogni volta che viene avviata una nuova partita questa struttura ne contiene le informazioni.
  * Conserva il punteggio che si sta accumulando, il numero di vite rimanenti, lo stato delle barriere
- * e le informazioni relative all'ondata di mostri che si sta combattendo.
+ * e le informazioni relative all'ondata di alieni che si sta combattendo.
  */
 struct Partita
 {
 	Punteggio punteggio; /**<Punteggio attuale.*/
 	int vite_rimanenti; /**<Vite rimanenti.*/
 	stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA]; /**<Stato attuale delle barriere.*/
-	Ondata ondata; /**<Ondata di mostri attuale.*/
+	Ondata ondata; /**<Ondata di alieni attuale.*/
 	unsigned int pos_x_carro; /**<Indica lo spostamento del carro armato rispetto alla posizione centrale iniziale.*/
 	Sparo sparo_carro; /**<Informazioni relative allo sparo del carro armato.*/
-	Sparo sparo_mostri; /**<Informazioni relative allo sparo dei mostri.*/
-	Mostro navicella_misteriosa; /**<Informazioni generali relative alla navicella.*/
+	Sparo sparo_alieni; /**<Informazioni relative allo sparo dei alieni.*/
+	Alieno navicella_misteriosa; /**<Informazioni generali relative alla navicella.*/
 	unsigned int pos_x_navicella; /**<Posizione relativa all'asse x della navicella misteriosa.*/
 };
 

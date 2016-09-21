@@ -2,71 +2,99 @@
  * Header file contenente l'interfaccia del modulo di gestione degli highscores.
  */
 
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_image.h>
+#include <fstream>
+#include <iostream>
+
+using namespace std;
+
+//INIZIO COSTANTI PER ALIENI
+const char STRINGA_ALIENO_3 [] = "B"; /**<Stringa per rappresentare il alieno 3.*/
+const char STRINGA_ALIENO_2 [] = "D"; /**<Stringa per rappresentare il alieno 2.*/
+const char STRINGA_ALIENO_1 [] = "F"; /**<Stringa per rappresentare il alieno 1.*/
+const char STRINGA_NAVICELLA [] = "2"; /**<Stringa per rappresentare la navicella misteriosa.*/
+const char STRINGA_CARRO_ARMATO [] = "-"; /**<Stringa per rappresentare il carro armato.*/
+const char STRINGA_SPARO [] = "|"; /**<Stringa per rappresentare lo sparo del carro armato.*/
+const unsigned int PUNTEGGIO_ALIENO_3 = 10; /**<Punteggio attribuito al alieno 3.*/
+const unsigned int PUNTEGGIO_ALIENO_2 = 20; /**<Punteggio attribuito al alieno 2.*/
+const unsigned int PUNTEGGIO_ALIENO_1 = 30; /**<Punteggio attribuito al alieno 1.*/
+const unsigned int PUNTEGGIO_NAVICELLA_MAX = 500; /**<Punteggio massimo attribuito alla navicella.*/
+const unsigned int PUNTEGGIO_NAVICELLA_MIN = 100; /**<Punteggio minimo attribuito alla navicella.*/
+//FINE COSTANTI PER ALIENI
+
+//INIZIO CARIABILI E COSTANTI DI GIOCO
+extern unsigned int PROBABILITA_COMPARSA_NAVICELLA; /**<Probabilità percentuale di comparsa della navicella misteriosa.*/
 const unsigned int DIMENSIONE_LATO_UNITA_BARRIERA = 4; /**<Lunghezza in pixel di ogni unità costituente le barriere.*/
 const unsigned int LUNGHEZZA_PIXEL_BARRIERA = DIMENSIONE_LATO_UNITA_BARRIERA * LARG_BARRIERA;
-const unsigned int N_MOSTRI_TOTALE = N_FILE_MOSTRI * N_COL_MOSTRI; /**<Numero totale dei mostri presenti inizialmente*/
+//FINE CARIABILI E COSTANTI DI GIOCO
 
-extern char STRINGA_MOSTRO_3 []; /**<Stringa per rappresentare il mostro 3.*/
-extern char STRINGA_MOSTRO_2 []; /**<Stringa per rappresentare il mostro 2.*/
-extern char STRINGA_MOSTRO_1 []; /**<Stringa per rappresentare il mostro 1.*/
-extern char STRINGA_NAVICELLA []; /**<Stringa per rappresentare la navicella misteriosa.*/
-extern char STRINGA_CARRO_ARMATO []; /**<Stringa per rappresentare il carro armato.*/
-extern char STRINGA_SPARO []; /**<Stringa per rappresentare lo sparo del carro armato.*/
+//INIZIO VARIABILI GENERALI PER DISPLAY
+extern unsigned int ALTEZZA_DISPLAY; /**<Altezza della finestra del gioco.*/
+extern unsigned int LARGHEZZA_DISPLAY; /**<Larghezza della finestra del gioco.*/
 
-extern unsigned int PUNTEGGIO_MOSTRO_3; /**<Punteggio attribuito al mostro 3.*/
-extern unsigned int PUNTEGGIO_MOSTRO_2; /**<Punteggio attribuito al mostro 2.*/
-extern unsigned int PUNTEGGIO_MOSTRO_1; /**<Punteggio attribuito al mostro 1.*/
-extern unsigned int PUNTEGGIO_NAVICELLA_MAX; /**<Punteggio massimo attribuito alla navicella.*/
-extern unsigned int PUNTEGGIO_NAVICELLA_MIN; /**<Punteggio minimo attribuito alla navicella.*/
-
-extern unsigned int PROBABILITA_COMPARSA_NAVICELLA; /**<Probabilità percentuale di comparsa della navicella misteriosa.*/
-
+extern unsigned int MARGINE_SUP_GIOCO; /**<Margine superiore del gioco.*/
+extern unsigned int MARGINE_INF_GIOCO; /**<Margine inferiore del gioco.*/
 extern unsigned int MARGINE_SX_GIOCO; /**<Margine sinistro del gioco.*/
-extern unsigned int POS_X_PRIMA_BARRIERA;
+extern unsigned int MARGINE_DX_GIOCO; /**<Margine destro del gioco.*/
+//FINE VARIABILI GENERALI PER DISPLAY
+
+//INIZIO VARIABILI PER FILE
+extern char FILE_SALVATAGGIO_PARTITA []; /**<Percorso del file contenente la partita salvata.*/
+//FINE VARIABILI PER FILE
+
+//INIZIO VARIABILI PER FONT E TESTI
+extern unsigned int DIM_ALIENI; /**<Dimensione del font utilizzato per i alieni*/
+extern unsigned int DIM_FONT_TESTO; /**<Dimensione del font utilizzato per i testi generali.*/
+//FINE VARIABILI PER FONT E TESTI
+
+//INIZIO VARIABILI PER POSIZIONI NELLA SCHERMATA DI GIOCO
+extern unsigned int POS_X_PRIMA_BARRIERA; /**<Posizione rispetto all'asse x della prima barriera.*/
 extern unsigned int POS_Y_BARRIERE; /**<Posizone rispetto all'asse y dalla quale mostrare la prima barriera.*/
 extern unsigned int DISTANZA_BARRIERE; /**<Distanza in pixel fra le barriere.*/
-extern unsigned int DIM_MOSTRI; /**<Dimensione del font utilizzato per i mostri*/
-extern unsigned int DISTANZA_FILE_MOSTRI; /**<Distamza fra le file di mostri.*/
-extern unsigned int DISTANZA_ASSI_COL_MOSTRI; /**<Distanza fra gli assi delle colonne di mostri.*/
-extern unsigned int MARGINE_SUP_GIOCO; /**<Margine superiore del gioco.*/
-extern unsigned int MARGINE_DX_GIOCO; /**<Margine destro del gioco.*/
-extern unsigned int DIM_FONT_TESTO; /**<Dimensione del font utilizzato per i testi generali.*/
+
+extern unsigned int POS_X_PRIMO_ASSE_ALIENI; /**<Posizone rispetto all'asse x nella quale è presente il primo asse delle colonne di alieni.*/
+extern unsigned int POS_Y_PRIMA_FILA_ONDATA; /**<Posizione rispetto all'asse y dalla quale mostrare la prima fila di alieni.*/
+extern unsigned int DISTANZA_FILE_ALIENI; /**<Distamza fra le file di alieni.*/
+extern unsigned int DISTANZA_ASSI_COL_ALIENI; /**<Distanza fra gli assi delle colonne di alieni.*/
+
 extern unsigned int POS_Y_CARRO; /**<Posizione rispetto all'asse y dalla quale mostrare il carro armato.*/
-extern unsigned int MARGINE_INF_GIOCO; /**<Margine inferiore del gioco.*/
-extern unsigned int POS_X_PRIMO_ASSE_MOSTRI; /**<Posizone rispetto all'asse x nella quale è presente il primo asse delle colonne di mostri.*/
-extern unsigned int POS_Y_PRIMA_FILA_ONDATA; /**<Posizione rispetto all'asse y dalla quale mostrare la prima fila di mostri.*/
-extern char FILE_SALVATAGGIO_PARTITA []; /**<Percorso del file contenente la partita salvata.*/
-extern unsigned int LARGHEZZA_DISPLAY; /**<Larghezza della finestra del gioco.*/
-extern unsigned int ALTEZZA_DISPLAY; /**<Altezza della finestra del gioco.*/
+//FINE VARIABILI PER POSIZIONI NELLA SCHERMATA DI GIOCO
+
+//INIZIO VARIABILI PER FONT E IMMAGINI DI GIOCO
+extern ALLEGRO_FONT *font_alieni; /**<Font utilizzato per stampare gli alieni e altri elementi di gioco.*/
+extern ALLEGRO_BITMAP *sparo_alieni_1; /**<Immagine utilizzata per lo sparo alieno di tipo 1.*/
+extern ALLEGRO_BITMAP *sparo_alieni_2;  /**<Immagine utilizzata per lo sparo alieno di tipo 2.*/
+//INIZIO VARIABILI PER FONT E IMMAGINI DI GIOCO
 
 //INIZIO INTERFACCIA
 void stampa (Partita partita);
 
-bool controlloCollisioneBarriereDaOndata (Partita &partita, const ALLEGRO_FONT *font_mostri);
+bool controlloCollisioneBarriereDaOndata (Partita &partita);
 
-bool controlloCollisioneNavicellaMisteriosa (Partita &partita, const unsigned int larghezza_navicella);
+bool controlloCollisioneNavicellaMisteriosa (Partita &partita);
 
 void creaNavicellaMisteriosa (Partita &partita);
 
-void muoviNavicellaMisteriosa (Partita &partita, unsigned int larghezza_navicella);
+void muoviNavicellaMisteriosa (Partita &partita);
 
-bool controlloCollisioneCarroDaSparoMostri (Partita &partita, const unsigned int larghezza_carro, const unsigned int altezza_sparo);
+bool controlloCollisioneCarroDaSparoAlieni (Partita &partita);
 
-bool controlloCollisioneBarriereDaSparoMostri (Partita &partita, const unsigned int altezza_sparo_alieni);
+bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita);
 
 bool controlloCollisioneBarriereDaSparoCarro (Partita &partita);
 
-ALLEGRO_BITMAP * sparoScelto (int pos_x, ALLEGRO_BITMAP *sparo_mostri_1, ALLEGRO_BITMAP *sparo_mostri_2);
+ALLEGRO_BITMAP * sparoScelto (int pos_x);
 
-void creaSparoMostri (Partita &partita, const ALLEGRO_FONT *font_mostri);
+void creaSparoAlieni (Partita &partita);
 
 bool controlloCollisioneCarroDaOndata (Partita &partita);
 
-bool controlloCollisioneMostri (Partita &partita, const ALLEGRO_FONT *font_mostri);
+bool controlloCollisioneAlieni (Partita &partita);
 
-void muoviSparoMostri (Sparo &sparo, const unsigned int altezza_sparo_alieno);
+void muoviSparoAlieni (Sparo &sparo);
 
-void muoviMostri(Ondata &ondata, const unsigned int larghezza_colonna);
+void muoviAlieni(Ondata &ondata);
 
 /**
  * Stabilisce qual'è la posizione rispetto all'asse y dello sparo del carro armato in movimento.
@@ -144,5 +172,4 @@ void salvaPartita (SpaceInvaders &spaceInvaders);
  * @return "true" se il file era presente ed è stato eliminato, "false" altrimenti.
  */
 bool eliminaFileSalvataggio (SpaceInvaders &spaceInvaders);
-
 //FINE INTERFACCIA

@@ -2,8 +2,6 @@
  * File contenente il modulo di salvataggio/caricamento delle impostazioni.
  */
 
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_image.h>
 #include "struttura_dati.h"
 #include "funzioni_generiche.h"
 #include "gestione_partita.h"
@@ -20,9 +18,9 @@ void creaNavicellaMisteriosa (Partita &partita)
 	}
 }
 
-void muoviNavicellaMisteriosa (Partita &partita, unsigned int larghezza_navicella)
+void muoviNavicellaMisteriosa (Partita &partita)
 {
-	unsigned int margine_dx = MARGINE_DX_GIOCO + larghezza_navicella;
+	unsigned int margine_dx = MARGINE_DX_GIOCO + al_get_text_width(font_alieni, STRINGA_NAVICELLA);
 	partita.pos_x_navicella = sucInRange (partita.pos_x_navicella, DIMENSIONE_LATO_UNITA_BARRIERA, margine_dx);
 	if (partita.pos_x_navicella == margine_dx)
 	{
@@ -71,51 +69,51 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 	return collisione;
 }
 
-ALLEGRO_BITMAP * sparoScelto (int pos_x, ALLEGRO_BITMAP *sparo_mostri_1, ALLEGRO_BITMAP *sparo_mostri_2)
+ALLEGRO_BITMAP * sparoScelto (int pos_x)
 {
 	if (pos_x % 2 == 0)
 	{
-		return sparo_mostri_1;		
+		return sparo_alieni_1;		
 	}
 	else
 	{
-		return sparo_mostri_2;
+		return sparo_alieni_2;
 	}
 }
 
-void creaSparoMostri (Partita &partita, const ALLEGRO_FONT *font_mostri)
+void creaSparoAlieni (Partita &partita)
 {
 	srand (time(NULL));
 	int fattore_casuale ;
-	if (partita.ondata.mostri_rimasti < static_cast <int> (N_COL_MOSTRI))
+	if (partita.ondata.alieni_rimasti < static_cast <int> (N_COL_ALIENI))
 	{
-		fattore_casuale =  rand() % partita.ondata.mostri_rimasti;
+		fattore_casuale =  rand() % partita.ondata.alieni_rimasti;
 	}
 	else
 	{
-		fattore_casuale =  rand() % N_COL_MOSTRI;
+		fattore_casuale =  rand() % N_COL_ALIENI;
 	}
 
-	unsigned int pos_y_attuale  = partita.ondata.pos_y + DIM_MOSTRI + DISTANZA_FILE_MOSTRI * (N_FILE_MOSTRI - 1);	
-	for (int i = N_FILE_MOSTRI - 1; i >= 0 && fattore_casuale >= 0; i--)
+	unsigned int pos_y_attuale  = partita.ondata.pos_y + DIM_ALIENI + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);	
+	for (int i = N_FILE_ALIENI - 1; i >= 0 && fattore_casuale >= 0; i--)
 	{
-		unsigned int larghezza_mostro = al_get_text_width (font_mostri, partita.ondata.mostri [i] [0].stringa);
-		unsigned int pos_x_attuale = partita.ondata.pos_x + larghezza_mostro / 2 - 3;
-		for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
+		unsigned int larghezza_alieno = al_get_text_width (font_alieni, partita.ondata.alieni [i] [0].stringa);
+		unsigned int pos_x_attuale = partita.ondata.pos_x + larghezza_alieno / 2 - 3;
+		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
-			if (partita.ondata.mostri [i] [j].stato)
+			if (partita.ondata.alieni [i] [j].stato)
 			{
 				if (fattore_casuale == 0)
 				{
-					partita.sparo_mostri.stato = true;
-					partita.sparo_mostri.pos_x = pos_x_attuale;
-					partita.sparo_mostri.pos_y = pos_y_attuale;
+					partita.sparo_alieni.stato = true;
+					partita.sparo_alieni.pos_x = pos_x_attuale;
+					partita.sparo_alieni.pos_y = pos_y_attuale;
 				}
 				fattore_casuale--;
 			}
-			pos_x_attuale += DISTANZA_ASSI_COL_MOSTRI;
+			pos_x_attuale += DISTANZA_ASSI_COL_ALIENI;
 		}
-		pos_y_attuale -= DISTANZA_FILE_MOSTRI;
+		pos_y_attuale -= DISTANZA_FILE_ALIENI;
 	}
 }
 
@@ -133,33 +131,34 @@ bool controlloCollisioneBarriereDaSparoCarro (Partita &partita)
 	return collisione;
 }
 
-bool controlloCollisioneBarriereDaSparoMostri (Partita &partita, const unsigned int altezza_sparo_alieni)
+bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita)
 {
+	unsigned int altezza_sparo_alieni = al_get_bitmap_height (sparoScelto (partita.sparo_alieni.pos_x));
 	bool collisione = false;
-	if (partita.sparo_mostri.stato)
+	if (partita.sparo_alieni.stato)
 	{
-		collisione =  controlloCollisioneBarriere (partita.barriere, partita.sparo_mostri.pos_x, partita.sparo_mostri.pos_y + altezza_sparo_alieni);
+		collisione =  controlloCollisioneBarriere (partita.barriere, partita.sparo_alieni.pos_x, partita.sparo_alieni.pos_y + altezza_sparo_alieni);
 	}
 	if (collisione)
 	{
-		partita.sparo_mostri.stato = false;
+		partita.sparo_alieni.stato = false;
 	}
 	return collisione;
 }
 
-bool controlloCollisioneBarriereDaOndata (Partita &partita, const ALLEGRO_FONT *font_mostri)
+bool controlloCollisioneBarriereDaOndata (Partita &partita)
 {
 	bool collisione = false;
-	unsigned int pos_y_fila  = partita.ondata.pos_y + DIM_MOSTRI + DISTANZA_FILE_MOSTRI * (N_FILE_MOSTRI - 1);
-	for (int i = N_FILE_MOSTRI - 1; i >= 0 && pos_y_fila >= POS_Y_BARRIERE; i--)
+	unsigned int pos_y_fila  = partita.ondata.pos_y + DIM_ALIENI + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);
+	for (int i = N_FILE_ALIENI - 1; i >= 0 && pos_y_fila >= POS_Y_BARRIERE; i--)
 	{
-		unsigned int larghezza_mostro = al_get_text_width (font_mostri, partita.ondata.mostri [i] [0].stringa);
-		for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
+		unsigned int larghezza_alieno = al_get_text_width (font_alieni, partita.ondata.alieni [i] [0].stringa);
+		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
-			unsigned int pos_x_attuale = (partita.ondata.pos_x + DISTANZA_ASSI_COL_MOSTRI * j) - larghezza_mostro / 2;
-			if (partita.ondata.mostri [i] [j].stato)
+			unsigned int pos_x_attuale = (partita.ondata.pos_x + DISTANZA_ASSI_COL_ALIENI * j) - larghezza_alieno / 2;
+			if (partita.ondata.alieni [i] [j].stato)
 			{
-				for (unsigned int k = 0; k < larghezza_mostro; k += DIMENSIONE_LATO_UNITA_BARRIERA)
+				for (unsigned int k = 0; k < larghezza_alieno; k += DIMENSIONE_LATO_UNITA_BARRIERA)
 				{
 					for (unsigned int l = 0; l < DIMENSIONE_LATO_UNITA_BARRIERA * DIMENSIONE_LATO_UNITA_BARRIERA; l += DIMENSIONE_LATO_UNITA_BARRIERA)
 					{
@@ -171,7 +170,7 @@ bool controlloCollisioneBarriereDaOndata (Partita &partita, const ALLEGRO_FONT *
 				}
 			}
 		}
-		pos_y_fila -= DISTANZA_FILE_MOSTRI;
+		pos_y_fila -= DISTANZA_FILE_ALIENI;
 	}
 	
 	return collisione;
@@ -180,38 +179,41 @@ bool controlloCollisioneBarriereDaOndata (Partita &partita, const ALLEGRO_FONT *
 bool controlloCollisioneCarroDaOndata (Partita &partita)
 {
 	bool collisione = false;
-	unsigned int pos_y_fila  = partita.ondata.pos_y + DIM_MOSTRI + DISTANZA_FILE_MOSTRI * (N_FILE_MOSTRI - 1);
-	for (int i = N_FILE_MOSTRI - 1; i >= 0 && (!collisione) && pos_y_fila >= POS_Y_CARRO; i--)
+	unsigned int pos_y_fila  = partita.ondata.pos_y + DIM_ALIENI + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);
+	for (int i = N_FILE_ALIENI - 1; i >= 0 && (!collisione) && pos_y_fila >= POS_Y_CARRO; i--)
 	{
-		for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
+		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
-			if (partita.ondata.mostri [i] [j].stato)
+			if (partita.ondata.alieni [i] [j].stato)
 			{
 				collisione = true;
 				break;
 			}
 		}
-		pos_y_fila -= DISTANZA_FILE_MOSTRI;
+		pos_y_fila -= DISTANZA_FILE_ALIENI;
 	}
 	return collisione;
 }
 
-bool controlloCollisioneCarroDaSparoMostri (Partita &partita, const unsigned int larghezza_carro, const unsigned int altezza_sparo)
+bool controlloCollisioneCarroDaSparoAlieni (Partita &partita)
 {
+	unsigned int altezza_sparo_alieni = al_get_bitmap_height (sparoScelto (partita.sparo_alieni.pos_x));
 	bool collisione = false;
-	if (partita.sparo_mostri.stato && (partita.sparo_mostri.pos_y + altezza_sparo) >= POS_Y_CARRO && (partita.sparo_mostri.pos_x >= partita.pos_x_carro - (larghezza_carro / 2) && partita.sparo_mostri.pos_x <= partita.pos_x_carro + (larghezza_carro / 2)))
+	unsigned int larghezza_carro = al_get_text_width(font_alieni, STRINGA_CARRO_ARMATO);
+	if (partita.sparo_alieni.stato && (partita.sparo_alieni.pos_y + altezza_sparo_alieni) >= POS_Y_CARRO && (partita.sparo_alieni.pos_x >= partita.pos_x_carro - (larghezza_carro / 2) && partita.sparo_alieni.pos_x <= partita.pos_x_carro + (larghezza_carro / 2)))
 	{
 		partita.vite_rimanenti--;
-		partita.sparo_mostri.stato = false;
+		partita.sparo_alieni.stato = false;
 		collisione = true;
 	}
 	return collisione;
 }
 
-bool controlloCollisioneNavicellaMisteriosa (Partita &partita, const unsigned int larghezza_navicella)
+bool controlloCollisioneNavicellaMisteriosa (Partita &partita)
 {
 	bool collisione = false;
-	if (partita.sparo_carro.stato && partita.sparo_carro.pos_y <= (MARGINE_SUP_GIOCO + DIM_MOSTRI) && (partita.sparo_carro.pos_x >= partita.pos_x_navicella && partita.sparo_carro.pos_x <= (partita.pos_x_navicella + larghezza_navicella)))
+	unsigned int larghezza_navicella = al_get_text_width(font_alieni, STRINGA_NAVICELLA);
+	if (partita.sparo_carro.stato && partita.sparo_carro.pos_y <= (MARGINE_SUP_GIOCO + DIM_ALIENI) && (partita.sparo_carro.pos_x >= partita.pos_x_navicella && partita.sparo_carro.pos_x <= (partita.pos_x_navicella + larghezza_navicella)))
 	{
 		partita.navicella_misteriosa.stato = false;
 		partita.sparo_carro.stato = false;
@@ -221,67 +223,72 @@ bool controlloCollisioneNavicellaMisteriosa (Partita &partita, const unsigned in
 	return collisione;
 }
 
-bool controlloCollisioneMostri (Partita &partita, const ALLEGRO_FONT *font_mostri)
+bool controlloCollisioneAlieni (Partita &partita)
 {
 	bool collisione = false;
 	if (partita.sparo_carro.stato)
 	{
-		unsigned int pos_y_fila  = partita.ondata.pos_y + DIM_MOSTRI + DISTANZA_FILE_MOSTRI * (N_FILE_MOSTRI - 1);
-		for (int i = N_FILE_MOSTRI - 1; i >= 0; i--)
+		unsigned int pos_y_fila  = partita.ondata.pos_y + DIM_ALIENI + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);
+		for (int i = N_FILE_ALIENI - 1; i >= 0; i--)
 		{
-			if (partita.sparo_carro.pos_y <= pos_y_fila && partita.sparo_carro.pos_y >= pos_y_fila - DIM_MOSTRI)
+			if (partita.sparo_carro.pos_y <= pos_y_fila && partita.sparo_carro.pos_y >= pos_y_fila - DIM_ALIENI)
 			{
-				unsigned int larghezza_mostro = al_get_text_width (font_mostri, partita.ondata.mostri [i] [0].stringa);
-				unsigned int pos_x_fila = partita.ondata.pos_x - larghezza_mostro / 2;
-				for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
+				unsigned int larghezza_alieno = al_get_text_width (font_alieni, partita.ondata.alieni [i] [0].stringa);
+				unsigned int pos_x_fila = partita.ondata.pos_x - larghezza_alieno / 2;
+				for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 				{
-					if (partita.sparo_carro.pos_x >= pos_x_fila && partita.sparo_carro.pos_x <= pos_x_fila + larghezza_mostro)
+					if (partita.sparo_carro.pos_x >= pos_x_fila && partita.sparo_carro.pos_x <= pos_x_fila + larghezza_alieno)
 					{
-						if (partita.ondata.mostri [i] [j].stato)
+						if (partita.ondata.alieni [i] [j].stato)
 						{
-							partita.ondata.mostri [i] [j].stato = false;
-							partita.punteggio.valore += partita.ondata.mostri [i] [j].punteggio;
+							partita.ondata.alieni [i] [j].stato = false;
+							partita.punteggio.valore += partita.ondata.alieni [i] [j].punteggio;
 							partita.sparo_carro.stato = false;
-							partita.ondata.mostri_rimasti--;
+							partita.ondata.alieni_rimasti--;
 							collisione = true;
 						}
 						break;
 					}
-					pos_x_fila += DISTANZA_ASSI_COL_MOSTRI;
+					pos_x_fila += DISTANZA_ASSI_COL_ALIENI;
 				}
 			}
 			if (partita.sparo_carro.pos_y > pos_y_fila || collisione)
 			{
 				break;
 			}
-			pos_y_fila -= DISTANZA_FILE_MOSTRI;
+			pos_y_fila -= DISTANZA_FILE_ALIENI;
 		}
 	}
 	return collisione;
 }
 
-void muoviMostri (Ondata &ondata, const unsigned int larghezza_colonna)
+void muoviAlieni (Ondata &ondata)
 {
-	unsigned int reale_MARGINE_DX_GIOCO = MARGINE_DX_GIOCO - ((N_COL_MOSTRI - 1) * DISTANZA_ASSI_COL_MOSTRI + larghezza_colonna / 2);
-	int peso_spostamento_laterale = N_MOSTRI_TOTALE / ondata.mostri_rimasti;
-	if (ondata.mostri_rimasti)
+	unsigned int larghezza_colonna = al_get_text_width(font_alieni, STRINGA_ALIENO_1);
+	unsigned int margine_dx_reale = MARGINE_DX_GIOCO - ((N_COL_ALIENI - 1) * DISTANZA_ASSI_COL_ALIENI + larghezza_colonna / 2);
+	int peso_spostamento_laterale = N_FILE_ALIENI * N_COL_ALIENI / ondata.alieni_rimasti;
+	if (peso_spostamento_laterale > 3)
 	{
-		if (ondata.dir_mostri == destra)
+		peso_spostamento_laterale = 3;
+	}
+	if (ondata.alieni_rimasti)
+	{
+		if (ondata.dir_alieni == destra)
 		{
-			ondata.pos_x = sucInRange (ondata.pos_x, peso_spostamento_laterale, reale_MARGINE_DX_GIOCO);
-			if (ondata.pos_x == reale_MARGINE_DX_GIOCO)
+			ondata.pos_x = sucInRange (ondata.pos_x, peso_spostamento_laterale, margine_dx_reale);
+			if (ondata.pos_x == margine_dx_reale)
 			{
-				ondata.dir_mostri = sinistra;
-				ondata.pos_y = sucInRange (ondata.pos_y, DISTANZA_FILE_MOSTRI / 4, POS_Y_CARRO);
+				ondata.dir_alieni = sinistra;
+				ondata.pos_y = sucInRange (ondata.pos_y, DISTANZA_FILE_ALIENI / 4, POS_Y_CARRO);
 			}
 		}
-		else if (ondata.dir_mostri == sinistra)
+		else if (ondata.dir_alieni == sinistra)
 		{
 			ondata.pos_x = precInRange (ondata.pos_x, peso_spostamento_laterale, MARGINE_SX_GIOCO);
 			if (ondata.pos_x == MARGINE_SX_GIOCO)
 			{
-				ondata.dir_mostri = destra;
-				ondata.pos_y = sucInRange (ondata.pos_y, DISTANZA_FILE_MOSTRI / 4, POS_Y_CARRO);
+				ondata.dir_alieni = destra;
+				ondata.pos_y = sucInRange (ondata.pos_y, DISTANZA_FILE_ALIENI / 4, POS_Y_CARRO);
 			}
 		}
 	}
@@ -296,9 +303,10 @@ void muoviSparoCarro (Sparo &sparo)
 	}
 }
 
-void muoviSparoMostri (Sparo &sparo, const unsigned int altezza_sparo_alieno)
+void muoviSparoAlieni (Sparo &sparo)
 {
-	unsigned int limite_inf = MARGINE_INF_GIOCO - altezza_sparo_alieno;
+	unsigned int altezza_sparo_alieni = al_get_bitmap_height (sparoScelto (sparo.pos_x));
+	unsigned int limite_inf = MARGINE_INF_GIOCO - altezza_sparo_alieni;
 	sparo.pos_y = sucInRange (sparo.pos_y, DIMENSIONE_LATO_UNITA_BARRIERA, limite_inf);
 	if (sparo.pos_y >= limite_inf)
 	{
@@ -381,7 +389,7 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni)
 
 	partita.sparo_carro.stato = false;
 
-	partita.sparo_mostri.stato = false;
+	partita.sparo_alieni.stato = false;
 	
 	partita.navicella_misteriosa.stato = false;
 	strcpy (partita.navicella_misteriosa.stringa, STRINGA_NAVICELLA);
@@ -392,46 +400,46 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni)
 void nuovaOndata (Ondata &ondata)
 {
 	int i = 0;
-	Mostro mostro;
+	Alieno alieno;
 
-	mostro.stato = true;
-	mostro.punteggio = PUNTEGGIO_MOSTRO_1;
-	strcpy (mostro.stringa, STRINGA_MOSTRO_1);
+	alieno.stato = true;
+	alieno.punteggio = PUNTEGGIO_ALIENO_1;
+	strcpy (alieno.stringa, STRINGA_ALIENO_1);
 	for (; i < 2; i++)
 	{
-		for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
+		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
-			ondata.mostri [i] [j] = mostro;
+			ondata.alieni [i] [j] = alieno;
 		}
 	}
 
-	mostro.stato = true;
-	mostro.punteggio = PUNTEGGIO_MOSTRO_2;
-	strcpy (mostro.stringa, STRINGA_MOSTRO_2);
-	for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
+	alieno.stato = true;
+	alieno.punteggio = PUNTEGGIO_ALIENO_2;
+	strcpy (alieno.stringa, STRINGA_ALIENO_2);
+	for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 	{
-		ondata.mostri [i] [j] = mostro;
+		ondata.alieni [i] [j] = alieno;
 	}
 	i++;
 
-	mostro.stato = true;
-	mostro.punteggio = PUNTEGGIO_MOSTRO_3;
-	strcpy (mostro.stringa, STRINGA_MOSTRO_3);
+	alieno.stato = true;
+	alieno.punteggio = PUNTEGGIO_ALIENO_3;
+	strcpy (alieno.stringa, STRINGA_ALIENO_3);
 	for (; i < 5; i++)
 	{
-		for (unsigned int j = 0; j < N_COL_MOSTRI; j++)
+		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
-			ondata.mostri [i] [j] = mostro;
+			ondata.alieni [i] [j] = alieno;
 		}
 	}
 
-	assert (i = N_FILE_MOSTRI);
+	assert (i = N_FILE_ALIENI);
 	
-	ondata.mostri_rimasti = N_MOSTRI_TOTALE;
+	ondata.alieni_rimasti = N_FILE_ALIENI * N_COL_ALIENI;
 	
-	ondata.dir_mostri = destra;
+	ondata.dir_alieni = destra;
 	
-	ondata.pos_x = POS_X_PRIMO_ASSE_MOSTRI;
+	ondata.pos_x = POS_X_PRIMO_ASSE_ALIENI;
 	
 	ondata.pos_y = POS_Y_PRIMA_FILA_ONDATA;
 }
@@ -474,24 +482,24 @@ bool caricaPartita (Partita &salvataggio)
 		}
 	}
 
-	for (unsigned int i = 0; i < N_FILE_MOSTRI; i++)
+	for (unsigned int i = 0; i < N_FILE_ALIENI; i++)
 	{
-		for (unsigned int k = 0; k < N_COL_MOSTRI; k++)
+		for (unsigned int k = 0; k < N_COL_ALIENI; k++)
 		{
-			if (!(f>>temp.ondata.mostri [i] [k].stato && f>>temp.ondata.mostri [i] [k].punteggio && f>>temp.ondata.mostri [i] [k].stringa))
+			if (!(f>>temp.ondata.alieni [i] [k].stato && f>>temp.ondata.alieni [i] [k].punteggio && f>>temp.ondata.alieni [i] [k].stringa))
 			{
 				return false;
 			}
 		}
 	}
-	if (!(f>>temp.ondata.mostri_rimasti))
+	if (!(f>>temp.ondata.alieni_rimasti))
 	{
 		return false;
 	}
 	int dir_int;
 	if (f>>dir_int)
 	{
-		temp.ondata.dir_mostri = static_cast <direzione> (dir_int);
+		temp.ondata.dir_alieni = static_cast <direzione> (dir_int);
 	}
 	else
 	{
@@ -512,7 +520,7 @@ bool caricaPartita (Partita &salvataggio)
 		return false;
 	}
 	
-	if (!(f>>temp.sparo_mostri.stato && f>>temp.sparo_mostri.pos_x && f>>temp.sparo_mostri.pos_y))
+	if (!(f>>temp.sparo_alieni.stato && f>>temp.sparo_alieni.pos_x && f>>temp.sparo_alieni.pos_y))
 	{
 		return false;
 	}
@@ -550,16 +558,16 @@ void output (Partita partita, ostream &os)
 		os<<endl<<endl;
 	}
 
-	for (unsigned int i = 0; i < N_FILE_MOSTRI; i++)
+	for (unsigned int i = 0; i < N_FILE_ALIENI; i++)
 	{
-		for (unsigned int k = 0; k < N_COL_MOSTRI; k++)
+		for (unsigned int k = 0; k < N_COL_ALIENI; k++)
 		{
-			os<<partita.ondata.mostri [i] [k].stato<<" "<<partita.ondata.mostri [i] [k].punteggio<<" "<<partita.ondata.mostri [i] [k].stringa<<"\t";
+			os<<partita.ondata.alieni [i] [k].stato<<" "<<partita.ondata.alieni [i] [k].punteggio<<" "<<partita.ondata.alieni [i] [k].stringa<<"\t";
 		}
 		os<<endl;
 	}
-	os<<partita.ondata.mostri_rimasti<<endl;
-	os<<partita.ondata.dir_mostri<<endl;
+	os<<partita.ondata.alieni_rimasti<<endl;
+	os<<partita.ondata.dir_alieni<<endl;
 	os<<partita.ondata.pos_x<<endl;
 	os<<partita.ondata.pos_y<<endl<<endl;
 
@@ -569,9 +577,9 @@ void output (Partita partita, ostream &os)
 	os<<partita.sparo_carro.pos_x<<endl;
 	os<<partita.sparo_carro.pos_y<<endl<<endl;
 
-	os<<partita.sparo_mostri.stato<<endl;
-	os<<partita.sparo_mostri.pos_x<<endl;
-	os<<partita.sparo_mostri.pos_y<<endl<<endl;
+	os<<partita.sparo_alieni.stato<<endl;
+	os<<partita.sparo_alieni.pos_x<<endl;
+	os<<partita.sparo_alieni.pos_y<<endl<<endl;
 
 	os<<partita.navicella_misteriosa.stato<<endl;
 	os<<partita.navicella_misteriosa.punteggio<<endl;

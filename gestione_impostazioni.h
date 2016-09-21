@@ -2,6 +2,12 @@
  * Header file contenente l'interfaccia del modulo di gestione delle impostazioni.
  */
 
+#include <iostream>
+#include <fstream>
+#include <cstring>
+
+using namespace std;
+
 const bool DEFAULT_MUSICA = true; /**<Valore di default del campo musica.*/
 const bool DEFAULT_EFFETTI_AUDIO = true; /**<Valore di default del campo effetti_audio.*/
 const grafica DEFAULT_MODALITA_GRAFICA = mono_bianco; /**<Valore di default del campo mod_grafica.*/

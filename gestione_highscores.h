@@ -2,6 +2,13 @@
  * Header file contenente l'interfaccia del modulo di gestione degli highscores.
  */
 
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <cassert>
+
+using namespace std;
+
 extern char FILE_HIGHSCORES [];
 
 //INIZIO INTERFACCIA
