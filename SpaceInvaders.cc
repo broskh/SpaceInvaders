@@ -477,12 +477,12 @@ int main ()
 								schermata_att = s_pausa;
 								cambia_schermata = true;
 								break;
-							/*case ALLEGRO_KEY_BACKSPACE:
+							case ALLEGRO_KEY_BACKSPACE:
 								while (true)
 								{
 									;
 								}
-								break;*/
+								break;
 						}
 					}
 					else if(ev.type == ALLEGRO_EVENT_KEY_CHAR)
@@ -994,18 +994,18 @@ inline void gioca (ALLEGRO_FONT *font_alieni, ALLEGRO_FONT *font_testo, ALLEGRO_
 	//INIZIO DELLA VISUALIZZAZIONE DELLO SPARO DEI ALIENI
 	if (partita.sparo_alieni.stato)
 	{
-		int angolo;
+		unsigned int sx;
 		ALLEGRO_BITMAP *sparo_attuale;
 		sparo_attuale = sparoScelto (partita.sparo_alieni.pos_x);
 		if (ruota_sparo)
 		{
-			angolo = 0;			
+			sx = 0;			
 		}
 		else
 		{
-			angolo = ALLEGRO_PI;
+			sx = al_get_bitmap_width (sparo_attuale) / 2;
 		}
-		al_draw_tinted_rotated_bitmap(sparo_attuale, al_map_rgb(0, 255, 0), al_get_bitmap_width (sparo_attuale) / 2 + 1, al_get_bitmap_height (sparo_attuale) / 2, partita.sparo_alieni.pos_x, partita.sparo_alieni.pos_y, angolo, 0);
+		al_draw_tinted_bitmap_region(sparo_attuale, al_map_rgb(0, 255, 0), sx, 0, al_get_bitmap_width (sparo_attuale) / 2, al_get_bitmap_height (sparo_attuale), partita.sparo_alieni.pos_x, partita.sparo_alieni.pos_y, 0);
 	}
 	//FINE DELLA VISUALIZZAZIONE DELLO SPARO DEI ALIENI
 
