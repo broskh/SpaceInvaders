@@ -10,9 +10,12 @@
 using namespace std;
 
 //INIZIO COSTANTI PER ALIENI
-const char STRINGA_ALIENO_3 [] = "B"; /**<Stringa per rappresentare il alieno 3.*/
-const char STRINGA_ALIENO_2 [] = "D"; /**<Stringa per rappresentare il alieno 2.*/
-const char STRINGA_ALIENO_1 [] = "F"; /**<Stringa per rappresentare il alieno 1.*/
+const char STRINGA_ALIENO_3_0 [] = "B"; /**<Stringa per rappresentare l'alieno 3 allo stato di animazione 0.*/
+const char STRINGA_ALIENO_3_1 [] = "A"; /**<Stringa per rappresentare l'alieno 3 allo stato di animazione 1.*/
+const char STRINGA_ALIENO_2_0 [] = "D"; /**<Stringa per rappresentare l'alieno 2 allo stato di animazione 0.*/
+const char STRINGA_ALIENO_2_1 [] = "C"; /**<Stringa per rappresentare l'alieno 2 allo stato di animazione 1.*/
+const char STRINGA_ALIENO_1_0 [] = "F"; /**<Stringa per rappresentare l'alieno 1 allo stato di animazione 0.*/
+const char STRINGA_ALIENO_1_1 [] = "E"; /**<Stringa per rappresentare l'alieno 1 allo stato di animazione 1.*/
 const char STRINGA_NAVICELLA [] = "2"; /**<Stringa per rappresentare la navicella misteriosa.*/
 const char STRINGA_CARRO_ARMATO [] = "-"; /**<Stringa per rappresentare il carro armato.*/
 const char STRINGA_SPARO [] = "|"; /**<Stringa per rappresentare lo sparo del carro armato.*/

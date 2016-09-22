@@ -97,7 +97,7 @@ void creaSparoAlieni (Partita &partita)
 	unsigned int pos_y_attuale  = partita.ondata.pos_y + DIM_ALIENI + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);	
 	for (int i = N_FILE_ALIENI - 1; i >= 0 && fattore_casuale >= 0; i--)
 	{
-		unsigned int larghezza_alieno = al_get_text_width (font_alieni, partita.ondata.alieni [i] [0].stringa);
+		unsigned int larghezza_alieno = al_get_text_width (font_alieni, partita.ondata.alieni [i] [0].stringhe [0]);
 		unsigned int pos_x_attuale = partita.ondata.pos_x + larghezza_alieno / 2 - 3;
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
@@ -152,7 +152,7 @@ bool controlloCollisioneBarriereDaOndata (Partita &partita)
 	unsigned int pos_y_fila  = partita.ondata.pos_y + DIM_ALIENI + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);
 	for (int i = N_FILE_ALIENI - 1; i >= 0 && pos_y_fila >= POS_Y_BARRIERE; i--)
 	{
-		unsigned int larghezza_alieno = al_get_text_width (font_alieni, partita.ondata.alieni [i] [0].stringa);
+		unsigned int larghezza_alieno = al_get_text_width (font_alieni, partita.ondata.alieni [i] [0].stringhe [0]);
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
 			unsigned int pos_x_attuale = (partita.ondata.pos_x + DISTANZA_ASSI_COL_ALIENI * j) - larghezza_alieno / 2;
@@ -233,7 +233,7 @@ bool controlloCollisioneAlieni (Partita &partita)
 		{
 			if (partita.sparo_carro.pos_y <= pos_y_fila && partita.sparo_carro.pos_y >= pos_y_fila - DIM_ALIENI)
 			{
-				unsigned int larghezza_alieno = al_get_text_width (font_alieni, partita.ondata.alieni [i] [0].stringa);
+				unsigned int larghezza_alieno = al_get_text_width (font_alieni, partita.ondata.alieni [i] [0].stringhe [0]);
 				unsigned int pos_x_fila = partita.ondata.pos_x - larghezza_alieno / 2;
 				for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 				{
@@ -264,7 +264,7 @@ bool controlloCollisioneAlieni (Partita &partita)
 
 void muoviAlieni (Ondata &ondata)
 {
-	unsigned int larghezza_colonna = al_get_text_width(font_alieni, STRINGA_ALIENO_1);
+	unsigned int larghezza_colonna = al_get_text_width(font_alieni, STRINGA_ALIENO_1_0);
 	unsigned int margine_dx_reale = MARGINE_DX_GIOCO - ((N_COL_ALIENI - 1) * DISTANZA_ASSI_COL_ALIENI + larghezza_colonna / 2);
 	unsigned int peso_spostamento_laterale = (N_FILE_ALIENI * N_COL_ALIENI / ondata.alieni_rimasti) + 1;
 	if (peso_spostamento_laterale > MAX_SPOSTAMENTO_ONDATA)
@@ -392,7 +392,7 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni)
 	partita.sparo_alieni.stato = false;
 	
 	partita.navicella_misteriosa.stato = false;
-	strcpy (partita.navicella_misteriosa.stringa, STRINGA_NAVICELLA);
+	strcpy (partita.navicella_misteriosa.stringhe [0], STRINGA_NAVICELLA);
 
 	partita.pos_x_navicella = MARGINE_SX_GIOCO;
 }
@@ -404,7 +404,8 @@ void nuovaOndata (Ondata &ondata)
 
 	alieno.stato = true;
 	alieno.punteggio = PUNTEGGIO_ALIENO_1;
-	strcpy (alieno.stringa, STRINGA_ALIENO_1);
+	strcpy (alieno.stringhe [0], STRINGA_ALIENO_1_0);
+	strcpy (alieno.stringhe [1], STRINGA_ALIENO_1_1);
 	for (; i < 2; i++)
 	{
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
@@ -415,7 +416,8 @@ void nuovaOndata (Ondata &ondata)
 
 	alieno.stato = true;
 	alieno.punteggio = PUNTEGGIO_ALIENO_2;
-	strcpy (alieno.stringa, STRINGA_ALIENO_2);
+	strcpy (alieno.stringhe [0], STRINGA_ALIENO_2_0);
+	strcpy (alieno.stringhe [1], STRINGA_ALIENO_2_1);
 	for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 	{
 		ondata.alieni [i] [j] = alieno;
@@ -424,7 +426,8 @@ void nuovaOndata (Ondata &ondata)
 
 	alieno.stato = true;
 	alieno.punteggio = PUNTEGGIO_ALIENO_3;
-	strcpy (alieno.stringa, STRINGA_ALIENO_3);
+	strcpy (alieno.stringhe [0], STRINGA_ALIENO_3_0);
+	strcpy (alieno.stringhe [1], STRINGA_ALIENO_3_1);
 	for (; i < 5; i++)
 	{
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
@@ -486,7 +489,7 @@ bool caricaPartita (Partita &salvataggio)
 	{
 		for (unsigned int k = 0; k < N_COL_ALIENI; k++)
 		{
-			if (!(f>>temp.ondata.alieni [i] [k].stato && f>>temp.ondata.alieni [i] [k].punteggio && f>>temp.ondata.alieni [i] [k].stringa))
+			if (!(f>>temp.ondata.alieni [i] [k].stato && f>>temp.ondata.alieni [i] [k].punteggio && f>>temp.ondata.alieni [i] [k].stringhe [0] && f>>temp.ondata.alieni [i] [k].stringhe [1]))
 			{
 				return false;
 			}
@@ -525,7 +528,7 @@ bool caricaPartita (Partita &salvataggio)
 		return false;
 	}
 	
-	if (!(f>>temp.navicella_misteriosa.stato && f>>temp.navicella_misteriosa.punteggio && f>>temp.navicella_misteriosa.stringa))
+	if (!(f>>temp.navicella_misteriosa.stato && f>>temp.navicella_misteriosa.punteggio && f>>temp.navicella_misteriosa.stringhe [0]))
 	{
 		return false;
 	}
@@ -562,7 +565,7 @@ void output (Partita partita, ostream &os)
 	{
 		for (unsigned int k = 0; k < N_COL_ALIENI; k++)
 		{
-			os<<partita.ondata.alieni [i] [k].stato<<" "<<partita.ondata.alieni [i] [k].punteggio<<" "<<partita.ondata.alieni [i] [k].stringa<<"\t";
+			os<<partita.ondata.alieni [i] [k].stato<<" "<<partita.ondata.alieni [i] [k].punteggio<<" "<<partita.ondata.alieni [i] [k].stringhe [0]<<" "<<partita.ondata.alieni [i] [k].stringhe [1]<<"\t";
 		}
 		os<<endl;
 	}
@@ -583,7 +586,7 @@ void output (Partita partita, ostream &os)
 
 	os<<partita.navicella_misteriosa.stato<<endl;
 	os<<partita.navicella_misteriosa.punteggio<<endl;
-	os<<partita.navicella_misteriosa.stringa<<endl<<endl;
+	os<<partita.navicella_misteriosa.stringhe [0]<<endl<<endl;
 
 	os<<partita.pos_x_navicella;
 }

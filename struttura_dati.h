@@ -101,7 +101,7 @@ struct Alieno
 {
 	bool stato; /**<Stato del alieno.*/
 	unsigned int punteggio; /**<Punteggio derivante dalla distruzione di questo alieno.*/
-	char stringa [2]; /**<Stringa rappresentante un determinato alieno.*/
+	char stringhe [2] [2]; /**<Stringhe per rappresentare un determinato alieno.*/
 };
 
 /**
