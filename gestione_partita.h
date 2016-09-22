@@ -23,43 +23,46 @@ const unsigned int PUNTEGGIO_NAVICELLA_MAX = 500; /**<Punteggio massimo attribui
 const unsigned int PUNTEGGIO_NAVICELLA_MIN = 100; /**<Punteggio minimo attribuito alla navicella.*/
 //FINE COSTANTI PER ALIENI
 
-//INIZIO CARIABILI E COSTANTI DI GIOCO
-extern unsigned int PROBABILITA_COMPARSA_NAVICELLA; /**<Probabilità percentuale di comparsa della navicella misteriosa.*/
+//INIZIO COSTANTI E COSTANTI DI GIOCO
+const unsigned int PROBABILITA_COMPARSA_NAVICELLA = 15; /**<Probabilità percentuale di comparsa della navicella misteriosa.*/
 const unsigned int DIMENSIONE_LATO_UNITA_BARRIERA = 4; /**<Lunghezza in pixel di ogni unità costituente le barriere.*/
-const unsigned int LUNGHEZZA_PIXEL_BARRIERA = DIMENSIONE_LATO_UNITA_BARRIERA * LARG_BARRIERA;
-//FINE CARIABILI E COSTANTI DI GIOCO
+const unsigned int LARGHEZZA_PIXEL_BARRIERA = DIMENSIONE_LATO_UNITA_BARRIERA * LARG_BARRIERA; /**<Larghezza in pixel di una singola barriera.*/
+const unsigned int PESO_SPOSTAMENTO_CARRO_ARMATO = 6; /**<Peso dello spostamento laterale del carro armato.*/
+const unsigned int MAX_SPOSTAMENTO_ONDATA = 4; /**<Peso massimo dello spostamento laterale dell'ondata aliena.*/
+//FINE COSTANTI E COSTANTI DI GIOCO
 
-//INIZIO VARIABILI GENERALI PER DISPLAY
-extern unsigned int ALTEZZA_DISPLAY; /**<Altezza della finestra del gioco.*/
-extern unsigned int LARGHEZZA_DISPLAY; /**<Larghezza della finestra del gioco.*/
+//INIZIO COSTANTI GENERALI PER DISPLAY
+extern const unsigned int ALTEZZA_DISPLAY; /**<Altezza della finestra del gioco.*/
+extern const unsigned int LARGHEZZA_DISPLAY; /**<Larghezza della finestra del gioco.*/
 
-extern unsigned int MARGINE_SUP_GIOCO; /**<Margine superiore del gioco.*/
-extern unsigned int MARGINE_INF_GIOCO; /**<Margine inferiore del gioco.*/
-extern unsigned int MARGINE_SX_GIOCO; /**<Margine sinistro del gioco.*/
-extern unsigned int MARGINE_DX_GIOCO; /**<Margine destro del gioco.*/
-//FINE VARIABILI GENERALI PER DISPLAY
+extern const unsigned int MARGINE_SUP_GIOCO; /**<Margine superiore del gioco.*/
+extern const unsigned int MARGINE_INF_GIOCO; /**<Margine inferiore del gioco.*/
+extern const unsigned int MARGINE_SX_GIOCO; /**<Margine sinistro del gioco.*/
+extern const unsigned int MARGINE_DX_GIOCO; /**<Margine destro del gioco.*/
+extern const unsigned int POS_CENTRO_X; /**<Posizione centrale della del display rispetto all'asse delle x.*/
+//FINE COSTANTIGENERALI PER DISPLAY
 
-//INIZIO VARIABILI PER FILE
-extern char FILE_SALVATAGGIO_PARTITA []; /**<Percorso del file contenente la partita salvata.*/
-//FINE VARIABILI PER FILE
+//INIZIO COSTANTI PER FILE
+extern const char FILE_SALVATAGGIO_PARTITA []; /**<Percorso del file contenente la partita salvata.*/
+//FINE COSTANTI PER FILE
 
-//INIZIO VARIABILI PER FONT E TESTI
-extern unsigned int DIM_ALIENI; /**<Dimensione del font utilizzato per i alieni*/
-extern unsigned int DIM_FONT_TESTO; /**<Dimensione del font utilizzato per i testi generali.*/
-//FINE VARIABILI PER FONT E TESTI
+//INIZIO COSTANTI PER FONT E TESTI
+extern const unsigned int DIM_ALIENI; /**<Dimensione del font utilizzato per i alieni*/
+extern const unsigned int DIM_FONT_TESTO; /**<Dimensione del font utilizzato per i testi generali.*/
+//FINE COSTANTI PER FONT E TESTI
 
-//INIZIO VARIABILI PER POSIZIONI NELLA SCHERMATA DI GIOCO
-extern unsigned int POS_X_PRIMA_BARRIERA; /**<Posizione rispetto all'asse x della prima barriera.*/
-extern unsigned int POS_Y_BARRIERE; /**<Posizone rispetto all'asse y dalla quale mostrare la prima barriera.*/
-extern unsigned int DISTANZA_BARRIERE; /**<Distanza in pixel fra le barriere.*/
+//INIZIO COSTANTI PER POSIZIONI NELLA SCHERMATA DI GIOCO
+extern const unsigned int POS_X_PRIMA_BARRIERA; /**<Posizione rispetto all'asse x della prima barriera.*/
+extern const unsigned int POS_Y_BARRIERE; /**<Posizone rispetto all'asse y dalla quale mostrare la prima barriera.*/
+extern const unsigned int DISTANZA_BARRIERE; /**<Distanza in pixel fra le barriere.*/
 
-extern unsigned int POS_X_PRIMO_ASSE_ALIENI; /**<Posizone rispetto all'asse x nella quale è presente il primo asse delle colonne di alieni.*/
-extern unsigned int POS_Y_PRIMA_FILA_ONDATA; /**<Posizione rispetto all'asse y dalla quale mostrare la prima fila di alieni.*/
-extern unsigned int DISTANZA_FILE_ALIENI; /**<Distamza fra le file di alieni.*/
-extern unsigned int DISTANZA_ASSI_COL_ALIENI; /**<Distanza fra gli assi delle colonne di alieni.*/
+extern const unsigned int POS_X_PRIMO_ASSE_ALIENI; /**<Posizone rispetto all'asse x nella quale è presente il primo asse delle colonne di alieni.*/
+extern const unsigned int POS_Y_PRIMA_FILA_ONDATA; /**<Posizione rispetto all'asse y dalla quale mostrare la prima fila di alieni.*/
+extern const unsigned int DISTANZA_FILE_ALIENI; /**<Distamza fra le file di alieni.*/
+extern const unsigned int DISTANZA_ASSI_COL_ALIENI; /**<Distanza fra gli assi delle colonne di alieni.*/
 
-extern unsigned int POS_Y_CARRO; /**<Posizione rispetto all'asse y dalla quale mostrare il carro armato.*/
-//FINE VARIABILI PER POSIZIONI NELLA SCHERMATA DI GIOCO
+extern const unsigned int POS_Y_CARRO; /**<Posizione rispetto all'asse y dalla quale mostrare il carro armato.*/
+//FINE COSTANTI PER POSIZIONI NELLA SCHERMATA DI GIOCO
 
 //INIZIO VARIABILI PER FONT E IMMAGINI DI GIOCO
 extern ALLEGRO_FONT *font_alieni; /**<Font utilizzato per stampare gli alieni e altri elementi di gioco.*/

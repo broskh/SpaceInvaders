@@ -9,7 +9,7 @@
 
 using namespace std;
 
-extern char FILE_HIGHSCORES [];
+extern const char FILE_HIGHSCORES [];
 
 //INIZIO INTERFACCIA
 /**

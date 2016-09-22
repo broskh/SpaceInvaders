@@ -37,7 +37,7 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 		unsigned int pos_x_attuale = POS_X_PRIMA_BARRIERA;
 		for (unsigned int n = 0 ; n < N_BARRIERE; n++)
 		{
-			if (pos_x_sparo >= pos_x_attuale && pos_x_sparo <= pos_x_attuale + LUNGHEZZA_PIXEL_BARRIERA)
+			if (pos_x_sparo >= pos_x_attuale && pos_x_sparo <= pos_x_attuale + LARGHEZZA_PIXEL_BARRIERA)
 			{
 				unsigned int pos_y_attuale = POS_Y_BARRIERE;
 				for (unsigned int r = 0; r < ALT_BARRIERA; r++)
@@ -63,7 +63,7 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 				}
 				break;
 			}
-			pos_x_attuale += LUNGHEZZA_PIXEL_BARRIERA + DISTANZA_BARRIERE;
+			pos_x_attuale += LARGHEZZA_PIXEL_BARRIERA + DISTANZA_BARRIERE;
 		}
 	}
 	return collisione;
@@ -266,10 +266,10 @@ void muoviAlieni (Ondata &ondata)
 {
 	unsigned int larghezza_colonna = al_get_text_width(font_alieni, STRINGA_ALIENO_1);
 	unsigned int margine_dx_reale = MARGINE_DX_GIOCO - ((N_COL_ALIENI - 1) * DISTANZA_ASSI_COL_ALIENI + larghezza_colonna / 2);
-	int peso_spostamento_laterale = N_FILE_ALIENI * N_COL_ALIENI / ondata.alieni_rimasti;
-	if (peso_spostamento_laterale > 3)
+	unsigned int peso_spostamento_laterale = (N_FILE_ALIENI * N_COL_ALIENI / ondata.alieni_rimasti) + 1;
+	if (peso_spostamento_laterale > MAX_SPOSTAMENTO_ONDATA)
 	{
-		peso_spostamento_laterale = 3;
+		peso_spostamento_laterale = MAX_SPOSTAMENTO_ONDATA;
 	}
 	if (ondata.alieni_rimasti)
 	{
@@ -316,12 +316,12 @@ void muoviSparoAlieni (Sparo &sparo)
 
 void muoviDestraCarro (unsigned int &pos_x_carro)
 {
-	pos_x_carro = sucInRange (pos_x_carro, DIMENSIONE_LATO_UNITA_BARRIERA, MARGINE_DX_GIOCO);
+	pos_x_carro = sucInRange (pos_x_carro, PESO_SPOSTAMENTO_CARRO_ARMATO, MARGINE_DX_GIOCO);
 }
 
 void muoviSinistraCarro (unsigned int &pos_x_carro)
 {
-	pos_x_carro = precInRange (pos_x_carro, DIMENSIONE_LATO_UNITA_BARRIERA, MARGINE_SX_GIOCO);
+	pos_x_carro = precInRange (pos_x_carro, PESO_SPOSTAMENTO_CARRO_ARMATO, MARGINE_SX_GIOCO);
 }
 
 bool esisteSalvataggio ()
@@ -385,7 +385,7 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni)
 
 	nuovaOndata (partita.ondata);
 	
-	partita.pos_x_carro = LARGHEZZA_DISPLAY / 2;
+	partita.pos_x_carro = POS_CENTRO_X;
 
 	partita.sparo_carro.stato = false;
 

@@ -48,16 +48,16 @@
 #include <iostream>
 using namespace std;
 
-//INIZIO VARIABILI GENERALI PER DISPLAY
-unsigned int LARGHEZZA_DISPLAY = 640; /**<Larghezza della finestra del gioco.*/
-unsigned int ALTEZZA_DISPLAY = 480; /**<Altezza della finestra del gioco.*/
+//INIZIO COSTANTI GENERALI PER DISPLAY
+const unsigned int LARGHEZZA_DISPLAY = 640; /**<Larghezza della finestra del gioco.*/
+const unsigned int ALTEZZA_DISPLAY = 480; /**<Altezza della finestra del gioco.*/
 
-unsigned int MARGINE_SX_GIOCO = 40; /**<Margine sinistro del gioco.*/
-unsigned int MARGINE_DX_GIOCO = LARGHEZZA_DISPLAY - MARGINE_SX_GIOCO; /**<Margine destro del gioco.*/
-unsigned int MARGINE_SUP_GIOCO = 45; /**<Margine superiore del gioco.*/
-unsigned int MARGINE_INF_GIOCO = 470; /**<Margine inferiore del gioco.*/
+const unsigned int MARGINE_SX_GIOCO = 40; /**<Margine sinistro del gioco.*/
+const unsigned int MARGINE_DX_GIOCO = LARGHEZZA_DISPLAY - MARGINE_SX_GIOCO; /**<Margine destro del gioco.*/
+const unsigned int MARGINE_SUP_GIOCO = 45; /**<Margine superiore del gioco.*/
+const unsigned int MARGINE_INF_GIOCO = 470; /**<Margine inferiore del gioco.*/
 const unsigned int POS_CENTRO_X = ((MARGINE_DX_GIOCO - MARGINE_SX_GIOCO) / 2) + MARGINE_SX_GIOCO; /**<Posizione centrale della del display rispetto all'asse delle x.*/
-//FINE VARIABILI GENERALI PER DISPLAY
+//FINE COSTANTI GENERALI PER DISPLAY
 
 //INIZIO COSTANTI PER VARI TIMER
 const float FPS_GENERALE = 60; /**<FPS generale del gioco.*/
@@ -65,9 +65,10 @@ const float FPS_LAMPEGGIO_MENU = 3.5; /**<FPS per la frequenza in grado di conse
 const float FPS_SPARO_ALIENI = 1.5; /**<FPS per la frequenza di creazione degli spari da parte degli alieni.*/
 const float FPS_CAMBIO_SPARO_ALIENI = 5; /**<FPS per la frequenza di cambiamento degli spari degli alieni.*/
 const float FPS_NAVICELLA_MISTERIOSA = 1; /**<FPS per la frequenza della possibile comparsa della navicella misteriosa.*/
+const float FPS_SPOSTAMENTO_ONDATA = 30; /**<FPS per la frequenza dello spostamento dell'ondata aliena.*/
 //FINE COSTANTI PER VARI TIMER
 
-//INIZIO VARIABILI E COSTANTI PER FILE
+//INIZIO COSTANTI E COSTANTI PER FILE
 const char FILE_FONT_TESTO [] = "Fonts/space_invaders.ttf"; /**<File contenente il font utilizzato per i testi.*/
 const char FILE_FONT_IMMAGINI [] = "Fonts/dustbust_invaders.ttf"; /**<File contenente il font utilizzato per gli alieni e altri elementi in tema nel gioco.*/
 const char FILE_BARRIERA_PARZIALE [] = "Images/barriera_parziale.png"; /**<Percorso del file contenente l'immagine per rappresentare un elemento della barriera allo stato "parziale". (Deve essere 4x4 pixel)*/
@@ -75,18 +76,18 @@ const char FILE_BARRIERA_INTEGRA [] = "Images/barriera_integra.png"; /**<Percors
 const char FILE_SPARO_ALIENI_1 [] = "Images/sparo_alieni_1.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo degli alieni con posizione relativa all'asse x pari.*/
 const char FILE_SPARO_ALIENI_2 [] = "Images/sparo_alieni_2.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo degli alieni con posizione relativa all'asse x dispari.*/
 const char FILE_MUSICA_PRINCIPALE [] = "Sounds/principale.flac"; /**<Percorso del file contenente la musica principale.*/
-char FILE_HIGHSCORES [] = "highscores"; /**<Percorso del file contenente gli highscores.*/
-char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Percorso del file contenente le impostazioni salvate.*/
-char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file contenente la partita salvata.*/
-//FINE VARIABILI E COSTANTI PER FILE
+const char FILE_HIGHSCORES [] = "highscores"; /**<Percorso del file contenente gli highscores.*/
+const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Percorso del file contenente le impostazioni salvate.*/
+const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file contenente la partita salvata.*/
+//FINE COSTANTI E COSTANTI PER FILE
 
-//INIZIO VARIABILI E COSTANTI PER FONT E TESTI
+//INIZIO COSTANTI E COSTANTI PER FONT E TESTI
 const unsigned int SPAZIO_TESTO = 10; /**<Spazio fra righe di testo adiacenti.*/
 const unsigned int SPAZIO_TESTO_GRANDE = 30; /**<Spazio grande fra righe di testo adiacenti.*/
 const unsigned int DIMENSIONE_TITOLO = 140; /**<Dimensione del font utilizzato per il titolo.*/
-unsigned int DIMENSIONE_TESTO = 15; /**<Dimensione del font utilizzato per i testi generali.*/
-unsigned int DIM_ALIENI = 20; /**<Dimensione del font utilizzato per i alieni*/
-//FINE VARIABILI E COSTANTI PER FONT E TESTI
+const unsigned int DIMENSIONE_TESTO = 15; /**<Dimensione del font utilizzato per i testi generali.*/
+const unsigned int DIM_ALIENI = 20; /**<Dimensione del font utilizzato per i alieni*/
+//FINE COSTANTI E COSTANTI PER FONT E TESTI
 
 //INIZIO COSTANTI PER POSIZIONI NELLA SCHERMATA DEL MENU PRINCIPALE
 const unsigned int POS_X_ESEMPIO_ALIENI = 255; /**<Posizione rispetto all'asse x dalla quale mostrare i alieni nel menù principale.*/
@@ -96,19 +97,19 @@ const unsigned int POS_Y_ESMEPIO_ALIENI = 200; /**<Posizione rispetto all'asse y
 const unsigned int POS_Y_VOCI_MENU_PRINCIPALE = 340; /**<Posizione rispetto all'asse y dalla quale mostrare il menu nel menù principale.*/
 //FINE COSTANTI PER POSIZIONI NELLA SCHERMATA DEL MENU PRINCIPALE
 
-//INIZIO COSTANTI E VARIABILI PER POSIZIONI NELLA SCHERMATA DI GIOCO
+//INIZIO COSTANTI PER POSIZIONI NELLA SCHERMATA DI GIOCO
 const unsigned int POS_Y_INFORMAZIONI_PARTITA = 10; /**<Posizione rispetto all'asse y dalla quale mostrare le informazioni della partita.*/
-unsigned int POS_Y_PRIMA_FILA_ONDATA = 80; /**<Posizione rispetto all'asse y dalla quale mostrare la prima fila di alieni.*/
-unsigned int POS_Y_BARRIERE = 360; /**<Posizone rispetto all'asse y dalla quale mostrare la prima barriera.*/
-unsigned int POS_Y_CARRO = MARGINE_INF_GIOCO - DIM_ALIENI;; /**<Posizione rispetto all'asse y dalla quale mostrare il carro armato.*/
+const unsigned int POS_Y_PRIMA_FILA_ONDATA = 80; /**<Posizione rispetto all'asse y dalla quale mostrare la prima fila di alieni.*/
+const unsigned int POS_Y_BARRIERE = 360; /**<Posizone rispetto all'asse y dalla quale mostrare la prima barriera.*/
+const unsigned int POS_Y_CARRO = MARGINE_INF_GIOCO - DIM_ALIENI;; /**<Posizione rispetto all'asse y dalla quale mostrare il carro armato.*/
 const unsigned int POS_Y_SPARO = POS_Y_CARRO - DIMENSIONE_TESTO - 1; /**<Posizione iniziale rispetto all'asse y dello sparo.*/
 
-unsigned int DISTANZA_ASSI_COL_ALIENI = 40; /**<Distanza fra gli assi delle colonne di alieni.*/
-unsigned int DISTANZA_FILE_ALIENI = 35; /**<Distamza fra le file di alieni.*/
-unsigned int DISTANZA_BARRIERE = (LARGHEZZA_DISPLAY - (LUNGHEZZA_PIXEL_BARRIERA * N_BARRIERE)) / (N_BARRIERE + 1); /**<Distanza in pixel fra le barriere.*/
-unsigned int POS_X_PRIMA_BARRIERA = DISTANZA_BARRIERE; /**<Posizione rispetto all'asse x della prima barriera.*/
-unsigned int POS_X_PRIMO_ASSE_ALIENI = POS_CENTRO_X - (DISTANZA_ASSI_COL_ALIENI * (N_COL_ALIENI - 1) / 2); /**<Posizone rispetto all'asse x nella quale è presente il primo asse delle colonne di alieni.*/
-//FINE COSTANTI E VARIABILI PER POSIZIONI NELLA SCHERMATA DI GIOCO
+const unsigned int DISTANZA_ASSI_COL_ALIENI = 40; /**<Distanza fra gli assi delle colonne di alieni.*/
+const unsigned int DISTANZA_FILE_ALIENI = 35; /**<Distamza fra le file di alieni.*/
+const unsigned int DISTANZA_BARRIERE = (LARGHEZZA_DISPLAY - (LARGHEZZA_PIXEL_BARRIERA * N_BARRIERE)) / (N_BARRIERE + 1); /**<Distanza in pixel fra le barriere.*/
+const unsigned int POS_X_PRIMA_BARRIERA = DISTANZA_BARRIERE; /**<Posizione rispetto all'asse x della prima barriera.*/
+const unsigned int POS_X_PRIMO_ASSE_ALIENI = POS_CENTRO_X - (DISTANZA_ASSI_COL_ALIENI * (N_COL_ALIENI - 1) / 2); /**<Posizone rispetto all'asse x nella quale è presente il primo asse delle colonne di alieni.*/
+//FINE COSTANTI PER POSIZIONI NELLA SCHERMATA DI GIOCO
 
 //INIZIO COSTANTI PER POSIZIONI NELLA SCHERMATA DEL MENU IMPOSTAZIONI
 const unsigned int POS_X_VOCI_IMPOSTAZIONI = 95; /**<Posizione rispetto all'asse x dalla quale mostrare  il contenuto.*/
@@ -132,8 +133,7 @@ const unsigned int POS_Y_VOCI_PAUSA = 220; /**<Posizione rispetto all'asse y dal
 const unsigned int POS_Y_TITOLO_PAUSA = 100; /**<Posizione rispetto all'asse y dalla quale mostrare il titolo del menù di pausa.*/
 //FINE COSTANTI PER POSIZIONI NELLA SCHERMATA DEL MENU DI PAUSA
 
-//INIZIO VARIABILI PER FONT E IMMAGINI DI GIOCO
-unsigned int PROBABILITA_COMPARSA_NAVICELLA = 15; /**<Probabilità percentuale di comparsa della navicella misteriosa.*/
+//INIZIO VARIABILI PER FONT E IMMAGINI DI GIOCOÌ
 ALLEGRO_FONT *font_alieni = NULL;
 ALLEGRO_BITMAP *sparo_alieni_1 = NULL;
 ALLEGRO_BITMAP *sparo_alieni_2 = NULL;
@@ -236,13 +236,14 @@ int main ()
 	ALLEGRO_TIMER *timer_sparo_alieni= NULL;
 	ALLEGRO_TIMER *timer_rotazione_sparo = NULL;
 	ALLEGRO_TIMER *timer_comparsa_navicella = NULL;
+	ALLEGRO_TIMER *timer_spostamento_ondata = NULL;
 	ALLEGRO_FONT *font_titolo = NULL;
 	ALLEGRO_FONT *font_testo = NULL;
 	ALLEGRO_BITMAP *barriera_parziale = NULL;
 	ALLEGRO_BITMAP *barriera_integra = NULL;
    	ALLEGRO_SAMPLE *musica_principale = NULL;
 	bool redraw = true;
- 
+
 	assert (al_init());
 	assert (al_init_font_addon());
 	assert (al_init_ttf_addon()); 
@@ -273,6 +274,9 @@ int main ()
 	timer_comparsa_navicella = al_create_timer(1.0 / FPS_NAVICELLA_MISTERIOSA);
 	assert (timer_comparsa_navicella);
 
+	timer_spostamento_ondata = al_create_timer(1.0 / FPS_SPOSTAMENTO_ONDATA);
+	assert (timer_spostamento_ondata);
+
 	font_titolo = al_load_ttf_font(FILE_FONT_IMMAGINI, DIMENSIONE_TITOLO, 0);
 	assert (font_titolo);
 	font_testo = al_load_ttf_font(FILE_FONT_TESTO, DIMENSIONE_TESTO, 0);
@@ -298,6 +302,7 @@ int main ()
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_sparo_alieni));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_rotazione_sparo));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_comparsa_navicella));
+	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_spostamento_ondata));
 	al_register_event_source(coda_eventi, al_get_keyboard_event_source());
 
 	al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -422,6 +427,7 @@ int main ()
 				al_start_timer(timer_sparo_alieni);
 				al_start_timer(timer_rotazione_sparo);
 				al_start_timer(timer_comparsa_navicella);
+				al_start_timer(timer_spostamento_ondata);
 
 				while(!cambia_schermata)
 			   	{
@@ -451,6 +457,10 @@ int main ()
 							{
 								creaNavicellaMisteriosa (generale.partita_in_corso);
 							}
+						}
+						else if (ev.timer.source == timer_spostamento_ondata)
+						{
+							muoviAlieni (generale.partita_in_corso.ondata);
 						}
 					}
 					else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
@@ -540,13 +550,13 @@ int main ()
 						{
 							muoviNavicellaMisteriosa (generale.partita_in_corso);
 						}
-						muoviAlieni (generale.partita_in_corso.ondata);
 						//FINE DEI CAMBIAMENTI
 					}
 			   	}
 				al_stop_timer(timer_sparo_alieni);
 				al_stop_timer(timer_rotazione_sparo);
 				al_stop_timer(timer_comparsa_navicella);
+				al_stop_timer(timer_spostamento_ondata);
 				break;
 			case s_carica:
 				assert (caricaPartita (generale.partita_in_corso));
@@ -782,6 +792,7 @@ int main ()
 				al_destroy_timer(timer_sparo_alieni);
 				al_destroy_timer(timer_rotazione_sparo);
 				al_destroy_timer(timer_comparsa_navicella);
+				al_destroy_timer(timer_spostamento_ondata);
    				al_destroy_bitmap(sparo_alieni_1);
    				al_destroy_bitmap(sparo_alieni_2);
    				al_destroy_bitmap(barriera_parziale);
@@ -796,6 +807,7 @@ int main ()
 				al_destroy_timer(timer_sparo_alieni);
 				al_destroy_timer(timer_rotazione_sparo);
 				al_destroy_timer(timer_comparsa_navicella);
+				al_destroy_timer(timer_spostamento_ondata);
    				al_destroy_bitmap(sparo_alieni_1);
    				al_destroy_bitmap(sparo_alieni_2);
 				al_destroy_bitmap(barriera_parziale);
@@ -812,6 +824,7 @@ int main ()
 	al_destroy_timer(timer_sparo_alieni);
 	al_destroy_timer(timer_rotazione_sparo);
 	al_destroy_timer(timer_comparsa_navicella);
+	al_destroy_timer(timer_spostamento_ondata);
 	al_destroy_bitmap(sparo_alieni_1);
 	al_destroy_bitmap(sparo_alieni_2);
 	al_destroy_bitmap(barriera_parziale);
@@ -1001,7 +1014,7 @@ inline void gioca (ALLEGRO_FONT *font_alieni, ALLEGRO_FONT *font_testo, ALLEGRO_
 	for (unsigned int i = 0; i < N_BARRIERE; i++)
 	{
 		disegnaBarriera (barriera_parziale, barriera_integra, partita.barriere [i], pos_x_attuale, POS_Y_BARRIERE);
-		pos_x_attuale += DISTANZA_BARRIERE + LUNGHEZZA_PIXEL_BARRIERA;
+		pos_x_attuale += DISTANZA_BARRIERE + LARGHEZZA_PIXEL_BARRIERA;
 	}
 	//FINE DELLA VISUALIZZAZIONE DELLE BARRIERE
 	
