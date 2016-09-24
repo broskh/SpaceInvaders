@@ -2,6 +2,8 @@
  * File contenente le strutture dati.
  */
 
+#include <allegro5/allegro.h>
+
 const unsigned int N_BARRIERE = 4; /**<Numero delle barriere presenti in una partita.*/
 const unsigned int LARG_BARRIERA = 20; /**<Largezza della barriera.*/
 const unsigned int ALT_BARRIERA = 17; /**<Altezza della barriera.*/
@@ -133,6 +135,14 @@ struct Sparo
 	unsigned int pos_y; /**<Indica la posizione rispetto all'asse delle y del colpo sparato dal carro armato.*/
 };
 
+struct Carro
+{
+	bool stato;
+	unsigned int pos_x; /**<Indica lo spostamento del carro armato rispetto alla posizione centrale iniziale.*/
+	Sparo sparo; /**<Informazioni relative allo sparo del carro armato.*/
+	unsigned int pos_x_sprite;
+};
+
 /**
  * Struttura per una singola partita.
  *
@@ -146,11 +156,10 @@ struct Partita
 	int vite_rimanenti; /**<Vite rimanenti.*/
 	stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA]; /**<Stato attuale delle barriere.*/
 	Ondata ondata; /**<Ondata di alieni attuale.*/
-	unsigned int pos_x_carro; /**<Indica lo spostamento del carro armato rispetto alla posizione centrale iniziale.*/
-	Sparo sparo_carro; /**<Informazioni relative allo sparo del carro armato.*/
 	Sparo sparo_alieni; /**<Informazioni relative allo sparo dei alieni.*/
 	Alieno navicella_misteriosa; /**<Informazioni generali relative alla navicella.*/
 	unsigned int pos_x_navicella; /**<Posizione relativa all'asse x della navicella misteriosa.*/
+	Carro carro_armato;
 };
 
 /**

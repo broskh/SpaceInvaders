@@ -65,6 +65,7 @@ extern const unsigned int DISTANZA_FILE_ALIENI; /**<Distamza fra le file di alie
 extern const unsigned int DISTANZA_ASSI_COL_ALIENI; /**<Distanza fra gli assi delle colonne di alieni.*/
 
 extern const unsigned int POS_Y_CARRO; /**<Posizione rispetto all'asse y dalla quale mostrare il carro armato.*/
+extern const unsigned int POS_Y_SPARO_CARRO_ARMATO; /**<Posizione iniziale rispetto all'asse y dello sparo.*/
 //FINE COSTANTI PER POSIZIONI NELLA SCHERMATA DI GIOCO
 
 //INIZIO VARIABILI PER FONT E IMMAGINI DI GIOCO
@@ -74,6 +75,8 @@ extern ALLEGRO_BITMAP *sparo_alieni_2;  /**<Immagine utilizzata per lo sparo ali
 //INIZIO VARIABILI PER FONT E IMMAGINI DI GIOCO
 
 //INIZIO INTERFACCIA
+void creaSparoCarroArmato (Carro &carro, const unsigned int larghezza_pixel_carro);
+
 void stampa (Partita partita);
 
 bool controlloCollisioneBarriereDaOndata (Partita &partita);
@@ -114,15 +117,13 @@ void muoviSparoCarro (Sparo &sparo);
  * Stabilisce qual'è il valore di offset del carro armato che deve andare verso destra.
  *
  * @param offset_carro Precedente valore dell'offset del carro armato.
- * @param limite_dx Limite dello spostamento del carro armato verso destra.
  */
-void muoviDestraCarro (unsigned int &pos_x_carro);
+void muoviDestraCarro (unsigned int &pos_x_carro, const unsigned int larghezza_carro);
 
 /**
  * Stabilisce qual'è il valore di offset del carro armato che deve andare verso sinistra.
  *
  * @param offset_carro Precedente valore dell'offset del carro armato.
- * @param limite_dx Limite dello spostamento del carro armato verso sinistra.
  */
 void muoviSinistraCarro (unsigned int &pos_x_carro);
 
@@ -147,9 +148,9 @@ void nuovaOndata (Ondata &ondata);
  *
  * @param partita Struttura {@link Partita} nella quale verranno memorizzati i valori.
  * @param impostazioni Struttura {@link Impostazioni} dal quale verranno prelevate alcune informazioni necessari per la corretta inizializzazione di una nuova partita.
- * @param pos_x_iniziale_carro Posizione iniziale rispetto all'asse x del carro armato.
+ * @param pos_x_carro_armato Posizione iniziale rispetto all'asse x del carro armato.
  */
-void nuovaPartita (Partita &partita, Impostazioni impostazioni);
+void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned int pos_x_carro_armato);
 
 /**
  * Carica da un file una partita lasciata in sospeso.
