@@ -83,6 +83,7 @@ const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file co
 
 const char FILE_CARRO_ARMATO [] ="Images/carro_armato.png";
 const char FILE_SPARO_CARRO [] ="Images/sparo_carro.png";
+const char FILE_NAVICELLA_MISTERIOSA [] ="Images/alieno1.png";
 //FINE COSTANTI E COSTANTI PER FILE
 
 //INIZIO COSTANTI E COSTANTI PER FONT E TESTI
@@ -191,6 +192,7 @@ int main ()
 
 	ALLEGRO_BITMAP *carro_armato = NULL;
 	ALLEGRO_BITMAP *sparo_carro = NULL;
+	ALLEGRO_BITMAP *navicella_misteriosa = NULL;
 
 	bool redraw = true;
 
@@ -249,6 +251,8 @@ int main ()
 	assert (carro_armato);
 	sparo_carro = al_load_bitmap(FILE_SPARO_CARRO);
 	assert (sparo_carro);
+	navicella_misteriosa = al_load_bitmap(FILE_NAVICELLA_MISTERIOSA);
+	assert (navicella_misteriosa);
 
 	musica_principale = al_load_sample (FILE_MUSICA_PRINCIPALE);
 	assert (musica_principale);
@@ -544,7 +548,7 @@ int main ()
 						//INIZIO DELLA VISUALIZZAZIONE DELLA NAVICELLA MISTERIOSA
 						if (generale.partita_in_corso.navicella_misteriosa.stato)
 						{
-							al_draw_text(font_alieni, al_map_rgb(255, 0, 0), generale.partita_in_corso.pos_x_navicella, MARGINE_SUP_GIOCO, ALLEGRO_ALIGN_LEFT, generale.partita_in_corso.navicella_misteriosa.stringhe [0]);
+							al_draw_tinted_bitmap(navicella_misteriosa, al_map_rgb(255, 0, 0), generale.partita_in_corso.navicella_misteriosa.pos_x, MARGINE_SUP_GIOCO, 0);
 						}
 						//FINE DELLA VISUALIZZAZIONE DELLA NAVICELLA MISTERIOSA
 
@@ -1068,6 +1072,7 @@ int main ()
 
 				al_destroy_bitmap(carro_armato);
 				al_destroy_bitmap(sparo_carro);
+				al_destroy_bitmap(navicella_misteriosa);
 				return 0;
 			default:
 				al_destroy_display(display);
@@ -1090,6 +1095,7 @@ int main ()
 
 				al_destroy_bitmap(carro_armato);
 				al_destroy_bitmap(sparo_carro);
+				al_destroy_bitmap(navicella_misteriosa);
 				return 2;
 		}
 	}
@@ -1114,6 +1120,7 @@ int main ()
 
 	al_destroy_bitmap(carro_armato);
 	al_destroy_bitmap(sparo_carro);
+	al_destroy_bitmap(navicella_misteriosa);
    	return 1;
 }
 

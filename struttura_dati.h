@@ -143,6 +143,13 @@ struct Carro
 	unsigned int pos_x_sprite;
 };
 
+struct Navicella
+{
+	bool stato;
+	unsigned int punteggio; /**<Punteggio attribuito alla navicella misteriosa.*/
+	unsigned int pos_x; /**<Posizione relativa all'asse x della navicella misteriosa.*/
+};
+
 /**
  * Struttura per una singola partita.
  *
@@ -157,9 +164,8 @@ struct Partita
 	stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA]; /**<Stato attuale delle barriere.*/
 	Ondata ondata; /**<Ondata di alieni attuale.*/
 	Sparo sparo_alieni; /**<Informazioni relative allo sparo dei alieni.*/
-	Alieno navicella_misteriosa; /**<Informazioni generali relative alla navicella.*/
-	unsigned int pos_x_navicella; /**<Posizione relativa all'asse x della navicella misteriosa.*/
 	Carro carro_armato;
+	Navicella navicella_misteriosa;
 };
 
 /**

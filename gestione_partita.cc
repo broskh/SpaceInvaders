@@ -21,15 +21,15 @@ void creaNavicellaMisteriosa (Partita &partita)
 	{
 		partita.navicella_misteriosa.stato = true;
 		partita.navicella_misteriosa.punteggio = (rand() % ((PUNTEGGIO_NAVICELLA_MAX - PUNTEGGIO_NAVICELLA_MIN) / 10)) * 10 + PUNTEGGIO_NAVICELLA_MIN;
-		partita.pos_x_navicella = MARGINE_SX_GIOCO;
+		partita.navicella_misteriosa.pos_x = MARGINE_SX_GIOCO;
 	}
 }
 
 void muoviNavicellaMisteriosa (Partita &partita)
 {
 	unsigned int margine_dx = MARGINE_DX_GIOCO + al_get_text_width(font_alieni, STRINGA_NAVICELLA);
-	partita.pos_x_navicella = sucInRange (partita.pos_x_navicella, DIMENSIONE_LATO_UNITA_BARRIERA, margine_dx);
-	if (partita.pos_x_navicella == margine_dx)
+	partita.navicella_misteriosa.pos_x = sucInRange (partita.navicella_misteriosa.pos_x, DIMENSIONE_LATO_UNITA_BARRIERA, margine_dx);
+	if (partita.navicella_misteriosa.pos_x == margine_dx)
 	{
 		partita.navicella_misteriosa.stato = false;
 	}
@@ -220,7 +220,7 @@ bool controlloCollisioneNavicellaMisteriosa (Partita &partita)
 {
 	bool collisione = false;
 	unsigned int larghezza_navicella = al_get_text_width(font_alieni, STRINGA_NAVICELLA);
-	if (partita.carro_armato.sparo.stato && partita.carro_armato.sparo.pos_y <= (MARGINE_SUP_GIOCO + DIM_ALIENI) && (partita.carro_armato.sparo.pos_x >= partita.pos_x_navicella && partita.carro_armato.sparo.pos_x <= (partita.pos_x_navicella + larghezza_navicella)))
+	if (partita.carro_armato.sparo.stato && partita.carro_armato.sparo.pos_y <= (MARGINE_SUP_GIOCO + DIM_ALIENI) && (partita.carro_armato.sparo.pos_x >= partita.navicella_misteriosa.pos_x && partita.carro_armato.sparo.pos_x <= (partita.navicella_misteriosa.pos_x + larghezza_navicella)))
 	{
 		partita.navicella_misteriosa.stato = false;
 		partita.carro_armato.sparo.stato = false;
@@ -384,6 +384,13 @@ void nuovoCarroArmato (Carro &carro, const unsigned int pos_x_carro_armato)
 	carro.pos_x_sprite = 0;
 }
 
+void nuovaNavicella (Navicella &navicella)
+{
+	navicella.stato = false;
+	navicella.pos_x = MARGINE_SX_GIOCO;
+	navicella.punteggio = 0;
+}
+
 void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned int pos_x_carro_armato)
 {
 	Punteggio punteggio;
@@ -402,10 +409,7 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned i
 
 	partita.sparo_alieni.stato = false;
 	
-	partita.navicella_misteriosa.stato = false;
-	strcpy (partita.navicella_misteriosa.stringhe [0], STRINGA_NAVICELLA);
-
-	partita.pos_x_navicella = MARGINE_SX_GIOCO;
+	nuovaNavicella (partita.navicella_misteriosa);
 
 	nuovoCarroArmato (partita.carro_armato, pos_x_carro_armato);
 }
@@ -532,12 +536,7 @@ bool caricaPartita (Partita &salvataggio)
 		return false;
 	}
 	
-	if (!(f>>temp.navicella_misteriosa.stato && f>>temp.navicella_misteriosa.punteggio && f>>temp.navicella_misteriosa.stringhe [0]))
-	{
-		return false;
-	}
-	
-	if (!(f>>temp.pos_x_navicella))
+	if (!(f>>temp.navicella_misteriosa.stato && f>>temp.navicella_misteriosa.punteggio && f>>temp.navicella_misteriosa.pos_x))
 	{
 		return false;
 	}
@@ -589,9 +588,7 @@ void output (Partita partita, ostream &os)
 
 	os<<partita.navicella_misteriosa.stato<<endl;
 	os<<partita.navicella_misteriosa.punteggio<<endl;
-	os<<partita.navicella_misteriosa.stringhe [0]<<endl<<endl;
-
-	os<<partita.pos_x_navicella<<endl<<endl;
+	os<<partita.navicella_misteriosa.pos_x<<endl<<endl;
 
 	os<<partita.carro_armato.esploso<<endl;
 	os<<partita.carro_armato.pos_x<<endl;
