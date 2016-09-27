@@ -82,6 +82,7 @@ const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Percorso del file 
 const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file contenente la partita salvata.*/
 
 const char FILE_CARRO_ARMATO [] ="Images/carro_armato.png";
+const char FILE_SPARO_CARRO [] ="Images/sparo_carro.png";
 //FINE COSTANTI E COSTANTI PER FILE
 
 //INIZIO COSTANTI E COSTANTI PER FONT E TESTI
@@ -189,6 +190,7 @@ int main ()
    	ALLEGRO_SAMPLE *musica_principale = NULL;
 
 	ALLEGRO_BITMAP *carro_armato = NULL;
+	ALLEGRO_BITMAP *sparo_carro = NULL;
 
 	bool redraw = true;
 
@@ -245,6 +247,8 @@ int main ()
 
 	carro_armato = al_load_bitmap(FILE_CARRO_ARMATO);
 	assert (carro_armato);
+	sparo_carro = al_load_bitmap(FILE_SPARO_CARRO);
+	assert (sparo_carro);
 
 	musica_principale = al_load_sample (FILE_MUSICA_PRINCIPALE);
 	assert (musica_principale);
@@ -374,7 +378,7 @@ int main ()
 						al_draw_text(font_titolo, al_map_rgb(0, 255, 0), POS_CENTRO_X, POS_Y_TITOLO_MENU_PRINCIPALE, ALLEGRO_ALIGN_CENTRE, ".");
 						//FINE DELLA VISUALIZZAZIONE DEL TITOLO
 
-						//INIZIO DELLA VISUALIZZAZIONE DEI ALIENI E I RELATIVI PUNTEGGI
+						//INIZIO DELLA VISUALIZZAZIONE DEGLI ALIENI E I RELATIVI PUNTEGGI
 						unsigned int pos_y_attuale = POS_Y_ESMEPIO_ALIENI;
 						al_draw_text(font_alieni, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_ALIENI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_ALIENO_3_0);
 						al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      10  PTS");
@@ -390,7 +394,7 @@ int main ()
 						pos_y_attuale = POS_Y_ESMEPIO_ALIENI + (SPAZIO_TESTO + DIM_ALIENI) * 3;
 						al_draw_text(font_alieni, al_map_rgb(255, 0, 0), POS_X_ESEMPIO_ALIENI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_NAVICELLA);
 						al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=         ?  PTS");
-						//FINE DELLA VISUALIZZAZIONE DEI ALIENI E I RELATIVI PUNTEGGI
+						//FINE DELLA VISUALIZZAZIONE DEGLI ALIENI E I RELATIVI PUNTEGGI
 	
 						//INIZIO DELLA VISUALIZZAZIONE DEL MENU
 						for (int i = 0; i < menu_principale.n_voci; i++)
@@ -562,7 +566,7 @@ int main ()
 						}
 						//FINE DELLA VISUALIZZAZIONE DELL'ONDATA
 
-						//INIZIO DELLA VISUALIZZAZIONE DELLO SPARO DEI ALIENI
+						//INIZIO DELLA VISUALIZZAZIONE DELLO SPARO DEGLI ALIENI
 						if (generale.partita_in_corso.sparo_alieni.stato)
 						{
 							unsigned int sx;
@@ -578,7 +582,7 @@ int main ()
 							}
 							al_draw_tinted_bitmap_region(sparo_attuale, al_map_rgb(0, 255, 0), sx, 0, al_get_bitmap_width (sparo_attuale) / 2, al_get_bitmap_height (sparo_attuale), generale.partita_in_corso.sparo_alieni.pos_x, generale.partita_in_corso.sparo_alieni.pos_y, 0);
 						}
-						//FINE DELLA VISUALIZZAZIONE DELLO SPARO DEI ALIENI
+						//FINE DELLA VISUALIZZAZIONE DELLO SPARO DEGLI ALIENI
 
 						//INIZIO DELLA VISUALIZZAZIONE DELLE BARRIERE
 						pos_x_attuale = DISTANZA_BARRIERE;
@@ -589,12 +593,12 @@ int main ()
 						}
 						//FINE DELLA VISUALIZZAZIONE DELLE BARRIERE
 
-						//INIZIO DELLA VISUALIZZAZIONE DELLO SPARO
+						//INIZIO DELLA VISUALIZZAZIONE DELLO SPARO DEL CARRO
 						if (generale.partita_in_corso.carro_armato.sparo.stato)
 						{
-							al_draw_text(font_testo, al_map_rgb(0, 255, 0), generale.partita_in_corso.carro_armato.sparo.pos_x, generale.partita_in_corso.carro_armato.sparo.pos_y, ALLEGRO_ALIGN_CENTER, STRINGA_SPARO);
+							al_draw_tinted_bitmap(sparo_carro, al_map_rgb(0, 255, 0), generale.partita_in_corso.carro_armato.sparo.pos_x, generale.partita_in_corso.carro_armato.sparo.pos_y, 0);
 						}
-						//FINE DELLA VISUALIZZAIZOEN DELLO SPARO
+						//FINE DELLA VISUALIZZAIZOEN DELLO SPARO DEL CARRO
 
 						//INIZIO DELLA VISUALIZZAZIOEN DEL CARRO ARMATO
 						if (carro_colpito)
@@ -1063,6 +1067,7 @@ int main ()
 				al_destroy_sample(musica_principale);
 
 				al_destroy_bitmap(carro_armato);
+				al_destroy_bitmap(sparo_carro);
 				return 0;
 			default:
 				al_destroy_display(display);
@@ -1084,6 +1089,7 @@ int main ()
 				al_destroy_sample(musica_principale);
 
 				al_destroy_bitmap(carro_armato);
+				al_destroy_bitmap(sparo_carro);
 				return 2;
 		}
 	}
@@ -1107,6 +1113,7 @@ int main ()
 	al_destroy_sample(musica_principale);
 
 	al_destroy_bitmap(carro_armato);
+	al_destroy_bitmap(sparo_carro);
    	return 1;
 }
 

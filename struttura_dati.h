@@ -137,7 +137,7 @@ struct Sparo
 
 struct Carro
 {
-	bool stato;
+	unsigned int esploso;
 	unsigned int pos_x; /**<Indica lo spostamento del carro armato rispetto alla posizione centrale iniziale.*/
 	Sparo sparo; /**<Informazioni relative allo sparo del carro armato.*/
 	unsigned int pos_x_sprite;

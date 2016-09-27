@@ -10,7 +10,7 @@
 void creaSparoCarroArmato (Carro &carro, const unsigned int larghezza_pixel_carro)
 {
 	carro.sparo.stato = true;
-	carro.sparo.pos_x = carro.pos_x + larghezza_pixel_carro / 2 + 1;
+	carro.sparo.pos_x = carro.pos_x + larghezza_pixel_carro / 2;
 	carro.sparo.pos_y = POS_Y_SPARO_CARRO_ARMATO;
 }
 
@@ -378,7 +378,7 @@ void inizializzaBarriere (stato_barriera barriera [ALT_BARRIERA] [LARG_BARRIERA]
 
 void nuovoCarroArmato (Carro &carro, const unsigned int pos_x_carro_armato)
 {
-	carro.stato = true;
+	carro.esploso = 0;
 	carro.pos_x = pos_x_carro_armato;
 	carro.sparo.stato = false;
 	carro.pos_x_sprite = 0;
@@ -542,7 +542,7 @@ bool caricaPartita (Partita &salvataggio)
 		return false;
 	}
 	
-	if (!(f>>temp.carro_armato.stato && f>>temp.carro_armato.pos_x && f>>temp.carro_armato.sparo.stato && f>>temp.carro_armato.sparo.pos_x && f>>temp.carro_armato.sparo.pos_y && f>>temp.carro_armato.pos_x_sprite))
+	if (!(f>>temp.carro_armato.esploso && f>>temp.carro_armato.pos_x && f>>temp.carro_armato.sparo.stato && f>>temp.carro_armato.sparo.pos_x && f>>temp.carro_armato.sparo.pos_y && f>>temp.carro_armato.pos_x_sprite))
 	{
 		return false;
 	}
@@ -593,7 +593,7 @@ void output (Partita partita, ostream &os)
 
 	os<<partita.pos_x_navicella<<endl<<endl;
 
-	os<<partita.carro_armato.stato<<endl;
+	os<<partita.carro_armato.esploso<<endl;
 	os<<partita.carro_armato.pos_x<<endl;
 	os<<partita.carro_armato.sparo.stato<<endl;
 	os<<partita.carro_armato.sparo.pos_x<<endl;

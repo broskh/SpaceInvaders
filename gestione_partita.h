@@ -32,6 +32,7 @@ const unsigned int DIMENSIONE_LATO_UNITA_BARRIERA = 4; /**<Lunghezza in pixel di
 const unsigned int LARGHEZZA_PIXEL_BARRIERA = DIMENSIONE_LATO_UNITA_BARRIERA * LARG_BARRIERA; /**<Larghezza in pixel di una singola barriera.*/
 const unsigned int PESO_SPOSTAMENTO_CARRO_ARMATO = 6; /**<Peso dello spostamento laterale del carro armato.*/
 const unsigned int MAX_SPOSTAMENTO_ONDATA = 4; /**<Peso massimo dello spostamento laterale dell'ondata aliena.*/
+const unsigned int RIP_ANIMAZIONE_ESPLOSIONE_CARRO = 2; /**<Numero di ripetizioni dell'animazione di esplosione del carro.*/
 //FINE COSTANTI E COSTANTI DI GIOCO
 
 //INIZIO COSTANTI GENERALI PER DISPLAY
