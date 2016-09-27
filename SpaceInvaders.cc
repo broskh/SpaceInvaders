@@ -1052,10 +1052,14 @@ int main ()
 				al_destroy_timer(timer_animazione);
 				al_destroy_timer(timer_comparsa_navicella);
 				al_destroy_timer(timer_spostamento_ondata);
+				al_destroy_font (font_alieni);
+				al_destroy_font (font_testo);
+				al_destroy_font (font_titolo);
    				al_destroy_bitmap(sparo_alieni_1);
    				al_destroy_bitmap(sparo_alieni_2);
    				al_destroy_bitmap(barriera_parziale);
    				al_destroy_bitmap(barriera_integra);
+				al_destroy_bitmap(esplosione_carro);
 				al_destroy_sample(musica_principale);
 
 				al_destroy_bitmap(carro_armato);
@@ -1069,10 +1073,14 @@ int main ()
 				al_destroy_timer(timer_animazione);
 				al_destroy_timer(timer_comparsa_navicella);
 				al_destroy_timer(timer_spostamento_ondata);
+				al_destroy_font (font_alieni);
+				al_destroy_font (font_testo);
+				al_destroy_font (font_titolo);
    				al_destroy_bitmap(sparo_alieni_1);
    				al_destroy_bitmap(sparo_alieni_2);
 				al_destroy_bitmap(barriera_parziale);
 				al_destroy_bitmap(barriera_integra);
+				al_destroy_bitmap(esplosione_carro);
 				al_destroy_sample(musica_principale);
 
 				al_destroy_bitmap(carro_armato);
@@ -1088,10 +1096,14 @@ int main ()
 	al_destroy_timer(timer_animazione);
 	al_destroy_timer(timer_comparsa_navicella);
 	al_destroy_timer(timer_spostamento_ondata);
+	al_destroy_font (font_alieni);
+	al_destroy_font (font_testo);
+	al_destroy_font (font_titolo);
 	al_destroy_bitmap(sparo_alieni_1);
 	al_destroy_bitmap(sparo_alieni_2);
 	al_destroy_bitmap(barriera_parziale);
 	al_destroy_bitmap(barriera_integra);
+	al_destroy_bitmap(esplosione_carro);
 	al_destroy_sample(musica_principale);
 
 	al_destroy_bitmap(carro_armato);
