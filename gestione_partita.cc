@@ -7,11 +7,29 @@
 #include "gestione_partita.h"
 
 //INIZIO MODULO
-void creaSparoCarroArmato (Carro &carro, const unsigned int larghezza_pixel_carro)
+unsigned int sceltaLarghezzaAlieno (tipo_alieno tipo, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3)
+{
+	if (tipo == alieno_1)
+	{
+		return larghezza_alieno_1;
+	}
+	else if (tipo == alieno_2)
+	{
+		return larghezza_alieno_2;
+	}
+	else if (tipo == alieno_3)
+	{
+		return larghezza_alieno_3;
+	}
+	
+	return 0;
+}
+
+void creaSparoCarroArmato (Carro &carro, const unsigned int larghezza_pixel_carro, unsigned int pos_y)
 {
 	carro.sparo.stato = true;
 	carro.sparo.pos_x = carro.pos_x + larghezza_pixel_carro / 2;
-	carro.sparo.pos_y = POS_Y_SPARO_CARRO_ARMATO;
+	carro.sparo.pos_y = pos_y;
 }
 
 void creaNavicellaMisteriosa (Partita &partita)
@@ -25,9 +43,9 @@ void creaNavicellaMisteriosa (Partita &partita)
 	}
 }
 
-void muoviNavicellaMisteriosa (Partita &partita)
+void muoviNavicellaMisteriosa (Partita &partita, unsigned int larghezza_navicella)
 {
-	unsigned int margine_dx = MARGINE_DX_GIOCO + al_get_text_width(font_alieni, STRINGA_NAVICELLA);
+	unsigned int margine_dx = MARGINE_DX_GIOCO + larghezza_navicella;
 	partita.navicella_misteriosa.pos_x = sucInRange (partita.navicella_misteriosa.pos_x, DIMENSIONE_LATO_UNITA_BARRIERA, margine_dx);
 	if (partita.navicella_misteriosa.pos_x == margine_dx)
 	{
@@ -76,7 +94,7 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 	return collisione;
 }
 
-ALLEGRO_BITMAP * sparoScelto (int pos_x)
+ALLEGRO_BITMAP * sparoScelto (int pos_x, ALLEGRO_BITMAP * sparo_alieni_1, ALLEGRO_BITMAP * sparo_alieni_2)
 {
 	if (pos_x % 2 == 0)
 	{
@@ -88,7 +106,7 @@ ALLEGRO_BITMAP * sparoScelto (int pos_x)
 	}
 }
 
-void creaSparoAlieni (Partita &partita)
+void creaSparoAlieni (Partita &partita, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3)
 {
 	srand (time(NULL));
 	int fattore_casuale ;
@@ -101,10 +119,10 @@ void creaSparoAlieni (Partita &partita)
 		fattore_casuale =  rand() % N_COL_ALIENI;
 	}
 
-	unsigned int pos_y_attuale  = partita.ondata.pos_y + DIM_ALIENI + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);	
+	unsigned int pos_y_attuale  = partita.ondata.pos_y + altezza_alieni + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);	
 	for (int i = N_FILE_ALIENI - 1; i >= 0 && fattore_casuale >= 0; i--)
 	{
-		unsigned int larghezza_alieno = al_get_text_width (font_alieni, partita.ondata.alieni [i] [0].stringhe [0]);
+		unsigned int larghezza_alieno = sceltaLarghezzaAlieno (partita.ondata.alieni [i] [0].tipo, larghezza_alieno_1, larghezza_alieno_2, larghezza_alieno_3);
 		unsigned int pos_x_attuale = partita.ondata.pos_x + larghezza_alieno / 2 - 3;
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
@@ -138,9 +156,8 @@ bool controlloCollisioneBarriereDaSparoCarro (Partita &partita)
 	return collisione;
 }
 
-bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita)
+bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita, unsigned int altezza_sparo_alieni)
 {
-	unsigned int altezza_sparo_alieni = al_get_bitmap_height (sparoScelto (partita.sparo_alieni.pos_x));
 	bool collisione = false;
 	if (partita.sparo_alieni.stato)
 	{
@@ -153,13 +170,13 @@ bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita)
 	return collisione;
 }
 
-bool controlloCollisioneBarriereDaOndata (Partita &partita)
+bool controlloCollisioneBarriereDaOndata (Partita &partita, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3)
 {
 	bool collisione = false;
-	unsigned int pos_y_fila  = partita.ondata.pos_y + DIM_ALIENI + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);
+	unsigned int pos_y_fila  = partita.ondata.pos_y + altezza_alieni + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);
 	for (int i = N_FILE_ALIENI - 1; i >= 0 && pos_y_fila >= POS_Y_BARRIERE; i--)
 	{
-		unsigned int larghezza_alieno = al_get_text_width (font_alieni, partita.ondata.alieni [i] [0].stringhe [0]);
+		unsigned int larghezza_alieno = sceltaLarghezzaAlieno (partita.ondata.alieni [i] [0].tipo, larghezza_alieno_1, larghezza_alieno_2, larghezza_alieno_3);
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
 			unsigned int pos_x_attuale = (partita.ondata.pos_x + DISTANZA_ASSI_COL_ALIENI * j) - larghezza_alieno / 2;
@@ -183,11 +200,11 @@ bool controlloCollisioneBarriereDaOndata (Partita &partita)
 	return collisione;
 }
 
-bool controlloCollisioneCarroDaOndata (Partita &partita)
+bool controlloCollisioneCarroDaOndata (Partita &partita, unsigned int altezza_alieni, unsigned int pos_y_carro)
 {
 	bool collisione = false;
-	unsigned int pos_y_fila  = partita.ondata.pos_y + DIM_ALIENI + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);
-	for (int i = N_FILE_ALIENI - 1; i >= 0 && (!collisione) && pos_y_fila >= POS_Y_CARRO; i--)
+	unsigned int pos_y_fila  = partita.ondata.pos_y + altezza_alieni + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);
+	for (int i = N_FILE_ALIENI - 1; i >= 0 && (!collisione) && pos_y_fila >= pos_y_carro; i--)
 	{
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
@@ -202,12 +219,10 @@ bool controlloCollisioneCarroDaOndata (Partita &partita)
 	return collisione;
 }
 
-bool controlloCollisioneCarroDaSparoAlieni (Partita &partita)
+bool controlloCollisioneCarroDaSparoAlieni (Partita &partita, unsigned int larghezza_carro, unsigned int altezza_sparo_alieni, unsigned int pos_y_carro)
 {
-	unsigned int altezza_sparo_alieni = al_get_bitmap_height (sparoScelto (partita.sparo_alieni.pos_x));
 	bool collisione = false;
-	unsigned int larghezza_carro = al_get_text_width(font_alieni, STRINGA_CARRO_ARMATO);
-	if (partita.sparo_alieni.stato && (partita.sparo_alieni.pos_y + altezza_sparo_alieni) >= POS_Y_CARRO && (partita.sparo_alieni.pos_x >= partita.carro_armato.pos_x - (larghezza_carro / 2) && partita.sparo_alieni.pos_x <= partita.carro_armato.pos_x + (larghezza_carro / 2)))
+	if (partita.sparo_alieni.stato && (partita.sparo_alieni.pos_y + altezza_sparo_alieni) >= pos_y_carro && (partita.sparo_alieni.pos_x >= partita.carro_armato.pos_x - (larghezza_carro / 2) && partita.sparo_alieni.pos_x <= partita.carro_armato.pos_x + (larghezza_carro / 2)))
 	{
 		partita.vite_rimanenti--;
 		partita.sparo_alieni.stato = false;
@@ -216,11 +231,10 @@ bool controlloCollisioneCarroDaSparoAlieni (Partita &partita)
 	return collisione;
 }
 
-bool controlloCollisioneNavicellaMisteriosa (Partita &partita)
+bool controlloCollisioneNavicellaMisteriosa (Partita &partita, unsigned int altezza_navicella, unsigned int larghezza_navicella)
 {
 	bool collisione = false;
-	unsigned int larghezza_navicella = al_get_text_width(font_alieni, STRINGA_NAVICELLA);
-	if (partita.carro_armato.sparo.stato && partita.carro_armato.sparo.pos_y <= (MARGINE_SUP_GIOCO + DIM_ALIENI) && (partita.carro_armato.sparo.pos_x >= partita.navicella_misteriosa.pos_x && partita.carro_armato.sparo.pos_x <= (partita.navicella_misteriosa.pos_x + larghezza_navicella)))
+	if (partita.carro_armato.sparo.stato && partita.carro_armato.sparo.pos_y <= (MARGINE_SUP_GIOCO + altezza_navicella) && (partita.carro_armato.sparo.pos_x >= partita.navicella_misteriosa.pos_x && partita.carro_armato.sparo.pos_x <= (partita.navicella_misteriosa.pos_x + larghezza_navicella)))
 	{
 		partita.navicella_misteriosa.stato = false;
 		partita.carro_armato.sparo.stato = false;
@@ -230,17 +244,17 @@ bool controlloCollisioneNavicellaMisteriosa (Partita &partita)
 	return collisione;
 }
 
-bool controlloCollisioneAlieni (Partita &partita)
+bool controlloCollisioneAlieni (Partita &partita, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3)
 {
 	bool collisione = false;
 	if (partita.carro_armato.sparo.stato)
 	{
-		unsigned int pos_y_fila  = partita.ondata.pos_y + DIM_ALIENI + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);
+		unsigned int pos_y_fila  = partita.ondata.pos_y + altezza_alieni + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);
 		for (int i = N_FILE_ALIENI - 1; i >= 0; i--)
 		{
-			if (partita.carro_armato.sparo.pos_y <= pos_y_fila && partita.carro_armato.sparo.pos_y >= pos_y_fila - DIM_ALIENI)
+			if (partita.carro_armato.sparo.pos_y <= pos_y_fila && partita.carro_armato.sparo.pos_y >= pos_y_fila - altezza_alieni)
 			{
-				unsigned int larghezza_alieno = al_get_text_width (font_alieni, partita.ondata.alieni [i] [0].stringhe [0]);
+				unsigned int larghezza_alieno = sceltaLarghezzaAlieno (partita.ondata.alieni [i] [0].tipo, larghezza_alieno_1, larghezza_alieno_2, larghezza_alieno_3);
 				unsigned int pos_x_fila = partita.ondata.pos_x - larghezza_alieno / 2;
 				for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 				{
@@ -269,9 +283,8 @@ bool controlloCollisioneAlieni (Partita &partita)
 	return collisione;
 }
 
-void muoviAlieni (Ondata &ondata)
+void muoviAlieni (Ondata &ondata, unsigned int larghezza_colonna, unsigned int pos_y_carro)
 {
-	unsigned int larghezza_colonna = al_get_text_width(font_alieni, STRINGA_ALIENO_1_0);
 	unsigned int margine_dx_reale = MARGINE_DX_GIOCO - ((N_COL_ALIENI - 1) * DISTANZA_ASSI_COL_ALIENI + larghezza_colonna / 2);
 	unsigned int peso_spostamento_laterale = (N_FILE_ALIENI * N_COL_ALIENI / ondata.alieni_rimasti) + 1;
 	if (peso_spostamento_laterale > MAX_SPOSTAMENTO_ONDATA)
@@ -286,7 +299,7 @@ void muoviAlieni (Ondata &ondata)
 			if (ondata.pos_x == margine_dx_reale)
 			{
 				ondata.dir_alieni = sinistra;
-				ondata.pos_y = sucInRange (ondata.pos_y, DISTANZA_FILE_ALIENI / 4, POS_Y_CARRO);
+				ondata.pos_y = sucInRange (ondata.pos_y, DISTANZA_FILE_ALIENI / 4, pos_y_carro);
 			}
 		}
 		else if (ondata.dir_alieni == sinistra)
@@ -295,7 +308,7 @@ void muoviAlieni (Ondata &ondata)
 			if (ondata.pos_x == MARGINE_SX_GIOCO)
 			{
 				ondata.dir_alieni = destra;
-				ondata.pos_y = sucInRange (ondata.pos_y, DISTANZA_FILE_ALIENI / 4, POS_Y_CARRO);
+				ondata.pos_y = sucInRange (ondata.pos_y, DISTANZA_FILE_ALIENI / 4, pos_y_carro);
 			}
 		}
 	}
@@ -310,9 +323,8 @@ void muoviSparoCarro (Sparo &sparo)
 	}
 }
 
-void muoviSparoAlieni (Sparo &sparo)
+void muoviSparoAlieni (Sparo &sparo, unsigned int altezza_sparo_alieni)
 {
-	unsigned int altezza_sparo_alieni = al_get_bitmap_height (sparoScelto (sparo.pos_x));
 	unsigned int limite_inf = MARGINE_INF_GIOCO - altezza_sparo_alieni;
 	sparo.pos_y = sucInRange (sparo.pos_y, DIMENSIONE_LATO_UNITA_BARRIERA, limite_inf);
 	if (sparo.pos_y >= limite_inf)
@@ -381,7 +393,7 @@ void nuovoCarroArmato (Carro &carro, const unsigned int pos_x_carro_armato)
 	carro.esploso = 0;
 	carro.pos_x = pos_x_carro_armato;
 	carro.sparo.stato = false;
-	carro.pos_x_sprite = 0;
+	carro.stadio_animazione_esplosione = false;
 }
 
 void nuovaNavicella (Navicella &navicella)
@@ -414,42 +426,46 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned i
 	nuovoCarroArmato (partita.carro_armato, pos_x_carro_armato);
 }
 
+void nuovoAlieno (Alieno &alieno, unsigned int punteggio, tipo_alieno tipo)
+{
+	alieno.stato = true;
+	alieno.punteggio = punteggio;
+	alieno.stadio_animazione = false;
+	alieno.esploso = false;
+	alieno.tipo = tipo;
+}
+
 void nuovaOndata (Ondata &ondata)
 {
 	int i = 0;
-	Alieno alieno;
+	unsigned int punteggio_attuale;
+	tipo_alieno tipo_attuale;
 
-	alieno.stato = true;
-	alieno.punteggio = PUNTEGGIO_ALIENO_1;
-	strcpy (alieno.stringhe [0], STRINGA_ALIENO_1_0);
-	strcpy (alieno.stringhe [1], STRINGA_ALIENO_1_1);
+	punteggio_attuale = PUNTEGGIO_ALIENO_1;
+	tipo_attuale = alieno_1;
 	for (; i < 2; i++)
 	{
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
-			ondata.alieni [i] [j] = alieno;
+			nuovoAlieno (ondata.alieni [i] [j], punteggio_attuale, tipo_attuale);
 		}
 	}
 
-	alieno.stato = true;
-	alieno.punteggio = PUNTEGGIO_ALIENO_2;
-	strcpy (alieno.stringhe [0], STRINGA_ALIENO_2_0);
-	strcpy (alieno.stringhe [1], STRINGA_ALIENO_2_1);
+	punteggio_attuale = PUNTEGGIO_ALIENO_2;
+	tipo_attuale = alieno_2;
 	for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 	{
-		ondata.alieni [i] [j] = alieno;
+			nuovoAlieno (ondata.alieni [i] [j], punteggio_attuale, tipo_attuale);
 	}
 	i++;
 
-	alieno.stato = true;
-	alieno.punteggio = PUNTEGGIO_ALIENO_3;
-	strcpy (alieno.stringhe [0], STRINGA_ALIENO_3_0);
-	strcpy (alieno.stringhe [1], STRINGA_ALIENO_3_1);
+	punteggio_attuale = PUNTEGGIO_ALIENO_3;
+	tipo_attuale = alieno_3;
 	for (; i < 5; i++)
 	{
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
-			ondata.alieni [i] [j] = alieno;
+			nuovoAlieno (ondata.alieni [i] [j], punteggio_attuale, tipo_attuale);
 		}
 	}
 
@@ -506,7 +522,16 @@ bool caricaPartita (Partita &salvataggio)
 	{
 		for (unsigned int k = 0; k < N_COL_ALIENI; k++)
 		{
-			if (!(f>>temp.ondata.alieni [i] [k].stato && f>>temp.ondata.alieni [i] [k].punteggio && f>>temp.ondata.alieni [i] [k].stringhe [0] && f>>temp.ondata.alieni [i] [k].stringhe [1]))
+			if (!(f>>temp.ondata.alieni [i] [k].stato && f>>temp.ondata.alieni [i] [k].punteggio && f>>temp.ondata.alieni [i] [k].stadio_animazione && f>>temp.ondata.alieni [i] [k].esploso))
+			{
+				return false;
+			}
+			int tipo_alieno_int;
+			if (f>>tipo_alieno_int)
+			{
+				temp.ondata.alieni [i] [k].tipo = static_cast <tipo_alieno> (tipo_alieno_int);
+			}
+			else
 			{
 				return false;
 			}
@@ -541,7 +566,7 @@ bool caricaPartita (Partita &salvataggio)
 		return false;
 	}
 	
-	if (!(f>>temp.carro_armato.esploso && f>>temp.carro_armato.pos_x && f>>temp.carro_armato.sparo.stato && f>>temp.carro_armato.sparo.pos_x && f>>temp.carro_armato.sparo.pos_y && f>>temp.carro_armato.pos_x_sprite))
+	if (!(f>>temp.carro_armato.esploso && f>>temp.carro_armato.pos_x && f>>temp.carro_armato.sparo.stato && f>>temp.carro_armato.sparo.pos_x && f>>temp.carro_armato.sparo.pos_y && f>>temp.carro_armato.stadio_animazione_esplosione))
 	{
 		return false;
 	}
@@ -573,7 +598,7 @@ void output (Partita partita, ostream &os)
 	{
 		for (unsigned int k = 0; k < N_COL_ALIENI; k++)
 		{
-			os<<partita.ondata.alieni [i] [k].stato<<" "<<partita.ondata.alieni [i] [k].punteggio<<" "<<partita.ondata.alieni [i] [k].stringhe [0]<<" "<<partita.ondata.alieni [i] [k].stringhe [1]<<"\t";
+			os<<partita.ondata.alieni [i] [k].stato<<" "<<partita.ondata.alieni [i] [k].punteggio<<" "<<partita.ondata.alieni [i] [k].stadio_animazione<<" "<<partita.ondata.alieni [i] [k].esploso<<" "<<partita.ondata.alieni [i] [k].tipo<<"\t";
 		}
 		os<<endl;
 	}
@@ -595,7 +620,7 @@ void output (Partita partita, ostream &os)
 	os<<partita.carro_armato.sparo.stato<<endl;
 	os<<partita.carro_armato.sparo.pos_x<<endl;
 	os<<partita.carro_armato.sparo.pos_y<<endl;
-	os<<partita.carro_armato.pos_x_sprite<<endl<<endl;
+	os<<partita.carro_armato.stadio_animazione_esplosione<<endl<<endl;
 }
 
 void salvaPartita (SpaceInvaders &spaceInvaders)

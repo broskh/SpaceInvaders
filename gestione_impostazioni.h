@@ -13,7 +13,7 @@ const bool DEFAULT_EFFETTI_AUDIO = true; /**<Valore di default del campo effetti
 const grafica DEFAULT_MODALITA_GRAFICA = mono_bianco; /**<Valore di default del campo mod_grafica.*/
 const unsigned int DEFAULT_VITE_INIZIALI = 3; /**<Valore di default del campo vite_iniziali.*/
 
-extern const char FILE_IMPOSTAZIONI [];
+const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Percorso del file contenente le impostazioni salvate.*/
 
 //INIZIO INTERFACCIA
 /**

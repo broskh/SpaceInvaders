@@ -9,7 +9,7 @@
 
 using namespace std;
 
-extern const char FILE_HIGHSCORES [];
+const char FILE_HIGHSCORES [] = "highscores"; /**<Percorso del file contenente gli highscores.*/
 
 //INIZIO INTERFACCIA
 /**

@@ -68,31 +68,29 @@ const float FPS_NAVICELLA_MISTERIOSA = 1; /**<FPS per la frequenza della possibi
 const float FPS_SPOSTAMENTO_ONDATA = 30; /**<FPS per la frequenza dello spostamento dell'ondata aliena.*/
 //FINE COSTANTI PER VARI TIMER
 
-//INIZIO COSTANTI E COSTANTI PER FILE
+//INIZIO COSTANTI PER FILE
 const char FILE_FONT_TESTO [] = "Fonts/space_invaders.ttf"; /**<File contenente il font utilizzato per i testi.*/
-const char FILE_FONT_IMMAGINI [] = "Fonts/dustbust_invaders.ttf"; /**<File contenente il font utilizzato per gli alieni e altri elementi in tema nel gioco.*/
+const char FILE_FONT_TITOLO [] = "Fonts/dustbust_invaders.ttf"; /**<File contenente il font utilizzato per il titolo nel menù principale del gioco.*/
 const char FILE_BARRIERA_PARZIALE [] = "Images/barriera_parziale.png"; /**<Percorso del file contenente l'immagine per rappresentare un elemento della barriera allo stato "parziale". (Deve essere 4x4 pixel)*/
 const char FILE_BARRIERA_INTEGRA [] = "Images/barriera_integra.png"; /**<Percorso del file contenente l'immagine per rappresentare un elemento della barriera allo stato "integra". (Deve essere 4x4 pixel)*/
 const char FILE_SPARO_ALIENI_1 [] = "Images/sparo_alieni_1.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo degli alieni con posizione relativa all'asse x pari.*/
 const char FILE_SPARO_ALIENI_2 [] = "Images/sparo_alieni_2.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo degli alieni con posizione relativa all'asse x dispari.*/
-const char FILE_ESPLOSIONE_CARRO [] = "Images/esplosione_carro.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo degli alieni con posizione relativa all'asse x dispari.*/
-const char FILE_MUSICA_PRINCIPALE [] = "Sounds/principale.flac"; /**<Percorso del file contenente la musica principale.*/
-const char FILE_HIGHSCORES [] = "highscores"; /**<Percorso del file contenente gli highscores.*/
-const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Percorso del file contenente le impostazioni salvate.*/
-const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file contenente la partita salvata.*/
-
 const char FILE_CARRO_ARMATO [] ="Images/carro_armato.png";
 const char FILE_SPARO_CARRO [] ="Images/sparo_carro.png";
-const char FILE_NAVICELLA_MISTERIOSA [] ="Images/alieno1.png";
-//FINE COSTANTI E COSTANTI PER FILE
+const char FILE_NAVICELLA_MISTERIOSA [] ="Images/navicella_misteriosa.png";
+const char FILE_ALIENO_TIPO_1 [] ="Images/alieno1.png";
+const char FILE_ALIENO_TIPO_2 [] ="Images/alieno2.png";
+const char FILE_ALIENO_TIPO_3 [] ="Images/alieno3.png";
+const char FILE_ESPLOSIONE_CARRO [] = "Images/esplosione_carro.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo degli alieni con posizione relativa all'asse x dispari.*/
+const char FILE_MUSICA_PRINCIPALE [] = "Sounds/principale.flac"; /**<Percorso del file contenente la musica principale.*/
+//FINE COSTANTI PER FILE
 
-//INIZIO COSTANTI E COSTANTI PER FONT E TESTI
+//INIZIO COSTANTI PER FONT E TESTI
 const unsigned int SPAZIO_TESTO = 10; /**<Spazio fra righe di testo adiacenti.*/
 const unsigned int SPAZIO_TESTO_GRANDE = 30; /**<Spazio grande fra righe di testo adiacenti.*/
 const unsigned int DIMENSIONE_TITOLO = 140; /**<Dimensione del font utilizzato per il titolo.*/
 const unsigned int DIMENSIONE_TESTO = 15; /**<Dimensione del font utilizzato per i testi generali.*/
-const unsigned int DIM_ALIENI = 16; /**<Dimensione del font utilizzato per i alieni*/
-//FINE COSTANTI E COSTANTI PER FONT E TESTI
+//FINE COSTANTI PER FONT E TESTI
 
 //INIZIO COSTANTI PER POSIZIONI NELLA SCHERMATA DEL MENU PRINCIPALE
 const unsigned int POS_X_ESEMPIO_ALIENI = 255; /**<Posizione rispetto all'asse x dalla quale mostrare i alieni nel menù principale.*/
@@ -106,8 +104,6 @@ const unsigned int POS_Y_VOCI_MENU_PRINCIPALE = 340; /**<Posizione rispetto all'
 const unsigned int POS_Y_INFORMAZIONI_PARTITA = 10; /**<Posizione rispetto all'asse y dalla quale mostrare le informazioni della partita.*/
 const unsigned int POS_Y_PRIMA_FILA_ONDATA = 80; /**<Posizione rispetto all'asse y dalla quale mostrare la prima fila di alieni.*/
 const unsigned int POS_Y_BARRIERE = 360; /**<Posizone rispetto all'asse y dalla quale mostrare la prima barriera.*/
-const unsigned int POS_Y_CARRO = MARGINE_INF_GIOCO - DIM_ALIENI;; /**<Posizione rispetto all'asse y dalla quale mostrare il carro armato.*/
-const unsigned int POS_Y_SPARO_CARRO_ARMATO = POS_Y_CARRO - DIMENSIONE_TESTO - 1; /**<Posizione iniziale rispetto all'asse y dello sparo.*/
 
 const unsigned int DISTANZA_ASSI_COL_ALIENI = 40; /**<Distanza fra gli assi delle colonne di alieni.*/
 const unsigned int DISTANZA_FILE_ALIENI = 35; /**<Distamza fra le file di alieni.*/
@@ -138,14 +134,9 @@ const unsigned int POS_Y_VOCI_PAUSA = 220; /**<Posizione rispetto all'asse y dal
 const unsigned int POS_Y_TITOLO_PAUSA = 100; /**<Posizione rispetto all'asse y dalla quale mostrare il titolo del menù di pausa.*/
 //FINE COSTANTI PER POSIZIONI NELLA SCHERMATA DEL MENU DI PAUSA
 
-//INIZIO VARIABILI PER FONT E IMMAGINI DI GIOCO
-ALLEGRO_FONT *font_alieni = NULL;
-ALLEGRO_BITMAP *sparo_alieni_1 = NULL;
-ALLEGRO_BITMAP *sparo_alieni_2 = NULL;
-//INIZIO VARIABILI PER FONT E IMMAGINI DI GIOCO
-
 //INIZIO COSTANTI GENERICHE DI GIOCO
 const int RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_CARRO = 2;
+const unsigned int N_STATI_SPRITE = 2;
 //FINE COSTANTI GENERICHE DI GIOCO
 
 /**
@@ -170,6 +161,8 @@ schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceIn
 
 void disegnaBarriera (ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barriera_integra, stato_barriera barriera [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x, unsigned int pos_y);
 
+void disegnaAlieno (Alieno alieno, ALLEGRO_BITMAP *alieno_tipo_1, ALLEGRO_BITMAP *alieno_tipo_2, ALLEGRO_BITMAP *alieno_tipo_3, unsigned int pos_x, unsigned int pos_y);
+
 /**
  * FARE DOCUMENTAZIONE PER MAIN
  */
@@ -183,16 +176,21 @@ int main ()
 	ALLEGRO_TIMER *timer_animazione = NULL;
 	ALLEGRO_TIMER *timer_comparsa_navicella = NULL;
 	ALLEGRO_TIMER *timer_spostamento_ondata = NULL;
-	ALLEGRO_FONT *font_titolo = NULL;
-	ALLEGRO_FONT *font_testo = NULL;
 	ALLEGRO_BITMAP *barriera_parziale = NULL;
 	ALLEGRO_BITMAP *barriera_integra = NULL;
-	ALLEGRO_BITMAP *esplosione_carro = NULL;
-   	ALLEGRO_SAMPLE *musica_principale = NULL;
-
 	ALLEGRO_BITMAP *carro_armato = NULL;
 	ALLEGRO_BITMAP *sparo_carro = NULL;
 	ALLEGRO_BITMAP *navicella_misteriosa = NULL;
+	ALLEGRO_BITMAP *alieno_tipo_1 = NULL;
+	ALLEGRO_BITMAP *alieno_tipo_2 = NULL;
+	ALLEGRO_BITMAP *alieno_tipo_3 = NULL;
+	ALLEGRO_BITMAP *sparo_alieni_1 = NULL;
+	ALLEGRO_BITMAP *sparo_alieni_2 = NULL;
+	ALLEGRO_FONT *font_titolo = NULL;
+	ALLEGRO_FONT *font_testo = NULL;
+   	ALLEGRO_SAMPLE *musica_principale = NULL;
+
+	ALLEGRO_BITMAP *esplosione_carro = NULL;
 
 	bool redraw = true;
 
@@ -229,12 +227,10 @@ int main ()
 	timer_spostamento_ondata = al_create_timer(1.0 / FPS_SPOSTAMENTO_ONDATA);
 	assert (timer_spostamento_ondata);
 
-	font_titolo = al_load_ttf_font(FILE_FONT_IMMAGINI, DIMENSIONE_TITOLO, 0);
+	font_titolo = al_load_ttf_font(FILE_FONT_TITOLO, DIMENSIONE_TITOLO, 0);
 	assert (font_titolo);
 	font_testo = al_load_ttf_font(FILE_FONT_TESTO, DIMENSIONE_TESTO, 0);
  	assert (font_testo);
-	font_alieni = al_load_ttf_font(FILE_FONT_IMMAGINI, DIM_ALIENI, 0);
- 	assert (font_alieni);
 	
 	barriera_parziale = al_load_bitmap(FILE_BARRIERA_PARZIALE);
 	assert (barriera_parziale);
@@ -253,6 +249,12 @@ int main ()
 	assert (sparo_carro);
 	navicella_misteriosa = al_load_bitmap(FILE_NAVICELLA_MISTERIOSA);
 	assert (navicella_misteriosa);
+	alieno_tipo_1 = al_load_bitmap(FILE_ALIENO_TIPO_1);
+	assert (alieno_tipo_1);
+	alieno_tipo_2 = al_load_bitmap(FILE_ALIENO_TIPO_2);
+	assert (alieno_tipo_2);
+	alieno_tipo_3 = al_load_bitmap(FILE_ALIENO_TIPO_3);
+	assert (alieno_tipo_3);
 
 	musica_principale = al_load_sample (FILE_MUSICA_PRINCIPALE);
 	assert (musica_principale);
@@ -384,19 +386,19 @@ int main ()
 
 						//INIZIO DELLA VISUALIZZAZIONE DEGLI ALIENI E I RELATIVI PUNTEGGI
 						unsigned int pos_y_attuale = POS_Y_ESMEPIO_ALIENI;
-						al_draw_text(font_alieni, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_ALIENI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_ALIENO_3_0);
+						al_draw_tinted_bitmap_region(alieno_tipo_1, al_map_rgb(0, 255, 0), 0, 0, al_get_bitmap_width (alieno_tipo_1) / N_STATI_SPRITE, al_get_bitmap_height (alieno_tipo_1), POS_X_ESEMPIO_ALIENI - al_get_bitmap_width (alieno_tipo_1) / (N_STATI_SPRITE * 2), pos_y_attuale, 0);
 						al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      10  PTS");
 
-						pos_y_attuale = POS_Y_ESMEPIO_ALIENI + SPAZIO_TESTO + DIM_ALIENI;
-						al_draw_text(font_alieni, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_ALIENI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_ALIENO_2_0);
+						pos_y_attuale = POS_Y_ESMEPIO_ALIENI + SPAZIO_TESTO + al_get_bitmap_height (alieno_tipo_1);
+						al_draw_tinted_bitmap_region(alieno_tipo_2, al_map_rgb(0, 255, 0), 0, 0, al_get_bitmap_width (alieno_tipo_2) / N_STATI_SPRITE, al_get_bitmap_height (alieno_tipo_2), POS_X_ESEMPIO_ALIENI - al_get_bitmap_width (alieno_tipo_2) / (N_STATI_SPRITE * 2), pos_y_attuale, 0);
 						al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      20  PTS");
 
-						pos_y_attuale = POS_Y_ESMEPIO_ALIENI + (SPAZIO_TESTO + DIM_ALIENI) * 2;
-						al_draw_text(font_alieni, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_ALIENI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_ALIENO_1_0);
+						pos_y_attuale = POS_Y_ESMEPIO_ALIENI + (SPAZIO_TESTO + al_get_bitmap_height (alieno_tipo_1)) * 2;
+						al_draw_tinted_bitmap_region(alieno_tipo_3, al_map_rgb(0, 255, 0), 0, 0, al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE, al_get_bitmap_height (alieno_tipo_3), POS_X_ESEMPIO_ALIENI - al_get_bitmap_width (alieno_tipo_3) / (N_STATI_SPRITE * 2), pos_y_attuale, 0);
 						al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      30  PTS");
 
-						pos_y_attuale = POS_Y_ESMEPIO_ALIENI + (SPAZIO_TESTO + DIM_ALIENI) * 3;
-						al_draw_text(font_alieni, al_map_rgb(255, 0, 0), POS_X_ESEMPIO_ALIENI, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, STRINGA_NAVICELLA);
+						pos_y_attuale = POS_Y_ESMEPIO_ALIENI + (SPAZIO_TESTO + al_get_bitmap_height (alieno_tipo_1)) * 3;
+						al_draw_tinted_bitmap_region(navicella_misteriosa, al_map_rgb(0, 255, 0), 0, 0, al_get_bitmap_width (navicella_misteriosa) / N_STATI_SPRITE, al_get_bitmap_height (navicella_misteriosa), POS_X_ESEMPIO_ALIENI - al_get_bitmap_width (navicella_misteriosa) / (N_STATI_SPRITE * 2), pos_y_attuale, 0);
 						al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=         ?  PTS");
 						//FINE DELLA VISUALIZZAZIONE DEGLI ALIENI E I RELATIVI PUNTEGGI
 	
@@ -465,7 +467,7 @@ int main ()
 						{
 							if (!generale.partita_in_corso.sparo_alieni.stato)
 							{
-								creaSparoAlieni (generale.partita_in_corso);
+								creaSparoAlieni (generale.partita_in_corso, al_get_bitmap_height (alieno_tipo_1), al_get_bitmap_width (alieno_tipo_1) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_2) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE);
 							}
 						}
 						else if (!carro_colpito && ev.timer.source == timer_comparsa_navicella)
@@ -477,7 +479,7 @@ int main ()
 						}
 						else if (!carro_colpito && ev.timer.source == timer_spostamento_ondata)
 						{
-							muoviAlieni (generale.partita_in_corso.ondata);
+							muoviAlieni (generale.partita_in_corso.ondata, al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE, MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato));
 						}
 					}
 					else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
@@ -515,7 +517,7 @@ int main ()
 							case ALLEGRO_KEY_SPACE:
 								if (!generale.partita_in_corso.carro_armato.sparo.stato)
 								{
-									creaSparoCarroArmato (generale.partita_in_corso.carro_armato, al_get_bitmap_width (carro_armato));
+									creaSparoCarroArmato (generale.partita_in_corso.carro_armato, al_get_bitmap_width (carro_armato), MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato) - al_get_bitmap_height (sparo_carro));
 								}
 								break;
 						}
@@ -562,7 +564,7 @@ int main ()
 							{
 								if (generale.partita_in_corso.ondata.alieni [i] [j].stato)
 								{
-									al_draw_text(font_alieni, al_map_rgb(0, 255, 0), pos_x_attuale, pos_y_attuale, ALLEGRO_ALIGN_CENTER, generale.partita_in_corso.ondata.alieni [i] [j].stringhe [animazione]);
+									disegnaAlieno (generale.partita_in_corso.ondata.alieni [i] [j], alieno_tipo_1, alieno_tipo_2, alieno_tipo_3, pos_x_attuale, pos_y_attuale);
 								}
 								pos_x_attuale += DISTANZA_ASSI_COL_ALIENI;
 							}
@@ -575,7 +577,7 @@ int main ()
 						{
 							unsigned int sx;
 							ALLEGRO_BITMAP *sparo_attuale;
-							sparo_attuale = sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x);
+							sparo_attuale = sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2);
 							if (animazione)
 							{
 								sx = 0;			
@@ -604,7 +606,7 @@ int main ()
 						}
 						//FINE DELLA VISUALIZZAIZOEN DELLO SPARO DEL CARRO
 
-						//INIZIO DELLA VISUALIZZAZIOEN DEL CARRO ARMATO
+						//INIZIO DELLA VISUALIZZAZIONE DEL CARRO ARMATO
 						if (carro_colpito)
 						{
 							unsigned int sx;
@@ -614,13 +616,13 @@ int main ()
 							}
 							else
 							{
-								sx = al_get_bitmap_width (esplosione_carro) / 2;
+								sx = al_get_bitmap_width (esplosione_carro) / N_STATI_SPRITE;
 							}
-							al_draw_tinted_bitmap_region(esplosione_carro, al_map_rgb(0, 255, 0), sx, 0, al_get_bitmap_width (esplosione_carro) / 2, al_get_bitmap_height (esplosione_carro), generale.partita_in_corso.carro_armato.pos_x, POS_Y_CARRO, 0);
+							al_draw_tinted_bitmap_region(esplosione_carro, al_map_rgb(0, 255, 0), sx, 0, al_get_bitmap_width (esplosione_carro) / N_STATI_SPRITE, al_get_bitmap_height (esplosione_carro), generale.partita_in_corso.carro_armato.pos_x, MARGINE_INF_GIOCO - al_get_bitmap_height (esplosione_carro), 0);
 						}
 						else
 						{
-							al_draw_tinted_bitmap(carro_armato, al_map_rgb(0, 255, 0), generale.partita_in_corso.carro_armato.pos_x, POS_Y_CARRO, 0);
+							al_draw_tinted_bitmap(carro_armato, al_map_rgb(0, 255, 0), generale.partita_in_corso.carro_armato.pos_x, MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato), 0);
 						}
 						//FINE DELLA VISUALIZZAZIONE DEL CARRO ARMATO
 
@@ -630,29 +632,29 @@ int main ()
 						//INIZIO DEI CONTROLLI
 						if (!carro_colpito)
 						{
-							if (controlloCollisioneCarroDaSparoAlieni (generale.partita_in_corso))
+							if (controlloCollisioneCarroDaSparoAlieni (generale.partita_in_corso, al_get_bitmap_width (carro_armato), al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)), MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato)))
 							{
 								carro_colpito++;
 							}
-							if (generale.partita_in_corso.vite_rimanenti < 0 || controlloCollisioneCarroDaOndata (generale.partita_in_corso))
+							if (generale.partita_in_corso.vite_rimanenti < 0 || controlloCollisioneCarroDaOndata (generale.partita_in_corso, al_get_bitmap_height (alieno_tipo_1), MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato)))
 							{
 								schermata_att = s_fine_partita;
 								cambia_schermata = true;
 								break;
 							}
-							if (controlloCollisioneAlieni (generale.partita_in_corso))
+							if (controlloCollisioneAlieni (generale.partita_in_corso, al_get_bitmap_height (alieno_tipo_1), al_get_bitmap_width (alieno_tipo_1) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_2) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE))
 							{
 							}
 							if (controlloCollisioneBarriereDaSparoCarro (generale.partita_in_corso))
 							{
 							}
-							if (controlloCollisioneBarriereDaSparoAlieni (generale.partita_in_corso))
+							if (controlloCollisioneBarriereDaSparoAlieni (generale.partita_in_corso, al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2))))
 							{
 							}
-							if (controlloCollisioneNavicellaMisteriosa (generale.partita_in_corso))
+							if (controlloCollisioneNavicellaMisteriosa (generale.partita_in_corso, al_get_bitmap_height (navicella_misteriosa), al_get_bitmap_width (navicella_misteriosa)))
 							{
 							}
-							if (controlloCollisioneBarriereDaOndata (generale.partita_in_corso))
+							if (controlloCollisioneBarriereDaOndata (generale.partita_in_corso, al_get_bitmap_height (alieno_tipo_1), al_get_bitmap_width (alieno_tipo_1) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_2) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE))
 							{
 							}
 							//FINE DEI CONTROLLI
@@ -663,11 +665,11 @@ int main ()
 							}
 							if (generale.partita_in_corso.sparo_alieni.stato)
 							{
-								muoviSparoAlieni (generale.partita_in_corso.sparo_alieni);
+								muoviSparoAlieni (generale.partita_in_corso.sparo_alieni, al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)));
 							}
 							if (generale.partita_in_corso.navicella_misteriosa.stato)
 							{
-								muoviNavicellaMisteriosa (generale.partita_in_corso);
+								muoviNavicellaMisteriosa (generale.partita_in_corso, al_get_bitmap_width (navicella_misteriosa));
 							}
 						}
 						//FINE DEI CAMBIAMENTI
@@ -1060,19 +1062,20 @@ int main ()
 				al_destroy_timer(timer_animazione);
 				al_destroy_timer(timer_comparsa_navicella);
 				al_destroy_timer(timer_spostamento_ondata);
-				al_destroy_font (font_alieni);
 				al_destroy_font (font_testo);
 				al_destroy_font (font_titolo);
    				al_destroy_bitmap(sparo_alieni_1);
    				al_destroy_bitmap(sparo_alieni_2);
-   				al_destroy_bitmap(barriera_parziale);
-   				al_destroy_bitmap(barriera_integra);
-				al_destroy_bitmap(esplosione_carro);
-				al_destroy_sample(musica_principale);
-
+				al_destroy_bitmap(barriera_parziale);
+				al_destroy_bitmap(barriera_integra);
 				al_destroy_bitmap(carro_armato);
 				al_destroy_bitmap(sparo_carro);
 				al_destroy_bitmap(navicella_misteriosa);
+				al_destroy_bitmap(alieno_tipo_1);
+				al_destroy_bitmap(alieno_tipo_2);
+				al_destroy_bitmap(alieno_tipo_3);
+				al_destroy_bitmap(esplosione_carro);
+				al_destroy_sample(musica_principale);
 				return 0;
 			default:
 				al_destroy_display(display);
@@ -1083,19 +1086,20 @@ int main ()
 				al_destroy_timer(timer_animazione);
 				al_destroy_timer(timer_comparsa_navicella);
 				al_destroy_timer(timer_spostamento_ondata);
-				al_destroy_font (font_alieni);
 				al_destroy_font (font_testo);
 				al_destroy_font (font_titolo);
    				al_destroy_bitmap(sparo_alieni_1);
    				al_destroy_bitmap(sparo_alieni_2);
 				al_destroy_bitmap(barriera_parziale);
 				al_destroy_bitmap(barriera_integra);
-				al_destroy_bitmap(esplosione_carro);
-				al_destroy_sample(musica_principale);
-
 				al_destroy_bitmap(carro_armato);
 				al_destroy_bitmap(sparo_carro);
 				al_destroy_bitmap(navicella_misteriosa);
+				al_destroy_bitmap(alieno_tipo_1);
+				al_destroy_bitmap(alieno_tipo_2);
+				al_destroy_bitmap(alieno_tipo_3);
+				al_destroy_bitmap(esplosione_carro);
+				al_destroy_sample(musica_principale);
 				return 2;
 		}
 	}
@@ -1108,19 +1112,20 @@ int main ()
 	al_destroy_timer(timer_animazione);
 	al_destroy_timer(timer_comparsa_navicella);
 	al_destroy_timer(timer_spostamento_ondata);
-	al_destroy_font (font_alieni);
 	al_destroy_font (font_testo);
 	al_destroy_font (font_titolo);
 	al_destroy_bitmap(sparo_alieni_1);
 	al_destroy_bitmap(sparo_alieni_2);
 	al_destroy_bitmap(barriera_parziale);
 	al_destroy_bitmap(barriera_integra);
-	al_destroy_bitmap(esplosione_carro);
-	al_destroy_sample(musica_principale);
-
 	al_destroy_bitmap(carro_armato);
 	al_destroy_bitmap(sparo_carro);
 	al_destroy_bitmap(navicella_misteriosa);
+	al_destroy_bitmap(alieno_tipo_1);
+	al_destroy_bitmap(alieno_tipo_2);
+	al_destroy_bitmap(alieno_tipo_3);
+	al_destroy_bitmap(esplosione_carro);
+	al_destroy_sample(musica_principale);
    	return 1;
 }
 
@@ -1188,4 +1193,24 @@ void disegnaBarriera (ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barrier
 		dx = pos_x;
 		dy += DIMENSIONE_LATO_UNITA_BARRIERA;
 	}
+}
+
+void disegnaAlieno (Alieno alieno, ALLEGRO_BITMAP *alieno_tipo_1, ALLEGRO_BITMAP *alieno_tipo_2, ALLEGRO_BITMAP *alieno_tipo_3, unsigned int pos_x, unsigned int pos_y)
+{
+	ALLEGRO_BITMAP * alieno_scelto = NULL;
+
+	if (alieno.tipo == alieno_1)
+	{
+		alieno_scelto = alieno_tipo_1;
+	}
+	else if (alieno.tipo == alieno_2)
+	{
+		alieno_scelto = alieno_tipo_2;		
+	}
+	else if (alieno.tipo == alieno_3)
+	{
+		alieno_scelto = alieno_tipo_3;		
+	}
+	unsigned int larghezza_istantanea = al_get_bitmap_width (alieno_scelto) / 2;
+	al_draw_tinted_bitmap_region(alieno_scelto, al_map_rgb(0, 255, 0), larghezza_istantanea * (alieno.stadio_animazione - 1), 0, larghezza_istantanea, al_get_bitmap_height (alieno_scelto), pos_x, pos_y, 0);
 }

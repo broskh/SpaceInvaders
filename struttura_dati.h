@@ -45,6 +45,8 @@ enum stato_barriera {distrutta, parziale, integra};
  */
 enum direzione {destra, sinistra};
 
+enum tipo_alieno {alieno_1, alieno_2, alieno_3};
+
 /**
  * Tipo che indica una schermata dell'applicazione.
  *
@@ -103,7 +105,9 @@ struct Alieno
 {
 	bool stato; /**<Stato del alieno.*/
 	unsigned int punteggio; /**<Punteggio derivante dalla distruzione di questo alieno.*/
-	char stringhe [2] [2]; /**<Stringhe per rappresentare un determinato alieno.*/
+	bool stadio_animazione;
+	unsigned int esploso;
+	tipo_alieno tipo; /**<Tipo di alieno attributito a questo {@link Alieno}.*/
 };
 
 /**
@@ -140,7 +144,7 @@ struct Carro
 	unsigned int esploso;
 	unsigned int pos_x; /**<Indica lo spostamento del carro armato rispetto alla posizione centrale iniziale.*/
 	Sparo sparo; /**<Informazioni relative allo sparo del carro armato.*/
-	unsigned int pos_x_sprite;
+	bool stadio_animazione_esplosione;
 };
 
 struct Navicella

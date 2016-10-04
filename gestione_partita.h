@@ -10,15 +10,6 @@
 using namespace std;
 
 //INIZIO COSTANTI PER ALIENI
-const char STRINGA_ALIENO_3_0 [] = "B"; /**<Stringa per rappresentare l'alieno 3 allo stato di animazione 0.*/
-const char STRINGA_ALIENO_3_1 [] = "A"; /**<Stringa per rappresentare l'alieno 3 allo stato di animazione 1.*/
-const char STRINGA_ALIENO_2_0 [] = "D"; /**<Stringa per rappresentare l'alieno 2 allo stato di animazione 0.*/
-const char STRINGA_ALIENO_2_1 [] = "C"; /**<Stringa per rappresentare l'alieno 2 allo stato di animazione 1.*/
-const char STRINGA_ALIENO_1_0 [] = "F"; /**<Stringa per rappresentare l'alieno 1 allo stato di animazione 0.*/
-const char STRINGA_ALIENO_1_1 [] = "E"; /**<Stringa per rappresentare l'alieno 1 allo stato di animazione 1.*/
-const char STRINGA_NAVICELLA [] = "2"; /**<Stringa per rappresentare la navicella misteriosa.*/
-const char STRINGA_CARRO_ARMATO [] = "-"; /**<Stringa per rappresentare il carro armato.*/
-const char STRINGA_SPARO [] = "|"; /**<Stringa per rappresentare lo sparo del carro armato.*/
 const unsigned int PUNTEGGIO_ALIENO_3 = 10; /**<Punteggio attribuito al alieno 3.*/
 const unsigned int PUNTEGGIO_ALIENO_2 = 20; /**<Punteggio attribuito al alieno 2.*/
 const unsigned int PUNTEGGIO_ALIENO_1 = 30; /**<Punteggio attribuito al alieno 1.*/
@@ -47,13 +38,8 @@ extern const unsigned int POS_CENTRO_X; /**<Posizione centrale della del display
 //FINE COSTANTIGENERALI PER DISPLAY
 
 //INIZIO COSTANTI PER FILE
-extern const char FILE_SALVATAGGIO_PARTITA []; /**<Percorso del file contenente la partita salvata.*/
+const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file contenente la partita salvata.*/
 //FINE COSTANTI PER FILE
-
-//INIZIO COSTANTI PER FONT E TESTI
-extern const unsigned int DIM_ALIENI; /**<Dimensione del font utilizzato per i alieni*/
-extern const unsigned int DIM_FONT_TESTO; /**<Dimensione del font utilizzato per i testi generali.*/
-//FINE COSTANTI PER FONT E TESTI
 
 //INIZIO COSTANTI PER POSIZIONI NELLA SCHERMATA DI GIOCO
 extern const unsigned int POS_X_PRIMA_BARRIERA; /**<Posizione rispetto all'asse x della prima barriera.*/
@@ -64,47 +50,38 @@ extern const unsigned int POS_X_PRIMO_ASSE_ALIENI; /**<Posizone rispetto all'ass
 extern const unsigned int POS_Y_PRIMA_FILA_ONDATA; /**<Posizione rispetto all'asse y dalla quale mostrare la prima fila di alieni.*/
 extern const unsigned int DISTANZA_FILE_ALIENI; /**<Distamza fra le file di alieni.*/
 extern const unsigned int DISTANZA_ASSI_COL_ALIENI; /**<Distanza fra gli assi delle colonne di alieni.*/
-
-extern const unsigned int POS_Y_CARRO; /**<Posizione rispetto all'asse y dalla quale mostrare il carro armato.*/
-extern const unsigned int POS_Y_SPARO_CARRO_ARMATO; /**<Posizione iniziale rispetto all'asse y dello sparo.*/
 //FINE COSTANTI PER POSIZIONI NELLA SCHERMATA DI GIOCO
 
-//INIZIO VARIABILI PER FONT E IMMAGINI DI GIOCO
-extern ALLEGRO_FONT *font_alieni; /**<Font utilizzato per stampare gli alieni e altri elementi di gioco.*/
-extern ALLEGRO_BITMAP *sparo_alieni_1; /**<Immagine utilizzata per lo sparo alieno di tipo 1.*/
-extern ALLEGRO_BITMAP *sparo_alieni_2;  /**<Immagine utilizzata per lo sparo alieno di tipo 2.*/
-//INIZIO VARIABILI PER FONT E IMMAGINI DI GIOCO
-
 //INIZIO INTERFACCIA
-void creaSparoCarroArmato (Carro &carro, const unsigned int larghezza_pixel_carro);
+void creaSparoCarroArmato (Carro &carro, const unsigned int larghezza_pixel_carro, unsigned int pos_y);
 
 void stampa (Partita partita);
 
-bool controlloCollisioneBarriereDaOndata (Partita &partita);
+bool controlloCollisioneBarriereDaOndata (Partita &partita, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
 
-bool controlloCollisioneNavicellaMisteriosa (Partita &partita);
+bool controlloCollisioneNavicellaMisteriosa (Partita &partita, unsigned int altezza_navicella, unsigned int larghezza_navicella);
 
 void creaNavicellaMisteriosa (Partita &partita);
 
-void muoviNavicellaMisteriosa (Partita &partita);
+void muoviNavicellaMisteriosa (Partita &partita, unsigned int larghezza_navicella);
 
-bool controlloCollisioneCarroDaSparoAlieni (Partita &partita);
+bool controlloCollisioneCarroDaSparoAlieni (Partita &partita, unsigned int larghezza_carro, unsigned int altezza_sparo_alieni, unsigned int pos_y_carro);
 
-bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita);
+bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita, unsigned int altezza_sparo_alieni);
 
 bool controlloCollisioneBarriereDaSparoCarro (Partita &partita);
 
-ALLEGRO_BITMAP * sparoScelto (int pos_x);
+ALLEGRO_BITMAP * sparoScelto (int pos_x, ALLEGRO_BITMAP * sparo_alieni_1, ALLEGRO_BITMAP * sparo_alieni_2);
 
-void creaSparoAlieni (Partita &partita);
+void creaSparoAlieni (Partita &partita, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
 
-bool controlloCollisioneCarroDaOndata (Partita &partita);
+bool controlloCollisioneCarroDaOndata (Partita &partita, unsigned int altezza_alieni, unsigned int pos_y_carro);
 
-bool controlloCollisioneAlieni (Partita &partita);
+bool controlloCollisioneAlieni (Partita &partita, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
 
-void muoviSparoAlieni (Sparo &sparo);
+void muoviSparoAlieni (Sparo &sparo, unsigned int altezza_sparo_alieni);
 
-void muoviAlieni(Ondata &ondata);
+void muoviAlieni(Ondata &ondata, unsigned int larghezza_colonna, unsigned int pos_y_carro);
 
 /**
  * Stabilisce qual'è la posizione rispetto all'asse y dello sparo del carro armato in movimento.
