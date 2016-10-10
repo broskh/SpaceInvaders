@@ -137,6 +137,7 @@ const unsigned int POS_Y_TITOLO_PAUSA = 100; /**<Posizione rispetto all'asse y d
 //INIZIO COSTANTI GENERICHE DI GIOCO
 const int RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_CARRO = 2;
 const unsigned int N_STATI_SPRITE = 2;
+const unsigned int N_TIPI_ALIENI = 3;
 //FINE COSTANTI GENERICHE DI GIOCO
 
 /**
@@ -161,7 +162,9 @@ schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceIn
 
 void disegnaBarriera (ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barriera_integra, stato_barriera barriera [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x, unsigned int pos_y);
 
-void disegnaAlieno (Alieno alieno, ALLEGRO_BITMAP *alieno_tipo_1, ALLEGRO_BITMAP *alieno_tipo_2, ALLEGRO_BITMAP *alieno_tipo_3, unsigned int pos_x, unsigned int pos_y);
+void disegnaAlieno (ALLEGRO_BITMAP *alieno_scelto, unsigned int pos_x, unsigned int pos_y);
+
+ALLEGRO_BITMAP* scegliImmagine (unsigned int numero_fila, ALLEGRO_BITMAP *alieno_tipo_1, ALLEGRO_BITMAP *alieno_tipo_2, ALLEGRO_BITMAP *alieno_tipo_3);
 
 /**
  * FARE DOCUMENTAZIONE PER MAIN
@@ -398,7 +401,7 @@ int main ()
 						al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      30  PTS");
 
 						pos_y_attuale = POS_Y_ESMEPIO_ALIENI + (SPAZIO_TESTO + al_get_bitmap_height (alieno_tipo_1)) * 3;
-						al_draw_tinted_bitmap_region(navicella_misteriosa, al_map_rgb(0, 255, 0), 0, 0, al_get_bitmap_width (navicella_misteriosa) / N_STATI_SPRITE, al_get_bitmap_height (navicella_misteriosa), POS_X_ESEMPIO_ALIENI - al_get_bitmap_width (navicella_misteriosa) / (N_STATI_SPRITE * 2), pos_y_attuale, 0);
+						al_draw_tinted_bitmap(navicella_misteriosa, al_map_rgb(255, 0, 0), POS_X_ESEMPIO_ALIENI - al_get_bitmap_width (navicella_misteriosa) / 2, pos_y_attuale, 0);
 						al_draw_text(font_testo, al_map_rgb(0, 255, 0), POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=         ?  PTS");
 						//FINE DELLA VISUALIZZAZIONE DEGLI ALIENI E I RELATIVI PUNTEGGI
 	
@@ -564,7 +567,7 @@ int main ()
 							{
 								if (generale.partita_in_corso.ondata.alieni [i] [j].stato)
 								{
-									disegnaAlieno (generale.partita_in_corso.ondata.alieni [i] [j], alieno_tipo_1, alieno_tipo_2, alieno_tipo_3, pos_x_attuale, pos_y_attuale);
+									disegnaAlieno (scegliImmagine (i, alieno_tipo_1, alieno_tipo_2, alieno_tipo_3), pos_x_attuale, pos_y_attuale);
 								}
 								pos_x_attuale += DISTANZA_ASSI_COL_ALIENI;
 							}
@@ -1195,22 +1198,26 @@ void disegnaBarriera (ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barrier
 	}
 }
 
-void disegnaAlieno (Alieno alieno, ALLEGRO_BITMAP *alieno_tipo_1, ALLEGRO_BITMAP *alieno_tipo_2, ALLEGRO_BITMAP *alieno_tipo_3, unsigned int pos_x, unsigned int pos_y)
+ALLEGRO_BITMAP* scegliImmagine (unsigned int numero_fila, ALLEGRO_BITMAP *alieno_tipo_1, ALLEGRO_BITMAP *alieno_tipo_2, ALLEGRO_BITMAP *alieno_tipo_3)
 {
-	ALLEGRO_BITMAP * alieno_scelto = NULL;
+	if (numero_fila < 2)
+	{
+		return alieno_tipo_1;
+	}
+	else if (numero_fila < 4)
+	{
+		return alieno_tipo_2;
+	}
+	else if (numero_fila < 6)
+	{
+		return alieno_tipo_3;
+	}
 
-	if (alieno.tipo == alieno_1)
-	{
-		alieno_scelto = alieno_tipo_1;
-	}
-	else if (alieno.tipo == alieno_2)
-	{
-		alieno_scelto = alieno_tipo_2;		
-	}
-	else if (alieno.tipo == alieno_3)
-	{
-		alieno_scelto = alieno_tipo_3;		
-	}
+	return NULL;
+}
+
+void disegnaAlieno (ALLEGRO_BITMAP *alieno_scelto, unsigned int pos_x, unsigned int pos_y)
+{
 	unsigned int larghezza_istantanea = al_get_bitmap_width (alieno_scelto) / 2;
 	al_draw_tinted_bitmap_region(alieno_scelto, al_map_rgb(0, 255, 0), 0, 0, larghezza_istantanea, al_get_bitmap_height (alieno_scelto), pos_x - (larghezza_istantanea / 2), pos_y, 0); //larghezza_istantanea * (alieno.stadio_animazione - 1)
 }

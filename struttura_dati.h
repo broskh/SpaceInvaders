@@ -7,7 +7,7 @@
 const unsigned int N_BARRIERE = 4; /**<Numero delle barriere presenti in una partita.*/
 const unsigned int LARG_BARRIERA = 20; /**<Largezza della barriera.*/
 const unsigned int ALT_BARRIERA = 17; /**<Altezza della barriera.*/
-const unsigned int N_FILE_ALIENI = 5; /**<Numero delle file di alieni.*/
+const unsigned int N_FILE_ALIENI = 6; /**<Numero delle file di alieni.*/
 const unsigned int N_COL_ALIENI = 11; /**<Numero delle colonne di alieni.*/
 
 const int N_MODALITA_GRAFICHE = 6; /**<Numero di modalità grafiche disponibili.*/
@@ -44,8 +44,6 @@ enum stato_barriera {distrutta, parziale, integra};
  * la direzione che stanno tenendo in un determinato momento.
  */
 enum direzione {destra, sinistra};
-
-enum tipo_alieno {alieno_1, alieno_2, alieno_3};
 
 /**
  * Tipo che indica una schermata dell'applicazione.
@@ -105,9 +103,7 @@ struct Alieno
 {
 	bool stato; /**<Stato del alieno.*/
 	unsigned int punteggio; /**<Punteggio derivante dalla distruzione di questo alieno.*/
-	bool stadio_animazione;
 	unsigned int esploso;
-	tipo_alieno tipo; /**<Tipo di alieno attributito a questo {@link Alieno}.*/
 };
 
 /**
@@ -144,7 +140,6 @@ struct Carro
 	unsigned int esploso;
 	unsigned int pos_x; /**<Indica lo spostamento del carro armato rispetto alla posizione centrale iniziale.*/
 	Sparo sparo; /**<Informazioni relative allo sparo del carro armato.*/
-	bool stadio_animazione_esplosione;
 };
 
 struct Navicella
