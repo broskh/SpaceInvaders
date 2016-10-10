@@ -1212,5 +1212,5 @@ void disegnaAlieno (Alieno alieno, ALLEGRO_BITMAP *alieno_tipo_1, ALLEGRO_BITMAP
 		alieno_scelto = alieno_tipo_3;		
 	}
 	unsigned int larghezza_istantanea = al_get_bitmap_width (alieno_scelto) / 2;
-	al_draw_tinted_bitmap_region(alieno_scelto, al_map_rgb(0, 255, 0), larghezza_istantanea * (alieno.stadio_animazione - 1), 0, larghezza_istantanea, al_get_bitmap_height (alieno_scelto), pos_x, pos_y, 0);
+	al_draw_tinted_bitmap_region(alieno_scelto, al_map_rgb(0, 255, 0), 0, 0, larghezza_istantanea, al_get_bitmap_height (alieno_scelto), pos_x - (larghezza_istantanea / 2), pos_y, 0); //larghezza_istantanea * (alieno.stadio_animazione - 1)
 }
