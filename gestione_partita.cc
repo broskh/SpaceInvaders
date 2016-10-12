@@ -231,10 +231,10 @@ bool controlloCollisioneCarroDaSparoAlieni (Partita &partita, unsigned int largh
 	return collisione;
 }
 
-bool controlloCollisioneNavicellaMisteriosa (Partita &partita, unsigned int altezza_navicella, unsigned int larghezza_navicella)
+bool controlloCollisioneNavicellaMisteriosa (Partita &partita, unsigned int altezza_navicella, unsigned int larghezza_navicella, unsigned int larghezza_sparo)
 {
 	bool collisione = false;
-	if (partita.carro_armato.sparo.stato && partita.carro_armato.sparo.pos_y <= (MARGINE_SUP_GIOCO + altezza_navicella) && (partita.carro_armato.sparo.pos_x >= partita.navicella_misteriosa.pos_x && partita.carro_armato.sparo.pos_x <= (partita.navicella_misteriosa.pos_x + larghezza_navicella)))
+	if (partita.carro_armato.sparo.stato && partita.carro_armato.sparo.pos_y <= (MARGINE_SUP_GIOCO + altezza_navicella) && ((partita.carro_armato.sparo.pos_x + larghezza_sparo) >= partita.navicella_misteriosa.pos_x && partita.carro_armato.sparo.pos_x <= (partita.navicella_misteriosa.pos_x + larghezza_navicella)))
 	{
 		partita.navicella_misteriosa.stato = false;
 		partita.carro_armato.sparo.stato = false;

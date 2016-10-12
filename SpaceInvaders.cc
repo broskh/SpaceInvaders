@@ -654,7 +654,7 @@ int main ()
 							if (controlloCollisioneBarriereDaSparoAlieni (generale.partita_in_corso, al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2))))
 							{
 							}
-							if (controlloCollisioneNavicellaMisteriosa (generale.partita_in_corso, al_get_bitmap_height (navicella_misteriosa), al_get_bitmap_width (navicella_misteriosa)))
+							if (controlloCollisioneNavicellaMisteriosa (generale.partita_in_corso, al_get_bitmap_height (navicella_misteriosa), al_get_bitmap_width (navicella_misteriosa), al_get_bitmap_width (sparo_carro)))
 							{
 							}
 							if (controlloCollisioneBarriereDaOndata (generale.partita_in_corso, al_get_bitmap_height (alieno_tipo_1), al_get_bitmap_width (alieno_tipo_1) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_2) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE))
