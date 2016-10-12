@@ -53,7 +53,7 @@ void muoviNavicellaMisteriosa (Partita &partita, unsigned int larghezza_navicell
 	}
 }
 
-bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x_sparo, unsigned int pos_y_sparo)
+bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x_sparo, unsigned int pos_y_sparo, unsigned int larghezza_sparo)
 {
 	bool collisione = false;
 	unsigned int altezza_barriera = ALT_BARRIERA * DIMENSIONE_LATO_UNITA_BARRIERA;
@@ -71,7 +71,7 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 					{
 						for (unsigned int c = 0; c < LARG_BARRIERA; c++)
 						{	
-							if (pos_x_sparo >= pos_x_attuale && pos_x_sparo <= pos_x_attuale + DIMENSIONE_LATO_UNITA_BARRIERA) 
+							if ((pos_x_sparo + larghezza_sparo) >= pos_x_attuale && pos_x_sparo <= pos_x_attuale + DIMENSIONE_LATO_UNITA_BARRIERA) 
 							{
 								if (barriere [n] [r] [c] != distrutta)
 								{
@@ -142,12 +142,12 @@ void creaSparoAlieni (Partita &partita, unsigned int altezza_alieni, unsigned in
 	}
 }
 
-bool controlloCollisioneBarriereDaSparoCarro (Partita &partita)
+bool controlloCollisioneBarriereDaSparoCarro (Partita &partita, unsigned int larghezza_sparo)
 {
 	bool collisione = false;
 	if (partita.carro_armato.sparo.stato)
 	{
-		collisione =  controlloCollisioneBarriere (partita.barriere, partita.carro_armato.sparo.pos_x, partita.carro_armato.sparo.pos_y);
+		collisione =  controlloCollisioneBarriere (partita.barriere, partita.carro_armato.sparo.pos_x, partita.carro_armato.sparo.pos_y, larghezza_sparo);
 	}
 	if (collisione)
 	{
@@ -156,12 +156,12 @@ bool controlloCollisioneBarriereDaSparoCarro (Partita &partita)
 	return collisione;
 }
 
-bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita, unsigned int altezza_sparo_alieni)
+bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita, unsigned int altezza_sparo_alieni, unsigned int larghezza_sparo)
 {
 	bool collisione = false;
 	if (partita.sparo_alieni.stato)
 	{
-		collisione =  controlloCollisioneBarriere (partita.barriere, partita.sparo_alieni.pos_x, partita.sparo_alieni.pos_y + altezza_sparo_alieni);
+		collisione =  controlloCollisioneBarriere (partita.barriere, partita.sparo_alieni.pos_x, partita.sparo_alieni.pos_y + altezza_sparo_alieni, larghezza_sparo);
 	}
 	if (collisione)
 	{
@@ -186,7 +186,7 @@ bool controlloCollisioneBarriereDaOndata (Partita &partita, unsigned int altezza
 				{
 					for (unsigned int l = 0; l < DIMENSIONE_LATO_UNITA_BARRIERA * DIMENSIONE_LATO_UNITA_BARRIERA; l += DIMENSIONE_LATO_UNITA_BARRIERA)
 					{
-						if (controlloCollisioneBarriere (partita.barriere, pos_x_attuale, pos_y_fila - l))
+						if (controlloCollisioneBarriere (partita.barriere, pos_x_attuale, pos_y_fila - l, 0))
 						{
 							collisione = true;
 						}
@@ -219,10 +219,10 @@ bool controlloCollisioneCarroDaOndata (Partita &partita, unsigned int altezza_al
 	return collisione;
 }
 
-bool controlloCollisioneCarroDaSparoAlieni (Partita &partita, unsigned int larghezza_carro, unsigned int altezza_sparo_alieni, unsigned int pos_y_carro)
+bool controlloCollisioneCarroDaSparoAlieni (Partita &partita, unsigned int larghezza_carro, unsigned int altezza_sparo_alieni, unsigned int larghezza_sparo, unsigned int pos_y_carro)
 {
 	bool collisione = false;
-	if (partita.sparo_alieni.stato && (partita.sparo_alieni.pos_y + altezza_sparo_alieni) >= pos_y_carro && (partita.sparo_alieni.pos_x >= partita.carro_armato.pos_x - (larghezza_carro / 2) && partita.sparo_alieni.pos_x <= partita.carro_armato.pos_x + (larghezza_carro / 2)))
+	if (partita.sparo_alieni.stato && ((partita.sparo_alieni.pos_y + altezza_sparo_alieni) >= pos_y_carro) && ((partita.sparo_alieni.pos_x + larghezza_sparo) >= partita.carro_armato.pos_x) && (partita.sparo_alieni.pos_x <= partita.carro_armato.pos_x + larghezza_carro))
 	{
 		partita.vite_rimanenti--;
 		partita.sparo_alieni.stato = false;
@@ -244,7 +244,7 @@ bool controlloCollisioneNavicellaMisteriosa (Partita &partita, unsigned int alte
 	return collisione;
 }
 
-bool controlloCollisioneAlieni (Partita &partita, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3)
+bool controlloCollisioneAlieni (Partita &partita, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3, unsigned int larghezza_sparo)
 {
 	bool collisione = false;
 	if (partita.carro_armato.sparo.stato)
@@ -258,7 +258,7 @@ bool controlloCollisioneAlieni (Partita &partita, unsigned int altezza_alieni, u
 				unsigned int pos_x_fila = partita.ondata.pos_x - larghezza_alieno / 2;
 				for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 				{
-					if (partita.carro_armato.sparo.pos_x >= pos_x_fila && partita.carro_armato.sparo.pos_x <= pos_x_fila + larghezza_alieno)
+					if (partita.carro_armato.sparo.pos_x + larghezza_sparo >= pos_x_fila && partita.carro_armato.sparo.pos_x <= pos_x_fila + larghezza_alieno)
 					{
 						if (partita.ondata.alieni [i] [j].stato)
 						{

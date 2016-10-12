@@ -26,6 +26,11 @@ const unsigned int MAX_SPOSTAMENTO_ONDATA = 4; /**<Peso massimo dello spostament
 const unsigned int RIP_ANIMAZIONE_ESPLOSIONE_CARRO = 2; /**<Numero di ripetizioni dell'animazione di esplosione del carro.*/
 //FINE COSTANTI E COSTANTI DI GIOCO
 
+//INIZIO COSTANTI PER FILE
+const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file contenente la partita salvata.*/
+//FINE COSTANTI PER FILE
+
+
 //INIZIO COSTANTI GENERALI PER DISPLAY
 extern const unsigned int ALTEZZA_DISPLAY; /**<Altezza della finestra del gioco.*/
 extern const unsigned int LARGHEZZA_DISPLAY; /**<Larghezza della finestra del gioco.*/
@@ -35,11 +40,7 @@ extern const unsigned int MARGINE_INF_GIOCO; /**<Margine inferiore del gioco.*/
 extern const unsigned int MARGINE_SX_GIOCO; /**<Margine sinistro del gioco.*/
 extern const unsigned int MARGINE_DX_GIOCO; /**<Margine destro del gioco.*/
 extern const unsigned int POS_CENTRO_X; /**<Posizione centrale della del display rispetto all'asse delle x.*/
-//FINE COSTANTIGENERALI PER DISPLAY
-
-//INIZIO COSTANTI PER FILE
-const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file contenente la partita salvata.*/
-//FINE COSTANTI PER FILE
+//FINE COSTANTI GENERALI PER DISPLAY
 
 //INIZIO COSTANTI PER POSIZIONI NELLA SCHERMATA DI GIOCO
 extern const unsigned int POS_X_PRIMA_BARRIERA; /**<Posizione rispetto all'asse x della prima barriera.*/
@@ -65,11 +66,11 @@ void creaNavicellaMisteriosa (Partita &partita);
 
 void muoviNavicellaMisteriosa (Partita &partita, unsigned int larghezza_navicella);
 
-bool controlloCollisioneCarroDaSparoAlieni (Partita &partita, unsigned int larghezza_carro, unsigned int altezza_sparo_alieni, unsigned int pos_y_carro);
+bool controlloCollisioneCarroDaSparoAlieni (Partita &partita, unsigned int larghezza_carro, unsigned int altezza_sparo_alieni, unsigned int larghezza_sparo, unsigned int pos_y_carro);
 
-bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita, unsigned int altezza_sparo_alieni);
+bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita, unsigned int altezza_sparo_alieni, unsigned int larghezza_sparo);
 
-bool controlloCollisioneBarriereDaSparoCarro (Partita &partita);
+bool controlloCollisioneBarriereDaSparoCarro (Partita &partita, unsigned int larghezza_sparo);
 
 ALLEGRO_BITMAP * sparoScelto (int pos_x, ALLEGRO_BITMAP * sparo_alieni_1, ALLEGRO_BITMAP * sparo_alieni_2);
 
@@ -77,7 +78,7 @@ void creaSparoAlieni (Partita &partita, unsigned int altezza_alieni, unsigned in
 
 bool controlloCollisioneCarroDaOndata (Partita &partita, unsigned int altezza_alieni, unsigned int pos_y_carro);
 
-bool controlloCollisioneAlieni (Partita &partita, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
+bool controlloCollisioneAlieni (Partita &partita, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3, unsigned int larghezza_sparo);
 
 void muoviSparoAlieni (Sparo &sparo, unsigned int altezza_sparo_alieni);
 
