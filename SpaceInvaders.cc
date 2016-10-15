@@ -298,7 +298,7 @@ int main ()
 	inizializzaMenu (menu_pausa, MENU_PAUSA, N_VOCI_MENU_PAUSA, v_continua);
 	bool redraw_lampeggio;
 	bool animazione;
-	int carro_colpito = 0;
+	int animazione_esplosione_carro;
 
 	int posizione;
 	char input [] = " ";
@@ -308,7 +308,7 @@ int main ()
 		cambia_schermata = false;
 		redraw_lampeggio = false;
 		animazione = false;
-		carro_colpito = 0;
+		animazione_esplosione_carro = 0;
 		switch (schermata_att)
 		{
 			case s_menu:
@@ -454,36 +454,40 @@ int main ()
 						else if (ev.timer.source == timer_animazione)
 						{
 							animazione = !animazione;
-							if (carro_colpito)
+							if (generale.partita_in_corso.carro_armato.esploso)
 							{
-								if (carro_colpito <= RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_CARRO * 2)
+								if (animazione_esplosione_carro <= RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_CARRO * 2)
 								{
-									carro_colpito++;
+									animazione_esplosione_carro++;
 								}
 								else
 								{
-									carro_colpito = 0;
+									animazione_esplosione_carro = 0;
+									generale.partita_in_corso.carro_armato.esploso = false;
 								}
 							}
 						}
-						else if (!carro_colpito && ev.timer.source == timer_sparo_alieni)
+						else if (!generale.partita_in_corso.carro_armato.esploso)
 						{
-							if (!generale.partita_in_corso.sparo_alieni.stato)
+							if (ev.timer.source == timer_sparo_alieni)
 							{
-								creaSparoAlieni (generale.partita_in_corso, al_get_bitmap_height (alieno_tipo_1), al_get_bitmap_width (alieno_tipo_1) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_2) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE);
+								if (!generale.partita_in_corso.sparo_alieni.stato)
+								{
+									creaSparoAlieni (generale.partita_in_corso, al_get_bitmap_height (alieno_tipo_1), al_get_bitmap_width (alieno_tipo_1) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_2) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE);
+								}
 							}
-						}
-						else if (!carro_colpito && ev.timer.source == timer_comparsa_navicella)
-						{
-							if (!generale.partita_in_corso.navicella_misteriosa.stato)
+							else if (ev.timer.source == timer_comparsa_navicella)
 							{
-								creaNavicellaMisteriosa (generale.partita_in_corso);
+								if (!generale.partita_in_corso.navicella_misteriosa.stato)
+								{
+									creaNavicellaMisteriosa (generale.partita_in_corso);
+								}
 							}
-						}
-						else if (!carro_colpito && ev.timer.source == timer_spostamento_ondata)
-						{
-							muoviAlieni (generale.partita_in_corso.ondata, al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE, MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato));
-						}
+							else if (ev.timer.source == timer_spostamento_ondata)
+							{
+								muoviAlieni (generale.partita_in_corso.ondata, al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE, MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato));
+							}
+						}						
 					}
 					else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 					{
@@ -502,27 +506,30 @@ int main ()
 							case ALLEGRO_KEY_BACKSPACE:
 								while (true)
 								{
-									;
+									;//DA CANCELLARE PRIMA O POI
 								}
 								break;
 						}
 					}
-					else if(!carro_colpito && ev.type == ALLEGRO_EVENT_KEY_CHAR)
+					else if(ev.type == ALLEGRO_EVENT_KEY_CHAR)
 					{
-						switch(ev.keyboard.keycode)
+						if (!generale.partita_in_corso.carro_armato.esploso)
 						{
-							case ALLEGRO_KEY_LEFT:
-								muoviSinistraCarro (generale.partita_in_corso.carro_armato.pos_x);
-								break;
-							case ALLEGRO_KEY_RIGHT:
-								muoviDestraCarro (generale.partita_in_corso.carro_armato.pos_x, al_get_bitmap_width (carro_armato));
-								break;
-							case ALLEGRO_KEY_SPACE:
-								if (!generale.partita_in_corso.carro_armato.sparo.stato)
-								{
-									creaSparoCarroArmato (generale.partita_in_corso.carro_armato, al_get_bitmap_width (carro_armato), MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato) - al_get_bitmap_height (sparo_carro));
-								}
-								break;
+							switch(ev.keyboard.keycode)
+							{
+								case ALLEGRO_KEY_LEFT:
+									muoviSinistraCarro (generale.partita_in_corso.carro_armato.pos_x);
+									break;
+								case ALLEGRO_KEY_RIGHT:
+									muoviDestraCarro (generale.partita_in_corso.carro_armato.pos_x, al_get_bitmap_width (carro_armato));
+									break;
+								case ALLEGRO_KEY_SPACE:
+									if (!generale.partita_in_corso.carro_armato.sparo.stato)
+									{
+										creaSparoCarroArmato (generale.partita_in_corso.carro_armato, al_get_bitmap_width (carro_armato), MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato) - al_get_bitmap_height (sparo_carro));
+									}
+									break;
+							}
 						}
 					}				
 
@@ -610,10 +617,10 @@ int main ()
 						//FINE DELLA VISUALIZZAIZOEN DELLO SPARO DEL CARRO
 
 						//INIZIO DELLA VISUALIZZAZIONE DEL CARRO ARMATO
-						if (carro_colpito)
+						if (generale.partita_in_corso.carro_armato.esploso)
 						{
 							unsigned int sx;
-							if (carro_colpito % 2 == 1)
+							if (animazione_esplosione_carro % 2 == 1)
 							{
 								sx = 0;
 							}
@@ -633,11 +640,11 @@ int main ()
 						//FINE VISUALIZZAZIONE
 
 						//INIZIO DEI CONTROLLI
-						if (!carro_colpito)
+						if (!generale.partita_in_corso.carro_armato.esploso)
 						{
 							if (controlloCollisioneCarroDaSparoAlieni (generale.partita_in_corso, al_get_bitmap_width (carro_armato), al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)), al_get_bitmap_width (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)), MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato)))
 							{
-								carro_colpito++;
+								animazione_esplosione_carro++;
 							}
 							if (generale.partita_in_corso.vite_rimanenti < 0 || controlloCollisioneCarroDaOndata (generale.partita_in_corso, al_get_bitmap_height (alieno_tipo_1), MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato)))
 							{

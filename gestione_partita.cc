@@ -62,7 +62,7 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 		unsigned int pos_x_attuale = POS_X_PRIMA_BARRIERA;
 		for (unsigned int n = 0 ; n < N_BARRIERE; n++)
 		{
-			if (pos_x_sparo >= pos_x_attuale && pos_x_sparo <= pos_x_attuale + LARGHEZZA_PIXEL_BARRIERA)
+			if (pos_x_sparo + larghezza_sparo >= pos_x_attuale && pos_x_sparo <= pos_x_attuale + LARGHEZZA_PIXEL_BARRIERA)
 			{
 				unsigned int pos_y_attuale = POS_Y_BARRIERE;
 				for (unsigned int r = 0; r < ALT_BARRIERA; r++)
@@ -71,14 +71,14 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 					{
 						for (unsigned int c = 0; c < LARG_BARRIERA; c++)
 						{	
-							if ((pos_x_sparo + larghezza_sparo) >= pos_x_attuale && pos_x_sparo <= pos_x_attuale + DIMENSIONE_LATO_UNITA_BARRIERA) 
+							if (pos_x_sparo + larghezza_sparo >= pos_x_attuale && pos_x_sparo <= pos_x_attuale + DIMENSIONE_LATO_UNITA_BARRIERA)
 							{
 								if (barriere [n] [r] [c] != distrutta)
 								{
 									barriere [n] [r] [c] = static_cast <stato_barriera> (precInRange (barriere [n] [r] [c], 0));
 									collisione = true;
 								}
-								break;
+								//break;
 							}
 							pos_x_attuale += DIMENSIONE_LATO_UNITA_BARRIERA;								
 						}
@@ -186,7 +186,7 @@ bool controlloCollisioneBarriereDaOndata (Partita &partita, unsigned int altezza
 				{
 					for (unsigned int l = 0; l < DIMENSIONE_LATO_UNITA_BARRIERA * DIMENSIONE_LATO_UNITA_BARRIERA; l += DIMENSIONE_LATO_UNITA_BARRIERA)
 					{
-						if (controlloCollisioneBarriere (partita.barriere, pos_x_attuale, pos_y_fila - l, 0))
+						if (controlloCollisioneBarriere (partita.barriere, pos_x_attuale, pos_y_fila - l, larghezza_alieno))
 						{
 							collisione = true;
 						}
@@ -226,6 +226,7 @@ bool controlloCollisioneCarroDaSparoAlieni (Partita &partita, unsigned int largh
 	{
 		partita.vite_rimanenti--;
 		partita.sparo_alieni.stato = false;
+		partita.carro_armato.esploso = true;
 		collisione = true;
 	}
 	return collisione;
