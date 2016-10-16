@@ -103,7 +103,7 @@ struct Alieno
 {
 	bool stato; /**<Stato del alieno.*/
 	unsigned int punteggio; /**<Punteggio derivante dalla distruzione di questo alieno.*/
-	unsigned int esploso;
+	unsigned int esplosione;
 };
 
 /**
@@ -137,7 +137,7 @@ struct Sparo
 
 struct Carro
 {
-	unsigned int esploso;
+	unsigned int esplosione;
 	unsigned int pos_x; /**<Indica lo spostamento del carro armato rispetto alla posizione centrale iniziale.*/
 	Sparo sparo; /**<Informazioni relative allo sparo del carro armato.*/
 };

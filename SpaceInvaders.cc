@@ -81,7 +81,8 @@ const char FILE_NAVICELLA_MISTERIOSA [] ="Images/navicella_misteriosa.png";
 const char FILE_ALIENO_TIPO_1 [] ="Images/alieno1.png";
 const char FILE_ALIENO_TIPO_2 [] ="Images/alieno2.png";
 const char FILE_ALIENO_TIPO_3 [] ="Images/alieno3.png";
-const char FILE_ESPLOSIONE_CARRO [] = "Images/esplosione_carro.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo degli alieni con posizione relativa all'asse x dispari.*/
+const char FILE_ESPLOSIONE_CARRO [] = "Images/esplosione_carro.png";
+const char FILE_ESPLOSIONE_ALIENO [] = "Images/esplosione_alieno.png";
 const char FILE_MUSICA_PRINCIPALE [] = "Sounds/principale.flac"; /**<Percorso del file contenente la musica principale.*/
 //FINE COSTANTI PER FILE
 
@@ -136,6 +137,7 @@ const unsigned int POS_Y_TITOLO_PAUSA = 100; /**<Posizione rispetto all'asse y d
 
 //INIZIO COSTANTI GENERICHE DI GIOCO
 const int RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_CARRO = 2;
+const int RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_ALIENI = 1;
 const unsigned int N_STATI_SPRITE = 2;
 const unsigned int N_TIPI_ALIENI = 3;
 //FINE COSTANTI GENERICHE DI GIOCO
@@ -162,8 +164,6 @@ schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceIn
 
 void disegnaBarriera (ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barriera_integra, stato_barriera barriera [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x, unsigned int pos_y);
 
-void disegnaAlieno (ALLEGRO_BITMAP *alieno_scelto, unsigned int pos_x, unsigned int pos_y);
-
 ALLEGRO_BITMAP* scegliImmagine (unsigned int numero_fila, ALLEGRO_BITMAP *alieno_tipo_1, ALLEGRO_BITMAP *alieno_tipo_2, ALLEGRO_BITMAP *alieno_tipo_3);
 
 /**
@@ -189,11 +189,11 @@ int main ()
 	ALLEGRO_BITMAP *alieno_tipo_3 = NULL;
 	ALLEGRO_BITMAP *sparo_alieni_1 = NULL;
 	ALLEGRO_BITMAP *sparo_alieni_2 = NULL;
+	ALLEGRO_BITMAP *esplosione_carro = NULL;
+	ALLEGRO_BITMAP *esplosione_alieno = NULL;
 	ALLEGRO_FONT *font_titolo = NULL;
 	ALLEGRO_FONT *font_testo = NULL;
    	ALLEGRO_SAMPLE *musica_principale = NULL;
-
-	ALLEGRO_BITMAP *esplosione_carro = NULL;
 
 	bool redraw = true;
 
@@ -245,6 +245,8 @@ int main ()
 	assert (sparo_alieni_2);
 	esplosione_carro = al_load_bitmap(FILE_ESPLOSIONE_CARRO);
 	assert (esplosione_carro);
+	esplosione_alieno = al_load_bitmap(FILE_ESPLOSIONE_ALIENO);
+	assert (esplosione_alieno);
 
 	carro_armato = al_load_bitmap(FILE_CARRO_ARMATO);
 	assert (carro_armato);
@@ -454,20 +456,36 @@ int main ()
 						else if (ev.timer.source == timer_animazione)
 						{
 							animazione = !animazione;
-							if (generale.partita_in_corso.carro_armato.esploso)
+							if (generale.partita_in_corso.carro_armato.esplosione)
 							{
-								if (animazione_esplosione_carro <= RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_CARRO * 2)
+								if (generale.partita_in_corso.carro_armato.esplosione <= RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_CARRO * 2)
 								{
-									animazione_esplosione_carro++;
+									generale.partita_in_corso.carro_armato.esplosione++;
 								}
 								else
 								{
-									animazione_esplosione_carro = 0;
-									generale.partita_in_corso.carro_armato.esploso = false;
+									generale.partita_in_corso.carro_armato.esplosione = false;
+								}
+							}
+							for (unsigned int i = 0; i < N_FILE_ALIENI; i++)
+							{
+								for (unsigned int j = 0; j < N_COL_ALIENI; j++)
+								{
+									if (generale.partita_in_corso.ondata.alieni [i] [j].esplosione)
+									{
+										if (generale.partita_in_corso.ondata.alieni [i] [j].esplosione <= RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_ALIENI)
+										{
+											generale.partita_in_corso.ondata.alieni [i] [j].esplosione++;
+										}
+										else
+										{
+											generale.partita_in_corso.ondata.alieni [i] [j].esplosione = false;
+										}
+									}
 								}
 							}
 						}
-						else if (!generale.partita_in_corso.carro_armato.esploso)
+						else if (!generale.partita_in_corso.carro_armato.esplosione)
 						{
 							if (ev.timer.source == timer_sparo_alieni)
 							{
@@ -513,7 +531,7 @@ int main ()
 					}
 					else if(ev.type == ALLEGRO_EVENT_KEY_CHAR)
 					{
-						if (!generale.partita_in_corso.carro_armato.esploso)
+						if (!generale.partita_in_corso.carro_armato.esplosione)
 						{
 							switch(ev.keyboard.keycode)
 							{
@@ -572,9 +590,15 @@ int main ()
 							pos_x_attuale = generale.partita_in_corso.ondata.pos_x;
 							for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 							{
-								if (generale.partita_in_corso.ondata.alieni [i] [j].stato)
+								if (generale.partita_in_corso.ondata.alieni [i] [j].esplosione)
 								{
-									disegnaAlieno (scegliImmagine (i, alieno_tipo_1, alieno_tipo_2, alieno_tipo_3), pos_x_attuale, pos_y_attuale);
+									al_draw_tinted_bitmap(esplosione_alieno, al_map_rgb(0, 255, 0), pos_x_attuale - (al_get_bitmap_width (esplosione_alieno) / 2), pos_y_attuale, 0);
+								}
+								else if (generale.partita_in_corso.ondata.alieni [i] [j].stato)
+								{
+									ALLEGRO_BITMAP * alieno_scelto = scegliImmagine (i, alieno_tipo_1, alieno_tipo_2, alieno_tipo_3);
+									unsigned int larghezza_istantanea = al_get_bitmap_width (alieno_scelto) / 2;
+									al_draw_tinted_bitmap_region(alieno_scelto, al_map_rgb(0, 255, 0), larghezza_istantanea * animazione, 0, larghezza_istantanea, al_get_bitmap_height (alieno_scelto), pos_x_attuale - (larghezza_istantanea / 2), pos_y_attuale, 0);
 								}
 								pos_x_attuale += DISTANZA_ASSI_COL_ALIENI;
 							}
@@ -617,7 +641,7 @@ int main ()
 						//FINE DELLA VISUALIZZAIZOEN DELLO SPARO DEL CARRO
 
 						//INIZIO DELLA VISUALIZZAZIONE DEL CARRO ARMATO
-						if (generale.partita_in_corso.carro_armato.esploso)
+						if (generale.partita_in_corso.carro_armato.esplosione)
 						{
 							unsigned int sx;
 							if (animazione_esplosione_carro % 2 == 1)
@@ -640,7 +664,7 @@ int main ()
 						//FINE VISUALIZZAZIONE
 
 						//INIZIO DEI CONTROLLI
-						if (!generale.partita_in_corso.carro_armato.esploso)
+						if (!generale.partita_in_corso.carro_armato.esplosione)
 						{
 							if (controlloCollisioneCarroDaSparoAlieni (generale.partita_in_corso, al_get_bitmap_width (carro_armato), al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)), al_get_bitmap_width (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)), MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato)))
 							{
@@ -1085,6 +1109,7 @@ int main ()
 				al_destroy_bitmap(alieno_tipo_2);
 				al_destroy_bitmap(alieno_tipo_3);
 				al_destroy_bitmap(esplosione_carro);
+				al_destroy_bitmap(esplosione_alieno);
 				al_destroy_sample(musica_principale);
 				return 0;
 			default:
@@ -1109,6 +1134,7 @@ int main ()
 				al_destroy_bitmap(alieno_tipo_2);
 				al_destroy_bitmap(alieno_tipo_3);
 				al_destroy_bitmap(esplosione_carro);
+				al_destroy_bitmap(esplosione_alieno);
 				al_destroy_sample(musica_principale);
 				return 2;
 		}
@@ -1135,6 +1161,7 @@ int main ()
 	al_destroy_bitmap(alieno_tipo_2);
 	al_destroy_bitmap(alieno_tipo_3);
 	al_destroy_bitmap(esplosione_carro);
+	al_destroy_bitmap(esplosione_alieno);
 	al_destroy_sample(musica_principale);
    	return 1;
 }
@@ -1221,10 +1248,4 @@ ALLEGRO_BITMAP* scegliImmagine (unsigned int numero_fila, ALLEGRO_BITMAP *alieno
 	}
 
 	return NULL;
-}
-
-void disegnaAlieno (ALLEGRO_BITMAP *alieno_scelto, unsigned int pos_x, unsigned int pos_y)
-{
-	unsigned int larghezza_istantanea = al_get_bitmap_width (alieno_scelto) / 2;
-	al_draw_tinted_bitmap_region(alieno_scelto, al_map_rgb(0, 255, 0), 0, 0, larghezza_istantanea, al_get_bitmap_height (alieno_scelto), pos_x - (larghezza_istantanea / 2), pos_y, 0); //larghezza_istantanea * (alieno.stadio_animazione - 1)
 }
