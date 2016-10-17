@@ -232,10 +232,10 @@ bool controlloCollisioneCarroDaSparoAlieni (Partita &partita, unsigned int largh
 	return collisione;
 }
 
-bool controlloCollisioneNavicellaMisteriosa (Partita &partita, unsigned int altezza_navicella, unsigned int larghezza_navicella, unsigned int larghezza_sparo)
+bool controlloCollisioneNavicellaMisteriosa (Partita &partita, unsigned int pos_y_fondo_navicella, unsigned int larghezza_navicella, unsigned int larghezza_sparo)
 {
 	bool collisione = false;
-	if (partita.carro_armato.sparo.stato && partita.carro_armato.sparo.pos_y <= (MARGINE_SUP_GIOCO + altezza_navicella) && ((partita.carro_armato.sparo.pos_x + larghezza_sparo) >= partita.navicella_misteriosa.pos_x && partita.carro_armato.sparo.pos_x <= (partita.navicella_misteriosa.pos_x + larghezza_navicella)))
+	if (partita.carro_armato.sparo.stato && partita.carro_armato.sparo.pos_y <= (pos_y_fondo_navicella) && ((partita.carro_armato.sparo.pos_x + larghezza_sparo) >= partita.navicella_misteriosa.pos_x && partita.carro_armato.sparo.pos_x <= (partita.navicella_misteriosa.pos_x + larghezza_navicella)))
 	{
 		partita.navicella_misteriosa.stato = false;
 		partita.carro_armato.sparo.stato = false;
@@ -316,20 +316,19 @@ void muoviAlieni (Ondata &ondata, unsigned int larghezza_colonna, unsigned int p
 	}
 }
 
-void muoviSparoCarro (Sparo &sparo)
+void muoviSparoCarro (Sparo &sparo, unsigned int limite_superiore)
 {
-	sparo.pos_y = precInRange (sparo.pos_y, DIMENSIONE_LATO_UNITA_BARRIERA, MARGINE_SUP_GIOCO);
-	if (sparo.pos_y == MARGINE_SUP_GIOCO)
+	sparo.pos_y = precInRange (sparo.pos_y, DIMENSIONE_LATO_UNITA_BARRIERA, limite_superiore);
+	if (sparo.pos_y == limite_superiore)
 	{
 		sparo.stato = false;
 	}
 }
 
-void muoviSparoAlieni (Sparo &sparo, unsigned int altezza_sparo_alieni)
+void muoviSparoAlieni (Sparo &sparo, unsigned int limite_inferiore)
 {
-	unsigned int limite_inf = MARGINE_INF_GIOCO - altezza_sparo_alieni;
-	sparo.pos_y = sucInRange (sparo.pos_y, DIMENSIONE_LATO_UNITA_BARRIERA, limite_inf);
-	if (sparo.pos_y >= limite_inf)
+	sparo.pos_y = sucInRange (sparo.pos_y, DIMENSIONE_LATO_UNITA_BARRIERA, limite_inferiore);
+	if (sparo.pos_y >= limite_inferiore)
 	{
 		sparo.stato = false;
 	}

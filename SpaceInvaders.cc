@@ -685,7 +685,7 @@ int main ()
 							if (controlloCollisioneBarriereDaSparoAlieni (generale.partita_in_corso, al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)), al_get_bitmap_width (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2))))
 							{
 							}
-							if (controlloCollisioneNavicellaMisteriosa (generale.partita_in_corso, al_get_bitmap_height (navicella_misteriosa), al_get_bitmap_width (navicella_misteriosa), al_get_bitmap_width (sparo_carro)))
+							if (controlloCollisioneNavicellaMisteriosa (generale.partita_in_corso, MARGINE_SUP_GIOCO + al_get_bitmap_height (navicella_misteriosa), al_get_bitmap_width (navicella_misteriosa), al_get_bitmap_width (sparo_carro)))
 							{
 							}
 							if (controlloCollisioneBarriereDaOndata (generale.partita_in_corso, al_get_bitmap_height (alieno_tipo_1), al_get_bitmap_width (alieno_tipo_1) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_2) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE))
@@ -695,11 +695,11 @@ int main ()
 							//INIZIO DEI CAMBIAMENTI
 							if (generale.partita_in_corso.carro_armato.sparo.stato)
 							{
-								muoviSparoCarro (generale.partita_in_corso.carro_armato.sparo);
+								muoviSparoCarro (generale.partita_in_corso.carro_armato.sparo, MARGINE_SUP_GIOCO);
 							}
 							if (generale.partita_in_corso.sparo_alieni.stato)
 							{
-								muoviSparoAlieni (generale.partita_in_corso.sparo_alieni, al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)));
+								muoviSparoAlieni (generale.partita_in_corso.sparo_alieni, MARGINE_INF_GIOCO - al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)));
 							}
 							if (generale.partita_in_corso.navicella_misteriosa.stato)
 							{

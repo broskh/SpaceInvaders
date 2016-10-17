@@ -2,8 +2,6 @@
  * Header file contenente l'interfaccia del modulo di gestione degli highscores.
  */
 
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_image.h>
 #include <fstream>
 #include <iostream>
 
@@ -30,13 +28,7 @@ const unsigned int RIP_ANIMAZIONE_ESPLOSIONE_CARRO = 2; /**<Numero di ripetizion
 const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file contenente la partita salvata.*/
 //FINE COSTANTI PER FILE
 
-
 //INIZIO COSTANTI GENERALI PER DISPLAY
-extern const unsigned int ALTEZZA_DISPLAY; /**<Altezza della finestra del gioco.*/
-extern const unsigned int LARGHEZZA_DISPLAY; /**<Larghezza della finestra del gioco.*/
-
-extern const unsigned int MARGINE_SUP_GIOCO; /**<Margine superiore del gioco.*/
-extern const unsigned int MARGINE_INF_GIOCO; /**<Margine inferiore del gioco.*/
 extern const unsigned int MARGINE_SX_GIOCO; /**<Margine sinistro del gioco.*/
 extern const unsigned int MARGINE_DX_GIOCO; /**<Margine destro del gioco.*/
 extern const unsigned int POS_CENTRO_X; /**<Posizione centrale della del display rispetto all'asse delle x.*/
@@ -60,7 +52,7 @@ void stampa (Partita partita);
 
 bool controlloCollisioneBarriereDaOndata (Partita &partita, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
 
-bool controlloCollisioneNavicellaMisteriosa (Partita &partita, unsigned int altezza_navicella, unsigned int larghezza_navicella, unsigned int larghezza_sparo);
+bool controlloCollisioneNavicellaMisteriosa (Partita &partita, unsigned int pos_y_fondo_navicella, unsigned int larghezza_navicella, unsigned int larghezza_sparo);
 
 void creaNavicellaMisteriosa (Partita &partita);
 
@@ -80,7 +72,7 @@ bool controlloCollisioneCarroDaOndata (Partita &partita, unsigned int altezza_al
 
 bool controlloCollisioneAlieni (Partita &partita, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3, unsigned int larghezza_sparo);
 
-void muoviSparoAlieni (Sparo &sparo, unsigned int altezza_sparo_alieni);
+void muoviSparoAlieni (Sparo &sparo, unsigned int limite_inferiore);
 
 void muoviAlieni(Ondata &ondata, unsigned int larghezza_colonna, unsigned int pos_y_carro);
 
@@ -90,7 +82,7 @@ void muoviAlieni(Ondata &ondata, unsigned int larghezza_colonna, unsigned int po
  * @param sapro Sparo del carro armato.
  * @param limite_sup Limite superiore dello sparo del carro armato.
  */
-void muoviSparoCarro (Sparo &sparo);
+void muoviSparoCarro (Sparo &sparo, unsigned int limite_superiore);
 
 /**
  * Stabilisce qual'è il valore di offset del carro armato che deve andare verso destra.
