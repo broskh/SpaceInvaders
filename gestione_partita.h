@@ -28,53 +28,36 @@ const unsigned int RIP_ANIMAZIONE_ESPLOSIONE_CARRO = 2; /**<Numero di ripetizion
 const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file contenente la partita salvata.*/
 //FINE COSTANTI PER FILE
 
-//INIZIO COSTANTI GENERALI PER DISPLAY
-extern const unsigned int MARGINE_SX_GIOCO; /**<Margine sinistro del gioco.*/
-extern const unsigned int MARGINE_DX_GIOCO; /**<Margine destro del gioco.*/
-extern const unsigned int POS_CENTRO_X; /**<Posizione centrale della del display rispetto all'asse delle x.*/
-//FINE COSTANTI GENERALI PER DISPLAY
-
-//INIZIO COSTANTI PER POSIZIONI NELLA SCHERMATA DI GIOCO
-extern const unsigned int POS_X_PRIMA_BARRIERA; /**<Posizione rispetto all'asse x della prima barriera.*/
-extern const unsigned int POS_Y_BARRIERE; /**<Posizone rispetto all'asse y dalla quale mostrare la prima barriera.*/
-extern const unsigned int DISTANZA_BARRIERE; /**<Distanza in pixel fra le barriere.*/
-
-extern const unsigned int POS_X_PRIMO_ASSE_ALIENI; /**<Posizone rispetto all'asse x nella quale è presente il primo asse delle colonne di alieni.*/
-extern const unsigned int POS_Y_PRIMA_FILA_ONDATA; /**<Posizione rispetto all'asse y dalla quale mostrare la prima fila di alieni.*/
-extern const unsigned int DISTANZA_FILE_ALIENI; /**<Distamza fra le file di alieni.*/
-extern const unsigned int DISTANZA_ASSI_COL_ALIENI; /**<Distanza fra gli assi delle colonne di alieni.*/
-//FINE COSTANTI PER POSIZIONI NELLA SCHERMATA DI GIOCO
-
 //INIZIO INTERFACCIA
 void creaSparoCarroArmato (Carro &carro, const unsigned int larghezza_pixel_carro, unsigned int pos_y);
 
 void stampa (Partita partita);
 
-bool controlloCollisioneBarriereDaOndata (Partita &partita, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
+bool controlloCollisioneBarriereDaOndata (Partita &partita, unsigned int pos_x_prima_barriera, unsigned int pos_y_barriere, unsigned int spazio_fra_barriere, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
 
 bool controlloCollisioneNavicellaMisteriosa (Partita &partita, unsigned int pos_y_fondo_navicella, unsigned int larghezza_navicella, unsigned int larghezza_sparo);
 
-void creaNavicellaMisteriosa (Partita &partita);
+void creaNavicellaMisteriosa (Partita &partita, unsigned int pos_x_iniziale);
 
-void muoviNavicellaMisteriosa (Partita &partita, unsigned int larghezza_navicella);
+void muoviNavicellaMisteriosa (Partita &partita, unsigned int limite_dx);
 
 bool controlloCollisioneCarroDaSparoAlieni (Partita &partita, unsigned int larghezza_carro, unsigned int altezza_sparo_alieni, unsigned int larghezza_sparo, unsigned int pos_y_carro);
 
-bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita, unsigned int altezza_sparo_alieni, unsigned int larghezza_sparo);
+bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita, unsigned int pos_x_prima_barriera, unsigned int pos_y_barriere, unsigned int spazio_fra_barriere, unsigned int altezza_sparo_alieni, unsigned int larghezza_sparo);
 
-bool controlloCollisioneBarriereDaSparoCarro (Partita &partita, unsigned int larghezza_sparo);
+bool controlloCollisioneBarriereDaSparoCarro (Partita &partita, unsigned int pos_x_prima_barriera, unsigned int pos_y_barriere, unsigned int spazio_fra_barriere, unsigned int larghezza_sparo);
 
 ALLEGRO_BITMAP * sparoScelto (int pos_x, ALLEGRO_BITMAP * sparo_alieni_1, ALLEGRO_BITMAP * sparo_alieni_2);
 
-void creaSparoAlieni (Partita &partita, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
+void creaSparoAlieni (Partita &partita, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
 
-bool controlloCollisioneCarroDaOndata (Partita &partita, unsigned int altezza_alieni, unsigned int pos_y_carro);
+bool controlloCollisioneCarroDaOndata (Partita &partita, unsigned int distanza_file_alieni, unsigned int altezza_alieni, unsigned int pos_y_carro);
 
-bool controlloCollisioneAlieni (Partita &partita, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3, unsigned int larghezza_sparo);
+bool controlloCollisioneAlieni (Partita &partita, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3, unsigned int larghezza_sparo);
 
 void muoviSparoAlieni (Sparo &sparo, unsigned int limite_inferiore);
 
-void muoviAlieni(Ondata &ondata, unsigned int larghezza_colonna, unsigned int pos_y_carro);
+void muoviAlieni(Ondata &ondata, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int pos_y_carro, unsigned int limite_dx, unsigned int limite_sx);
 
 /**
  * Stabilisce qual'è la posizione rispetto all'asse y dello sparo del carro armato in movimento.
@@ -89,14 +72,14 @@ void muoviSparoCarro (Sparo &sparo, unsigned int limite_superiore);
  *
  * @param offset_carro Precedente valore dell'offset del carro armato.
  */
-void muoviDestraCarro (unsigned int &pos_x_carro, const unsigned int larghezza_carro);
+void muoviDestraCarro (unsigned int &pos_x_carro, const unsigned int limite_dx);
 
 /**
  * Stabilisce qual'è il valore di offset del carro armato che deve andare verso sinistra.
  *
  * @param offset_carro Precedente valore dell'offset del carro armato.
  */
-void muoviSinistraCarro (unsigned int &pos_x_carro);
+void muoviSinistraCarro (unsigned int &pos_x_carro, unsigned int limite_sinistro);
 
 /**
  * Indica se esiste o meno una partita precedentemente salvata.
@@ -112,7 +95,7 @@ bool esisteSalvataggio ();
  *
  * @param ondata Struttura {@link Ondata} nella quale verranno memorizzati i valori.
  */
-void nuovaOndata (Ondata &ondata);
+void nuovaOndata (Ondata &ondata, unsigned int pos_x_primo_asse_ondata, unsigned int pos_y_primo_asse_ondata);
 
 /**
  * Memorizza in una struttura {@link Partita} i valori necessari per iniziare una nuova partita.
@@ -121,7 +104,7 @@ void nuovaOndata (Ondata &ondata);
  * @param impostazioni Struttura {@link Impostazioni} dal quale verranno prelevate alcune informazioni necessari per la corretta inizializzazione di una nuova partita.
  * @param pos_x_carro_armato Posizione iniziale rispetto all'asse x del carro armato.
  */
-void nuovaPartita (Partita &partita, Impostazioni impostazioni, const unsigned int pos_x_carro_armato);
+void nuovaPartita (Partita &partita, Impostazioni impostazioni, unsigned int pos_x_primo_asse_ondata, unsigned int pos_y_primo_asse_ondata, const unsigned int pos_x_carro_armato);
 
 /**
  * Carica da un file una partita lasciata in sospeso.
