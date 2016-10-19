@@ -25,10 +25,10 @@ unsigned int sceltaLarghezzaAlieno (unsigned int numero_fila, unsigned int largh
 	return 0;
 }
 
-void creaSparoCarroArmato (Carro &carro, const unsigned int larghezza_pixel_carro, unsigned int pos_y)
+void creaSparoCarroArmato (Carro &carro, unsigned int pos_x, unsigned int pos_y)
 {
 	carro.sparo.stato = true;
-	carro.sparo.pos_x = carro.pos_x + larghezza_pixel_carro / 2;
+	carro.sparo.pos_x = pos_x;
 	carro.sparo.pos_y = pos_y;
 }
 
@@ -93,22 +93,10 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 	return collisione;
 }
 
-ALLEGRO_BITMAP * sparoScelto (int pos_x, ALLEGRO_BITMAP * sparo_alieni_1, ALLEGRO_BITMAP * sparo_alieni_2)
-{
-	if (pos_x % 2 == 0)
-	{
-		return sparo_alieni_1;		
-	}
-	else
-	{
-		return sparo_alieni_2;
-	}
-}
-
-void creaSparoAlieni (Partita &partita, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3)
+void creaSparoAlieni (Partita &partita, unsigned int distanza_file_alieni, unsigned int larghezza_sparo, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3)
 {
 	srand (time(NULL));
-	int fattore_casuale ;
+	int fattore_casuale;
 	if (partita.ondata.alieni_rimasti < static_cast <int> (N_COL_ALIENI))
 	{
 		fattore_casuale =  rand() % partita.ondata.alieni_rimasti;
@@ -122,8 +110,8 @@ void creaSparoAlieni (Partita &partita, unsigned int distanza_file_alieni, unsig
 	for (int i = N_FILE_ALIENI - 1; i >= 0 && fattore_casuale >= 0; i--)
 	{
 		unsigned int larghezza_alieno = sceltaLarghezzaAlieno (i, larghezza_alieno_1, larghezza_alieno_2, larghezza_alieno_3);
-		unsigned int pos_x_attuale = partita.ondata.pos_x + larghezza_alieno / 2 - 3;
-		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
+		unsigned int pos_x_attuale = partita.ondata.pos_x + larghezza_alieno / 2 - larghezza_sparo / 2;
+		for (unsigned int j = 0; j < N_COL_ALIENI && fattore_casuale >= 0; j++)
 		{
 			if (partita.ondata.alieni [i] [j].stato)
 			{
@@ -183,7 +171,7 @@ bool controlloCollisioneBarriereDaOndata (Partita &partita, unsigned int pos_x_p
 			{
 				for (unsigned int k = 0; k < larghezza_alieno; k += DIMENSIONE_LATO_UNITA_BARRIERA)
 				{
-					for (unsigned int l = 0; l < DIMENSIONE_LATO_UNITA_BARRIERA * DIMENSIONE_LATO_UNITA_BARRIERA; l += DIMENSIONE_LATO_UNITA_BARRIERA)
+					for (unsigned int l = 0; l < DIMENSIONE_LATO_UNITA_BARRIERA * ALT_BARRIERA; l += DIMENSIONE_LATO_UNITA_BARRIERA)
 					{
 						if (controlloCollisioneBarriere (partita.barriere, pos_x_prima_barriera, pos_y_barriere, spazio_fra_barriere, pos_x_attuale, pos_y_fila - l, larghezza_alieno))
 						{
@@ -244,7 +232,7 @@ bool controlloCollisioneNavicellaMisteriosa (Partita &partita, unsigned int pos_
 	return collisione;
 }
 
-bool controlloCollisioneAlieni (Partita &partita, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3, unsigned int larghezza_sparo)
+bool controlloCollisioneAlieni (Partita &partita, unsigned int larghezza_sparo, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3)
 {
 	bool collisione = false;
 	if (partita.carro_armato.sparo.stato)
@@ -284,7 +272,7 @@ bool controlloCollisioneAlieni (Partita &partita, unsigned int distanza_file_ali
 	return collisione;
 }
 
-void muoviAlieni (Ondata &ondata, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int pos_y_carro, unsigned int limite_dx, unsigned int limite_sx)
+void muoviAlieni (Ondata &ondata, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int pos_y_carro, unsigned int limite_dx, unsigned int limite_sx) //VERRÀ TOLTO DISTANZA_FILE_ALIENI QUANDO MODIFICA GESTIONE VELOCITA'
 {
 	int n_colonne_alieni_attivi = 0;
 	for (unsigned int i = 0; i < N_FILE_ALIENI; i++)
@@ -399,14 +387,14 @@ void inizializzaBarriere (stato_barriera barriera [ALT_BARRIERA] [LARG_BARRIERA]
 	}
 }
 
-void nuovoCarroArmato (Carro &carro, const unsigned int pos_x_carro_armato)
+void inizializzaCarroArmato (Carro &carro, const unsigned int pos_x_carro_armato)
 {
 	carro.esplosione = 0;
 	carro.pos_x = pos_x_carro_armato;
 	carro.sparo.stato = false;
 }
 
-void nuovaNavicella (Navicella &navicella)
+void inizializzaNavicellaMisteriosa (Navicella &navicella)
 {
 	navicella.stato = false;
 	navicella.pos_x = 0;
@@ -431,12 +419,12 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni, unsigned int pos
 
 	partita.sparo_alieni.stato = false;
 	
-	nuovaNavicella (partita.navicella_misteriosa);
+	inizializzaNavicellaMisteriosa (partita.navicella_misteriosa);
 
-	nuovoCarroArmato (partita.carro_armato, pos_x_carro_armato);
+	inizializzaCarroArmato (partita.carro_armato, pos_x_carro_armato);
 }
 
-void nuovoAlieno (Alieno &alieno, unsigned int punteggio)
+void inizializzaAlieno (Alieno &alieno, unsigned int punteggio)
 {
 	alieno.stato = true;
 	alieno.punteggio = punteggio;
@@ -453,7 +441,7 @@ void nuovaOndata (Ondata &ondata, unsigned int pos_x_primo_asse_ondata, unsigned
 	{
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
-			nuovoAlieno (ondata.alieni [i] [j], punteggio_attuale);
+			inizializzaAlieno (ondata.alieni [i] [j], punteggio_attuale);
 		}
 	}
 
@@ -462,7 +450,7 @@ void nuovaOndata (Ondata &ondata, unsigned int pos_x_primo_asse_ondata, unsigned
 	{
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
-			nuovoAlieno (ondata.alieni [i] [j], punteggio_attuale);
+			inizializzaAlieno (ondata.alieni [i] [j], punteggio_attuale);
 		}
 	}
 
@@ -471,7 +459,7 @@ void nuovaOndata (Ondata &ondata, unsigned int pos_x_primo_asse_ondata, unsigned
 	{
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
-			nuovoAlieno (ondata.alieni [i] [j], punteggio_attuale);
+			inizializzaAlieno (ondata.alieni [i] [j], punteggio_attuale);
 		}
 	}
 
@@ -639,7 +627,7 @@ bool eliminaFileSalvataggio (SpaceInvaders &spaceInvaders)
 	return false;
 }
 
-void stampa (Partita partita)
+void stampaPartita (Partita partita)
 {
 	output (partita, cout);
 }

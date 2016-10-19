@@ -164,7 +164,9 @@ schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceIn
 
 void disegnaBarriera (ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barriera_integra, stato_barriera barriera [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x, unsigned int pos_y);
 
-ALLEGRO_BITMAP* scegliImmagine (unsigned int numero_fila, ALLEGRO_BITMAP *alieno_tipo_1, ALLEGRO_BITMAP *alieno_tipo_2, ALLEGRO_BITMAP *alieno_tipo_3);
+ALLEGRO_BITMAP* scegliAlieno (unsigned int numero_fila, ALLEGRO_BITMAP *alieno_tipo_1, ALLEGRO_BITMAP *alieno_tipo_2, ALLEGRO_BITMAP *alieno_tipo_3);
+
+ALLEGRO_BITMAP * scegliSparo (int pos_x, ALLEGRO_BITMAP * sparo_alieni_1, ALLEGRO_BITMAP * sparo_alieni_2);
 
 /**
  * FARE DOCUMENTAZIONE PER MAIN
@@ -491,7 +493,7 @@ int main ()
 							{
 								if (!generale.partita_in_corso.sparo_alieni.stato)
 								{
-									creaSparoAlieni (generale.partita_in_corso, DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, al_get_bitmap_height (alieno_tipo_1), al_get_bitmap_width (alieno_tipo_1) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_2) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE);
+									creaSparoAlieni (generale.partita_in_corso, al_get_bitmap_width (scegliSparo (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)) / N_STATI_SPRITE, DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, al_get_bitmap_height (alieno_tipo_1), al_get_bitmap_width (alieno_tipo_1) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_2) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE);
 								}
 							}
 							else if (ev.timer.source == timer_comparsa_navicella)
@@ -544,7 +546,7 @@ int main ()
 								case ALLEGRO_KEY_SPACE:
 									if (!generale.partita_in_corso.carro_armato.sparo.stato)
 									{
-										creaSparoCarroArmato (generale.partita_in_corso.carro_armato, al_get_bitmap_width (carro_armato), MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato) - al_get_bitmap_height (sparo_carro));
+										creaSparoCarroArmato (generale.partita_in_corso.carro_armato, generale.partita_in_corso.carro_armato.pos_x + al_get_bitmap_width (carro_armato) / 2, MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato) - al_get_bitmap_height (sparo_carro));
 									}
 									break;
 							}
@@ -596,7 +598,7 @@ int main ()
 								}
 								else if (generale.partita_in_corso.ondata.alieni [i] [j].stato)
 								{
-									ALLEGRO_BITMAP * alieno_scelto = scegliImmagine (i, alieno_tipo_1, alieno_tipo_2, alieno_tipo_3);
+									ALLEGRO_BITMAP * alieno_scelto = scegliAlieno (i, alieno_tipo_1, alieno_tipo_2, alieno_tipo_3);
 									unsigned int larghezza_istantanea = al_get_bitmap_width (alieno_scelto) / 2;
 									al_draw_tinted_bitmap_region(alieno_scelto, al_map_rgb(0, 255, 0), larghezza_istantanea * animazione, 0, larghezza_istantanea, al_get_bitmap_height (alieno_scelto), pos_x_attuale - (larghezza_istantanea / 2), pos_y_attuale, 0);
 								}
@@ -611,7 +613,7 @@ int main ()
 						{
 							unsigned int sx;
 							ALLEGRO_BITMAP *sparo_attuale;
-							sparo_attuale = sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2);
+							sparo_attuale = scegliSparo (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2);
 							if (animazione)
 							{
 								sx = 0;			
@@ -666,7 +668,7 @@ int main ()
 						//INIZIO DEI CONTROLLI
 						if (!generale.partita_in_corso.carro_armato.esplosione)
 						{
-							if (controlloCollisioneCarroDaSparoAlieni (generale.partita_in_corso, al_get_bitmap_width (carro_armato), al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)), al_get_bitmap_width (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)), MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato)))
+							if (controlloCollisioneCarroDaSparoAlieni (generale.partita_in_corso, al_get_bitmap_width (carro_armato), al_get_bitmap_height (scegliSparo (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)), al_get_bitmap_width (scegliSparo (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)), MARGINE_INF_GIOCO - al_get_bitmap_height (carro_armato)))
 							{
 								animazione_esplosione_carro++;
 							}
@@ -676,13 +678,13 @@ int main ()
 								cambia_schermata = true;
 								break;
 							}
-							if (controlloCollisioneAlieni (generale.partita_in_corso, DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, al_get_bitmap_height (alieno_tipo_1), al_get_bitmap_width (alieno_tipo_1) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_2) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE, al_get_bitmap_width (sparo_carro)))
+							if (controlloCollisioneAlieni (generale.partita_in_corso, al_get_bitmap_width (sparo_carro), DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, al_get_bitmap_height (alieno_tipo_1), al_get_bitmap_width (alieno_tipo_1) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_2) / N_STATI_SPRITE, al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE))
 							{
 							}
 							if (controlloCollisioneBarriereDaSparoCarro (generale.partita_in_corso, POS_X_PRIMA_BARRIERA, POS_Y_BARRIERE, DISTANZA_BARRIERE, al_get_bitmap_width (sparo_carro)))
 							{
 							}
-							if (controlloCollisioneBarriereDaSparoAlieni (generale.partita_in_corso, POS_X_PRIMA_BARRIERA, POS_Y_BARRIERE, DISTANZA_BARRIERE, al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)), al_get_bitmap_width (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2))))
+							if (controlloCollisioneBarriereDaSparoAlieni (generale.partita_in_corso, POS_X_PRIMA_BARRIERA, POS_Y_BARRIERE, DISTANZA_BARRIERE, al_get_bitmap_height (scegliSparo (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)), al_get_bitmap_width (scegliSparo (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2))))
 							{
 							}
 							if (controlloCollisioneNavicellaMisteriosa (generale.partita_in_corso, MARGINE_SUP_GIOCO + al_get_bitmap_height (navicella_misteriosa), al_get_bitmap_width (navicella_misteriosa), al_get_bitmap_width (sparo_carro)))
@@ -699,7 +701,7 @@ int main ()
 							}
 							if (generale.partita_in_corso.sparo_alieni.stato)
 							{
-								muoviSparoAlieni (generale.partita_in_corso.sparo_alieni, MARGINE_INF_GIOCO - al_get_bitmap_height (sparoScelto (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)));
+								muoviSparoAlieni (generale.partita_in_corso.sparo_alieni, MARGINE_INF_GIOCO - al_get_bitmap_height (scegliSparo (generale.partita_in_corso.sparo_alieni.pos_x, sparo_alieni_1, sparo_alieni_2)));
 							}
 							if (generale.partita_in_corso.navicella_misteriosa.stato)
 							{
@@ -1232,7 +1234,7 @@ void disegnaBarriera (ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barrier
 	}
 }
 
-ALLEGRO_BITMAP* scegliImmagine (unsigned int numero_fila, ALLEGRO_BITMAP *alieno_tipo_1, ALLEGRO_BITMAP *alieno_tipo_2, ALLEGRO_BITMAP *alieno_tipo_3)
+ALLEGRO_BITMAP* scegliAlieno (unsigned int numero_fila, ALLEGRO_BITMAP *alieno_tipo_1, ALLEGRO_BITMAP *alieno_tipo_2, ALLEGRO_BITMAP *alieno_tipo_3)
 {
 	if (numero_fila < 2)
 	{
@@ -1248,4 +1250,16 @@ ALLEGRO_BITMAP* scegliImmagine (unsigned int numero_fila, ALLEGRO_BITMAP *alieno
 	}
 
 	return NULL;
+}
+
+ALLEGRO_BITMAP * scegliSparo (int pos_x, ALLEGRO_BITMAP * sparo_alieni_1, ALLEGRO_BITMAP * sparo_alieni_2)
+{
+	if (pos_x % 2 == 0)
+	{
+		return sparo_alieni_1;		
+	}
+	else
+	{
+		return sparo_alieni_2;
+	}
 }

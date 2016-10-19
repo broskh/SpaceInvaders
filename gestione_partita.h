@@ -17,7 +17,7 @@ const unsigned int PUNTEGGIO_NAVICELLA_MIN = 100; /**<Punteggio minimo attribuit
 
 //INIZIO COSTANTI E COSTANTI DI GIOCO
 const unsigned int PROBABILITA_COMPARSA_NAVICELLA = 15; /**<Probabilità percentuale di comparsa della navicella misteriosa.*/
-const unsigned int DIMENSIONE_LATO_UNITA_BARRIERA = 4; /**<Lunghezza in pixel di ogni unità costituente le barriere.*/
+const unsigned int DIMENSIONE_LATO_UNITA_BARRIERA = 4; /**<Lunghezza in pixel di ogni unità costituente le barriere.*/ //SARA' DA CANCELLARE<----------
 const unsigned int LARGHEZZA_PIXEL_BARRIERA = DIMENSIONE_LATO_UNITA_BARRIERA * LARG_BARRIERA; /**<Larghezza in pixel di una singola barriera.*/
 const unsigned int PESO_SPOSTAMENTO_CARRO_ARMATO = 6; /**<Peso dello spostamento laterale del carro armato.*/
 const unsigned int MAX_SPOSTAMENTO_ONDATA = 4; /**<Peso massimo dello spostamento laterale dell'ondata aliena.*/
@@ -29,9 +29,9 @@ const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file co
 //FINE COSTANTI PER FILE
 
 //INIZIO INTERFACCIA
-void creaSparoCarroArmato (Carro &carro, const unsigned int larghezza_pixel_carro, unsigned int pos_y);
+void creaSparoCarroArmato (Carro &carro, unsigned int pos_x, unsigned int pos_y);
 
-void stampa (Partita partita);
+void stampaPartita (Partita partita);
 
 bool controlloCollisioneBarriereDaOndata (Partita &partita, unsigned int pos_x_prima_barriera, unsigned int pos_y_barriere, unsigned int spazio_fra_barriere, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
 
@@ -47,13 +47,11 @@ bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita, unsigned int po
 
 bool controlloCollisioneBarriereDaSparoCarro (Partita &partita, unsigned int pos_x_prima_barriera, unsigned int pos_y_barriere, unsigned int spazio_fra_barriere, unsigned int larghezza_sparo);
 
-ALLEGRO_BITMAP * sparoScelto (int pos_x, ALLEGRO_BITMAP * sparo_alieni_1, ALLEGRO_BITMAP * sparo_alieni_2);
-
-void creaSparoAlieni (Partita &partita, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
+void creaSparoAlieni (Partita &partita, unsigned int larghezza_sparo, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
 
 bool controlloCollisioneCarroDaOndata (Partita &partita, unsigned int distanza_file_alieni, unsigned int altezza_alieni, unsigned int pos_y_carro);
 
-bool controlloCollisioneAlieni (Partita &partita, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3, unsigned int larghezza_sparo);
+bool controlloCollisioneAlieni (Partita &partita, unsigned int larghezza_sparo, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
 
 void muoviSparoAlieni (Sparo &sparo, unsigned int limite_inferiore);
 
