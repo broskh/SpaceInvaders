@@ -1,5 +1,5 @@
 /*
- * File contenente il modulo di salvataggio/caricamento delle impostazioni.
+ * File contenente il modulo di gestione della grafica.
  */
 
 #include "struttura_dati.h"
