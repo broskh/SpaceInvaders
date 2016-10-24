@@ -58,6 +58,8 @@ const float FPS_NAVICELLA_MISTERIOSA = 1; /**<FPS per la frequenza della possibi
 const float FPS_SPOSTAMENTO_ONDATA = 30; /**<FPS per la frequenza dello spostamento dell'ondata aliena.*/
 //FINE COSTANTI PER VARI TIMER
 
+const unsigned int LARGHEZZA_PIXEL_BARRIERA = DIMENSIONE_LATO_UNITA_BARRIERA + LARG_BARRIERA; //-------->da cancellare<--------
+
 //INIZIO COSTANTI PER FILE
 const char FILE_MUSICA_PRINCIPALE [] = "Sounds/principale.flac"; /**<Percorso del file contenente la musica principale.*/
 //FINE COSTANTI PER FILE
@@ -93,6 +95,7 @@ ALLEGRO_BITMAP * scegliSparo (int pos_x, ALLEGRO_BITMAP * sparo_alieni_1, ALLEGR
  */
 int main ()
 {
+	cout<<DISTANZA_BARRIERE<<endl;
 	ALLEGRO_DISPLAY *display = NULL;
    	ALLEGRO_EVENT_QUEUE *coda_eventi = NULL;
 	ALLEGRO_TIMER *frame_rate_generale = NULL;

@@ -56,12 +56,13 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 {
 	bool collisione = false;
 	unsigned int altezza_barriera = ALT_BARRIERA * DIMENSIONE_LATO_UNITA_BARRIERA;
+	unsigned int larghezza_pixel_barriera = LARG_BARRIERA * DIMENSIONE_LATO_UNITA_BARRIERA;
 	if (pos_y_corpo >= pos_y_barriere && pos_y_corpo <= pos_y_barriere + altezza_barriera)
 	{
 		unsigned int pos_x_attuale = pos_x_prima_barriera;
 		for (unsigned int n = 0 ; n < N_BARRIERE; n++)
 		{
-			if (pos_x_corpo + larghezza_corpo >= pos_x_attuale && pos_x_corpo <= pos_x_attuale + LARGHEZZA_PIXEL_BARRIERA)
+			if (pos_x_corpo + larghezza_corpo >= pos_x_attuale && pos_x_corpo <= pos_x_attuale + larghezza_pixel_barriera)
 			{
 				unsigned int pos_y_attuale = pos_y_barriere;
 				for (unsigned int r = 0; r < ALT_BARRIERA; r++)
@@ -87,7 +88,7 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 				}
 				break;
 			}
-			pos_x_attuale += LARGHEZZA_PIXEL_BARRIERA + spazio_fra_barriere;
+			pos_x_attuale += larghezza_pixel_barriera + spazio_fra_barriere;
 		}
 	}
 	return collisione;

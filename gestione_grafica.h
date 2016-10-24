@@ -35,7 +35,7 @@ const unsigned int POS_Y_BARRIERE = 360; /**<Posizone rispetto all'asse y dalla 
 
 const unsigned int DISTANZA_ASSI_COL_ALIENI = 40; /**<Distanza fra gli assi delle colonne di alieni.*/
 const unsigned int DISTANZA_FILE_ALIENI = 35; /**<Distamza fra le file di alieni.*/
-const unsigned int DISTANZA_BARRIERE = (LARGHEZZA_DISPLAY - (DIMENSIONE_LATO_UNITA_BARRIERA * LARG_BARRIERA * N_BARRIERE)) / (N_BARRIERE + 1); /**<Distanza in pixel fra le barriere.*/
+const unsigned int DISTANZA_BARRIERE = 64; /**<Distanza in pixel fra le barriere.*/ //(LARGHEZZA_DISPLAY - (DIMENSIONE_LATO_UNITA_BARRIERA * LARG_BARRIERA * N_BARRIERE)) / (N_BARRIERE + 1);
 const unsigned int POS_X_PRIMA_BARRIERA = DISTANZA_BARRIERE; /**<Posizione rispetto all'asse x della prima barriera.*/
 const unsigned int POS_X_PRIMO_ASSE_ALIENI = POS_CENTRO_X - (DISTANZA_ASSI_COL_ALIENI * (N_COL_ALIENI - 1) / 2); /**<Posizone rispetto all'asse x nella quale è presente il primo asse delle colonne di alieni.*/
 //FINE COSTANTI PER POSIZIONI NELLA SCHERMATA DI GIOCO
