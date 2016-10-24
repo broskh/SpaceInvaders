@@ -87,5 +87,8 @@ const char FILE_ESPLOSIONE_ALIENO [] = "Images/esplosione_alieno.png";
 //FINE COSTANTI PER FILE
 
 //INIZIO INTERFACCIA
-
+void stampaMenuPrincipale ();
+void stampaGioca ();
+void stampaOpzioni ();
+void stampaHighscores ();
 //FINE INTERFACCIA
