@@ -2,6 +2,10 @@
  * File contenente il modulo di gestione delle impostazioni.
  */
 
+using namespace std;
+#include <iostream>
+#include <fstream>
+#include <cstring>
 #include "struttura_dati.h"
 #include "gestione_impostazioni.h"
 

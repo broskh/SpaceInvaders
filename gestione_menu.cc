@@ -2,6 +2,9 @@
  * File contenente il modulo di gestione dei menu.
  */
 
+
+#include <cstring>
+#include <cstdio>
 #include "struttura_dati.h"
 #include "funzioni_generiche.h"
 #include "gestione_menu.h"

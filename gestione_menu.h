@@ -2,9 +2,6 @@
  * Header file contenente l'interfaccia del modulo di gestione degi menu.
  */
 
-#include <cstring>
-#include <cstdio>
-
 const char MENU_PRINCIPALE [] [MAX_STRINGA_GENERICA] = {"Gioca", "Carica partita", "Opzioni", "Highscores", "Esci"}; /**<Voci del munù principale*/
 const int N_VOCI_MENU_PRINC = 5; /**<Numero di voci del menù principale.*/
 const char MENU_IMPOSTAZIONI [] [MAX_STRINGA_GENERICA] = {"Musica: ", "Effetti audio: ", "Modalita' grafica: ", "Vite iniziali: "}; /**<Voci del munù impostazioni.*/

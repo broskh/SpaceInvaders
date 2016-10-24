@@ -2,11 +2,6 @@
  * Header file contenente l'interfaccia del modulo di gestione della partita.
  */
 
-#include <fstream>
-#include <iostream>
-
-using namespace std;
-
 //INIZIO COSTANTI PER ALIENI
 const unsigned int PUNTEGGIO_ALIENO_3 = 10; /**<Punteggio attribuito al alieno 3.*/
 const unsigned int PUNTEGGIO_ALIENO_2 = 20; /**<Punteggio attribuito al alieno 2.*/

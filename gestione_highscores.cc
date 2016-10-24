@@ -2,6 +2,11 @@
  * File contenente il modulo di gestione degli highscores.
  */
 
+using namespace std;
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <cassert>
 #include "struttura_dati.h"
 #include "gestione_highscores.h"
 

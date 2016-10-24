@@ -2,6 +2,9 @@
  * File contenente il modulo di gestione della grafica.
  */
 
+using namespace std;
+#include <fstream>
+#include <iostream>
 #include "struttura_dati.h"
 #include "funzioni_generiche.h"
 #include "gestione_partita.h"

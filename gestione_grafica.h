@@ -87,8 +87,25 @@ const char FILE_ESPLOSIONE_ALIENO [] = "Images/esplosione_alieno.png";
 //FINE COSTANTI PER FILE
 
 //INIZIO INTERFACCIA
-void stampaMenuPrincipale ();
-void stampaGioca ();
-void stampaOpzioni ();
-void stampaHighscores ();
+ALLEGRO_DISPLAY * inizializzaGrafica ();
+void distruggiGrafica ();
+void stampaMenuPrincipale (Menu menu_principale, bool redraw_lampeggio, bool partita_salvata);
+void stampaGioca (Partita partita, bool animazione, bool animazione_esplosione_carro);
+void stampaImpostazioni (Impostazioni impostazioni, Menu menu_impostazioni, bool redraw_lampeggio);
+void stampaHighscores (Punteggio highscores [], int n_highscores);
+void stampaMenuPausa (Menu menu_pausa, bool redraw_lampeggio);
+void stampaFinePartita (SpaceInvaders generale, int posizione_punteggio_attuale, bool redraw_lampeggio);
+unsigned int altezzaCarroArmato ();
+unsigned int larghezzaCarroArmato ();
+unsigned int altezzaNavicellaMisteriosa ();
+unsigned int larghezzaNavicellaMisteriosa ();
+unsigned int altezzaSparoAlienoAttuale (unsigned int pos_x_sparo);
+unsigned int larghezzaSparoAlienoAttuale (unsigned int pos_x_sparo);
+unsigned int altezzaSparoCarroArmato ();
+unsigned int larghezzaSparoCarroArmato ();
+unsigned int altezzaAlieni ();
+unsigned int larghezzaAlieno1 ();
+unsigned int larghezzaAlieno2 ();
+unsigned int larghezzaAlieno3 ();
+unsigned int larghezzaLatoUnitaBarriera ();
 //FINE INTERFACCIA
