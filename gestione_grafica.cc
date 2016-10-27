@@ -13,8 +13,7 @@
 
 //INIZIO VARIABILI DI MODULO
 static ALLEGRO_DISPLAY *display = NULL;
-static ALLEGRO_BITMAP *barriera_parziale = NULL;
-static ALLEGRO_BITMAP *barriera_integra = NULL;
+static ALLEGRO_BITMAP *barriera = NULL;
 static ALLEGRO_BITMAP *carro_armato = NULL;
 static ALLEGRO_BITMAP *sparo_carro = NULL;
 static ALLEGRO_BITMAP *navicella_misteriosa = NULL;
@@ -74,10 +73,8 @@ ALLEGRO_DISPLAY * inizializzaGrafica ()
 	font_testo = al_load_ttf_font(FILE_FONT_TESTO, DIMENSIONE_TESTO, 0);
  	assert (font_testo);
 	
-	barriera_parziale = al_load_bitmap(FILE_BARRIERA_PARZIALE);
-	assert (barriera_parziale);
-	barriera_integra = al_load_bitmap(FILE_BARRIERA_INTEGRA);
-	assert (barriera_integra);
+	barriera = al_load_bitmap(FILE_BARRIERA);
+	assert (barriera);
 	sparo_alieni_1 = al_load_bitmap(FILE_SPARO_ALIENI_1);
 	assert (sparo_alieni_1);
 	sparo_alieni_2 = al_load_bitmap(FILE_SPARO_ALIENI_2);
@@ -109,8 +106,7 @@ void distruggiGrafica ()
 	al_destroy_font (font_titolo);
 	al_destroy_bitmap(sparo_alieni_1);
 	al_destroy_bitmap(sparo_alieni_2);
-	al_destroy_bitmap(barriera_parziale);
-	al_destroy_bitmap(barriera_integra);
+	al_destroy_bitmap(barriera);
 	al_destroy_bitmap(carro_armato);
 	al_destroy_bitmap(sparo_carro);
 	al_destroy_bitmap(navicella_misteriosa);
@@ -170,7 +166,7 @@ void stampaMenuPrincipale (Menu menu_principale, bool redraw_lampeggio, bool par
 	//FINE VISUALIZZAZIONE
 }
 
-void disegnaBarriera (ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barriera_integra, stato_barriera barriera [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x, unsigned int pos_y)
+void disegnaBarriera (ALLEGRO_BITMAP *barriera_sprite, stato_barriera barriera [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x, unsigned int pos_y)
 {
 	unsigned int dx = pos_x; 
 	unsigned int dy = pos_y;
@@ -181,11 +177,11 @@ void disegnaBarriera (ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barrier
 		{
 			if (barriera [i] [j] == integra)
 			{
-				al_draw_tinted_bitmap (barriera_integra, al_map_rgb(0, 255, 0), dx, dy, 0);
+				al_draw_tinted_bitmap_region(barriera_sprite, al_map_rgb(0, 255, 0), 0, 0, larghezzaLatoUnitaBarriera (), al_get_bitmap_height (barriera_sprite), dx, dy, 0);
 			}
 			else if (barriera [i] [j] == parziale)
 			{
-				al_draw_tinted_bitmap (barriera_parziale, al_map_rgb(0, 255, 0), dx, dy, 0);
+				al_draw_tinted_bitmap_region(barriera_sprite, al_map_rgb(0, 255, 0), larghezzaLatoUnitaBarriera (), 0, larghezzaLatoUnitaBarriera (), al_get_bitmap_height (barriera_sprite), dx, dy, 0);
 			}
 			dx += larghezzaLatoUnitaBarriera ();
 		}
@@ -271,7 +267,7 @@ void stampaGioca (Partita partita, bool animazione, bool animazione_esplosione_c
 	pos_x_attuale = DISTANZA_BARRIERE;
 	for (unsigned int i = 0; i < N_BARRIERE; i++)
 	{
-		disegnaBarriera (barriera_parziale, barriera_integra, partita.barriere [i], pos_x_attuale, POS_Y_BARRIERE);
+		disegnaBarriera (barriera, partita.barriere [i], pos_x_attuale, POS_Y_BARRIERE);
 		pos_x_attuale += DISTANZA_BARRIERE + larghezzaLatoUnitaBarriera () * LARG_BARRIERA;
 	}
 	//FINE DELLA VISUALIZZAZIONE DELLE BARRIERE
@@ -539,6 +535,6 @@ unsigned int larghezzaAlieno3 ()
 
 unsigned int larghezzaLatoUnitaBarriera ()
 {
-	return al_get_bitmap_width (barriera_parziale);
+	return al_get_bitmap_width (barriera) / N_STATI_SPRITE;
 }
 //FINE MODULO

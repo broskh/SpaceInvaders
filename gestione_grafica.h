@@ -72,8 +72,7 @@ const unsigned int N_TIPI_ALIENI = 3;
 //INIZIO COSTANTI PER FILE
 const char FILE_FONT_TESTO [] = "Fonts/space_invaders.ttf"; /**<File contenente il font utilizzato per i testi.*/
 const char FILE_FONT_TITOLO [] = "Fonts/dustbust_invaders.ttf"; /**<File contenente il font utilizzato per il titolo nel menù principale del gioco.*/
-const char FILE_BARRIERA_PARZIALE [] = "Images/barriera_parziale.png"; /**<Percorso del file contenente l'immagine per rappresentare un elemento della barriera allo stato "parziale". (Deve essere 4x4 pixel)*/
-const char FILE_BARRIERA_INTEGRA [] = "Images/barriera_integra.png"; /**<Percorso del file contenente l'immagine per rappresentare un elemento della barriera allo stato "integra". (Deve essere 4x4 pixel)*/
+const char FILE_BARRIERA [] = "Images/barriera.png";
 const char FILE_SPARO_ALIENI_1 [] = "Images/sparo_alieni_1.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo degli alieni con posizione relativa all'asse x pari.*/
 const char FILE_SPARO_ALIENI_2 [] = "Images/sparo_alieni_2.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo degli alieni con posizione relativa all'asse x dispari.*/
 const char FILE_CARRO_ARMATO [] ="Images/carro_armato.png";
