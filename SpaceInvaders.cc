@@ -37,7 +37,7 @@
 //#include <allegro5/allegro_image.h>
 //#include <allegro5/allegro_font.h>
 //#include <allegro5/allegro_ttf.h>
-//#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 #include "struttura_dati.h"
 #include "gestione_partita.h"
@@ -52,10 +52,12 @@ using namespace std;
 //INIZIO COSTANTI PER VARI TIMER
 const float FPS_GENERALE = 60; /**<FPS generale del gioco.*/
 const float FPS_LAMPEGGIO_MENU = 3.5; /**<FPS per la frequenza in grado di consentire l'effetto di lampeggio sull'opzione selezionata dei menù.*/
-const float FPS_SPARO_ALIENI = 1.5; /**<FPS per la frequenza di creazione degli spari da parte degli alieni.*/
+const float FPS_COMPARSA_SPARO_ALIENI = 1.5; /**<FPS per la frequenza di creazione degli spari da parte degli alieni.*/
 const float FPS_ANIMAZIONE = 4; /**<FPS per la frequenza di cambiamento necessaria per realizzare l'animazione.*/
-const float FPS_NAVICELLA_MISTERIOSA = 1; /**<FPS per la frequenza della possibile comparsa della navicella misteriosa.*/
+const float FPS_COMPARSA_NAVICELLA_MISTERIOSA = 1; /**<FPS per la frequenza della possibile comparsa della navicella misteriosa.*/
 const float FPS_SPOSTAMENTO_ONDATA = 30; /**<FPS per la frequenza dello spostamento dell'ondata aliena.*/
+const float FPS_SPOSTAMENTO_NAVICELLA_MISTERIOSA = 240;
+const float FPS_SPOSTAMENTO_SPARI = 210;
 //FINE COSTANTI PER VARI TIMER
 
 //INIZIO COSTANTI PER FILE
@@ -97,11 +99,13 @@ int main ()
 	ALLEGRO_SAMPLE *musica_principale = NULL;
 	ALLEGRO_EVENT_QUEUE *coda_eventi = NULL;
 	ALLEGRO_TIMER *frame_rate_generale = NULL;
-	ALLEGRO_TIMER *lampeggio_voce = NULL;
-	ALLEGRO_TIMER *timer_sparo_alieni= NULL;
+	ALLEGRO_TIMER *timer_lampeggio_voce = NULL;
+	ALLEGRO_TIMER *timer_comparsa_sparo_alieni= NULL;
 	ALLEGRO_TIMER *timer_animazione = NULL;
 	ALLEGRO_TIMER *timer_comparsa_navicella = NULL;
 	ALLEGRO_TIMER *timer_spostamento_ondata = NULL;
+	ALLEGRO_TIMER *timer_spostamento_navicella = NULL;
+	ALLEGRO_TIMER *timer_spostamento_spari = NULL;
 
 	bool redraw = true;
 
@@ -119,17 +123,23 @@ int main ()
 	frame_rate_generale = al_create_timer(1.0 / FPS_GENERALE);
 	assert (frame_rate_generale);
 
-	lampeggio_voce = al_create_timer(1.0 / FPS_LAMPEGGIO_MENU);
-	assert (lampeggio_voce);
+	timer_lampeggio_voce = al_create_timer(1.0 / FPS_LAMPEGGIO_MENU);
+	assert (timer_lampeggio_voce);
 
-	timer_sparo_alieni = al_create_timer(1.0 / FPS_SPARO_ALIENI);
-	assert (timer_sparo_alieni);
+	timer_comparsa_sparo_alieni = al_create_timer(1.0 / FPS_COMPARSA_SPARO_ALIENI);
+	assert (timer_comparsa_sparo_alieni);
 
 	timer_animazione = al_create_timer(1.0 / FPS_ANIMAZIONE);
 	assert (timer_animazione);
 
-	timer_comparsa_navicella = al_create_timer(1.0 / FPS_NAVICELLA_MISTERIOSA);
+	timer_comparsa_navicella = al_create_timer(1.0 / FPS_COMPARSA_NAVICELLA_MISTERIOSA);
 	assert (timer_comparsa_navicella);
+
+	timer_spostamento_navicella = al_create_timer(1.0 / FPS_SPOSTAMENTO_NAVICELLA_MISTERIOSA);
+	assert (timer_spostamento_navicella);
+
+	timer_spostamento_spari= al_create_timer(1.0 / FPS_SPOSTAMENTO_SPARI);
+	assert (timer_spostamento_spari);
 
 	timer_spostamento_ondata = al_create_timer(1.0 / FPS_SPOSTAMENTO_ONDATA);
 	assert (timer_spostamento_ondata);
@@ -139,10 +149,12 @@ int main ()
  
    	al_register_event_source(coda_eventi, al_get_display_event_source(display));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(frame_rate_generale));
-	al_register_event_source(coda_eventi, al_get_timer_event_source(lampeggio_voce));
-	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_sparo_alieni));
+	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_lampeggio_voce));
+	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_comparsa_sparo_alieni));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_animazione));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_comparsa_navicella));
+	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_spostamento_navicella));
+	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_spostamento_spari));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_spostamento_ondata));
 	al_register_event_source(coda_eventi, al_get_keyboard_event_source());
 
@@ -173,7 +185,6 @@ int main ()
 	inizializzaMenu (menu_pausa, MENU_PAUSA, N_VOCI_MENU_PAUSA, v_continua);
 	bool redraw_lampeggio;
 	bool animazione;
-	int animazione_esplosione_carro;
 
 	int posizione;
 	char input [] = " ";
@@ -183,7 +194,6 @@ int main ()
 		cambia_schermata = false;
 		redraw_lampeggio = false;
 		animazione = false;
-		animazione_esplosione_carro = 0;
 		switch (schermata_att)
 		{
 			case s_menu:
@@ -198,7 +208,7 @@ int main ()
 				menu_principale.voce_sel = v_gioca;
 				nuovaPartita (generale.partita_in_corso, generale.impostazioni, POS_X_PRIMO_ASSE_ALIENI, POS_Y_PRIMA_FILA_ONDATA, POS_CENTRO_X - larghezzaCarroArmato () / 2);
 				generale.partita_salvata = esisteSalvataggio ();
-				al_start_timer(lampeggio_voce);
+				al_start_timer(timer_lampeggio_voce);
 				
 				while(!cambia_schermata)
 			   	{
@@ -211,7 +221,7 @@ int main ()
 						{
 							redraw = true;
 						}
-						else if (ev.timer.source == lampeggio_voce)
+						else if (ev.timer.source == timer_lampeggio_voce)
 						{
 							redraw_lampeggio = !redraw_lampeggio;
 						}
@@ -258,7 +268,7 @@ int main ()
 						stampaMenuPrincipale (menu_principale, redraw_lampeggio, generale.partita_salvata);
 					}
 			   	}
-				al_stop_timer(lampeggio_voce);
+				al_stop_timer(timer_lampeggio_voce);
 				break;
 			case s_gioca:
 				eliminaFileSalvataggio (generale);
@@ -266,9 +276,11 @@ int main ()
 				{
 					al_stop_samples();
 				}
-				al_start_timer(timer_sparo_alieni);
+				al_start_timer(timer_comparsa_sparo_alieni);
 				al_start_timer(timer_animazione);
 				al_start_timer(timer_comparsa_navicella);
+				al_start_timer(timer_spostamento_navicella);
+				al_start_timer(timer_spostamento_spari);
 				al_start_timer(timer_spostamento_ondata);
 
 				while(!cambia_schermata)
@@ -296,6 +308,7 @@ int main ()
 									generale.partita_in_corso.carro_armato.esplosione = false;
 								}
 							}
+							//per animazione di esplosione degli alieni
 							for (unsigned int i = 0; i < N_FILE_ALIENI; i++)
 							{
 								for (unsigned int j = 0; j < N_COL_ALIENI; j++)
@@ -316,7 +329,7 @@ int main ()
 						}
 						else if (!generale.partita_in_corso.carro_armato.esplosione)
 						{
-							if (ev.timer.source == timer_sparo_alieni)
+							if (ev.timer.source == timer_comparsa_sparo_alieni)
 							{
 								if (!generale.partita_in_corso.sparo_alieni.stato)
 								{
@@ -328,6 +341,24 @@ int main ()
 								if (!generale.partita_in_corso.navicella_misteriosa.stato)
 								{
 									creaNavicellaMisteriosa (generale.partita_in_corso, MARGINE_SX_GIOCO);
+								}
+							}
+							else if (ev.timer.source == timer_spostamento_navicella)
+							{
+								if (generale.partita_in_corso.navicella_misteriosa.stato)
+								{
+									muoviNavicellaMisteriosa (generale.partita_in_corso, MARGINE_DX_GIOCO + larghezzaNavicellaMisteriosa ());
+								}								
+							}
+							else if (ev.timer.source == timer_spostamento_spari)
+							{
+								if (generale.partita_in_corso.carro_armato.sparo.stato)
+								{
+									muoviSparoCarro (generale.partita_in_corso.carro_armato.sparo, MARGINE_SUP_GIOCO);
+								}
+								if (generale.partita_in_corso.sparo_alieni.stato)
+								{
+									muoviSparoAlieni (generale.partita_in_corso.sparo_alieni, MARGINE_INF_GIOCO - altezzaSparoAlienoAttuale (generale.partita_in_corso.sparo_alieni.pos_x));
 								}
 							}
 							else if (ev.timer.source == timer_spostamento_ondata)
@@ -350,12 +381,12 @@ int main ()
 								schermata_att = s_pausa;
 								cambia_schermata = true;
 								break;
-							/*case ALLEGRO_KEY_BACKSPACE:
+							case ALLEGRO_KEY_BACKSPACE:
 								while (true)
 								{
 									;//DA CANCELLARE PRIMA O POI
 								}
-								break;*/
+								break;
 						}
 					}
 					else if(ev.type == ALLEGRO_EVENT_KEY_CHAR)
@@ -382,16 +413,16 @@ int main ()
 
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
-						stampaGioca (generale.partita_in_corso, animazione, animazione_esplosione_carro);
+						stampaGioca (generale.partita_in_corso, animazione);
 
 						//INIZIO DEI CONTROLLI
 						if (!generale.partita_in_corso.carro_armato.esplosione)
 						{
 							if (controlloCollisioneCarroDaSparoAlieni (generale.partita_in_corso, larghezzaCarroArmato (), altezzaSparoAlienoAttuale (generale.partita_in_corso.sparo_alieni.pos_x), larghezzaSparoAlienoAttuale (generale.partita_in_corso.sparo_alieni.pos_x), MARGINE_INF_GIOCO - altezzaCarroArmato ()))
 							{
-								animazione_esplosione_carro++;
+								generale.partita_in_corso.carro_armato.esplosione = 1;
 							}
-							if (generale.partita_in_corso.vite_rimanenti < 0 || controlloCollisioneCarroDaOndata (generale.partita_in_corso, DISTANZA_FILE_ALIENI, altezzaAlieni (), MARGINE_INF_GIOCO - altezzaCarroArmato ()))
+							if (controlloFinePartita (generale.partita_in_corso) || controlloCollisioneCarroDaOndata (generale.partita_in_corso, DISTANZA_FILE_ALIENI, altezzaAlieni (), MARGINE_INF_GIOCO - altezzaCarroArmato ()))
 							{
 								schermata_att = s_fine_partita;
 								cambia_schermata = true;
@@ -412,27 +443,19 @@ int main ()
 							if (controlloCollisioneBarriereDaOndata (generale.partita_in_corso, POS_X_PRIMA_BARRIERA, POS_Y_BARRIERE, DISTANZA_BARRIERE, DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, altezzaAlieni (), larghezzaAlieno1 (), larghezzaAlieno2 (), larghezzaAlieno3 ()))
 							{
 							}
+							if (controlloFineOndata (generale.partita_in_corso.ondata))
+							{
+								nuovaPartita (generale.partita_in_corso, generale.impostazioni, POS_X_PRIMO_ASSE_ALIENI, POS_Y_PRIMA_FILA_ONDATA, POS_CENTRO_X - larghezzaCarroArmato () / 2);
+							}
 							//FINE DEI CONTROLLI
-							//INIZIO DEI CAMBIAMENTI
-							if (generale.partita_in_corso.carro_armato.sparo.stato)
-							{
-								muoviSparoCarro (generale.partita_in_corso.carro_armato.sparo, MARGINE_SUP_GIOCO);
-							}
-							if (generale.partita_in_corso.sparo_alieni.stato)
-							{
-								muoviSparoAlieni (generale.partita_in_corso.sparo_alieni, MARGINE_INF_GIOCO - altezzaSparoAlienoAttuale (generale.partita_in_corso.sparo_alieni.pos_x));
-							}
-							if (generale.partita_in_corso.navicella_misteriosa.stato)
-							{
-								muoviNavicellaMisteriosa (generale.partita_in_corso, MARGINE_DX_GIOCO + larghezzaNavicellaMisteriosa ());
-							}
 						}
-						//FINE DEI CAMBIAMENTI
 					}
 			   	}
-				al_stop_timer(timer_sparo_alieni);
+				al_stop_timer(timer_comparsa_sparo_alieni);
 				al_stop_timer(timer_animazione);
 				al_stop_timer(timer_comparsa_navicella);
+				al_stop_timer(timer_spostamento_navicella);
+				al_stop_timer(timer_spostamento_spari);
 				al_stop_timer(timer_spostamento_ondata);
 				break;
 			case s_carica:
@@ -441,7 +464,7 @@ int main ()
 				cambia_schermata = true;
 				break;
 			case s_opzioni:
-				al_start_timer(lampeggio_voce);
+				al_start_timer(timer_lampeggio_voce);
 				menu_impostazioni.voce_sel = v_musica;
 
 				while(!cambia_schermata)
@@ -455,7 +478,7 @@ int main ()
 						{
 							redraw = true;
 						}
-						else if (ev.timer.source == lampeggio_voce)
+						else if (ev.timer.source == timer_lampeggio_voce)
 						{
 							redraw_lampeggio = !redraw_lampeggio;
 						}
@@ -498,9 +521,10 @@ int main ()
 						stampaImpostazioni (generale.impostazioni, menu_impostazioni, redraw_lampeggio);
 					}
 			   	}
-				al_stop_timer(lampeggio_voce);
+				al_stop_timer(timer_lampeggio_voce);
 				break;
 			case s_highscores:
+				al_start_timer(timer_lampeggio_voce);
 				while(!cambia_schermata)
 			   	{				
 					ALLEGRO_EVENT ev;
@@ -512,7 +536,7 @@ int main ()
 						{
 							redraw = true;
 						}
-						else if (ev.timer.source == lampeggio_voce)
+						else if (ev.timer.source == timer_lampeggio_voce)
 						{
 							redraw_lampeggio = !redraw_lampeggio;
 						}
@@ -539,10 +563,11 @@ int main ()
 						stampaHighscores (generale.highscores, generale.n_highscores);
 					}
 			   	}
+				al_stop_timer(timer_lampeggio_voce);
 				break;
 			case s_pausa:
 				menu_pausa.voce_sel = v_continua;
-				al_start_timer(lampeggio_voce);
+				al_start_timer(timer_lampeggio_voce);
 				
 				while(!cambia_schermata)
 			   	{
@@ -555,7 +580,7 @@ int main ()
 						{
 							redraw = true;
 						}
-						else if (ev.timer.source == lampeggio_voce)
+						else if (ev.timer.source == timer_lampeggio_voce)
 						{
 							redraw_lampeggio = !redraw_lampeggio;
 						}
@@ -588,10 +613,10 @@ int main ()
 						stampaMenuPausa (menu_pausa, redraw_lampeggio);
 					}
 			   	}
-				al_stop_timer(lampeggio_voce);
+				al_stop_timer(timer_lampeggio_voce);
 				break;
 			case s_fine_partita:	
-				al_start_timer(lampeggio_voce);
+				al_start_timer(timer_lampeggio_voce);
 				posizione = posizionePunteggio (generale.highscores, generale.n_highscores, generale.partita_in_corso.punteggio);
 				while(!cambia_schermata)
 			   	{				
@@ -604,7 +629,7 @@ int main ()
 						{
 							redraw = true;
 						}
-						else if (ev.timer.source == lampeggio_voce)
+						else if (ev.timer.source == timer_lampeggio_voce)
 						{
 							redraw_lampeggio = !redraw_lampeggio;
 						}
@@ -655,16 +680,18 @@ int main ()
 						stampaFinePartita (generale, posizione, redraw_lampeggio);
 					}
 			   	}
-				al_stop_timer(lampeggio_voce);
+				al_stop_timer(timer_lampeggio_voce);
 				break;
 			case s_esci:
 				distruggiGrafica ();
 				al_destroy_event_queue(coda_eventi);
 				al_destroy_timer(frame_rate_generale);
-				al_destroy_timer(lampeggio_voce);
-				al_destroy_timer(timer_sparo_alieni);
+				al_destroy_timer(timer_lampeggio_voce);
+				al_destroy_timer(timer_comparsa_sparo_alieni);
 				al_destroy_timer(timer_animazione);
 				al_destroy_timer(timer_comparsa_navicella);
+				al_destroy_timer(timer_spostamento_navicella);
+				al_destroy_timer(timer_spostamento_spari);
 				al_destroy_timer(timer_spostamento_ondata);
 				al_destroy_sample(musica_principale);
 				return 0;
@@ -672,10 +699,12 @@ int main ()
 				distruggiGrafica ();
 				al_destroy_event_queue(coda_eventi);
 				al_destroy_timer(frame_rate_generale);
-				al_destroy_timer(lampeggio_voce);
-				al_destroy_timer(timer_sparo_alieni);
+				al_destroy_timer(timer_lampeggio_voce);
+				al_destroy_timer(timer_comparsa_sparo_alieni);
 				al_destroy_timer(timer_animazione);
 				al_destroy_timer(timer_comparsa_navicella);
+				al_destroy_timer(timer_spostamento_navicella);
+				al_destroy_timer(timer_spostamento_spari);
 				al_destroy_timer(timer_spostamento_ondata);
 				al_destroy_sample(musica_principale);
 				return 2;
@@ -684,10 +713,12 @@ int main ()
 	distruggiGrafica ();
 	al_destroy_event_queue(coda_eventi);
 	al_destroy_timer(frame_rate_generale);
-	al_destroy_timer(lampeggio_voce);
-	al_destroy_timer(timer_sparo_alieni);
+	al_destroy_timer(timer_lampeggio_voce);
+	al_destroy_timer(timer_comparsa_sparo_alieni);
 	al_destroy_timer(timer_animazione);
 	al_destroy_timer(timer_comparsa_navicella);
+	al_destroy_timer(timer_spostamento_navicella);
+	al_destroy_timer(timer_spostamento_spari);
 	al_destroy_timer(timer_spostamento_ondata);
 	al_destroy_sample(musica_principale);
    	return 1;

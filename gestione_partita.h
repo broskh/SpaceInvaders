@@ -14,7 +14,6 @@ const unsigned int PUNTEGGIO_NAVICELLA_MIN = 100; /**<Punteggio minimo attribuit
 const unsigned int PROBABILITA_COMPARSA_NAVICELLA = 15; /**<Probabilità percentuale di comparsa della navicella misteriosa.*/
 const unsigned int DIMENSIONE_LATO_UNITA_BARRIERA = 4; /**<Lunghezza in pixel di ogni unità costituente le barriere.*/ //SARA' DA CANCELLARE<----------
 const unsigned int PESO_SPOSTAMENTO_CARRO_ARMATO = 6; /**<Peso dello spostamento laterale del carro armato.*/
-const unsigned int MAX_SPOSTAMENTO_ONDATA = 4; /**<Peso massimo dello spostamento laterale dell'ondata aliena.*/
 const unsigned int RIP_ANIMAZIONE_ESPLOSIONE_CARRO = 2; /**<Numero di ripetizioni dell'animazione di esplosione del carro.*/
 //FINE COSTANTI E COSTANTI DI GIOCO
 
@@ -50,6 +49,10 @@ bool controlloCollisioneAlieni (Partita &partita, unsigned int larghezza_sparo, 
 void muoviSparoAlieni (Sparo &sparo, unsigned int limite_inferiore);
 
 void muoviAlieni(Ondata &ondata, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int pos_y_carro, unsigned int limite_dx, unsigned int limite_sx);
+
+bool controlloFinePartita (Partita partita);
+
+bool controlloFineOndata (Ondata ondata);
 
 /**
  * Stabilisce qual'è la posizione rispetto all'asse y dello sparo del carro armato in movimento.

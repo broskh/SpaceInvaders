@@ -48,7 +48,7 @@ void creaNavicellaMisteriosa (Partita &partita, unsigned int pos_x_iniziale)
 
 void muoviNavicellaMisteriosa (Partita &partita, unsigned int limite_dx)
 {
-	partita.navicella_misteriosa.pos_x = sucInRange (partita.navicella_misteriosa.pos_x, DIMENSIONE_LATO_UNITA_BARRIERA, limite_dx);
+	partita.navicella_misteriosa.pos_x = sucInRange (partita.navicella_misteriosa.pos_x, limite_dx);
 	if (partita.navicella_misteriosa.pos_x == limite_dx)
 	{
 		partita.navicella_misteriosa.stato = false;
@@ -236,6 +236,20 @@ bool controlloCollisioneNavicellaMisteriosa (Partita &partita, unsigned int pos_
 	return collisione;
 }
 
+bool controlloFinePartita (Partita partita)
+{
+	return (partita.vite_rimanenti < 0);
+}
+
+bool controlloFineOndata (Ondata ondata)
+{
+	if (ondata.alieni_rimasti > 0)
+	{
+		return false;
+	}
+	return true;
+}
+
 bool controlloCollisioneAlieni (Partita &partita, unsigned int larghezza_sparo, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3)
 {
 	bool collisione = false;
@@ -290,16 +304,11 @@ void muoviAlieni (Ondata &ondata, unsigned int distanza_file_alieni, unsigned in
 		}
 	}
 	unsigned int margine_dx_primo_asse = limite_dx - distanza_assi_col_alieni * n_colonne_alieni_attivi;
-	unsigned int peso_spostamento_laterale = (N_FILE_ALIENI * N_COL_ALIENI / ondata.alieni_rimasti) + 1;
-	if (peso_spostamento_laterale > MAX_SPOSTAMENTO_ONDATA)
-	{
-		peso_spostamento_laterale = MAX_SPOSTAMENTO_ONDATA;
-	}
 	if (ondata.alieni_rimasti)
 	{
 		if (ondata.dir_alieni == destra)
 		{
-			ondata.pos_x = sucInRange (ondata.pos_x, peso_spostamento_laterale, margine_dx_primo_asse);
+			ondata.pos_x = sucInRange (ondata.pos_x, margine_dx_primo_asse);
 			if (ondata.pos_x == margine_dx_primo_asse)
 			{
 				ondata.dir_alieni = sinistra;
@@ -308,7 +317,7 @@ void muoviAlieni (Ondata &ondata, unsigned int distanza_file_alieni, unsigned in
 		}
 		else if (ondata.dir_alieni == sinistra)
 		{
-			ondata.pos_x = precInRange (ondata.pos_x, peso_spostamento_laterale, limite_sx);
+			ondata.pos_x = precInRange (ondata.pos_x, limite_sx);
 			if (ondata.pos_x == limite_sx)
 			{
 				ondata.dir_alieni = destra;
@@ -320,7 +329,7 @@ void muoviAlieni (Ondata &ondata, unsigned int distanza_file_alieni, unsigned in
 
 void muoviSparoCarro (Sparo &sparo, unsigned int limite_superiore)
 {
-	sparo.pos_y = precInRange (sparo.pos_y, DIMENSIONE_LATO_UNITA_BARRIERA, limite_superiore);
+	sparo.pos_y = precInRange (sparo.pos_y, limite_superiore);
 	if (sparo.pos_y == limite_superiore)
 	{
 		sparo.stato = false;
@@ -329,7 +338,7 @@ void muoviSparoCarro (Sparo &sparo, unsigned int limite_superiore)
 
 void muoviSparoAlieni (Sparo &sparo, unsigned int limite_inferiore)
 {
-	sparo.pos_y = sucInRange (sparo.pos_y, DIMENSIONE_LATO_UNITA_BARRIERA, limite_inferiore);
+	sparo.pos_y = sucInRange (sparo.pos_y, limite_inferiore);
 	if (sparo.pos_y >= limite_inferiore)
 	{
 		sparo.stato = false;

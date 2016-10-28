@@ -190,7 +190,7 @@ void disegnaBarriera (ALLEGRO_BITMAP *barriera_sprite, stato_barriera barriera [
 	}
 }
 
-void stampaGioca (Partita partita, bool animazione, bool animazione_esplosione_carro)
+void stampaGioca (Partita partita, bool animazione)
 {
 	//INIZIO VISUALIZZAZIONE
 	al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -280,10 +280,10 @@ void stampaGioca (Partita partita, bool animazione, bool animazione_esplosione_c
 	//FINE DELLA VISUALIZZAIZOEN DELLO SPARO DEL CARRO
 
 	//INIZIO DELLA VISUALIZZAZIONE DEL CARRO ARMATO
-	if (partita.carro_armato.esplosione)
+	if (partita.carro_armato.esplosione > 1)
 	{
 		unsigned int sx;
-		if (animazione_esplosione_carro % 2 == 1)
+		if (partita.carro_armato.esplosione % 2 == 1)
 		{
 			sx = 0;
 		}
