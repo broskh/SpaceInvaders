@@ -477,7 +477,7 @@ void nuovaOndata (Ondata &ondata, unsigned int pos_x_primo_asse_ondata, unsigned
 
 	assert (i = N_FILE_ALIENI);
 	
-	ondata.alieni_rimasti = N_FILE_ALIENI * N_COL_ALIENI;
+	ondata.alieni_rimasti = N_ALIENI_TOTALE;
 	
 	ondata.dir_alieni = destra;
 	

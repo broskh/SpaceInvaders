@@ -55,8 +55,10 @@ const float FPS_LAMPEGGIO_MENU = 3.5; /**<FPS per la frequenza in grado di conse
 const float FPS_COMPARSA_SPARO_ALIENI = 1.5; /**<FPS per la frequenza di creazione degli spari da parte degli alieni.*/
 const float FPS_ANIMAZIONE = 4; /**<FPS per la frequenza di cambiamento necessaria per realizzare l'animazione.*/
 const float FPS_COMPARSA_NAVICELLA_MISTERIOSA = 1; /**<FPS per la frequenza della possibile comparsa della navicella misteriosa.*/
-const float FPS_SPOSTAMENTO_ONDATA = 35; /**<FPS per la frequenza dello spostamento dell'ondata aliena.*/
-const float FPS_SPOSTAMENTO_NAVICELLA_MISTERIOSA = 240;
+const float FPS_SPOSTAMENTO_ONDATA_MIN = 50;
+const float FPS_SPOSTAMENTO_ONDATA_MAX = 240;
+const unsigned int STADI_INCREMENTO_VELOCITA_ONDATA = 20;
+const float FPS_SPOSTAMENTO_NAVICELLA_MISTERIOSA = 220;
 const float FPS_SPOSTAMENTO_SPARI = 210;
 //FINE COSTANTI PER VARI TIMER
 
@@ -84,11 +86,7 @@ schermata cambiaSchermataMenuPrincipale (voce_menu_principale voce);
  */
 schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceInvaders);
 
-/*void disegnaBarriera (ALLEGRO_BITMAP *barriera_parziale, ALLEGRO_BITMAP *barriera_integra, stato_barriera barriera [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x, unsigned int pos_y);
-
-ALLEGRO_BITMAP* scegliAlieno (unsigned int numero_fila, ALLEGRO_BITMAP *alieno_tipo_1, ALLEGRO_BITMAP *alieno_tipo_2, ALLEGRO_BITMAP *alieno_tipo_3);
-
-ALLEGRO_BITMAP * scegliSparo (int pos_x, ALLEGRO_BITMAP * sparo_alieni_1, ALLEGRO_BITMAP * sparo_alieni_2);*/
+unsigned int fpsVelocitaOndata (Ondata ondata);
 
 /**
  * FARE DOCUMENTAZIONE PER MAIN
@@ -141,7 +139,7 @@ int main ()
 	timer_spostamento_spari= al_create_timer(1.0 / FPS_SPOSTAMENTO_SPARI);
 	assert (timer_spostamento_spari);
 
-	timer_spostamento_ondata = al_create_timer(1.0 / FPS_SPOSTAMENTO_ONDATA);
+	timer_spostamento_ondata = al_create_timer(1.0 / FPS_SPOSTAMENTO_ONDATA_MAX);
 	assert (timer_spostamento_ondata);
 
 	musica_principale = al_load_sample (FILE_MUSICA_PRINCIPALE);
@@ -281,6 +279,7 @@ int main ()
 				al_start_timer(timer_comparsa_navicella);
 				al_start_timer(timer_spostamento_navicella);
 				al_start_timer(timer_spostamento_spari);
+				al_set_timer_speed(timer_spostamento_ondata, 1.0 / fpsVelocitaOndata (generale.partita_in_corso.ondata));
 				al_start_timer(timer_spostamento_ondata);
 
 				while(!cambia_schermata)
@@ -430,6 +429,7 @@ int main ()
 							}
 							if (controlloCollisioneAlieni (generale.partita_in_corso, larghezzaSparoCarroArmato (), DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, altezzaAlieni (), larghezzaAlieno1 (), larghezzaAlieno2 (), larghezzaAlieno3 ()))
 							{
+								al_set_timer_speed(timer_spostamento_ondata, 1.0 / fpsVelocitaOndata (generale.partita_in_corso.ondata));
 							}
 							if (controlloCollisioneBarriereDaSparoCarro (generale.partita_in_corso, POS_X_PRIMA_BARRIERA, POS_Y_BARRIERE, DISTANZA_BARRIERE, larghezzaSparoCarroArmato ()))
 							{
@@ -764,4 +764,20 @@ schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceIn
 		;
 	}
 	return s_menu;
+}
+
+unsigned int fpsVelocitaOndata (Ondata ondata)
+{
+	float range_fps = (FPS_SPOSTAMENTO_ONDATA_MAX - FPS_SPOSTAMENTO_ONDATA_MIN) / STADI_INCREMENTO_VELOCITA_ONDATA;
+	float range_alieni = N_ALIENI_TOTALE / STADI_INCREMENTO_VELOCITA_ONDATA;
+	int massimo_attuale = 0;
+	for (unsigned int i = 0; i < STADI_INCREMENTO_VELOCITA_ONDATA; i++)
+	{
+		massimo_attuale += range_alieni;
+		if (ondata.alieni_rimasti < massimo_attuale)
+		{
+			return (range_fps * (STADI_INCREMENTO_VELOCITA_ONDATA - i)) + FPS_SPOSTAMENTO_ONDATA_MIN;
+		}
+	}
+	return FPS_SPOSTAMENTO_ONDATA_MIN;
 }

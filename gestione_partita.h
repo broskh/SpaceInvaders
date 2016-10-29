@@ -15,6 +15,7 @@ const unsigned int PROBABILITA_COMPARSA_NAVICELLA = 15; /**<Probabilità percent
 const unsigned int DIMENSIONE_LATO_UNITA_BARRIERA = 4; /**<Lunghezza in pixel di ogni unità costituente le barriere.*/ //SARA' DA CANCELLARE<----------
 const unsigned int PESO_SPOSTAMENTO_CARRO_ARMATO = 5; /**<Peso dello spostamento laterale del carro armato.*/
 const unsigned int RIP_ANIMAZIONE_ESPLOSIONE_CARRO = 2; /**<Numero di ripetizioni dell'animazione di esplosione del carro.*/
+const unsigned int N_ALIENI_TOTALE = N_FILE_ALIENI * N_COL_ALIENI;
 //FINE COSTANTI E COSTANTI DI GIOCO
 
 //INIZIO COSTANTI PER FILE
