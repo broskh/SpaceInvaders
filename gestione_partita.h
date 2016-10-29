@@ -40,7 +40,7 @@ bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita, unsigned int po
 
 bool controlloCollisioneBarriereDaSparoCarro (Partita &partita, unsigned int pos_x_prima_barriera, unsigned int pos_y_barriere, unsigned int spazio_fra_barriere, unsigned int larghezza_sparo);
 
-void creaSparoAlieni (Partita &partita, unsigned int larghezza_sparo, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
+void creaSparoAlieni (Partita &partita, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int larghezza_sparo, unsigned int altezza_alieni);
 
 bool controlloCollisioneCarroDaOndata (Partita &partita, unsigned int distanza_file_alieni, unsigned int altezza_alieni, unsigned int pos_y_carro);
 

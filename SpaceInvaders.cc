@@ -55,7 +55,7 @@ const float FPS_LAMPEGGIO_MENU = 3.5; /**<FPS per la frequenza in grado di conse
 const float FPS_COMPARSA_SPARO_ALIENI = 1.5; /**<FPS per la frequenza di creazione degli spari da parte degli alieni.*/
 const float FPS_ANIMAZIONE = 4; /**<FPS per la frequenza di cambiamento necessaria per realizzare l'animazione.*/
 const float FPS_COMPARSA_NAVICELLA_MISTERIOSA = 1; /**<FPS per la frequenza della possibile comparsa della navicella misteriosa.*/
-const float FPS_SPOSTAMENTO_ONDATA = 30; /**<FPS per la frequenza dello spostamento dell'ondata aliena.*/
+const float FPS_SPOSTAMENTO_ONDATA = 35; /**<FPS per la frequenza dello spostamento dell'ondata aliena.*/
 const float FPS_SPOSTAMENTO_NAVICELLA_MISTERIOSA = 240;
 const float FPS_SPOSTAMENTO_SPARI = 210;
 //FINE COSTANTI PER VARI TIMER
@@ -333,7 +333,7 @@ int main ()
 							{
 								if (!generale.partita_in_corso.sparo_alieni.stato)
 								{
-									creaSparoAlieni (generale.partita_in_corso, larghezzaSparoAlienoAttuale (generale.partita_in_corso.sparo_alieni.pos_x), DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, altezzaAlieni (), larghezzaAlieno1 (), larghezzaAlieno2 (), larghezzaAlieno3 ());
+									creaSparoAlieni (generale.partita_in_corso, DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, larghezzaSparoAlienoAttuale (generale.partita_in_corso.sparo_alieni.pos_x), altezzaAlieni ());
 								}
 							}
 							else if (ev.timer.source == timer_comparsa_navicella)

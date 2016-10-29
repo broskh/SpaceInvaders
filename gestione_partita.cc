@@ -97,7 +97,7 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 	return collisione;
 }
 
-void creaSparoAlieni (Partita &partita, unsigned int distanza_file_alieni, unsigned int larghezza_sparo, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3)
+void creaSparoAlieni (Partita &partita, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int larghezza_sparo, unsigned int altezza_alieni)
 {
 	srand (time(NULL));
 	int fattore_casuale;
@@ -108,28 +108,27 @@ void creaSparoAlieni (Partita &partita, unsigned int distanza_file_alieni, unsig
 	else
 	{
 		fattore_casuale =  rand() % N_COL_ALIENI;
-	}
-
-	unsigned int pos_y_attuale  = partita.ondata.pos_y + altezza_alieni + distanza_file_alieni * (N_FILE_ALIENI - 1);	
-	for (int i = N_FILE_ALIENI - 1; i >= 0 && fattore_casuale >= 0; i--)
+	}	
+	bool creato = false;
+	while (!creato)
 	{
-		unsigned int larghezza_alieno = sceltaLarghezzaAlieno (i, larghezza_alieno_1, larghezza_alieno_2, larghezza_alieno_3);
-		unsigned int pos_x_attuale = partita.ondata.pos_x + larghezza_alieno / 2 - larghezza_sparo / 2;
-		for (unsigned int j = 0; j < N_COL_ALIENI && fattore_casuale >= 0; j++)
+		unsigned int pos_y_attuale  = partita.ondata.pos_y + altezza_alieni + distanza_file_alieni * (N_FILE_ALIENI - 1);
+		for (int i = N_FILE_ALIENI - 1; i >= 0 && !creato; i--)
 		{
-			if (partita.ondata.alieni [i] [j].stato)
+			unsigned int pos_x_attuale = partita.ondata.pos_x - larghezza_sparo / 2 + distanza_assi_col_alieni * fattore_casuale;
+			if (partita.ondata.alieni [i] [fattore_casuale].stato)
 			{
-				if (fattore_casuale == 0)
-				{
-					partita.sparo_alieni.stato = true;
-					partita.sparo_alieni.pos_x = pos_x_attuale;
-					partita.sparo_alieni.pos_y = pos_y_attuale;
-				}
-				fattore_casuale--;
+				partita.sparo_alieni.stato = true;
+				partita.sparo_alieni.pos_x = pos_x_attuale;
+				partita.sparo_alieni.pos_y = pos_y_attuale;
+				creato = true;
 			}
-			pos_x_attuale += distanza_assi_col_alieni;
+			pos_y_attuale -= distanza_file_alieni;
 		}
-		pos_y_attuale -= distanza_file_alieni;
+		if (!creato)
+		{
+			sucInRange (fattore_casuale, N_COL_ALIENI);
+		}
 	}
 }
 
