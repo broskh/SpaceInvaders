@@ -13,7 +13,7 @@ const unsigned int PUNTEGGIO_NAVICELLA_MIN = 100; /**<Punteggio minimo attribuit
 //INIZIO COSTANTI E COSTANTI DI GIOCO
 const unsigned int PROBABILITA_COMPARSA_NAVICELLA = 15; /**<Probabilità percentuale di comparsa della navicella misteriosa.*/
 const unsigned int DIMENSIONE_LATO_UNITA_BARRIERA = 4; /**<Lunghezza in pixel di ogni unità costituente le barriere.*/ //SARA' DA CANCELLARE<----------
-const unsigned int PESO_SPOSTAMENTO_CARRO_ARMATO = 6; /**<Peso dello spostamento laterale del carro armato.*/
+const unsigned int PESO_SPOSTAMENTO_CARRO_ARMATO = 5; /**<Peso dello spostamento laterale del carro armato.*/
 const unsigned int RIP_ANIMAZIONE_ESPLOSIONE_CARRO = 2; /**<Numero di ripetizioni dell'animazione di esplosione del carro.*/
 //FINE COSTANTI E COSTANTI DI GIOCO
 

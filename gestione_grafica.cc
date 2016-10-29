@@ -510,7 +510,7 @@ unsigned int altezzaSparoCarroArmato ()
 
 unsigned int larghezzaSparoCarroArmato ()
 {
-	return al_get_bitmap_width (carro_armato);
+	return al_get_bitmap_width (sparo_carro);
 }
 
 unsigned int altezzaAlieni ()

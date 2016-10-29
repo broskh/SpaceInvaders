@@ -70,7 +70,7 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 				unsigned int pos_y_attuale = pos_y_barriere;
 				for (unsigned int r = 0; r < ALT_BARRIERA; r++)
 				{
-					if (pos_y_corpo >= pos_y_attuale && pos_y_corpo <= pos_y_attuale + DIMENSIONE_LATO_UNITA_BARRIERA)
+					if (pos_y_corpo + DIMENSIONE_LATO_UNITA_BARRIERA >= pos_y_attuale && pos_y_corpo <= pos_y_attuale + DIMENSIONE_LATO_UNITA_BARRIERA)
 					{
 						for (unsigned int c = 0; c < LARG_BARRIERA; c++)
 						{	
