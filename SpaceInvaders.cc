@@ -380,12 +380,12 @@ int main ()
 								schermata_att = s_pausa;
 								cambia_schermata = true;
 								break;
-							case ALLEGRO_KEY_BACKSPACE:
+							/*case ALLEGRO_KEY_BACKSPACE:
 								while (true)
 								{
 									;//DA CANCELLARE PRIMA O POI
 								}
-								break;
+								break;*/
 						}
 					}
 					else if(ev.type == ALLEGRO_EVENT_KEY_CHAR)
