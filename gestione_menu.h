@@ -4,7 +4,7 @@
 
 const char MENU_PRINCIPALE [] [MAX_STRINGA_GENERICA] = {"Gioca", "Carica partita", "Opzioni", "Highscores", "Esci"}; /**<Voci del munù principale*/
 const int N_VOCI_MENU_PRINC = 5; /**<Numero di voci del menù principale.*/
-const char MENU_IMPOSTAZIONI [] [MAX_STRINGA_GENERICA] = {"Musica: ", "Effetti audio: ", "Modalita' grafica: ", "Vite iniziali: "}; /**<Voci del munù impostazioni.*/
+const char MENU_IMPOSTAZIONI [] [MAX_STRINGA_GENERICA] = {"Musica: ", "Effetti audio: ", "Colore alieni: ", "Vite iniziali: "}; /**<Voci del munù impostazioni.*/
 const int N_VOCI_MENU_IMPO = 4; /**<Numero di voci del menù impostazioni.*/
 const char INDICAZIONI_IMPOSTAZIONI [] [MAX_STRINGA_GENERICA_LUNGA] = {"Usa le frecce su e giu' per cambiare opzione", "Usa le frecce destra e sinistra per modificare il valore", "Premi enter per salvare e tornare al menu principale", "Premi R per ripristinare i valori di default"}; /**<Indicazioni del menù impostazioni.*/
 const int N_INDICAZIONI_MENU_IMPO = 4; /**<Numero di indicazioni del menù impostazioni.*/

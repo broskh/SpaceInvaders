@@ -75,26 +75,23 @@ bool stringaValoreVoceImpostazioni (char stringa [], voce_menu_impostazioni voce
 				strcpy (stringa, "Off");
 			}
 			break;
-		case v_mod_grafica:
-			switch (impostazioni.mod_grafica)
+		case v_colori_alieni:
+			switch (impostazioni.colore_alieni)
 			{
-				case mono_bianco:
-					strcpy (stringa, "Monocromo bianco");
+				case verde:
+					strcpy (stringa, "Verde");
 					break;
-				case mono_giallo:
-					strcpy (stringa, "Monocromo giallo");
+				case bianco:
+					strcpy (stringa, "Bianco");
 					break;
-				case mono_verde:
-					strcpy (stringa, "Monocromo verde");
+				case arancione:
+					strcpy (stringa, "Arancione");
 					break;
-				case fasce_vert:
-					strcpy (stringa, "Fasce verticali");
+				case giallo:
+					strcpy (stringa, "Giallo");
 					break;
-				case fasce_oriz:
-					strcpy (stringa, "Fasce orizzontali");
-					break;
-				case misto:
-					strcpy (stringa, "Misto");
+				case blu:
+					strcpy (stringa, "Blu");
 					break;
 			}
 			break;
@@ -118,8 +115,8 @@ bool valoreCampoImpostazioniPrec (voce_menu_impostazioni voce, Impostazioni &imp
 		case v_eff_audio:
 			impostazioni.eff_audio = !impostazioni.eff_audio;
 			break;
-		case v_mod_grafica:
-			impostazioni.mod_grafica = static_cast <grafica> (precInRangeCircuito (impostazioni.mod_grafica, 0, N_MODALITA_GRAFICHE));
+		case v_colori_alieni:
+			impostazioni.colore_alieni = static_cast <colore> (precInRangeCircuito (impostazioni.colore_alieni, 0, N_COLORI_ALIENI));
 			break;
 		case v_vite_iniziali:
 			impostazioni.vite_iniziali = precInRangeCircuito (impostazioni.vite_iniziali, 1, MAX_VITE + 1);
@@ -141,8 +138,8 @@ bool valoreCampoImpostazioniSuc (voce_menu_impostazioni voce, Impostazioni &impo
 		case v_eff_audio:
 			impostazioni.eff_audio = !impostazioni.eff_audio;
 			break;
-		case v_mod_grafica:
-			impostazioni.mod_grafica = static_cast <grafica> (sucInRangeCircuito (impostazioni.mod_grafica, 0, N_MODALITA_GRAFICHE));
+		case v_colori_alieni:
+			impostazioni.colore_alieni = static_cast <colore> (sucInRangeCircuito (impostazioni.colore_alieni, 0, N_COLORI_ALIENI));
 			break;
 		case v_vite_iniziali:
 			impostazioni.vite_iniziali = sucInRangeCircuito (impostazioni.vite_iniziali, 1, MAX_VITE + 1);

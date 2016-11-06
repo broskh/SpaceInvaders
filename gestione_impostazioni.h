@@ -4,7 +4,7 @@
 
 const bool DEFAULT_MUSICA = true; /**<Valore di default del campo musica.*/
 const bool DEFAULT_EFFETTI_AUDIO = true; /**<Valore di default del campo effetti_audio.*/
-const grafica DEFAULT_MODALITA_GRAFICA = mono_bianco; /**<Valore di default del campo mod_grafica.*/
+const colore DEFAULT_COLORE_ALIENI = verde; /**<Valore di default del campo mod_grafica.*/
 const unsigned int DEFAULT_VITE_INIZIALI = 3; /**<Valore di default del campo vite_iniziali.*/
 
 const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Percorso del file contenente le impostazioni salvate.*/
@@ -35,7 +35,7 @@ void salvaImpostazioni (Impostazioni impostazioni);
  * @param modalita_grafica Valore "grafica" da assegnare al campo {@link #Impostazioni.mod_grafica mod_grafica}.
  * @param vite_iniziali Valore intero da assegnare al campo {@link #Impostazioni.vite_iniziali vite_iniziali}.
  */
-void inizializzaImpostazioni (Impostazioni &impostazioni, bool musica, bool effetti_audio, grafica modalita_grafica, unsigned int vite_iniziali);
+void inizializzaImpostazioni (Impostazioni &impostazioni, bool musica, bool effetti_audio, colore colore_alieni, unsigned int vite_iniziali);
 
 /**
  * Assegna a tutti i campi di una struttura {@link Impostazioni} i relativi valori di default.

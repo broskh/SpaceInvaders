@@ -263,7 +263,7 @@ int main ()
 
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
-						stampaMenuPrincipale (menu_principale, redraw_lampeggio, generale.partita_salvata);
+						stampaMenuPrincipale (menu_principale, redraw_lampeggio, generale.partita_salvata, generale.impostazioni.colore_alieni);
 					}
 			   	}
 				al_stop_timer(timer_lampeggio_voce);
@@ -412,7 +412,7 @@ int main ()
 
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
-						stampaGioca (generale.partita_in_corso, animazione);
+						stampaGioca (generale.partita_in_corso, animazione, generale.impostazioni.colore_alieni);
 
 						//INIZIO DEI CONTROLLI
 						if (!generale.partita_in_corso.carro_armato.esplosione)

@@ -10,7 +10,7 @@ const unsigned int ALT_BARRIERA = 17; /**<Altezza della barriera.*/
 const unsigned int N_FILE_ALIENI = 6; /**<Numero delle file di alieni.*/
 const unsigned int N_COL_ALIENI = 11; /**<Numero delle colonne di alieni.*/
 
-const int N_MODALITA_GRAFICHE = 6; /**<Numero di modalità grafiche disponibili.*/
+const int N_COLORI_ALIENI = 5; /**<Numero di modalità grafiche disponibili.*/
 const int MAX_VITE = 10; /**<Numero massimo di vite.*/
 const int CARATTERI_NOME = 3; /**<Numero di caratteri per le stringhe contenti il nome del realizzatore di un punteggio.*/ 
 const int MAX_HIGHSCORES = 10; /**<Numero di punteggi presenti nella classifica degli highscores.*/
@@ -27,7 +27,7 @@ const int MAX_N_VOCI = 5; /**<Numero di voci masssime presenti in un menu.*/
  * - "fasce_vert" e "fasce_oriz" se i alieni sono colorati attraverso fasce adiacenti di colori differenti;
  * - "misto" se vogliamo che i alieni siano di colori differenti, e mai uguali per due alieni adiacenti.
  */
-enum grafica {mono_bianco, mono_giallo, mono_verde, fasce_vert, fasce_oriz, misto};	//----------------------->aggiungere altre mono?<--------------------
+enum colore {verde, bianco, arancione, giallo, blu};
 
 /** Tipo che indica lo stato di ogni "quadrato" che costituisce la barriera.
  *
@@ -61,7 +61,7 @@ enum voce_menu_principale {v_gioca, v_carica, v_opzioni, v_highscores, v_esci};
 /**
  * Tipo che indica una voce del menù impostazioni.
  */
-enum voce_menu_impostazioni {v_musica, v_eff_audio, v_mod_grafica, v_vite_iniziali};
+enum voce_menu_impostazioni {v_musica, v_eff_audio, v_colori_alieni, v_vite_iniziali};
 
 /**
  * Tipo che indica una voce del menù di pausa.
@@ -90,7 +90,7 @@ struct Impostazioni
 {
 	bool musica; /**<Musica on/off.*/
 	bool eff_audio; /**<Effetti  audio on/off.*/
-	grafica mod_grafica; /**<Modalità grafica.*/
+	colore colore_alieni; /**<Modalità grafica.*/
 	unsigned int vite_iniziali; /**<Vite iniziali.*/
 };
 

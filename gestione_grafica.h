@@ -88,8 +88,8 @@ const char FILE_ESPLOSIONE_ALIENO [] = "Images/esplosione_alieno.png";
 //INIZIO INTERFACCIA
 ALLEGRO_DISPLAY * inizializzaGrafica ();
 void distruggiGrafica ();
-void stampaMenuPrincipale (Menu menu_principale, bool redraw_lampeggio, bool partita_salvata);
-void stampaGioca (Partita partita, bool animazione);
+void stampaMenuPrincipale (Menu menu_principale, bool redraw_lampeggio, bool partita_salvata, colore colore_alieni);
+void stampaGioca (Partita partita, bool animazione, colore colore_alieni);
 void stampaImpostazioni (Impostazioni impostazioni, Menu menu_impostazioni, bool redraw_lampeggio);
 void stampaHighscores (Punteggio highscores [], int n_highscores);
 void stampaMenuPausa (Menu menu_pausa, bool redraw_lampeggio);
