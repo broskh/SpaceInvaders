@@ -402,7 +402,7 @@ int main ()
 							{
 								if (generale.partita_in_corso.navicella_misteriosa.stato)
 								{
-									muoviNavicellaMisteriosa (generale.partita_in_corso, MARGINE_DX_GIOCO + larghezzaNavicellaMisteriosa ());
+									muoviNavicellaMisteriosa (generale.partita_in_corso, MARGINE_DX_GIOCO - larghezzaNavicellaMisteriosa ());
 								}
 							}
 							else if (ev.timer.source == timer_spostamento_spari)
