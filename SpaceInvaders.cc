@@ -45,6 +45,7 @@
 #include "gestione_highscores.h"
 #include "gestione_menu.h"
 #include "gestione_grafica.h"
+#include "gestione_audio.h"
 
 #include <iostream>
 using namespace std;
@@ -61,16 +62,6 @@ const unsigned int STADI_INCREMENTO_VELOCITA_ONDATA = 20;
 const float FPS_SPOSTAMENTO_NAVICELLA_MISTERIOSA = 220;
 const float FPS_SPOSTAMENTO_SPARI = 210;
 //FINE COSTANTI PER VARI TIMER
-
-//INIZIO COSTANTI PER FILE
-const char FILE_MUSICA_PRINCIPALE [] = "Sounds/principale.wav"; /**<Percorso del file contenente la musica principale.*/
-const char FILE_MUSICA_SOTTOFONDO_ONDATA [] = "Sounds/sottofondo_ondata.wav";
-const char FILE_SUONO_ESPLOSIONE_CARRO_ARMATO [] = "Sounds/esplosione_carro_armato.wav";
-const char FILE_SUONO_ESPLOSIONE_ALIENO [] = "Sounds/esplosione_alieno.wav";
-const char FILE_SUONO_ESPLOSIONE_NAVICELLA_MISTERIOSA [] = "Sounds/esplosione_navicella_misteriosa.wav";
-const char FILE_SUONO_SPARO_CARRO_ARMATO [] = "Sounds/sparo_carro_armato.wav";
-const char FILE_SUONO_NAVICELLA_MISTERIOSA [] = "Sounds/navicella_misteriosa.wav";
-//FINE COSTANTI PER FILE
 
 /**
  * Calcola il valore della prossima schermata da mostrare nel menù principale.
@@ -108,29 +99,14 @@ int main ()
 	ALLEGRO_TIMER *timer_spostamento_ondata = NULL;
 	ALLEGRO_TIMER *timer_spostamento_navicella = NULL;
 	ALLEGRO_TIMER *timer_spostamento_spari = NULL;
-	ALLEGRO_SAMPLE *musica_principale = NULL;
-	ALLEGRO_SAMPLE *musica_sottofondo_ondata = NULL;
-	ALLEGRO_SAMPLE *suono_esplosione_carro_armato = NULL;
-	ALLEGRO_SAMPLE *suono_esplosione_alieno = NULL;
-	ALLEGRO_SAMPLE *suono_esplosione_navicella_misteriosa = NULL;
-	ALLEGRO_SAMPLE *suono_sparo_carro_armato = NULL;
-	ALLEGRO_SAMPLE *suono_navicella_misteriosa = NULL;
-
-	ALLEGRO_SAMPLE_INSTANCE *istanza_esplosione_carro_armato = NULL;
-	ALLEGRO_SAMPLE_INSTANCE *istanza_esplosione_alieno = NULL;
-	ALLEGRO_SAMPLE_INSTANCE *istanza_esplosione_navicella_misteriosa = NULL;
-	ALLEGRO_SAMPLE_INSTANCE *istanza_sparo_carro_armato = NULL;
-	ALLEGRO_SAMPLE_INSTANCE *istanza_navicella_misteriosa = NULL;
 
 	bool redraw = true;
 
 	assert (al_init());
 	assert (al_install_keyboard());
-	assert (al_install_audio());
-	assert (al_init_acodec_addon());
-	assert (al_reserve_samples(true));
 	
 	ALLEGRO_DISPLAY * display = inizializzaGrafica ();
+	inizializzaAudio ();
  
    	coda_eventi = al_create_event_queue();
    	assert (coda_eventi);
@@ -158,38 +134,6 @@ int main ()
 
 	timer_spostamento_ondata = al_create_timer(1.0 / FPS_SPOSTAMENTO_ONDATA_MAX);
 	assert (timer_spostamento_ondata);
-
-	musica_principale = al_load_sample (FILE_MUSICA_PRINCIPALE);
-	assert (musica_principale);
-
-	musica_sottofondo_ondata = al_load_sample (FILE_MUSICA_SOTTOFONDO_ONDATA);
-	assert (musica_sottofondo_ondata);
-
-	suono_esplosione_carro_armato = al_load_sample (FILE_SUONO_ESPLOSIONE_CARRO_ARMATO);
-	assert (suono_esplosione_carro_armato);
-	istanza_esplosione_carro_armato = al_create_sample_instance (suono_esplosione_carro_armato);
-	al_attach_sample_instance_to_mixer(istanza_esplosione_carro_armato, al_get_default_mixer());
-
-	suono_esplosione_alieno = al_load_sample (FILE_SUONO_ESPLOSIONE_ALIENO);
-	assert (suono_esplosione_alieno);
-	istanza_esplosione_alieno = al_create_sample_instance (suono_esplosione_alieno);
-	al_attach_sample_instance_to_mixer(istanza_esplosione_alieno, al_get_default_mixer());
-
-	suono_esplosione_navicella_misteriosa = al_load_sample (FILE_SUONO_ESPLOSIONE_NAVICELLA_MISTERIOSA);
-	assert (suono_esplosione_navicella_misteriosa);
-	istanza_esplosione_navicella_misteriosa = al_create_sample_instance (suono_esplosione_navicella_misteriosa);
-	al_attach_sample_instance_to_mixer(istanza_esplosione_navicella_misteriosa, al_get_default_mixer());
-
-	suono_sparo_carro_armato = al_load_sample (FILE_SUONO_SPARO_CARRO_ARMATO);
-	assert (suono_sparo_carro_armato);
-	istanza_sparo_carro_armato = al_create_sample_instance (suono_sparo_carro_armato);
-	al_attach_sample_instance_to_mixer(istanza_sparo_carro_armato, al_get_default_mixer());
-
-	suono_navicella_misteriosa = al_load_sample (FILE_SUONO_NAVICELLA_MISTERIOSA);
-	assert (suono_navicella_misteriosa);
-	istanza_navicella_misteriosa = al_create_sample_instance (suono_navicella_misteriosa);
-	al_attach_sample_instance_to_mixer(istanza_navicella_misteriosa, al_get_default_mixer());
-	al_set_sample_instance_playmode(istanza_navicella_misteriosa, ALLEGRO_PLAYMODE_LOOP);
  
    	al_register_event_source(coda_eventi, al_get_display_event_source(display));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(frame_rate_generale));
@@ -243,11 +187,11 @@ int main ()
 			case s_menu:
 				if (generale.impostazioni.musica)
 				{
-					al_play_sample(musica_principale, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+					avviaMusicaPrincipale ();
 				}
 				else
 				{
-					al_stop_samples ();
+					fermaMusicaPrincipale ();
 				}
 				menu_principale.voce_sel = v_gioca;
 				nuovaPartita (generale.partita_in_corso, generale.impostazioni, POS_X_PRIMO_ASSE_ALIENI, POS_Y_PRIMA_FILA_ONDATA, POS_CENTRO_X - larghezzaCarroArmato () / 2);
@@ -318,12 +262,12 @@ int main ()
 				eliminaFileSalvataggio (generale);
 				if (generale.impostazioni.musica)
 				{
-					al_stop_samples();
-					al_play_sample(musica_sottofondo_ondata, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+					fermaMusicaPrincipale ();
+					avviaMusicaOndata ();
 				}
 				if (generale.impostazioni.eff_audio && generale.partita_in_corso.navicella_misteriosa.stato)
 				{
-					al_play_sample_instance(istanza_navicella_misteriosa);
+					avviaSuonoNavicellaMisteriosa ();
 				}
 
 				al_start_timer(timer_comparsa_sparo_alieni);
@@ -394,7 +338,7 @@ int main ()
 									creaNavicellaMisteriosa (generale.partita_in_corso, MARGINE_SX_GIOCO);
 									if (generale.impostazioni.eff_audio && generale.partita_in_corso.navicella_misteriosa.stato)
 									{
-										al_play_sample_instance(istanza_navicella_misteriosa);
+										avviaSuonoNavicellaMisteriosa ();
 									}
 								}
 							}
@@ -456,7 +400,7 @@ int main ()
 										creaSparoCarroArmato (generale.partita_in_corso.carro_armato, generale.partita_in_corso.carro_armato.pos_x + larghezzaCarroArmato () / 2, MARGINE_INF_GIOCO - altezzaCarroArmato () - altezzaSparoCarroArmato ());
 										if (generale.impostazioni.eff_audio)
 										{
-											al_play_sample_instance(istanza_sparo_carro_armato);
+											avviaSuonoSparoCarroArmato ();
 										}
 									}
 									break;
@@ -476,7 +420,7 @@ int main ()
 								generale.partita_in_corso.carro_armato.esplosione = 1;
 								if (generale.impostazioni.eff_audio)
 								{
-									al_play_sample_instance(istanza_esplosione_carro_armato);
+									avviaSuonoEsplosioneCarroArmato ();
 								}
 							}
 							if (controlloFinePartita (generale.partita_in_corso) || controlloCollisioneCarroDaOndata (generale.partita_in_corso, DISTANZA_FILE_ALIENI, altezzaAlieni (), MARGINE_INF_GIOCO - altezzaCarroArmato ()))
@@ -490,7 +434,7 @@ int main ()
 								al_set_timer_speed(timer_spostamento_ondata, 1.0 / fpsVelocitaOndata (generale.partita_in_corso.ondata));
 								if (generale.impostazioni.eff_audio)
 								{
-									al_play_sample_instance(istanza_esplosione_alieno);
+									avviaSuonoEsplosioneAlieno ();
 								}
 							}
 							if (controlloCollisioneBarriereDaSparoCarro (generale.partita_in_corso, POS_X_PRIMA_BARRIERA, POS_Y_BARRIERE, DISTANZA_BARRIERE, larghezzaSparoCarroArmato ()))
@@ -505,7 +449,7 @@ int main ()
 							{
 								if (generale.impostazioni.eff_audio)
 								{
-									al_play_sample_instance(istanza_esplosione_navicella_misteriosa);
+									avviaSuonoEsplosioneNavicellaMisteriosa ();
 								}
 							}
 							if (controlloCollisioneBarriereDaOndata (generale.partita_in_corso, POS_X_PRIMA_BARRIERA, POS_Y_BARRIERE, DISTANZA_BARRIERE, DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, altezzaAlieni (), larghezzaAlieno1 (), larghezzaAlieno2 (), larghezzaAlieno3 ()))
@@ -520,15 +464,15 @@ int main ()
 							{								
 								if (!generale.partita_in_corso.navicella_misteriosa.stato)
 								{
-									al_stop_sample_instance(istanza_navicella_misteriosa);
+									fermaSuonoNavicellaMisteriosa ();
 								}
 							}
 							//FINE DEI CONTROLLI
 						}
 					}
 			   	}
-				al_stop_sample_instance(istanza_navicella_misteriosa);
-				al_stop_samples ();
+				fermaSuonoNavicellaMisteriosa ();
+				fermaMusicaOndata ();
 
 				al_stop_timer(timer_comparsa_sparo_alieni);
 				al_stop_timer(timer_animazione);
@@ -763,6 +707,7 @@ int main ()
 				break;
 			case s_esci:
 				distruggiGrafica ();
+				distruggiAudio ();
 				al_destroy_event_queue(coda_eventi);
 				al_destroy_timer(frame_rate_generale);
 				al_destroy_timer(timer_lampeggio_voce);
@@ -772,21 +717,10 @@ int main ()
 				al_destroy_timer(timer_spostamento_navicella);
 				al_destroy_timer(timer_spostamento_spari);
 				al_destroy_timer(timer_spostamento_ondata);
-				al_destroy_sample(musica_principale);
-				al_destroy_sample(musica_sottofondo_ondata);
-				al_destroy_sample(suono_esplosione_carro_armato);
-				al_destroy_sample(suono_esplosione_alieno);
-				al_destroy_sample(suono_esplosione_navicella_misteriosa);
-				al_destroy_sample(suono_sparo_carro_armato);
-				al_destroy_sample(suono_navicella_misteriosa);
-				al_destroy_sample_instance (istanza_esplosione_carro_armato);
-				al_destroy_sample_instance (istanza_esplosione_alieno);
-				al_destroy_sample_instance (istanza_esplosione_navicella_misteriosa);
-				al_destroy_sample_instance (istanza_sparo_carro_armato);
-				al_destroy_sample_instance (istanza_navicella_misteriosa);
 				return 0;
 			default:
 				distruggiGrafica ();
+				distruggiAudio ();
 				al_destroy_event_queue(coda_eventi);
 				al_destroy_timer(frame_rate_generale);
 				al_destroy_timer(timer_lampeggio_voce);
@@ -796,22 +730,11 @@ int main ()
 				al_destroy_timer(timer_spostamento_navicella);
 				al_destroy_timer(timer_spostamento_spari);
 				al_destroy_timer(timer_spostamento_ondata);
-				al_destroy_sample(musica_principale);
-				al_destroy_sample(musica_sottofondo_ondata);
-				al_destroy_sample(suono_esplosione_carro_armato);
-				al_destroy_sample(suono_esplosione_alieno);
-				al_destroy_sample(suono_esplosione_navicella_misteriosa);
-				al_destroy_sample(suono_sparo_carro_armato);
-				al_destroy_sample(suono_navicella_misteriosa);
-				al_destroy_sample_instance (istanza_esplosione_carro_armato);
-				al_destroy_sample_instance (istanza_esplosione_alieno);
-				al_destroy_sample_instance (istanza_esplosione_navicella_misteriosa);
-				al_destroy_sample_instance (istanza_sparo_carro_armato);
-				al_destroy_sample_instance (istanza_navicella_misteriosa);
 				return 2;
 		}
 	}
 	distruggiGrafica ();
+	distruggiAudio ();
 	al_destroy_event_queue(coda_eventi);
 	al_destroy_timer(frame_rate_generale);
 	al_destroy_timer(timer_lampeggio_voce);
@@ -821,18 +744,6 @@ int main ()
 	al_destroy_timer(timer_spostamento_navicella);
 	al_destroy_timer(timer_spostamento_spari);
 	al_destroy_timer(timer_spostamento_ondata);
-	al_destroy_sample(musica_principale);
-	al_destroy_sample(musica_sottofondo_ondata);
-	al_destroy_sample(suono_esplosione_carro_armato);
-	al_destroy_sample(suono_esplosione_alieno);
-	al_destroy_sample(suono_esplosione_navicella_misteriosa);
-	al_destroy_sample(suono_sparo_carro_armato);
-	al_destroy_sample(suono_navicella_misteriosa);
-	al_destroy_sample_instance (istanza_esplosione_carro_armato);
-	al_destroy_sample_instance (istanza_esplosione_alieno);
-	al_destroy_sample_instance (istanza_esplosione_navicella_misteriosa);
-	al_destroy_sample_instance (istanza_sparo_carro_armato);
-	al_destroy_sample_instance (istanza_navicella_misteriosa);
    	return 1;
 }
 
