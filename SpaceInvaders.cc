@@ -37,8 +37,8 @@
 //#include <allegro5/allegro_image.h>
 //#include <allegro5/allegro_font.h>
 //#include <allegro5/allegro_ttf.h>
-#include <allegro5/allegro_audio.h>
-#include <allegro5/allegro_acodec.h>
+//#include <allegro5/allegro_audio.h>
+//#include <allegro5/allegro_acodec.h>
 #include "struttura_dati.h"
 #include "gestione_partita.h"
 #include "gestione_impostazioni.h"
@@ -56,9 +56,10 @@ const float FPS_LAMPEGGIO_MENU = 3.5; /**<FPS per la frequenza in grado di conse
 const float FPS_COMPARSA_SPARO_ALIENI = 1.5; /**<FPS per la frequenza di creazione degli spari da parte degli alieni.*/
 const float FPS_ANIMAZIONE = 4; /**<FPS per la frequenza di cambiamento necessaria per realizzare l'animazione.*/
 const float FPS_COMPARSA_NAVICELLA_MISTERIOSA = 1; /**<FPS per la frequenza della possibile comparsa della navicella misteriosa.*/
-const float FPS_SPOSTAMENTO_ONDATA_MIN = 50;
+const float FPS_SPOSTAMENTO_ONDATA_MIN = 70;
 const float FPS_SPOSTAMENTO_ONDATA_MAX = 240;
-const unsigned int STADI_INCREMENTO_VELOCITA_ONDATA = 20;
+const unsigned int STADI_INCREMENTO_VELOCITA_ONDATA = 5;
+const unsigned int RANGE_PERCENTUALE_INCREMENTO_VELOCITA_ONDATA = 100 / STADI_INCREMENTO_VELOCITA_ONDATA;
 const float FPS_SPOSTAMENTO_NAVICELLA_MISTERIOSA = 220;
 const float FPS_SPOSTAMENTO_SPARI = 210;
 //FINE COSTANTI PER VARI TIMER
@@ -83,7 +84,7 @@ schermata cambiaSchermataMenuPrincipale (voce_menu_principale voce);
  */
 schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceInvaders);
 
-unsigned int fpsVelocitaOndata (Ondata ondata);
+unsigned int percentualeVelocitaOndata (Ondata ondata);
 
 /**
  * FARE DOCUMENTAZIONE PER MAIN
@@ -264,6 +265,7 @@ int main ()
 				{
 					fermaMusicaPrincipale ();
 					avviaMusicaOndata ();
+					modificaVelocitaMusicaOndata (percentualeVelocitaOndata (generale.partita_in_corso.ondata));
 				}
 				if (generale.impostazioni.eff_audio && generale.partita_in_corso.navicella_misteriosa.stato)
 				{
@@ -275,8 +277,9 @@ int main ()
 				al_start_timer(timer_comparsa_navicella);
 				al_start_timer(timer_spostamento_navicella);
 				al_start_timer(timer_spostamento_spari);
-				al_set_timer_speed(timer_spostamento_ondata, 1.0 / fpsVelocitaOndata (generale.partita_in_corso.ondata));
+				al_set_timer_speed(timer_spostamento_ondata, 1.0 / (((FPS_SPOSTAMENTO_ONDATA_MAX - FPS_SPOSTAMENTO_ONDATA_MIN) / 100 * percentualeVelocitaOndata (generale.partita_in_corso.ondata)) + FPS_SPOSTAMENTO_ONDATA_MIN));
 				al_start_timer(timer_spostamento_ondata);
+
 
 				while(!cambia_schermata)
 			   	{
@@ -431,7 +434,10 @@ int main ()
 							}
 							if (controlloCollisioneAlieni (generale.partita_in_corso, larghezzaSparoCarroArmato (), DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, altezzaAlieni (), larghezzaAlieno1 (), larghezzaAlieno2 (), larghezzaAlieno3 ()))
 							{
-								al_set_timer_speed(timer_spostamento_ondata, 1.0 / fpsVelocitaOndata (generale.partita_in_corso.ondata));
+								if (generale.impostazioni.musica)
+								{
+									modificaVelocitaMusicaOndata (percentualeVelocitaOndata (generale.partita_in_corso.ondata));
+								}
 								if (generale.impostazioni.eff_audio)
 								{
 									avviaSuonoEsplosioneAlieno ();
@@ -789,7 +795,7 @@ schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceIn
 	return s_menu;
 }
 
-unsigned int fpsVelocitaOndata (Ondata ondata)
+/*unsigned int fpsVelocitaOndata (Ondata ondata)
 {
 	float range_fps = (FPS_SPOSTAMENTO_ONDATA_MAX - FPS_SPOSTAMENTO_ONDATA_MIN) / STADI_INCREMENTO_VELOCITA_ONDATA;
 	float range_alieni = N_ALIENI_TOTALE / STADI_INCREMENTO_VELOCITA_ONDATA;
@@ -803,4 +809,10 @@ unsigned int fpsVelocitaOndata (Ondata ondata)
 		}
 	}
 	return FPS_SPOSTAMENTO_ONDATA_MIN;
+}*/
+
+unsigned int percentualeVelocitaOndata (Ondata ondata)
+{
+	int percentuale_alieni_eliminati = percentualeAlieniEliminati (ondata);
+	return percentuale_alieni_eliminati - (percentuale_alieni_eliminati % RANGE_PERCENTUALE_INCREMENTO_VELOCITA_ONDATA);
 }

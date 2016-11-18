@@ -18,6 +18,7 @@ static ALLEGRO_SAMPLE *suono_esplosione_navicella_misteriosa = NULL;
 static ALLEGRO_SAMPLE *suono_sparo_carro_armato = NULL;
 static ALLEGRO_SAMPLE *suono_navicella_misteriosa = NULL;
 
+static ALLEGRO_SAMPLE_INSTANCE *istanza_sottofondo_ondata = NULL;
 static ALLEGRO_SAMPLE_INSTANCE *istanza_esplosione_carro_armato = NULL;
 static ALLEGRO_SAMPLE_INSTANCE *istanza_esplosione_alieno = NULL;
 static ALLEGRO_SAMPLE_INSTANCE *istanza_esplosione_navicella_misteriosa = NULL;
@@ -37,6 +38,9 @@ void inizializzaAudio ()
 
 	musica_sottofondo_ondata = al_load_sample (FILE_MUSICA_SOTTOFONDO_ONDATA);
 	assert (musica_sottofondo_ondata);
+	istanza_sottofondo_ondata = al_create_sample_instance (musica_sottofondo_ondata);
+	al_attach_sample_instance_to_mixer(istanza_sottofondo_ondata, al_get_default_mixer());
+	al_set_sample_instance_playmode(istanza_sottofondo_ondata, ALLEGRO_PLAYMODE_LOOP);
 
 	suono_esplosione_carro_armato = al_load_sample (FILE_SUONO_ESPLOSIONE_CARRO_ARMATO);
 	assert (suono_esplosione_carro_armato);
@@ -74,6 +78,7 @@ void distruggiAudio ()
 	al_destroy_sample(suono_esplosione_navicella_misteriosa);
 	al_destroy_sample(suono_sparo_carro_armato);
 	al_destroy_sample(suono_navicella_misteriosa);
+	al_destroy_sample_instance (istanza_sottofondo_ondata);
 	al_destroy_sample_instance (istanza_esplosione_carro_armato);
 	al_destroy_sample_instance (istanza_esplosione_alieno);
 	al_destroy_sample_instance (istanza_esplosione_navicella_misteriosa);
@@ -93,12 +98,12 @@ void fermaMusicaPrincipale ()
 
 void avviaMusicaOndata ()
 {
-	al_play_sample(musica_sottofondo_ondata, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+	al_play_sample_instance(istanza_sottofondo_ondata);
 }
 
 void fermaMusicaOndata ()
 {
-	al_stop_samples ();
+	al_stop_sample_instance(istanza_sottofondo_ondata);
 }
 
 void avviaSuonoNavicellaMisteriosa ()
@@ -129,5 +134,10 @@ void avviaSuonoEsplosioneAlieno ()
 void avviaSuonoEsplosioneNavicellaMisteriosa ()
 {
 	al_play_sample_instance(istanza_esplosione_navicella_misteriosa);
+}
+
+void modificaVelocitaMusicaOndata (unsigned int percentuale_velocita_ondata)
+{
+	al_set_sample_instance_speed(istanza_sottofondo_ondata,((VELOCITA_SOTTOFONDO_ONDATA_MAX - VELOCITA_SOTTOFONDO_ONDATA_MIN) / 100 * percentuale_velocita_ondata) + VELOCITA_SOTTOFONDO_ONDATA_MIN);
 }
 //FINE MODULO

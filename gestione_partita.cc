@@ -10,6 +10,11 @@ using namespace std;
 #include "gestione_partita.h"
 
 //INIZIO MODULO
+unsigned int percentualeAlieniEliminati (Ondata ondata)
+{
+	return 100 - ondata.alieni_rimasti * 100 / N_ALIENI_TOTALE;
+}
+
 unsigned int sceltaLarghezzaAlieno (unsigned int numero_fila, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3)
 {
 	if (numero_fila < 2)

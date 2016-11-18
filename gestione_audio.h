@@ -2,6 +2,11 @@
  * Header file contenente l'interfaccia del modulo di gestione dell'audio.
  */
 
+//INIZIO COSTANTI PER VELOCITA' AUDIO
+const float VELOCITA_SOTTOFONDO_ONDATA_MIN = 0.9;
+const float VELOCITA_SOTTOFONDO_ONDATA_MAX = 1.55;
+//FINE COSTANTI PER VELOCITA AUDIO
+
 //INIZIO COSTANTI PER FILE
 const char FILE_MUSICA_PRINCIPALE [] = "Sounds/principale.wav"; /**<Percorso del file contenente la musica principale.*/
 const char FILE_MUSICA_SOTTOFONDO_ONDATA [] = "Sounds/sottofondo_ondata.wav";
@@ -37,4 +42,6 @@ void avviaSuonoEsplosioneCarroArmato ();
 void avviaSuonoEsplosioneAlieno ();
 
 void avviaSuonoEsplosioneNavicellaMisteriosa ();
+
+void modificaVelocitaMusicaOndata (unsigned int percentuale_velocita_ondata);
 //FINE INTERFACCIA

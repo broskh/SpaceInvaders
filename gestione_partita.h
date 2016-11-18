@@ -23,6 +23,8 @@ const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file co
 //FINE COSTANTI PER FILE
 
 //INIZIO INTERFACCIA
+unsigned int percentualeAlieniEliminati (Ondata ondata);
+
 void creaSparoCarroArmato (Carro &carro, unsigned int pos_x, unsigned int pos_y);
 
 void stampaPartita (Partita partita);
