@@ -6,10 +6,29 @@
 #include <cstring>
 #include <cstdio>
 #include "struttura_dati.h"
-#include "funzioni_generiche.h"
 #include "gestione_menu.h"
 
 //INIZIO MODULO
+int precInRangeCircuito (int n, int min, int max)
+{
+	n--;
+	if (n < min)
+	{
+		n = max - 1;
+	}
+	return n;
+}
+
+int sucInRangeCircuito (int n, int min, int max)
+{
+	n++;
+	if (n > (max - 1))
+	{
+		n = min;
+	}
+	return n;
+}
+
 void vocePrec (Menu &menu)
 {
 	menu.voce_sel = precInRangeCircuito (menu.voce_sel, 0, menu.n_voci);

@@ -6,10 +6,39 @@ using namespace std;
 #include <fstream>
 #include <iostream>
 #include "struttura_dati.h"
-#include "funzioni_generiche.h"
 #include "gestione_partita.h"
 
 //INIZIO MODULO
+int precInRange (int n, int peso, int min)
+{
+	n -= peso;
+	if (n < min)
+	{
+		n = min;
+	}
+	return n;
+}
+
+int precInRange (int n, int min)
+{
+	return precInRange (n, 1, min);
+}
+
+int sucInRange (int n, int peso, int max)
+{
+	n += peso;
+	if (n > max)
+	{
+		n = max;
+	}
+	return n;
+}
+
+int sucInRange (int n, int max)
+{
+	return sucInRange (n, 1, max);
+}
+
 unsigned int percentualeAlieniEliminati (Ondata ondata)
 {
 	return 100 - ondata.alieni_rimasti * 100 / N_ALIENI_TOTALE;
