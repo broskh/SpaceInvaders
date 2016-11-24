@@ -22,7 +22,7 @@ const unsigned int DIMENSIONE_TESTO = 15; /**<Dimensione del font utilizzato per
 
 //INIZIO COSTANTI PER POSIZIONI NELLA SCHERMATA DEL MENU PRINCIPALE
 const unsigned int POS_X_ESEMPIO_ALIENI = 255; /**<Posizione rispetto all'asse x dalla quale mostrare i alieni nel menù principale.*/
-const unsigned int POS_X_ESEMPIO_PUNTEGGIO = 350; /**<Posizione rispetto all'asse x dalla quale mostrare i punteggi nel menù principale.*/
+const unsigned int POS_X_ESEMPIO_PUNTEGGIO = 305; /**<Posizione rispetto all'asse x dalla quale mostrare i punteggi nel menù principale.*/
 const unsigned int POS_Y_TITOLO_MENU_PRINCIPALE = 25; /**<Posizione rispetto all'asse y dalla quale mostrare il titolo nel menù principale.*/
 const unsigned int POS_Y_ESMEPIO_ALIENI = 200; /**<Posizione rispetto all'asse y dalla quale mostrare i alieni nel menù principale.*/
 const unsigned int POS_Y_VOCI_MENU_PRINCIPALE = 340; /**<Posizione rispetto all'asse y dalla quale mostrare il menu nel menù principale.*/
@@ -66,7 +66,6 @@ const unsigned int POS_Y_TITOLO_PAUSA = 100; /**<Posizione rispetto all'asse y d
 const int RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_CARRO = 2;
 const int RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_ALIENI = 1;
 const unsigned int N_STATI_SPRITE = 2;
-const unsigned int N_TIPI_ALIENI = 3;
 //FINE COSTANTI GENERICHE DI GIOCO
 
 //INIZIO COSTANTI PER FILE
@@ -102,9 +101,7 @@ unsigned int altezzaSparoAlienoAttuale (unsigned int pos_x_sparo);
 unsigned int larghezzaSparoAlienoAttuale (unsigned int pos_x_sparo);
 unsigned int altezzaSparoCarroArmato ();
 unsigned int larghezzaSparoCarroArmato ();
-unsigned int altezzaAlieni ();
-unsigned int larghezzaAlieno1 ();
-unsigned int larghezzaAlieno2 ();
-unsigned int larghezzaAlieno3 ();
+unsigned int altezzaAlieno (unsigned int n_fila_alieno);
+unsigned int larghezzaAlieno (unsigned int n_fila_alieno);
 unsigned int larghezzaLatoUnitaBarriera ();
 //FINE INTERFACCIA

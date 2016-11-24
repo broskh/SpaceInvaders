@@ -2,11 +2,8 @@
  * File contenente il modulo di gestione dell'audio.
  */
 
-//#include <cstdio>
-//#include <allegro5/allegro.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
-//#include "struttura_dati.h"
 #include "gestione_audio.h"
 
 //INIZIO VARIABILI DI MODULO

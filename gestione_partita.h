@@ -3,9 +3,8 @@
  */
 
 //INIZIO COSTANTI PER ALIENI
-const unsigned int PUNTEGGIO_ALIENO_3 = 10; /**<Punteggio attribuito al alieno 3.*/
-const unsigned int PUNTEGGIO_ALIENO_2 = 20; /**<Punteggio attribuito al alieno 2.*/
-const unsigned int PUNTEGGIO_ALIENO_1 = 30; /**<Punteggio attribuito al alieno 1.*/
+const unsigned int N_TIPI_ALIENI = 3; /**<Numero dei differenti tipi di alieni.*/
+const unsigned int PUNTEGGIO_ALIENI [N_TIPI_ALIENI] = {10, 20, 30};
 const unsigned int PUNTEGGIO_NAVICELLA_MAX = 500; /**<Punteggio massimo attribuito alla navicella.*/
 const unsigned int PUNTEGGIO_NAVICELLA_MIN = 100; /**<Punteggio minimo attribuito alla navicella.*/
 //FINE COSTANTI PER ALIENI
@@ -29,7 +28,7 @@ void creaSparoCarroArmato (Carro &carro, unsigned int pos_x, unsigned int pos_y)
 
 void stampaPartita (Partita partita);
 
-bool controlloCollisioneBarriereDaOndata (Partita &partita, unsigned int pos_x_prima_barriera, unsigned int pos_y_barriere, unsigned int spazio_fra_barriere, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
+bool controlloCollisioneBarriereDaOndata (Partita &partita, unsigned int pos_x_prima_barriera, unsigned int pos_y_barriere, unsigned int spazio_fra_barriere, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezze_alieni [N_TIPI_ALIENI]);
 
 bool controlloCollisioneNavicellaMisteriosa (Partita &partita, unsigned int pos_y_fondo_navicella, unsigned int larghezza_navicella, unsigned int larghezza_sparo);
 
@@ -47,7 +46,7 @@ void creaSparoAlieni (Partita &partita, unsigned int distanza_file_alieni, unsig
 
 bool controlloCollisioneCarroDaOndata (Partita &partita, unsigned int distanza_file_alieni, unsigned int altezza_alieni, unsigned int pos_y_carro);
 
-bool controlloCollisioneAlieni (Partita &partita, unsigned int larghezza_sparo, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3);
+bool controlloCollisioneAlieni (Partita &partita, unsigned int larghezza_sparo, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezze_alieni [N_TIPI_ALIENI]);
 
 void muoviSparoAlieni (Sparo &sparo, unsigned int limite_inferiore);
 

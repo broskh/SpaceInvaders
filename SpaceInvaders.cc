@@ -34,11 +34,6 @@
  */
 
 #include <allegro5/allegro.h>
-//#include <allegro5/allegro_image.h>
-//#include <allegro5/allegro_font.h>
-//#include <allegro5/allegro_ttf.h>
-//#include <allegro5/allegro_audio.h>
-//#include <allegro5/allegro_acodec.h>
 #include "struttura_dati.h"
 #include "gestione_partita.h"
 #include "gestione_impostazioni.h"
@@ -86,23 +81,24 @@ schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceIn
 
 unsigned int percentualeVelocitaOndata (Ondata ondata);
 
+void distruggiTimer ();
+
+void distruggiCoda ();
+
+static ALLEGRO_EVENT_QUEUE *coda_eventi = NULL;
+static ALLEGRO_TIMER *frame_rate_generale = NULL;
+static ALLEGRO_TIMER *timer_lampeggio_voce = NULL;
+static ALLEGRO_TIMER *timer_comparsa_sparo_alieni= NULL;
+static ALLEGRO_TIMER *timer_animazione = NULL;
+static ALLEGRO_TIMER *timer_comparsa_navicella = NULL;
+static ALLEGRO_TIMER *timer_spostamento_ondata = NULL;
+static ALLEGRO_TIMER *timer_spostamento_navicella = NULL;
+static ALLEGRO_TIMER *timer_spostamento_spari = NULL;
 /**
  * FARE DOCUMENTAZIONE PER MAIN
  */
 int main ()
 {
-	ALLEGRO_EVENT_QUEUE *coda_eventi = NULL;
-	ALLEGRO_TIMER *frame_rate_generale = NULL;
-	ALLEGRO_TIMER *timer_lampeggio_voce = NULL;
-	ALLEGRO_TIMER *timer_comparsa_sparo_alieni= NULL;
-	ALLEGRO_TIMER *timer_animazione = NULL;
-	ALLEGRO_TIMER *timer_comparsa_navicella = NULL;
-	ALLEGRO_TIMER *timer_spostamento_ondata = NULL;
-	ALLEGRO_TIMER *timer_spostamento_navicella = NULL;
-	ALLEGRO_TIMER *timer_spostamento_spari = NULL;
-
-	bool redraw = true;
-
 	assert (al_init());
 	assert (al_install_keyboard());
 	
@@ -163,6 +159,8 @@ int main ()
 	}
 	//FINE INIZIALIZZAZIONE DELLA STRUTTURA PRINCIPALE
 	
+	unsigned int larghezze_alieni [N_TIPI_ALIENI] = {larghezzaAlieno (0), larghezzaAlieno (1), larghezzaAlieno (2)};	
+
 	schermata schermata_att = s_menu;
 	bool cambia_schermata;
 	
@@ -172,6 +170,8 @@ int main ()
 	inizializzaMenu (menu_impostazioni, MENU_IMPOSTAZIONI, N_VOCI_MENU_IMPO, v_musica);
 	Menu menu_pausa;
 	inizializzaMenu (menu_pausa, MENU_PAUSA, N_VOCI_MENU_PAUSA, v_continua);
+
+	bool redraw = true;
 	bool redraw_lampeggio;
 	bool animazione;
 
@@ -331,7 +331,7 @@ int main ()
 							{
 								if (!generale.partita_in_corso.sparo_alieni.stato)
 								{
-									creaSparoAlieni (generale.partita_in_corso, DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, larghezzaSparoAlienoAttuale (generale.partita_in_corso.sparo_alieni.pos_x), altezzaAlieni ());
+									creaSparoAlieni (generale.partita_in_corso, DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, larghezzaSparoAlienoAttuale (generale.partita_in_corso.sparo_alieni.pos_x), altezzaAlieno (0));
 								}
 							}
 							else if (ev.timer.source == timer_comparsa_navicella)
@@ -365,7 +365,7 @@ int main ()
 							}
 							else if (ev.timer.source == timer_spostamento_ondata)
 							{
-								muoviAlieni (generale.partita_in_corso.ondata, DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, MARGINE_INF_GIOCO - altezzaCarroArmato (), MARGINE_DX_GIOCO - (larghezzaAlieno3 ()) / 2, MARGINE_SX_GIOCO);
+								muoviAlieni (generale.partita_in_corso.ondata, DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, MARGINE_INF_GIOCO - altezzaCarroArmato (), MARGINE_DX_GIOCO - (larghezzaAlieno (2)) / 2, MARGINE_SX_GIOCO);
 							}
 						}						
 					}
@@ -426,13 +426,13 @@ int main ()
 									avviaSuonoEsplosioneCarroArmato ();
 								}
 							}
-							if (controlloFinePartita (generale.partita_in_corso) || controlloCollisioneCarroDaOndata (generale.partita_in_corso, DISTANZA_FILE_ALIENI, altezzaAlieni (), MARGINE_INF_GIOCO - altezzaCarroArmato ()))
+							if (controlloFinePartita (generale.partita_in_corso) || controlloCollisioneCarroDaOndata (generale.partita_in_corso, DISTANZA_FILE_ALIENI, altezzaAlieno (0), MARGINE_INF_GIOCO - altezzaCarroArmato ()))
 							{
 								schermata_att = s_fine_partita;
 								cambia_schermata = true;
 								break;
 							}
-							if (controlloCollisioneAlieni (generale.partita_in_corso, larghezzaSparoCarroArmato (), DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, altezzaAlieni (), larghezzaAlieno1 (), larghezzaAlieno2 (), larghezzaAlieno3 ()))
+							if (controlloCollisioneAlieni (generale.partita_in_corso, larghezzaSparoCarroArmato (), DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, altezzaAlieno (0), larghezze_alieni))
 							{
 								if (generale.impostazioni.musica)
 								{
@@ -458,7 +458,7 @@ int main ()
 									avviaSuonoEsplosioneNavicellaMisteriosa ();
 								}
 							}
-							if (controlloCollisioneBarriereDaOndata (generale.partita_in_corso, POS_X_PRIMA_BARRIERA, POS_Y_BARRIERE, DISTANZA_BARRIERE, DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, altezzaAlieni (), larghezzaAlieno1 (), larghezzaAlieno2 (), larghezzaAlieno3 ()))
+							if (controlloCollisioneBarriereDaOndata (generale.partita_in_corso, POS_X_PRIMA_BARRIERA, POS_Y_BARRIERE, DISTANZA_BARRIERE, DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, altezzaAlieno (0), larghezze_alieni))
 							{
 								;
 							}
@@ -714,42 +714,21 @@ int main ()
 			case s_esci:
 				distruggiGrafica ();
 				distruggiAudio ();
-				al_destroy_event_queue(coda_eventi);
-				al_destroy_timer(frame_rate_generale);
-				al_destroy_timer(timer_lampeggio_voce);
-				al_destroy_timer(timer_comparsa_sparo_alieni);
-				al_destroy_timer(timer_animazione);
-				al_destroy_timer(timer_comparsa_navicella);
-				al_destroy_timer(timer_spostamento_navicella);
-				al_destroy_timer(timer_spostamento_spari);
-				al_destroy_timer(timer_spostamento_ondata);
+				distruggiCoda ();
+				distruggiTimer ();
 				return 0;
 			default:
 				distruggiGrafica ();
 				distruggiAudio ();
-				al_destroy_event_queue(coda_eventi);
-				al_destroy_timer(frame_rate_generale);
-				al_destroy_timer(timer_lampeggio_voce);
-				al_destroy_timer(timer_comparsa_sparo_alieni);
-				al_destroy_timer(timer_animazione);
-				al_destroy_timer(timer_comparsa_navicella);
-				al_destroy_timer(timer_spostamento_navicella);
-				al_destroy_timer(timer_spostamento_spari);
-				al_destroy_timer(timer_spostamento_ondata);
+				distruggiCoda ();
+				distruggiTimer ();
 				return 2;
 		}
 	}
 	distruggiGrafica ();
 	distruggiAudio ();
-	al_destroy_event_queue(coda_eventi);
-	al_destroy_timer(frame_rate_generale);
-	al_destroy_timer(timer_lampeggio_voce);
-	al_destroy_timer(timer_comparsa_sparo_alieni);
-	al_destroy_timer(timer_animazione);
-	al_destroy_timer(timer_comparsa_navicella);
-	al_destroy_timer(timer_spostamento_navicella);
-	al_destroy_timer(timer_spostamento_spari);
-	al_destroy_timer(timer_spostamento_ondata);
+	distruggiCoda ();
+	distruggiTimer ();
    	return 1;
 }
 
@@ -795,24 +774,25 @@ schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, SpaceInvaders &spaceIn
 	return s_menu;
 }
 
-/*unsigned int fpsVelocitaOndata (Ondata ondata)
-{
-	float range_fps = (FPS_SPOSTAMENTO_ONDATA_MAX - FPS_SPOSTAMENTO_ONDATA_MIN) / STADI_INCREMENTO_VELOCITA_ONDATA;
-	float range_alieni = N_ALIENI_TOTALE / STADI_INCREMENTO_VELOCITA_ONDATA;
-	int massimo_attuale = 0;
-	for (unsigned int i = 0; i < STADI_INCREMENTO_VELOCITA_ONDATA; i++)
-	{
-		massimo_attuale += range_alieni;
-		if (ondata.alieni_rimasti < massimo_attuale)
-		{
-			return (range_fps * (STADI_INCREMENTO_VELOCITA_ONDATA - i)) + FPS_SPOSTAMENTO_ONDATA_MIN;
-		}
-	}
-	return FPS_SPOSTAMENTO_ONDATA_MIN;
-}*/
-
 unsigned int percentualeVelocitaOndata (Ondata ondata)
 {
 	int percentuale_alieni_eliminati = percentualeAlieniEliminati (ondata);
 	return percentuale_alieni_eliminati - (percentuale_alieni_eliminati % RANGE_PERCENTUALE_INCREMENTO_VELOCITA_ONDATA);
+}
+
+void distruggiTimer ()
+{
+	al_destroy_timer(frame_rate_generale);
+	al_destroy_timer(timer_lampeggio_voce);
+	al_destroy_timer(timer_comparsa_sparo_alieni);
+	al_destroy_timer(timer_animazione);
+	al_destroy_timer(timer_comparsa_navicella);
+	al_destroy_timer(timer_spostamento_navicella);
+	al_destroy_timer(timer_spostamento_spari);
+	al_destroy_timer(timer_spostamento_ondata);
+}
+
+void distruggiCoda ()
+{
+	al_destroy_event_queue(coda_eventi);
 }

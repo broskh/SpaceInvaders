@@ -3,13 +3,13 @@
  */
 
 #include <cstdio>
-//#include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
 #include "struttura_dati.h"
 #include "gestione_grafica.h"
 #include "gestione_menu.h"
+#include "gestione_partita.h"
 
 //INIZIO VARIABILI DI MODULO
 static ALLEGRO_DISPLAY *display = NULL;
@@ -17,11 +17,8 @@ static ALLEGRO_BITMAP *barriera = NULL;
 static ALLEGRO_BITMAP *carro_armato = NULL;
 static ALLEGRO_BITMAP *sparo_carro = NULL;
 static ALLEGRO_BITMAP *navicella_misteriosa = NULL;
-static ALLEGRO_BITMAP *alieno_tipo_1 = NULL;
-static ALLEGRO_BITMAP *alieno_tipo_2 = NULL;
-static ALLEGRO_BITMAP *alieno_tipo_3 = NULL;
-static ALLEGRO_BITMAP *sparo_alieni_1 = NULL;
-static ALLEGRO_BITMAP *sparo_alieni_2 = NULL;
+static ALLEGRO_BITMAP *tipi_alieni [N_TIPI_ALIENI] = {NULL, NULL, NULL};
+static ALLEGRO_BITMAP *spari_alieni [N_TIPI_ALIENI] = {NULL, NULL};
 static ALLEGRO_BITMAP *esplosione_carro = NULL;
 static ALLEGRO_BITMAP *esplosione_alieno = NULL;
 static ALLEGRO_FONT *font_titolo = NULL;
@@ -40,32 +37,17 @@ static ALLEGRO_COLOR COLORE_DEFAULT;
 //INIZIO MODULO
 ALLEGRO_BITMAP* scegliAlieno (unsigned int numero_fila)
 {
-	if (numero_fila < 2)
+	if (numero_fila < N_FILE_ALIENI)
 	{
-		return alieno_tipo_1;
+		unsigned int range = N_FILE_ALIENI / N_TIPI_ALIENI;
+		return tipi_alieni [numero_fila / range];
 	}
-	else if (numero_fila < 4)
-	{
-		return alieno_tipo_2;
-	}
-	else if (numero_fila < 6)
-	{
-		return alieno_tipo_3;
-	}
-
 	return NULL;
 }
 
 ALLEGRO_BITMAP * scegliSparo (int pos_x)
 {
-	if (pos_x % 2 == 0)
-	{
-		return sparo_alieni_1;		
-	}
-	else
-	{
-		return sparo_alieni_2;
-	}
+	return spari_alieni [pos_x % 2];
 }
 
 ALLEGRO_COLOR scelgliColore (colore colore_alieni)
@@ -108,10 +90,10 @@ ALLEGRO_DISPLAY * inizializzaGrafica ()
 	
 	barriera = al_load_bitmap(FILE_BARRIERA);
 	assert (barriera);
-	sparo_alieni_1 = al_load_bitmap(FILE_SPARO_ALIENI_1);
-	assert (sparo_alieni_1);
-	sparo_alieni_2 = al_load_bitmap(FILE_SPARO_ALIENI_2);
-	assert (sparo_alieni_2);
+	spari_alieni [0] = al_load_bitmap(FILE_SPARO_ALIENI_1);
+	assert (spari_alieni [0]);
+	spari_alieni [1] = al_load_bitmap(FILE_SPARO_ALIENI_2);
+	assert (spari_alieni [1]);
 	esplosione_carro = al_load_bitmap(FILE_ESPLOSIONE_CARRO);
 	assert (esplosione_carro);
 	esplosione_alieno = al_load_bitmap(FILE_ESPLOSIONE_ALIENO);
@@ -122,12 +104,12 @@ ALLEGRO_DISPLAY * inizializzaGrafica ()
 	assert (sparo_carro);
 	navicella_misteriosa = al_load_bitmap(FILE_NAVICELLA_MISTERIOSA);
 	assert (navicella_misteriosa);
-	alieno_tipo_1 = al_load_bitmap(FILE_ALIENO_TIPO_1);
-	assert (alieno_tipo_1);
-	alieno_tipo_2 = al_load_bitmap(FILE_ALIENO_TIPO_2);
-	assert (alieno_tipo_2);
-	alieno_tipo_3 = al_load_bitmap(FILE_ALIENO_TIPO_3);
-	assert (alieno_tipo_3);
+	tipi_alieni [0] = al_load_bitmap(FILE_ALIENO_TIPO_1);
+	assert (tipi_alieni [0]);
+	tipi_alieni [1] = al_load_bitmap(FILE_ALIENO_TIPO_2);
+	assert (tipi_alieni [1]);
+	tipi_alieni [2] = al_load_bitmap(FILE_ALIENO_TIPO_3);
+	assert (tipi_alieni [2]);
 
 	VERDE = al_map_rgb(0, 255, 0);
 	BIANCO = al_map_rgb(255, 255, 255);
@@ -147,15 +129,15 @@ void distruggiGrafica ()
 	al_destroy_display(display);
 	al_destroy_font (font_testo);
 	al_destroy_font (font_titolo);
-	al_destroy_bitmap(sparo_alieni_1);
-	al_destroy_bitmap(sparo_alieni_2);
+	al_destroy_bitmap(spari_alieni [0]);
+	al_destroy_bitmap(spari_alieni [1]);
 	al_destroy_bitmap(barriera);
 	al_destroy_bitmap(carro_armato);
 	al_destroy_bitmap(sparo_carro);
 	al_destroy_bitmap(navicella_misteriosa);
-	al_destroy_bitmap(alieno_tipo_1);
-	al_destroy_bitmap(alieno_tipo_2);
-	al_destroy_bitmap(alieno_tipo_3);
+	al_destroy_bitmap(tipi_alieni [0]);
+	al_destroy_bitmap(tipi_alieni [1]);
+	al_destroy_bitmap(tipi_alieni [2]);
 	al_destroy_bitmap(esplosione_carro);
 	al_destroy_bitmap(esplosione_alieno);
 }
@@ -172,20 +154,21 @@ void stampaMenuPrincipale (Menu menu_principale, bool redraw_lampeggio, bool par
 	//INIZIO DELLA VISUALIZZAZIONE DEGLI ALIENI E I RELATIVI PUNTEGGI
 	ALLEGRO_COLOR colore_allegro = scelgliColore (colore_alieni);
 	unsigned int pos_y_attuale = POS_Y_ESMEPIO_ALIENI;
-	al_draw_tinted_bitmap_region(alieno_tipo_1, colore_allegro, 0, 0, larghezzaAlieno1 (), al_get_bitmap_height (alieno_tipo_1), POS_X_ESEMPIO_ALIENI - al_get_bitmap_width (alieno_tipo_1) / (N_STATI_SPRITE * 2), pos_y_attuale, 0);
-	al_draw_text(font_testo, COLORE_DEFAULT, POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      10  PTS");
+	for (unsigned int i = 0; i < N_TIPI_ALIENI; i++)
+	{
+		al_draw_tinted_bitmap_region(tipi_alieni [i], colore_allegro, 0, 0, larghezzaAlieno (i), altezzaAlieno (i), POS_X_ESEMPIO_ALIENI - larghezzaAlieno (i) / 2, pos_y_attuale, 0);
+		char stringa_punteggio [] = "=      ";
+		char valore_punteggio [MAX_STRINGA_GENERICA];
+		sprintf(valore_punteggio, "%d", PUNTEGGIO_ALIENI [i]);
+		strcat (stringa_punteggio, valore_punteggio);
+		strcat (stringa_punteggio, "  PTS");
+		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_LEFT, stringa_punteggio);
 
-	pos_y_attuale = POS_Y_ESMEPIO_ALIENI + SPAZIO_TESTO + al_get_bitmap_height (alieno_tipo_1);
-	al_draw_tinted_bitmap_region(alieno_tipo_2, colore_allegro, 0, 0, larghezzaAlieno2 (), al_get_bitmap_height (alieno_tipo_2), POS_X_ESEMPIO_ALIENI - al_get_bitmap_width (alieno_tipo_2) / (N_STATI_SPRITE * 2), pos_y_attuale, 0);
-	al_draw_text(font_testo, COLORE_DEFAULT, POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      20  PTS");
+		pos_y_attuale += SPAZIO_TESTO + altezzaAlieno (i);
+	}
 
-	pos_y_attuale = POS_Y_ESMEPIO_ALIENI + (SPAZIO_TESTO + al_get_bitmap_height (alieno_tipo_1)) * 2;
-	al_draw_tinted_bitmap_region(alieno_tipo_3, colore_allegro, 0, 0, larghezzaAlieno3 (), al_get_bitmap_height (alieno_tipo_3), POS_X_ESEMPIO_ALIENI - al_get_bitmap_width (alieno_tipo_3) / (N_STATI_SPRITE * 2), pos_y_attuale, 0);
-	al_draw_text(font_testo, COLORE_DEFAULT, POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=      30  PTS");
-
-	pos_y_attuale = POS_Y_ESMEPIO_ALIENI + (SPAZIO_TESTO + al_get_bitmap_height (alieno_tipo_1)) * 3;
 	al_draw_tinted_bitmap(navicella_misteriosa, ROSSO, POS_X_ESEMPIO_ALIENI - al_get_bitmap_width (navicella_misteriosa) / 2, pos_y_attuale, 0);
-	al_draw_text(font_testo, COLORE_DEFAULT, POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, "=         ?  PTS");
+	al_draw_text(font_testo, COLORE_DEFAULT, POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_LEFT, "=      ?  PTS");
 	//FINE DELLA VISUALIZZAZIONE DEGLI ALIENI E I RELATIVI PUNTEGGI
 
 	//INIZIO DELLA VISUALIZZAZIONE DEL MENU
@@ -461,9 +444,8 @@ void stampaFinePartita (SpaceInvaders generale, int posizione_punteggio_attuale,
 	//INIZIO VISUALIZZAZIONE
 	al_clear_to_color(NERO);
 
-	unsigned int pos_y_attuale = POS_Y_HIGHSCORES_TITOLO;
-
 	//INIZIO DELLA VISUALIZZAZIONE DEL TITOLO
+	unsigned int pos_y_attuale = POS_Y_HIGHSCORES_TITOLO;
 	al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NUMERAZIONE_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, "HIGHSCORES:");
 	//FINE DELLA VISUALIZZAZIONE DEL TITOLO
 
@@ -558,24 +540,14 @@ unsigned int larghezzaSparoCarroArmato ()
 	return al_get_bitmap_width (sparo_carro);
 }
 
-unsigned int altezzaAlieni ()
+unsigned int altezzaAlieno (unsigned int n_fila_alieno)
 {
-	return al_get_bitmap_height (alieno_tipo_1);
+	return al_get_bitmap_height (tipi_alieni [n_fila_alieno]);
 }
 
-unsigned int larghezzaAlieno1 ()
+unsigned int larghezzaAlieno (unsigned int n_fila_alieno)
 {
-	return al_get_bitmap_width (alieno_tipo_1) / N_STATI_SPRITE;
-}
-
-unsigned int larghezzaAlieno2 ()
-{
-	return al_get_bitmap_width (alieno_tipo_2) / N_STATI_SPRITE;
-}
-
-unsigned int larghezzaAlieno3 ()
-{
-	return al_get_bitmap_width (alieno_tipo_3) / N_STATI_SPRITE;
+	return al_get_bitmap_width (tipi_alieni [n_fila_alieno]) / N_STATI_SPRITE;
 }
 
 unsigned int larghezzaLatoUnitaBarriera ()

@@ -44,19 +44,11 @@ unsigned int percentualeAlieniEliminati (Ondata ondata)
 	return 100 - ondata.alieni_rimasti * 100 / N_ALIENI_TOTALE;
 }
 
-unsigned int sceltaLarghezzaAlieno (unsigned int numero_fila, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3)
+unsigned int sceltaLarghezzaAlieno (unsigned int numero_fila, unsigned int larghezze_alieni [N_TIPI_ALIENI])
 {
-	if (numero_fila < 2)
+	if (numero_fila < N_FILE_ALIENI)
 	{
-		return larghezza_alieno_1;
-	}
-	else if (numero_fila < 4)
-	{
-		return larghezza_alieno_2;
-	}
-	else if (numero_fila < 6)
-	{
-		return larghezza_alieno_3;
+		return larghezze_alieni [numero_fila / (N_FILE_ALIENI / N_TIPI_ALIENI)];
 	}
 	
 	return 0;
@@ -194,13 +186,13 @@ bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita, unsigned int po
 	return collisione;
 }
 
-bool controlloCollisioneBarriereDaOndata (Partita &partita, unsigned int pos_x_prima_barriera, unsigned int pos_y_barriere, unsigned int spazio_fra_barriere, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3)
+bool controlloCollisioneBarriereDaOndata (Partita &partita, unsigned int pos_x_prima_barriera, unsigned int pos_y_barriere, unsigned int spazio_fra_barriere, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezze_alieni [N_TIPI_ALIENI])
 {
 	bool collisione = false;
 	unsigned int pos_y_fila  = partita.ondata.pos_y + altezza_alieni + distanza_file_alieni * (N_FILE_ALIENI - 1);
 	for (int i = N_FILE_ALIENI - 1; i >= 0 && pos_y_fila >= pos_y_barriere; i--)
 	{
-		unsigned int larghezza_alieno = sceltaLarghezzaAlieno (i, larghezza_alieno_1, larghezza_alieno_2, larghezza_alieno_3);
+		unsigned int larghezza_alieno = sceltaLarghezzaAlieno (i, larghezze_alieni);
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
 			unsigned int pos_x_attuale = (partita.ondata.pos_x + distanza_assi_col_alieni * j) - larghezza_alieno / 2;
@@ -283,7 +275,7 @@ bool controlloFineOndata (Ondata ondata)
 	return true;
 }
 
-bool controlloCollisioneAlieni (Partita &partita, unsigned int larghezza_sparo, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezza_alieno_1, unsigned int larghezza_alieno_2, unsigned int larghezza_alieno_3)
+bool controlloCollisioneAlieni (Partita &partita, unsigned int larghezza_sparo, unsigned int distanza_file_alieni, unsigned int distanza_assi_col_alieni, unsigned int altezza_alieni, unsigned int larghezze_alieni [N_TIPI_ALIENI])
 {
 	bool collisione = false;
 	if (partita.carro_armato.sparo.stato)
@@ -293,7 +285,7 @@ bool controlloCollisioneAlieni (Partita &partita, unsigned int larghezza_sparo, 
 		{
 			if (partita.carro_armato.sparo.pos_y <= pos_y_fila && partita.carro_armato.sparo.pos_y >= pos_y_fila - altezza_alieni)
 			{
-				unsigned int larghezza_alieno = sceltaLarghezzaAlieno (i, larghezza_alieno_1, larghezza_alieno_2, larghezza_alieno_3);
+				unsigned int larghezza_alieno = sceltaLarghezzaAlieno (i, larghezze_alieni);
 				unsigned int pos_x_fila = partita.ondata.pos_x - larghezza_alieno / 2;
 				for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 				{
@@ -480,32 +472,12 @@ void inizializzaAlieno (Alieno &alieno, unsigned int punteggio)
 void nuovaOndata (Ondata &ondata, unsigned int pos_x_primo_asse_ondata, unsigned int pos_y_primo_asse_ondata)
 {
 	int i = 0;
-	unsigned int punteggio_attuale;
 
-	punteggio_attuale = PUNTEGGIO_ALIENO_1;
-	for (; i < 2; i++)
-	{
+	for (unsigned int i = 0; i < N_FILE_ALIENI; i++)
+	{		
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
-			inizializzaAlieno (ondata.alieni [i] [j], punteggio_attuale);
-		}
-	}
-
-	punteggio_attuale = PUNTEGGIO_ALIENO_2;
-	for (; i < 4; i++)
-	{
-		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
-		{
-			inizializzaAlieno (ondata.alieni [i] [j], punteggio_attuale);
-		}
-	}
-
-	punteggio_attuale = PUNTEGGIO_ALIENO_3;
-	for (; i < 6; i++)
-	{
-		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
-		{
-			inizializzaAlieno (ondata.alieni [i] [j], punteggio_attuale);
+			inizializzaAlieno (ondata.alieni [i] [j], PUNTEGGIO_ALIENI [i / (N_FILE_ALIENI / N_TIPI_ALIENI)]);
 		}
 	}
 
