@@ -5,7 +5,7 @@
 using namespace std;
 #include <fstream>
 #include <iostream>
-#include "struttura_dati.h"
+#include "strutture_dati.h"
 #include "gestione_partita.h"
 
 //INIZIO MODULO
@@ -81,11 +81,11 @@ void muoviNavicellaMisteriosa (Partita &partita, unsigned int limite_dx)
 	}
 }
 
-bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x_prima_barriera, unsigned int pos_y_barriere, unsigned int spazio_fra_barriere, unsigned int pos_x_corpo, unsigned int pos_y_corpo, unsigned int larghezza_corpo)
+bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALTEZZA_BARRIERA] [LARGHEZZA_BARRIERA], unsigned int pos_x_prima_barriera, unsigned int pos_y_barriere, unsigned int spazio_fra_barriere, unsigned int pos_x_corpo, unsigned int pos_y_corpo, unsigned int larghezza_corpo)
 {
 	bool collisione = false;
-	unsigned int altezza_barriera = ALT_BARRIERA * DIMENSIONE_LATO_UNITA_BARRIERA;
-	unsigned int larghezza_pixel_barriera = LARG_BARRIERA * DIMENSIONE_LATO_UNITA_BARRIERA;
+	unsigned int altezza_barriera = ALTEZZA_BARRIERA * DIMENSIONE_LATO_UNITA_BARRIERA;
+	unsigned int larghezza_pixel_barriera = LARGHEZZA_BARRIERA * DIMENSIONE_LATO_UNITA_BARRIERA;
 	if (pos_y_corpo >= pos_y_barriere && pos_y_corpo <= pos_y_barriere + altezza_barriera)
 	{
 		unsigned int pos_x_attuale = pos_x_prima_barriera;
@@ -94,11 +94,11 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALT_BARR
 			if (pos_x_corpo + larghezza_corpo >= pos_x_attuale && pos_x_corpo <= pos_x_attuale + larghezza_pixel_barriera)
 			{
 				unsigned int pos_y_attuale = pos_y_barriere;
-				for (unsigned int r = 0; r < ALT_BARRIERA; r++)
+				for (unsigned int r = 0; r < ALTEZZA_BARRIERA; r++)
 				{
 					if (pos_y_corpo + DIMENSIONE_LATO_UNITA_BARRIERA >= pos_y_attuale && pos_y_corpo <= pos_y_attuale + DIMENSIONE_LATO_UNITA_BARRIERA)
 					{
-						for (unsigned int c = 0; c < LARG_BARRIERA; c++)
+						for (unsigned int c = 0; c < LARGHEZZA_BARRIERA; c++)
 						{	
 							if (pos_x_corpo + larghezza_corpo >= pos_x_attuale && pos_x_corpo <= pos_x_attuale + DIMENSIONE_LATO_UNITA_BARRIERA)
 							{
@@ -200,7 +200,7 @@ bool controlloCollisioneBarriereDaOndata (Partita &partita, unsigned int pos_x_p
 			{
 				for (unsigned int k = 0; k < larghezza_alieno; k += DIMENSIONE_LATO_UNITA_BARRIERA)
 				{
-					for (unsigned int l = 0; l < DIMENSIONE_LATO_UNITA_BARRIERA * ALT_BARRIERA; l += DIMENSIONE_LATO_UNITA_BARRIERA)
+					for (unsigned int l = 0; l < DIMENSIONE_LATO_UNITA_BARRIERA * ALTEZZA_BARRIERA; l += DIMENSIONE_LATO_UNITA_BARRIERA)
 					{
 						if (controlloCollisioneBarriere (partita.barriere, pos_x_prima_barriera, pos_y_barriere, spazio_fra_barriere, pos_x_attuale, pos_y_fila - l, larghezza_alieno))
 						{
@@ -386,17 +386,17 @@ bool esisteSalvataggio ()
     	return f;
 }
 
-void inizializzaBarriere (stato_barriera barriera [ALT_BARRIERA] [LARG_BARRIERA])
+void inizializzaBarriere (stato_barriera barriera [ALTEZZA_BARRIERA] [LARGHEZZA_BARRIERA])
 {
-	const unsigned int CENTRO_LARG = LARG_BARRIERA / 2 - 1;
-	const unsigned int ALT_INIZIO_SMUSSO_INFERIORE = ALT_BARRIERA / 2.3;
+	const unsigned int CENTRO_LARG = LARGHEZZA_BARRIERA / 2 - 1;
+	const unsigned int ALT_INIZIO_SMUSSO_INFERIORE = ALTEZZA_BARRIERA / 2.3;
 
 	const unsigned int SMUSSO_SUPERIORE = 4;
-	const unsigned int LARG_PIEDE = LARG_BARRIERA / 4;
-	const unsigned int SMUSSO_INFERIORE = (LARG_BARRIERA - (LARG_PIEDE * 2)) / 2;
+	const unsigned int LARG_PIEDE = LARGHEZZA_BARRIERA / 4;
+	const unsigned int SMUSSO_INFERIORE = (LARGHEZZA_BARRIERA - (LARG_PIEDE * 2)) / 2;
 
 	unsigned int offset_no_disegno = CENTRO_LARG - SMUSSO_SUPERIORE - 1;
-	for (unsigned int i = 0; i < ALT_BARRIERA; i++)
+	for (unsigned int i = 0; i < ALTEZZA_BARRIERA; i++)
 	{
 		if (i <= SMUSSO_SUPERIORE)
 		{
@@ -411,9 +411,9 @@ void inizializzaBarriere (stato_barriera barriera [ALT_BARRIERA] [LARG_BARRIERA]
 			offset_no_disegno --;
 		}
 
-		for (unsigned int j = 0; j < LARG_BARRIERA; j++)
+		for (unsigned int j = 0; j < LARGHEZZA_BARRIERA; j++)
 		{
-			if (!(((i < ALT_INIZIO_SMUSSO_INFERIORE) && (j < (CENTRO_LARG - offset_no_disegno) || j > (CENTRO_LARG + 1 + offset_no_disegno))) ||((i >= ALT_INIZIO_SMUSSO_INFERIORE) && (j >= (LARG_PIEDE - 1 + offset_no_disegno) && j <= (LARG_BARRIERA - LARG_PIEDE - offset_no_disegno)))))
+			if (!(((i < ALT_INIZIO_SMUSSO_INFERIORE) && (j < (CENTRO_LARG - offset_no_disegno) || j > (CENTRO_LARG + 1 + offset_no_disegno))) ||((i >= ALT_INIZIO_SMUSSO_INFERIORE) && (j >= (LARG_PIEDE - 1 + offset_no_disegno) && j <= (LARGHEZZA_BARRIERA - LARG_PIEDE - offset_no_disegno)))))
 			{
 				barriera [i] [j] = integra;
 			}
@@ -513,9 +513,9 @@ bool caricaPartita (Partita &salvataggio)
 
 	for (unsigned int n = 0; n < N_BARRIERE; n++)
 	{
-		for (unsigned int r = 0; r < ALT_BARRIERA; r++)
+		for (unsigned int r = 0; r < ALTEZZA_BARRIERA; r++)
 		{
-			for (unsigned int c = 0; c < LARG_BARRIERA; c++)
+			for (unsigned int c = 0; c < LARGHEZZA_BARRIERA; c++)
 			{
 				int stato_int;
 				if (f>>stato_int)
@@ -586,9 +586,9 @@ void output (Partita partita, ostream &os)
 
 	for (unsigned int n = 0; n < N_BARRIERE; n++)
 	{
-		for (unsigned int r = 0; r < ALT_BARRIERA; r++)
+		for (unsigned int r = 0; r < ALTEZZA_BARRIERA; r++)
 		{
-			for (unsigned int c = 0; c < LARG_BARRIERA; c++)
+			for (unsigned int c = 0; c < LARGHEZZA_BARRIERA; c++)
 			{
 				os<<partita.barriere [n] [r] [c]<<" ";
 			}
@@ -625,21 +625,21 @@ void output (Partita partita, ostream &os)
 	os<<partita.carro_armato.sparo.pos_y<<endl<<endl;
 }
 
-void salvaPartita (SpaceInvaders &spaceInvaders)
+void salvaPartita (Partita partita_in_corso, bool &partita_salvata)
 {
 	ofstream f(FILE_SALVATAGGIO_PARTITA);
-	Partita partita = spaceInvaders.partita_in_corso;
+	Partita partita = partita_in_corso;
 
 	output (partita, f);
 
-	spaceInvaders.partita_salvata = true;
+	partita_salvata = true;
 }
 
-bool eliminaFileSalvataggio (SpaceInvaders &spaceInvaders)
+bool eliminaFileSalvataggio (bool &partita_salvata)
 {
 	if (!remove (FILE_SALVATAGGIO_PARTITA))
 	{
-		spaceInvaders.partita_salvata = false;
+		partita_salvata = false;
 		return true;
 	}
 	return false;

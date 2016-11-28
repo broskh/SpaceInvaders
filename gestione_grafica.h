@@ -66,6 +66,7 @@ const unsigned int POS_Y_TITOLO_PAUSA = 100; /**<Posizione rispetto all'asse y d
 const int RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_CARRO = 2;
 const int RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_ALIENI = 1;
 const unsigned int N_STATI_SPRITE = 2;
+const int MAX_STRINGA_NUMERAZIONE = 4; /**<Dimensione per array di caratteri utilizzato per stringhe conteneti la numerazione nella classifica degli highscore.*/
 //FINE COSTANTI GENERICHE DI GIOCO
 
 //INIZIO COSTANTI PER FILE
@@ -90,9 +91,9 @@ void distruggiGrafica ();
 void stampaMenuPrincipale (Menu menu_principale, bool redraw_lampeggio, bool partita_salvata, colore colore_alieni);
 void stampaGioca (Partita partita, bool animazione, colore colore_alieni);
 void stampaImpostazioni (Impostazioni impostazioni, Menu menu_impostazioni, bool redraw_lampeggio);
-void stampaHighscores (Punteggio highscores [], int n_highscores);
+void stampaHighscores (Classifica classifica);
 void stampaMenuPausa (Menu menu_pausa, bool redraw_lampeggio);
-void stampaFinePartita (SpaceInvaders generale, int posizione_punteggio_attuale, bool redraw_lampeggio);
+void stampaFinePartita (Classifica classifica, Punteggio nuovo_punteggio, int posizione_punteggio_attuale, bool redraw_lampeggio);
 unsigned int altezzaCarroArmato ();
 unsigned int larghezzaCarroArmato ();
 unsigned int altezzaNavicellaMisteriosa ();

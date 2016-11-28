@@ -6,7 +6,7 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
-#include "struttura_dati.h"
+#include "strutture_dati.h"
 #include "gestione_grafica.h"
 #include "gestione_menu.h"
 #include "gestione_partita.h"
@@ -174,7 +174,7 @@ void stampaMenuPrincipale (Menu menu_principale, bool redraw_lampeggio, bool par
 	//INIZIO DELLA VISUALIZZAZIONE DEL MENU
 	for (int i = 0; i < menu_principale.n_voci; i++)
 	{
-		if (!(menu_principale.voce_sel == i && !redraw_lampeggio))
+		if (!(menu_principale.voce_selezionata == i && !redraw_lampeggio))
 		{
 			pos_y_attuale = POS_Y_VOCI_MENU_PRINCIPALE + (SPAZIO_TESTO + DIMENSIONE_TESTO) * i;
 			if ((!partita_salvata) && (static_cast <voce_menu_principale> (i) == v_carica))
@@ -193,14 +193,14 @@ void stampaMenuPrincipale (Menu menu_principale, bool redraw_lampeggio, bool par
 	//FINE VISUALIZZAZIONE
 }
 
-void disegnaBarriera (ALLEGRO_BITMAP *barriera_sprite, stato_barriera barriera [ALT_BARRIERA] [LARG_BARRIERA], unsigned int pos_x, unsigned int pos_y)
+void disegnaBarriera (ALLEGRO_BITMAP *barriera_sprite, stato_barriera barriera [ALTEZZA_BARRIERA] [LARGHEZZA_BARRIERA], unsigned int pos_x, unsigned int pos_y)
 {
 	unsigned int dx = pos_x; 
 	unsigned int dy = pos_y;
 
-	for (unsigned int i = 0; i < ALT_BARRIERA; i++)
+	for (unsigned int i = 0; i < ALTEZZA_BARRIERA; i++)
 	{
-		for (unsigned int j = 0; j < LARG_BARRIERA; j++)
+		for (unsigned int j = 0; j < LARGHEZZA_BARRIERA; j++)
 		{
 			if (barriera [i] [j] == integra)
 			{
@@ -296,7 +296,7 @@ void stampaGioca (Partita partita, bool animazione, colore colore_alieni)
 	for (unsigned int i = 0; i < N_BARRIERE; i++)
 	{
 		disegnaBarriera (barriera, partita.barriere [i], pos_x_attuale, POS_Y_BARRIERE);
-		pos_x_attuale += DISTANZA_BARRIERE + larghezzaLatoUnitaBarriera () * LARG_BARRIERA;
+		pos_x_attuale += DISTANZA_BARRIERE + larghezzaLatoUnitaBarriera () * LARGHEZZA_BARRIERA;
 	}
 	//FINE DELLA VISUALIZZAZIONE DELLE BARRIERE
 
@@ -350,7 +350,7 @@ void stampaImpostazioni (Impostazioni impostazioni, Menu menu_impostazioni, bool
 		pos_y_attuale += DIMENSIONE_TESTO + SPAZIO_TESTO;
 		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_VOCI_IMPOSTAZIONI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, menu_impostazioni.testi_menu [i]);
 		pos_x_attuale = POS_X_VALORI_IMPOSTAZIONI;
-		if (!(menu_impostazioni.voce_sel == i && !redraw_lampeggio))
+		if (!(menu_impostazioni.voce_selezionata == i && !redraw_lampeggio))
 		{
 			char str_stato [MAX_STRINGA_GENERICA] = "<    ";
 			char str_valore [MAX_STRINGA_GENERICA];
@@ -375,7 +375,7 @@ void stampaImpostazioni (Impostazioni impostazioni, Menu menu_impostazioni, bool
 	//FINE VISUALIZZAZIONE
 }
 
-void stampaHighscores (Punteggio highscores [], int n_highscores)
+void stampaHighscores (Classifica classifica)
 {
 	//INIZIO VISUALIZZAZIONE
 	al_clear_to_color(NERO);
@@ -389,7 +389,7 @@ void stampaHighscores (Punteggio highscores [], int n_highscores)
 	//INIZIO DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
 	pos_y_attuale = POS_Y_ELENCO_PUNTEGGI;
 
-	for (int i = 0; i < n_highscores; i++)
+	for (int i = 0; i < classifica.n_highscores; i++)
 	{
 		pos_y_attuale += DIMENSIONE_TESTO + SPAZIO_TESTO;
 		char str_numero [MAX_STRINGA_NUMERAZIONE] = "";
@@ -398,8 +398,8 @@ void stampaHighscores (Punteggio highscores [], int n_highscores)
 		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NUMERAZIONE_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_numero);
 
 		char str_valore [] = "";
-		sprintf(str_valore, "%d", highscores [i].valore);
-		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NOMI_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, highscores [i].nome);
+		sprintf(str_valore, "%d", classifica.highscores [i].valore);
+		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NOMI_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, classifica.highscores [i].nome);
 		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_VALORI_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_valore);
 	}
 	//FINE DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
@@ -427,7 +427,7 @@ void stampaMenuPausa (Menu menu_pausa, bool redraw_lampeggio)
 	pos_y_attuale = POS_Y_VOCI_PAUSA;
 	for (int i = 0; i < menu_pausa.n_voci; i++)
 	{
-		if (!(menu_pausa.voce_sel == i && !redraw_lampeggio))
+		if (!(menu_pausa.voce_selezionata == i && !redraw_lampeggio))
 		{
 			al_draw_text(font_testo, COLORE_DEFAULT, POS_CENTRO_X, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, menu_pausa.testi_menu [i]);
 		}
@@ -439,7 +439,7 @@ void stampaMenuPausa (Menu menu_pausa, bool redraw_lampeggio)
 	//FINE VISUALIZZAZIONE
 }
 
-void stampaFinePartita (SpaceInvaders generale, int posizione_punteggio_attuale, bool redraw_lampeggio)
+void stampaFinePartita (Classifica classifica, Punteggio nuovo_punteggio, int posizione_punteggio_attuale, bool redraw_lampeggio)
 {
 	//INIZIO VISUALIZZAZIONE
 	al_clear_to_color(NERO);
@@ -452,7 +452,7 @@ void stampaFinePartita (SpaceInvaders generale, int posizione_punteggio_attuale,
 	//INIZIO DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
 	pos_y_attuale = POS_Y_ELENCO_PUNTEGGI;
 
-	for (int i = 0, p = 0; i <= generale.n_highscores && i < MAX_HIGHSCORES; i++, p++)
+	for (int i = 0, p = 0; i <= classifica.n_highscores && i < MAX_HIGHSCORES; i++, p++)
 	{
 		pos_y_attuale += DIMENSIONE_TESTO + SPAZIO_TESTO;
 		char str_numero [MAX_STRINGA_NUMERAZIONE] = "";
@@ -465,7 +465,7 @@ void stampaFinePartita (SpaceInvaders generale, int posizione_punteggio_attuale,
 		if (i == posizione_punteggio_attuale)
 		{
 			char nome_visualizzato [CARATTERI_NOME];
-			strcpy (nome_visualizzato, generale.partita_in_corso.punteggio.nome);
+			strcpy (nome_visualizzato, nuovo_punteggio.nome);
 			if (strlen (nome_visualizzato) < CARATTERI_NOME)
 			{
 				strcat (nome_visualizzato, "_");
@@ -481,12 +481,12 @@ void stampaFinePartita (SpaceInvaders generale, int posizione_punteggio_attuale,
 					pos_x_attuale += al_get_text_width (font_testo, lettera);
 				}
 			}
-			sprintf(str_valore, "%d", generale.partita_in_corso.punteggio.valore);
+			sprintf(str_valore, "%d", nuovo_punteggio.valore);
 		}
 		else
 		{
-			al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NOMI_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, generale.highscores [p].nome);
-			sprintf(str_valore, "%d", generale.highscores [p].valore);
+			al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NOMI_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, classifica.highscores [p].nome);
+			sprintf(str_valore, "%d", classifica.highscores [p].valore);
 		}
 		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_VALORI_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_valore);
 	}

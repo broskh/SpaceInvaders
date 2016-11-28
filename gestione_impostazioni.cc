@@ -6,7 +6,7 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 #include <cstring>
-#include "struttura_dati.h"
+#include "strutture_dati.h"
 #include "gestione_impostazioni.h"
 
 const unsigned int MAX_STRING = 15;

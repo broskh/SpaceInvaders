@@ -7,7 +7,7 @@ using namespace std;
 #include <fstream>
 #include <cstring>
 #include <cassert>
-#include "struttura_dati.h"
+#include "strutture_dati.h"
 #include "gestione_highscores.h"
 
 //INIZIO MODULO
@@ -16,11 +16,11 @@ void output (Punteggio punteggio, ostream &os)
 	os<<punteggio.nome<<" "<<punteggio.valore;	
 }
 
-void output (Punteggio highscores [], int n, ostream &os)
+void output (Classifica classifica, ostream &os)
 {
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < classifica.n_highscores; i++)
 	{
-		output (highscores [i], os);
+		output (classifica.highscores [i], os);
 		os<<endl;
 	}
 }
@@ -32,7 +32,7 @@ void scambiaPunteggio (Punteggio &punt1, Punteggio &punt2)
 	punt1 = temp;
 }
 
-bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores)
+bool caricaPunteggi (Classifica classifica)
 {
 	ifstream f (FILE_HIGHSCORES) ;
     	if (!f) {
@@ -45,7 +45,7 @@ bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores
 	while (f>>nome)
 	{
 		f>>valore;
-		inizializzaPunteggio (highscores [i], nome, valore);
+		inizializzaPunteggio (classifica.highscores [i], nome, valore);
 		i++;
     	}
 
@@ -53,17 +53,17 @@ bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores
 	
 	if (i == 0)
 	{
-		n_highscores = 0;
+		classifica.n_highscores = 0;
 		return false;
 	}
-	n_highscores = i;
+	classifica.n_highscores = i;
 	return true;
 }
 
-void salvaPunteggi (Punteggio highscores [], int n_highscores)
+void salvaPunteggi (Classifica classifica)
 {
 	ofstream f(FILE_HIGHSCORES) ;
-	output (highscores, n_highscores, f);
+	output (classifica, f);
 }
 
 void inizializzaPunteggio (Punteggio &punteggio, char nome [], int valore)
@@ -72,32 +72,32 @@ void inizializzaPunteggio (Punteggio &punteggio, char nome [], int valore)
 	punteggio.valore = valore;
 }
 
-void aggiungiPunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores, Punteggio nuovo_punteggio, int posizione)
+void aggiungiPunteggio (Classifica classifica, Punteggio nuovo_punteggio, int posizione)
 {
 	Punteggio pros = nuovo_punteggio;
-	if (n_highscores < MAX_HIGHSCORES)
+	if (classifica.n_highscores < MAX_HIGHSCORES)
 	{
-		n_highscores++;
+		classifica.n_highscores++;
 	}
-	for (int i = posizione; i < n_highscores; i++)
+	for (int i = posizione; i < classifica.n_highscores; i++)
 	{
-		scambiaPunteggio (highscores [i], pros);
+		scambiaPunteggio (classifica.highscores [i], pros);
 	}
 }
 
-int posizionePunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores, Punteggio nuovo_punteggio)
+int posizionePunteggio (Classifica classifica, Punteggio nuovo_punteggio)
 {
-	for (int i = 0; i < n_highscores; i++)
+	for (int i = 0; i < classifica.n_highscores; i++)
 	{
-		if (nuovo_punteggio.valore > highscores [i].valore)
+		if (nuovo_punteggio.valore > classifica.highscores [i].valore)
 		{
 			return i;
 		}
 	}
-	if (n_highscores < MAX_HIGHSCORES)
+	if (classifica.n_highscores < MAX_HIGHSCORES)
 	{
-		n_highscores++;
-		return n_highscores - 1;
+		classifica.n_highscores++;
+		return classifica.n_highscores - 1;
 	}
 	return -1;
 }
@@ -107,8 +107,8 @@ void stampa (Punteggio punteggio)
 	output (punteggio, cout);
 }
 
-void stampa (Punteggio highscores [], int n)
+void stampa (Classifica classifica)
 {
-	output (highscores, n, cout);
+	output (classifica, cout);
 }
 //FINE MODULO

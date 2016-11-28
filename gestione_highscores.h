@@ -20,7 +20,7 @@ void stampa (Punteggio punteggio);
  * @param n Numero di punteggi nell'array.
  * 
  */
-void stampa (Punteggio highscores [], int n);
+void stampa (Classifica classifica);
 
 /**
  * Carica da un file i migliori punteggi e li memorizza in un'apposita struttura.
@@ -30,7 +30,7 @@ void stampa (Punteggio highscores [], int n);
  *
  * @return "false" nel caso in cui il caricamento non sia riuscito, "true" altrimenti.
  */
-bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores);
+bool caricaPunteggi (Classifica classifica);
 
 /**
  * Salva i migliori punteggi su file.
@@ -38,7 +38,7 @@ bool caricaPunteggi (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores
  * @param highscores Array di strutture {@link Punteggio} che contiene i punteggi da salvare nel file.
  * @param n_highscores Numero di punteggi presenti attualmente nell'array "highscores".
  */
-void salvaPunteggi (Punteggio highscores [], int n_highscores);
+void salvaPunteggi (Classifica classifica);
 
 /**
  * Memorizza in una struttura "Punteggio" i valori passati per parametro.
@@ -57,7 +57,7 @@ void inizializzaPunteggio (Punteggio &punteggio, char nome [], int valore);
  * @param nuovo_punteggio Nuovo punteggio raggiunto da aggiungere (se necessario) fra i punteggi migliori.
  * @param posizione Posizione dell'array nella quale inserire il punteggio.
  */
-void aggiungiPunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores, Punteggio nuovo_punteggio, int posizione);
+void aggiungiPunteggio (Classifica classifica, Punteggio nuovo_punteggio, int posizione);
 
 /**
  * Controlla in quale posizione della classifica degli highscores il nuovo punteggio merita di essere inserito.
@@ -70,5 +70,5 @@ void aggiungiPunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highsco
  * @return la posizione dell'array degli highscores nella quale il nuovo punteggio andrebbe inserito; "-1" se
  * il punteggio non merita di essere inserito.
  */
-int posizionePunteggio (Punteggio (&highscores) [MAX_HIGHSCORES], int &n_highscores, Punteggio nuovo_punteggio);
+int posizionePunteggio (Classifica classifica, Punteggio nuovo_punteggio);
 //FINE INTERFACCIA

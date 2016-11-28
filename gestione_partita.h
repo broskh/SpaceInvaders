@@ -119,7 +119,7 @@ bool caricaPartita (Partita &salvataggio);
  * @param spaceInvaders struttura {@link SpaceInvaders} contenente tutte le informazioni relative al gioco in esecuzione.
  * @param file File nel quale salvare la partita.
  */
-void salvaPartita (SpaceInvaders &spaceInvaders);
+void salvaPartita (Partita partita_in_corso, bool &partita_salvata);
 
 /**
  * Elimina un file di salvataggio nel caso in cui esista.
@@ -129,5 +129,5 @@ void salvaPartita (SpaceInvaders &spaceInvaders);
  * 
  * @return "true" se il file era presente ed è stato eliminato, "false" altrimenti.
  */
-bool eliminaFileSalvataggio (SpaceInvaders &spaceInvaders);
+bool eliminaFileSalvataggio (bool &partita_salvata);
 //FINE INTERFACCIA

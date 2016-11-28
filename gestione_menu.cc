@@ -5,8 +5,11 @@
 
 #include <cstring>
 #include <cstdio>
-#include "struttura_dati.h"
+#include "strutture_dati.h"
 #include "gestione_menu.h"
+
+#include <iostream>
+using namespace std;
 
 //INIZIO MODULO
 int precInRangeCircuito (int n, int min, int max)
@@ -31,42 +34,44 @@ int sucInRangeCircuito (int n, int min, int max)
 
 void vocePrec (Menu &menu)
 {
-	menu.voce_sel = precInRangeCircuito (menu.voce_sel, 0, menu.n_voci);
+	menu.voce_selezionata = precInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
 }
 
 void vocePrec (Menu &menu, int voce_saltata)
 {
-	menu.voce_sel = precInRangeCircuito (menu.voce_sel, 0, menu.n_voci);
-	if (menu.voce_sel == voce_saltata)
+	menu.voce_selezionata = precInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
+	if (menu.voce_selezionata == voce_saltata)
 	{
-		menu.voce_sel = precInRangeCircuito (menu.voce_sel, 0, menu.n_voci);
+		menu.voce_selezionata = precInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
 	}
 }
 
 void voceSuc (Menu &menu)
 {
-	menu.voce_sel = sucInRangeCircuito (menu.voce_sel, 0, menu.n_voci);
+	menu.voce_selezionata = sucInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
 }
 
 void voceSuc (Menu &menu, int voce_saltata)
 {
-	menu.voce_sel = sucInRangeCircuito (menu.voce_sel, 0, menu.n_voci);
-	if (menu.voce_sel == voce_saltata)
+	menu.voce_selezionata = sucInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
+	if (menu.voce_selezionata == voce_saltata)
 	{
-		menu.voce_sel = sucInRangeCircuito (menu.voce_sel, 0, menu.n_voci);
+		menu.voce_selezionata = sucInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
 	}
 }
 
 void inizializzaMenu (Menu &menu, const char testi_menu [] [MAX_STRINGA_GENERICA], int n_voci, int voce_sel)
 {
 	menu.n_voci = n_voci;
-	menu.voce_sel = voce_sel;
-	for (int i = 0; i < menu.n_voci; i++)
+	menu.voce_selezionata = voce_sel;
+	int i, j;
+	for (i = 0; i < menu.n_voci; i++)
 	{
-		for (int j = 0; j < MAX_STRINGA_GENERICA; j++)
-		{
+		for (j = 0; testi_menu [i] [j] != '\0'; j++)
+		{	
 			menu.testi_menu [i] [j] = testi_menu [i] [j];
 		}
+		menu.testi_menu [i] [j] = '\0';
 	}
 }
 
