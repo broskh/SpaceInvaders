@@ -153,7 +153,7 @@ void creaSparoAlieni (Partita &partita, unsigned int distanza_file_alieni, unsig
 		}
 		if (!creato)
 		{
-			sucInRange (fattore_casuale, N_COL_ALIENI);
+			fattore_casuale = sucInRange (fattore_casuale, N_COL_ALIENI);
 		}
 	}
 }
