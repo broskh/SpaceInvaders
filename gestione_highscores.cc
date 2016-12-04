@@ -32,7 +32,7 @@ void scambiaPunteggio (Punteggio &punt1, Punteggio &punt2)
 	punt1 = temp;
 }
 
-bool caricaPunteggi (Classifica classifica)
+bool caricaPunteggi (Classifica &classifica)
 {
 	ifstream f (FILE_HIGHSCORES) ;
     	if (!f) {
@@ -72,7 +72,7 @@ void inizializzaPunteggio (Punteggio &punteggio, char nome [], int valore)
 	punteggio.valore = valore;
 }
 
-void aggiungiPunteggio (Classifica classifica, Punteggio nuovo_punteggio, int posizione)
+void aggiungiPunteggio (Classifica &classifica, Punteggio nuovo_punteggio, int posizione)
 {
 	Punteggio pros = nuovo_punteggio;
 	if (classifica.n_highscores < MAX_HIGHSCORES)

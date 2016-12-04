@@ -30,7 +30,7 @@ void stampa (Classifica classifica);
  *
  * @return "false" nel caso in cui il caricamento non sia riuscito, "true" altrimenti.
  */
-bool caricaPunteggi (Classifica classifica);
+bool caricaPunteggi (Classifica &classifica);
 
 /**
  * Salva i migliori punteggi su file.
@@ -57,7 +57,7 @@ void inizializzaPunteggio (Punteggio &punteggio, char nome [], int valore);
  * @param nuovo_punteggio Nuovo punteggio raggiunto da aggiungere (se necessario) fra i punteggi migliori.
  * @param posizione Posizione dell'array nella quale inserire il punteggio.
  */
-void aggiungiPunteggio (Classifica classifica, Punteggio nuovo_punteggio, int posizione);
+void aggiungiPunteggio (Classifica &classifica, Punteggio nuovo_punteggio, int posizione);
 
 /**
  * Controlla in quale posizione della classifica degli highscores il nuovo punteggio merita di essere inserito.
