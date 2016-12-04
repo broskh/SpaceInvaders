@@ -477,7 +477,7 @@ void nuovaOndata (Ondata &ondata, unsigned int pos_x_primo_asse_ondata, unsigned
 	{		
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
-			inizializzaAlieno (ondata.alieni [i] [j], PUNTEGGIO_ALIENI [i / (N_FILE_ALIENI / N_TIPI_ALIENI)]);
+			inizializzaAlieno (ondata.alieni [N_FILE_ALIENI - 1 - i] [j], PUNTEGGIO_ALIENI [i / (N_FILE_ALIENI / N_TIPI_ALIENI)]);
 		}
 	}
 
