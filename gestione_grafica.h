@@ -1,32 +1,31 @@
 /*
- * Header file contenente l'interfaccia del modulo di gestione dela grafica.
+ * Header file contenente l'interfaccia del modulo per la gestione della grafica.
  */
 
-//INIZIO COSTANTI GENERALI PER DISPLAY
-const unsigned int LARGHEZZA_DISPLAY = 640; /**<Larghezza della finestra del gioco.*/
+//INIZIO COSTANTI GRAFICHE GENERALI
 const unsigned int ALTEZZA_DISPLAY = 480; /**<Altezza della finestra del gioco.*/
-
-const unsigned int MARGINE_SX_GIOCO = 30; /**<Margine sinistro del gioco.*/
-const unsigned int MARGINE_DX_GIOCO = LARGHEZZA_DISPLAY - MARGINE_SX_GIOCO; /**<Margine destro del gioco.*/
-const unsigned int MARGINE_SUP_GIOCO = 45; /**<Margine superiore del gioco.*/
-const unsigned int MARGINE_INF_GIOCO = 470; /**<Margine inferiore del gioco.*/
-const unsigned int POS_CENTRO_X = ((MARGINE_DX_GIOCO - MARGINE_SX_GIOCO) / 2) + MARGINE_SX_GIOCO; /**<Posizione centrale della del display rispetto all'asse delle x.*/
-//FINE COSTANTI GENERALI PER DISPLAY
+const unsigned int LARGHEZZA_DISPLAY = 640; /**<Larghezza della finestra del gioco.*/
+const unsigned int MARGINE_SX_GIOCO = 30; /**<Posizione del margine sinistro del gioco.*/
+const unsigned int MARGINE_DX_GIOCO = LARGHEZZA_DISPLAY - MARGINE_SX_GIOCO; /**<Posizione del margine destro del gioco.*/
+const unsigned int MARGINE_INF_GIOCO = 470; /**<Posizione del margine inferiore del gioco.*/
+const unsigned int MARGINE_SUP_GIOCO = 45; /**<Posizione del margine superiore del gioco.*/
+const unsigned int POS_CENTRO_X = ((MARGINE_DX_GIOCO - MARGINE_SX_GIOCO) / 2) + MARGINE_SX_GIOCO; /**<Posizione centrale della della finestra rispetto all'asse delle x.*/
+//FINE COSTANTI GRAFICHE GENERALI
 
 //INIZIO COSTANTI PER FONT E TESTI
+const unsigned int DIMENSIONE_TESTO = 15; /**<Dimensione del font utilizzato per i testi generali.*/
+const unsigned int DIMENSIONE_TITOLO = 140; /**<Dimensione del font utilizzato per il titolo.*/
 const unsigned int SPAZIO_TESTO = 10; /**<Spazio fra righe di testo adiacenti.*/
 const unsigned int SPAZIO_TESTO_GRANDE = 30; /**<Spazio grande fra righe di testo adiacenti.*/
-const unsigned int DIMENSIONE_TITOLO = 140; /**<Dimensione del font utilizzato per il titolo.*/
-const unsigned int DIMENSIONE_TESTO = 15; /**<Dimensione del font utilizzato per i testi generali.*/
 //FINE COSTANTI PER FONT E TESTI
-
-//INIZIO COSTANTI PER POSIZIONI NELLA SCHERMATA DEL MENU PRINCIPALE
+							//-------------------->ARRIVATO QUI<---------------------------//
+//INIZIO COSTANTI SCHERMATA DEL MENU PRINCIPALE
 const unsigned int POS_X_ESEMPIO_ALIENI = 255; /**<Posizione rispetto all'asse x dalla quale mostrare i alieni nel menù principale.*/
 const unsigned int POS_X_ESEMPIO_PUNTEGGIO = 305; /**<Posizione rispetto all'asse x dalla quale mostrare i punteggi nel menù principale.*/
-const unsigned int POS_Y_TITOLO_MENU_PRINCIPALE = 25; /**<Posizione rispetto all'asse y dalla quale mostrare il titolo nel menù principale.*/
 const unsigned int POS_Y_ESMEPIO_ALIENI = 200; /**<Posizione rispetto all'asse y dalla quale mostrare i alieni nel menù principale.*/
+const unsigned int POS_Y_TITOLO_MENU_PRINCIPALE = 25; /**<Posizione rispetto all'asse y dalla quale mostrare il titolo nel menù principale.*/
 const unsigned int POS_Y_VOCI_MENU_PRINCIPALE = 340; /**<Posizione rispetto all'asse y dalla quale mostrare il menu nel menù principale.*/
-//FINE COSTANTI PER POSIZIONI NELLA SCHERMATA DEL MENU PRINCIPALE
+//FINE COSTANTI SCHERMATA DEL MENU PRINCIPALE
 
 //INIZIO COSTANTI PER POSIZIONI NELLA SCHERMATA DI GIOCO
 const unsigned int POS_Y_INFORMAZIONI_PARTITA = 10; /**<Posizione rispetto all'asse y dalla quale mostrare le informazioni della partita.*/
