@@ -2,37 +2,38 @@
  * File contenente le strutture dati.
  */
 
-#include <allegro5/allegro.h>
-
+//INIZIO COSTANTI BARRIERE
+const unsigned int ALTEZZA_BARRIERA = 17; /**<Altezza della barriera (in unità).*/
 const unsigned int N_BARRIERE = 4; /**<Numero delle barriere presenti in una partita.*/
 const unsigned int LARGHEZZA_BARRIERA = 20; /**<Largezza della barriera (in unità).*/
-const unsigned int ALTEZZA_BARRIERA = 17; /**<Altezza della barriera (in unità).*/
-const unsigned int N_FILE_ALIENI = 6; /**<Numero delle file di alieni.*/
-const unsigned int N_COL_ALIENI = 11; /**<Numero delle colonne di alieni.*/
+//FINE COSTANTI BARRIERE
 
-const int N_COLORI_ALIENI = 5; /**<Numero di modalità cromatiche disponibili per la colorazione degli alieni.*/
-const int MAX_VITE = 10; /**<Numero massimo di vite.*/
-const int CARATTERI_NOME = 3; /**<Numero di caratteri per le stringhe contenti il nome di un giocatore.*/ 
-const int MAX_HIGHSCORES = 10; /**<Numero massimo di punteggi presenti nella classifica degli highscores.*/
-
+//INIZIO COSTANTI GENERICHE
 const int MAX_STRINGA_GENERICA = 20; /**<Numero di caratteri utilizzato per stringhe generiche.*/
 const int MAX_STRINGA_GENERICA_LUNGA = 60; /**<Numero di caratteri utilizzato per stringhe generiche lunghe.*/
+//FINE COSTANTI GENERICHE
+
+//INIZIO COSTANTI ONDATA
+const unsigned int N_COL_ALIENI = 11; /**<Numero delle colonne di alieni.*/
+const unsigned int N_FILE_ALIENI = 6; /**<Numero delle file di alieni.*/
+//FINE COSTANTI ONDATA
+
+//INIZIO COSTANTI PUNTEGGI
+const int CARATTERI_NOME = 3; /**<Numero di caratteri per le stringhe contenti il nome di un giocatore.*/ 
+const int MAX_HIGHSCORES = 10; /**<Numero massimo di punteggi presenti nella classifica degli highscores.*/
+//FINE COSTANTI PUNTEGGI
+
+//INIZIO COSTANTI VARIE
 const int MAX_N_VOCI_MENU = 5; /**<Numero di voci massime presenti in un menu.*/
+const int MAX_VITE = 10; /**<Numero massimo di vite.*/
+const int N_COLORI_ALIENI = 5; /**<Numero di modalità cromatiche disponibili per la colorazione degli alieni.*/
+//FINE COSTANTI VARIE
 
 /** Tipo che indica un colore.
  *
  * Il colore viene utilizzato nelle impostazioni per indicare il colore per gli alieni
  */
 enum colore {verde, bianco, arancione, giallo, blu};
-
-/** Tipo che indica lo stato di ogni unità che costituisce la barriera.
- *
- * Ogni unità costituente la barriera all'interno del gioco inizialmente sarà rappresentato
- * dallo stato "intero". La prima volta che verrà colpito esso si sgretolerà parzialmente e sarà
- * rappresentato dallo stato "parziale". Infine, quando verrà colpito per la seconda volta, il
- * suo stato diventerà "distrutto", e graficamente non sarà più visibile.
- */
-enum stato_barriera {distrutta, parziale, integra};
 
 /** Tipo che indica una direzione.
  *
@@ -48,10 +49,14 @@ enum direzione {destra, sinistra};
  */
 enum schermata {s_menu, s_gioca, s_carica, s_opzioni, s_highscores, s_pausa, s_fine_partita, s_esci};
 
-/**
- * Tipo che indica una voce del menù principale.
+/** Tipo che indica lo stato di ogni unità che costituisce la barriera.
+ *
+ * Ogni unità costituente la barriera all'interno del gioco inizialmente sarà rappresentato
+ * dallo stato "intero". La prima volta che verrà colpito esso si sgretolerà parzialmente e sarà
+ * rappresentato dallo stato "parziale". Infine, quando verrà colpito per la seconda volta, il
+ * suo stato diventerà "distrutto", e graficamente non sarà più visibile.
  */
-enum voce_menu_principale {v_gioca, v_carica, v_opzioni, v_highscores, v_esci};
+enum stato_barriera {distrutta, parziale, integra};
 
 /**
  * Tipo che indica una voce del menù impostazioni.
@@ -64,12 +69,18 @@ enum voce_menu_impostazioni {v_musica, v_eff_audio, v_colori_alieni, v_vite_iniz
 enum voce_menu_pausa {v_continua, v_salva, v_abbandona};
 
 /**
- * Struttura per contenere i dati di un punteggio.
+ * Tipo che indica una voce del menù principale.
  */
-struct Punteggio
+enum voce_menu_principale {v_gioca, v_carica, v_opzioni, v_highscores, v_esci};
+
+/**
+ * Struttura per contenere i dati di un alieno.
+ */
+struct Alieno
 {
-	char nome [CARATTERI_NOME + 1]; /**<Nome del giocatore.*/
-	int valore; /**<Valore del punteggio.*/
+	bool stato; /**<Stato dell'alieno che indica se è stato colpito o no.*/
+	unsigned int punteggio; /**<Punteggio che il giocatore guadagna dalla distruzione di questo alieno.*/
+	unsigned int esplosione; /**<Evoluzione dello stato di esplosione dell'alieno dal momento in cui è stato colpito.*/
 };
 
 /**
@@ -84,13 +95,23 @@ struct Impostazioni
 };
 
 /**
- * Struttura per contenere i dati di un alieno.
+ * Struttura per contenere i dati per la gestione dei menù.
  */
-struct Alieno
+struct Menu
 {
-	bool stato; /**<Stato dell'alieno che indica se è stato colpito o no.*/
-	unsigned int punteggio; /**<Punteggio che il giocatore guadagna dalla distruzione di questo alieno.*/
-	unsigned int esplosione; /**<Evoluzione dello stato di esplosione dell'alieno dal momento in cui è stato colpito.*/
+	char testi_menu [MAX_N_VOCI_MENU] [MAX_STRINGA_GENERICA + 1]; /**<Testi usati per rappresentare le voci del menù.*/
+	int n_voci; /**<Numero di voci presenti nel menù.*/
+	int voce_selezionata; /**<Voce del menù attualmente selezionata.*/
+};
+
+/**
+ * Struttura per contenere i dati della navicella misteriosa.
+ */
+struct Navicella
+{
+	bool stato; /**<Stato della navicella misteriosa che indica se è comparsa o no.*/
+	unsigned int punteggio; /**<Punteggio che il giocatore guadagna dalla distruzione di questa navicella misteriosa.*/
+	unsigned int pos_x; /**<Posizione rispetto all'asse x della navicella misteriosa.*/
 };
 
 /**
@@ -103,6 +124,24 @@ struct Ondata
 	direzione dir_alieni; /**<Direzione del movimento a zig-zag dell'ondata.*/
 	unsigned int pos_x; /**<Posizione rispetto all'asse delle x dell'alieno nella prima fila e prima colonna.*/
 	unsigned int pos_y; /**<Posizione rispetto all'asse delle y dell'alieno nella prima fila e prima colonna.*/
+};
+
+/**
+ * Struttura per contenere i dati di un punteggio.
+ */
+struct Punteggio
+{
+	char nome [CARATTERI_NOME + 1]; /**<Nome del giocatore.*/
+	int valore; /**<Valore del punteggio.*/
+};
+
+/**
+ * Struttura per contenere i dati della classifica dei punteggi migliori.
+ */
+struct Classifica
+{
+	Punteggio highscores [MAX_HIGHSCORES]; /**<Punteggi presenti nella classifica.*/	
+	int n_highscores; /**<Numero di punteggi presenti nella classifica.*/
 };
 
 /**
@@ -126,16 +165,6 @@ struct Carro
 };
 
 /**
- * Struttura per contenere i dati della navicella misteriosa.
- */
-struct Navicella
-{
-	bool stato; /**<Stato della navicella misteriosa che indica se è comparsa o no.*/
-	unsigned int punteggio; /**<Punteggio che il giocatore guadagna dalla distruzione di questa navicella misteriosa.*/
-	unsigned int pos_x; /**<Posizione rispetto all'asse x della navicella misteriosa.*/
-};
-
-/**
  * Struttura per contenere i dati di una partita.
  */
 struct Partita
@@ -147,23 +176,4 @@ struct Partita
 	Sparo sparo_alieni; /**<Informazioni relative allo sparo degli alieni.*/
 	Carro carro_armato; /**<Informazioni relative allo sparo del carro armato.*/
 	Navicella navicella_misteriosa; /**<Informazioni relative alla navicella misteriosa.*/
-};
-
-/**
- * Struttura per contenere i dati della classifica dei punteggi migliori.
- */
-struct Classifica
-{
-	Punteggio highscores [MAX_HIGHSCORES]; /**<Punteggi presenti nella classifica.*/	
-	int n_highscores; /**<Numero di punteggi presenti nella classifica.*/
-};
-
-/**
- * Struttura per contenere i dati per la gestione dei menù.
- */
-struct Menu
-{
-	char testi_menu [MAX_N_VOCI_MENU] [MAX_STRINGA_GENERICA + 1]; /**<Testi usati per rappresentare le voci del menù.*/
-	int n_voci; /**<Numero di voci presenti nel menù.*/
-	int voce_selezionata; /**<Voce del menù attualmente selezionata.*/
 };

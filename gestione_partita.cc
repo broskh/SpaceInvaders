@@ -5,6 +5,9 @@
 using namespace std;
 #include <fstream>
 #include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <cassert>
 #include "strutture_dati.h"
 #include "gestione_partita.h"
 
