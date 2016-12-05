@@ -18,25 +18,24 @@ const unsigned int DIMENSIONE_TITOLO = 140; /**<Dimensione del font utilizzato p
 const unsigned int SPAZIO_TESTO = 10; /**<Spazio fra righe di testo adiacenti.*/
 const unsigned int SPAZIO_TESTO_GRANDE = 30; /**<Spazio grande fra righe di testo adiacenti.*/
 //FINE COSTANTI PER FONT E TESTI
-							//-------------------->ARRIVATO QUI<---------------------------//
+
 //INIZIO COSTANTI SCHERMATA DEL MENU PRINCIPALE
-const unsigned int POS_X_ESEMPIO_ALIENI = 255; /**<Posizione rispetto all'asse x dalla quale mostrare i alieni nel menù principale.*/
-const unsigned int POS_X_ESEMPIO_PUNTEGGIO = 305; /**<Posizione rispetto all'asse x dalla quale mostrare i punteggi nel menù principale.*/
-const unsigned int POS_Y_ESMEPIO_ALIENI = 200; /**<Posizione rispetto all'asse y dalla quale mostrare i alieni nel menù principale.*/
-const unsigned int POS_Y_TITOLO_MENU_PRINCIPALE = 25; /**<Posizione rispetto all'asse y dalla quale mostrare il titolo nel menù principale.*/
-const unsigned int POS_Y_VOCI_MENU_PRINCIPALE = 340; /**<Posizione rispetto all'asse y dalla quale mostrare il menu nel menù principale.*/
+const unsigned int POS_X_ESEMPIO_ALIENI = 255; /**<Posizione rispetto all'asse x dalla quale mostrare gli alieni d'esempio nel menù principale.*/
+const unsigned int POS_X_ESEMPIO_PUNTEGGIO = 305; /**<Posizione rispetto all'asse x dalla quale mostrare i punteggi degli alieni d'esempio nel menù principale.*/
+const unsigned int POS_Y_ESMEPIO_ALIENI = 200; /**<Posizione rispetto all'asse y dalla quale mostrare gli alieni d'esempio nel menù principale.*/
+const unsigned int POS_Y_TITOLO_MENU_PRINCIPALE = 25; /**<Posizione rispetto all'asse y nella quale mostrare il titolo nel menù principale.*/
+const unsigned int POS_Y_VOCI_MENU_PRINCIPALE = 340; /**<Posizione rispetto all'asse y dalla quale mostrare le voci del menù principale.*/
 //FINE COSTANTI SCHERMATA DEL MENU PRINCIPALE
-
+			//------------------------->>>>>>ARRIVATO QUI<<<<<<<<<<<<<<<--------------------------//
 //INIZIO COSTANTI PER POSIZIONI NELLA SCHERMATA DI GIOCO
-const unsigned int POS_Y_INFORMAZIONI_PARTITA = 10; /**<Posizione rispetto all'asse y dalla quale mostrare le informazioni della partita.*/
-const unsigned int POS_Y_PRIMA_FILA_ONDATA = 80; /**<Posizione rispetto all'asse y dalla quale mostrare la prima fila di alieni.*/
-const unsigned int POS_Y_BARRIERE = 360; /**<Posizone rispetto all'asse y dalla quale mostrare la prima barriera.*/
-
 const unsigned int DISTANZA_ASSI_COL_ALIENI = 40; /**<Distanza fra gli assi delle colonne di alieni.*/
+const unsigned int DISTANZA_BARRIERE = 64; /**<Distanza in pixel fra le barriere.*/
 const unsigned int DISTANZA_FILE_ALIENI = 35; /**<Distamza fra le file di alieni.*/
-const unsigned int DISTANZA_BARRIERE = 64; /**<Distanza in pixel fra le barriere.*/ //(LARGHEZZA_DISPLAY - (DIMENSIONE_LATO_UNITA_BARRIERA * LARG_BARRIERA * N_BARRIERE)) / (N_BARRIERE + 1);
 const unsigned int POS_X_PRIMA_BARRIERA = DISTANZA_BARRIERE; /**<Posizione rispetto all'asse x della prima barriera.*/
 const unsigned int POS_X_PRIMO_ASSE_ALIENI = POS_CENTRO_X - (DISTANZA_ASSI_COL_ALIENI * (N_COL_ALIENI - 1) / 2); /**<Posizone rispetto all'asse x nella quale è presente il primo asse delle colonne di alieni.*/
+const unsigned int POS_Y_BARRIERE = 360; /**<Posizone rispetto all'asse y dalla quale mostrare la prima barriera.*/
+const unsigned int POS_Y_INFORMAZIONI_PARTITA = 10; /**<Posizione rispetto all'asse y dalla quale mostrare le informazioni della partita.*/
+const unsigned int POS_Y_PRIMA_FILA_ONDATA = 80; /**<Posizione rispetto all'asse y dalla quale mostrare la prima fila di alieni.*/
 //FINE COSTANTI PER POSIZIONI NELLA SCHERMATA DI GIOCO
 
 //INIZIO COSTANTI PER POSIZIONI NELLA SCHERMATA DEL MENU IMPOSTAZIONI
