@@ -1,5 +1,5 @@
 /*
- * File contenente il modulo di gestione della grafica.
+ * File contenente il modulo per la gestione della grafica.
  */
 
 #include <cstdio>
@@ -35,6 +35,30 @@ static ALLEGRO_COLOR COLORE_DEFAULT;
 //FINE VARIABILI DI MODULO
 
 //INIZIO MODULO
+void disegnaBarriera (ALLEGRO_BITMAP *barriera_sprite, stato_barriera barriera [ALTEZZA_BARRIERA] [LARGHEZZA_BARRIERA], unsigned int pos_x, unsigned int pos_y)
+{
+	unsigned int dx = pos_x; 
+	unsigned int dy = pos_y;
+
+	for (unsigned int i = 0; i < ALTEZZA_BARRIERA; i++)
+	{
+		for (unsigned int j = 0; j < LARGHEZZA_BARRIERA; j++)
+		{
+			if (barriera [i] [j] == integra)
+			{
+				al_draw_tinted_bitmap_region(barriera_sprite, COLORE_DEFAULT, 0, 0, larghezzaLatoUnitaBarriera (), al_get_bitmap_height (barriera_sprite), dx, dy, 0);
+			}
+			else if (barriera [i] [j] == parziale)
+			{
+				al_draw_tinted_bitmap_region(barriera_sprite, COLORE_DEFAULT, larghezzaLatoUnitaBarriera (), 0, larghezzaLatoUnitaBarriera (), al_get_bitmap_height (barriera_sprite), dx, dy, 0);
+			}
+			dx += larghezzaLatoUnitaBarriera ();
+		}
+		dx = pos_x;
+		dy += larghezzaLatoUnitaBarriera ();
+	}
+}
+
 ALLEGRO_BITMAP* scegliAlieno (unsigned int numero_fila)
 {
 	if (numero_fila < N_FILE_ALIENI)
@@ -43,11 +67,6 @@ ALLEGRO_BITMAP* scegliAlieno (unsigned int numero_fila)
 		return tipi_alieni [numero_fila / range];
 	}
 	return NULL;
-}
-
-ALLEGRO_BITMAP * scegliSparo (int pos_x)
-{
-	return spari_alieni [pos_x % 2];
 }
 
 ALLEGRO_COLOR scelgliColore (colore colore_alieni)
@@ -72,6 +91,54 @@ ALLEGRO_COLOR scelgliColore (colore colore_alieni)
 			break;
 	}
 	return colore_allegro;
+}
+
+ALLEGRO_BITMAP * scegliSparo (int pos_x)
+{
+	return spari_alieni [pos_x % 2];
+}
+
+unsigned int altezzaAlieno (unsigned int n_fila_alieno)
+{
+	return al_get_bitmap_height (tipi_alieni [n_fila_alieno]);
+}
+
+unsigned int altezzaCarroArmato ()
+{
+	return al_get_bitmap_height (carro_armato);
+}
+
+unsigned int altezzaNavicellaMisteriosa ()
+{
+	return al_get_bitmap_height (navicella_misteriosa);
+}
+
+unsigned int altezzaSparoAlienoAttuale (unsigned int pos_x_sparo)
+{
+	return al_get_bitmap_height (scegliSparo (pos_x_sparo)) / N_STATI_SPRITE;
+}
+
+unsigned int altezzaSparoCarroArmato ()
+{
+	return al_get_bitmap_height (carro_armato);
+}
+
+void distruggiGrafica ()
+{
+	al_destroy_display(display);
+	al_destroy_font (font_testo);
+	al_destroy_font (font_titolo);
+	al_destroy_bitmap(spari_alieni [0]);
+	al_destroy_bitmap(spari_alieni [1]);
+	al_destroy_bitmap(barriera);
+	al_destroy_bitmap(carro_armato);
+	al_destroy_bitmap(sparo_carro);
+	al_destroy_bitmap(navicella_misteriosa);
+	al_destroy_bitmap(tipi_alieni [0]);
+	al_destroy_bitmap(tipi_alieni [1]);
+	al_destroy_bitmap(tipi_alieni [2]);
+	al_destroy_bitmap(esplosione_carro);
+	al_destroy_bitmap(esplosione_alieno);
 }
 
 ALLEGRO_DISPLAY * inizializzaGrafica ()
@@ -124,97 +191,95 @@ ALLEGRO_DISPLAY * inizializzaGrafica ()
 	return display;
 }
 
-void distruggiGrafica ()
+unsigned int larghezzaAlieno (unsigned int n_fila_alieno)
 {
-	al_destroy_display(display);
-	al_destroy_font (font_testo);
-	al_destroy_font (font_titolo);
-	al_destroy_bitmap(spari_alieni [0]);
-	al_destroy_bitmap(spari_alieni [1]);
-	al_destroy_bitmap(barriera);
-	al_destroy_bitmap(carro_armato);
-	al_destroy_bitmap(sparo_carro);
-	al_destroy_bitmap(navicella_misteriosa);
-	al_destroy_bitmap(tipi_alieni [0]);
-	al_destroy_bitmap(tipi_alieni [1]);
-	al_destroy_bitmap(tipi_alieni [2]);
-	al_destroy_bitmap(esplosione_carro);
-	al_destroy_bitmap(esplosione_alieno);
+	return al_get_bitmap_width (tipi_alieni [n_fila_alieno]) / N_STATI_SPRITE;
 }
 
-void stampaMenuPrincipale (Menu menu_principale, bool redraw_lampeggio, bool partita_salvata, colore colore_alieni)
+unsigned int larghezzaCarroArmato ()
+{
+	return al_get_bitmap_width (carro_armato);
+}
+
+unsigned int larghezzaLatoUnitaBarriera ()
+{
+	return al_get_bitmap_width (barriera) / N_STATI_SPRITE;
+}
+
+unsigned int larghezzaNavicellaMisteriosa ()
+{
+	return al_get_bitmap_width (navicella_misteriosa);
+}
+
+unsigned int larghezzaSparoAlienoAttuale (unsigned int pos_x_sparo)
+{
+	return al_get_bitmap_width (scegliSparo (pos_x_sparo)) / N_STATI_SPRITE;
+}
+
+unsigned int larghezzaSparoCarroArmato ()
+{
+	return al_get_bitmap_width (sparo_carro);
+}
+
+void stampaFinePartita (Classifica classifica, Punteggio nuovo_punteggio, int posizione_punteggio_attuale, bool redraw_lampeggio)
 {
 	//INIZIO VISUALIZZAZIONE
 	al_clear_to_color(NERO);
 
 	//INIZIO DELLA VISUALIZZAZIONE DEL TITOLO
-	al_draw_text(font_titolo, COLORE_DEFAULT, POS_CENTRO_X, POS_Y_TITOLO_MENU_PRINCIPALE, ALLEGRO_ALIGN_CENTRE, ".");
+	unsigned int pos_y_attuale = POS_Y_HIGHSCORES_TITOLO;
+	al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NUMERAZIONE_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, "HIGHSCORES:");
 	//FINE DELLA VISUALIZZAZIONE DEL TITOLO
 
-	//INIZIO DELLA VISUALIZZAZIONE DEGLI ALIENI E I RELATIVI PUNTEGGI
-	ALLEGRO_COLOR colore_allegro = scelgliColore (colore_alieni);
-	unsigned int pos_y_attuale = POS_Y_ESMEPIO_ALIENI;
-	for (unsigned int i = 0; i < N_TIPI_ALIENI; i++)
+	//INIZIO DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
+	pos_y_attuale = POS_Y_ELENCO_PUNTEGGI;
+
+	for (int i = 0, p = 0; i <= classifica.n_highscores && i < MAX_HIGHSCORES; i++, p++)
 	{
-		al_draw_tinted_bitmap_region(tipi_alieni [i], colore_allegro, 0, 0, larghezzaAlieno (i), altezzaAlieno (i), POS_X_ESEMPIO_ALIENI - larghezzaAlieno (i) / 2, pos_y_attuale, 0);
-		char stringa_punteggio [] = "=      ";
-		char valore_punteggio [MAX_STRINGA_GENERICA];
-		sprintf(valore_punteggio, "%d", PUNTEGGIO_ALIENI [i]);
-		strcat (stringa_punteggio, valore_punteggio);
-		strcat (stringa_punteggio, "  PTS");
-		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_LEFT, stringa_punteggio);
+		pos_y_attuale += DIMENSIONE_TESTO + SPAZIO_TESTO;
+		char str_numero [MAX_STRINGA_NUMERAZIONE] = "";
+		sprintf(str_numero, "%d", i + 1);
+		strcat (str_numero, ".");
+		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NUMERAZIONE_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_numero);
 
-		pos_y_attuale += SPAZIO_TESTO + altezzaAlieno (i);
-	}
-
-	al_draw_tinted_bitmap(navicella_misteriosa, ROSSO, POS_X_ESEMPIO_ALIENI - al_get_bitmap_width (navicella_misteriosa) / 2, pos_y_attuale, 0);
-	al_draw_text(font_testo, COLORE_DEFAULT, POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_LEFT, "=      ?  PTS");
-	//FINE DELLA VISUALIZZAZIONE DEGLI ALIENI E I RELATIVI PUNTEGGI
-
-	//INIZIO DELLA VISUALIZZAZIONE DEL MENU
-	for (int i = 0; i < menu_principale.n_voci; i++)
-	{
-		if (!(menu_principale.voce_selezionata == i && !redraw_lampeggio))
+		char str_valore [] = "";
+		unsigned int pos_x_attuale = POS_X_NOMI_PUNTEGGI;
+		if (i == posizione_punteggio_attuale)
 		{
-			pos_y_attuale = POS_Y_VOCI_MENU_PRINCIPALE + (SPAZIO_TESTO + DIMENSIONE_TESTO) * i;
-			if ((!partita_salvata) && (static_cast <voce_menu_principale> (i) == v_carica))
+			char nome_visualizzato [CARATTERI_NOME];
+			strcpy (nome_visualizzato, nuovo_punteggio.nome);
+			if (strlen (nome_visualizzato) < CARATTERI_NOME)
 			{
-				al_draw_text(font_testo, GRIGIO, POS_CENTRO_X, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, menu_principale.testi_menu [i]);
+				strcat (nome_visualizzato, "_");
 			}
-			else
+			p--;
+			char lettera [] = " ";
+			for (unsigned int j = 0; j < strlen (nome_visualizzato); j++)
 			{
-				al_draw_text(font_testo, COLORE_DEFAULT, POS_CENTRO_X, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, menu_principale.testi_menu [i]);
+				if (!(j == strlen (nome_visualizzato) - 1 && redraw_lampeggio))
+				{
+					lettera [0] = nome_visualizzato [j];
+					al_draw_text(font_testo, COLORE_DEFAULT, pos_x_attuale, pos_y_attuale, ALLEGRO_ALIGN_LEFT, lettera);
+					pos_x_attuale += al_get_text_width (font_testo, lettera);
+				}
 			}
+			sprintf(str_valore, "%d", nuovo_punteggio.valore);
 		}
+		else
+		{
+			al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NOMI_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, classifica.highscores [p].nome);
+			sprintf(str_valore, "%d", classifica.highscores [p].valore);
+		}
+		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_VALORI_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_valore);
 	}
-	//FINE DELLA VISUALIZZAZIONE DEL MENU
+	//FINE DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
+
+	//INIZIO DELLA VISUALIZZAZIONE DEL PREMI ENTER
+	al_draw_text(font_testo, COLORE_DEFAULT, POS_CENTRO_X, POS_Y_INDICAZIONI_HIGHSCORES, ALLEGRO_ALIGN_CENTER, "Premi enter per salvare e tornare al menu principale");
+	//FINE DELLA VISUALIZZAZIONE DEL PREMI ENTER
 
 	al_flip_display();
 	//FINE VISUALIZZAZIONE
-}
-
-void disegnaBarriera (ALLEGRO_BITMAP *barriera_sprite, stato_barriera barriera [ALTEZZA_BARRIERA] [LARGHEZZA_BARRIERA], unsigned int pos_x, unsigned int pos_y)
-{
-	unsigned int dx = pos_x; 
-	unsigned int dy = pos_y;
-
-	for (unsigned int i = 0; i < ALTEZZA_BARRIERA; i++)
-	{
-		for (unsigned int j = 0; j < LARGHEZZA_BARRIERA; j++)
-		{
-			if (barriera [i] [j] == integra)
-			{
-				al_draw_tinted_bitmap_region(barriera_sprite, COLORE_DEFAULT, 0, 0, larghezzaLatoUnitaBarriera (), al_get_bitmap_height (barriera_sprite), dx, dy, 0);
-			}
-			else if (barriera [i] [j] == parziale)
-			{
-				al_draw_tinted_bitmap_region(barriera_sprite, COLORE_DEFAULT, larghezzaLatoUnitaBarriera (), 0, larghezzaLatoUnitaBarriera (), al_get_bitmap_height (barriera_sprite), dx, dy, 0);
-			}
-			dx += larghezzaLatoUnitaBarriera ();
-		}
-		dx = pos_x;
-		dy += larghezzaLatoUnitaBarriera ();
-	}
 }
 
 void stampaGioca (Partita partita, bool animazione, colore colore_alieni)
@@ -331,6 +396,44 @@ void stampaGioca (Partita partita, bool animazione, colore colore_alieni)
 	//FINE VISUALIZZAZIONE
 }
 
+void stampaHighscores (Classifica classifica)
+{
+	//INIZIO VISUALIZZAZIONE
+	al_clear_to_color(NERO);
+
+	unsigned int pos_y_attuale = POS_Y_HIGHSCORES_TITOLO;
+
+	//INIZIO DELLA VISUALIZZAZIONE DEL TITOLO
+	al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NUMERAZIONE_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, "HIGHSCORES:");
+	//FINE DELLA VISUALIZZAZIONE DEL TITOLO
+
+	//INIZIO DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
+	pos_y_attuale = POS_Y_ELENCO_PUNTEGGI;
+
+	for (int i = 0; i < classifica.n_highscores; i++)
+	{
+		pos_y_attuale += DIMENSIONE_TESTO + SPAZIO_TESTO;
+		char str_numero [MAX_STRINGA_NUMERAZIONE] = "";
+		sprintf(str_numero, "%d", i + 1);
+		strcat (str_numero, ".");
+		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NUMERAZIONE_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_numero);
+
+		char str_valore [] = "";
+		sprintf(str_valore, "%d", classifica.highscores [i].valore);
+		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NOMI_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, classifica.highscores [i].nome);
+		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_VALORI_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_valore);
+	}
+	//FINE DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
+
+	//INIZIO DELLA VISUALIZZAZIONE DEL PREMI ENTER
+	pos_y_attuale = POS_Y_INDICAZIONI_HIGHSCORES;
+	al_draw_text(font_testo, COLORE_DEFAULT, POS_CENTRO_X, pos_y_attuale, ALLEGRO_ALIGN_CENTER, "Premi enter per tornare al menu principale");
+	//FINE DELLA VISUALIZZAZIONE DEL PREMI ENTER
+
+	al_flip_display();
+	//FINE VISUALIZZAZIONE
+}
+
 void stampaImpostazioni (Impostazioni impostazioni, Menu menu_impostazioni, bool redraw_lampeggio)
 {
 	//INIZIO VISUALIZZAZIONE
@@ -375,43 +478,6 @@ void stampaImpostazioni (Impostazioni impostazioni, Menu menu_impostazioni, bool
 	//FINE VISUALIZZAZIONE
 }
 
-void stampaHighscores (Classifica classifica)
-{
-	//INIZIO VISUALIZZAZIONE
-	al_clear_to_color(NERO);
-
-	unsigned int pos_y_attuale = POS_Y_HIGHSCORES_TITOLO;
-
-	//INIZIO DELLA VISUALIZZAZIONE DEL TITOLO
-	al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NUMERAZIONE_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, "HIGHSCORES:");
-	//FINE DELLA VISUALIZZAZIONE DEL TITOLO
-
-	//INIZIO DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
-	pos_y_attuale = POS_Y_ELENCO_PUNTEGGI;
-
-	for (int i = 0; i < classifica.n_highscores; i++)
-	{
-		pos_y_attuale += DIMENSIONE_TESTO + SPAZIO_TESTO;
-		char str_numero [MAX_STRINGA_NUMERAZIONE] = "";
-		sprintf(str_numero, "%d", i + 1);
-		strcat (str_numero, ".");
-		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NUMERAZIONE_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_numero);
-
-		char str_valore [] = "";
-		sprintf(str_valore, "%d", classifica.highscores [i].valore);
-		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NOMI_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, classifica.highscores [i].nome);
-		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_VALORI_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_valore);
-	}
-	//FINE DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
-
-	//INIZIO DELLA VISUALIZZAZIONE DEL PREMI ENTER
-	pos_y_attuale = POS_Y_INDICAZIONI_HIGHSCORES;
-	al_draw_text(font_testo, COLORE_DEFAULT, POS_CENTRO_X, pos_y_attuale, ALLEGRO_ALIGN_CENTER, "Premi enter per tornare al menu principale");
-	//FINE DELLA VISUALIZZAZIONE DEL PREMI ENTER
-
-	al_flip_display();
-	//FINE VISUALIZZAZIONE
-}
 void stampaMenuPausa (Menu menu_pausa, bool redraw_lampeggio)
 {
 	//INIZIO VISUALIZZAZIONE
@@ -439,119 +505,54 @@ void stampaMenuPausa (Menu menu_pausa, bool redraw_lampeggio)
 	//FINE VISUALIZZAZIONE
 }
 
-void stampaFinePartita (Classifica classifica, Punteggio nuovo_punteggio, int posizione_punteggio_attuale, bool redraw_lampeggio)
+void stampaMenuPrincipale (Menu menu_principale, bool redraw_lampeggio, bool partita_salvata, colore colore_alieni)
 {
 	//INIZIO VISUALIZZAZIONE
 	al_clear_to_color(NERO);
 
 	//INIZIO DELLA VISUALIZZAZIONE DEL TITOLO
-	unsigned int pos_y_attuale = POS_Y_HIGHSCORES_TITOLO;
-	al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NUMERAZIONE_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, "HIGHSCORES:");
+	al_draw_text(font_titolo, COLORE_DEFAULT, POS_CENTRO_X, POS_Y_TITOLO_MENU_PRINCIPALE, ALLEGRO_ALIGN_CENTRE, ".");
 	//FINE DELLA VISUALIZZAZIONE DEL TITOLO
 
-	//INIZIO DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
-	pos_y_attuale = POS_Y_ELENCO_PUNTEGGI;
-
-	for (int i = 0, p = 0; i <= classifica.n_highscores && i < MAX_HIGHSCORES; i++, p++)
+	//INIZIO DELLA VISUALIZZAZIONE DEGLI ALIENI E I RELATIVI PUNTEGGI
+	ALLEGRO_COLOR colore_allegro = scelgliColore (colore_alieni);
+	unsigned int pos_y_attuale = POS_Y_ESMEPIO_ALIENI;
+	for (unsigned int i = 0; i < N_TIPI_ALIENI; i++)
 	{
-		pos_y_attuale += DIMENSIONE_TESTO + SPAZIO_TESTO;
-		char str_numero [MAX_STRINGA_NUMERAZIONE] = "";
-		sprintf(str_numero, "%d", i + 1);
-		strcat (str_numero, ".");
-		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NUMERAZIONE_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_numero);
+		al_draw_tinted_bitmap_region(tipi_alieni [i], colore_allegro, 0, 0, larghezzaAlieno (i), altezzaAlieno (i), POS_X_ESEMPIO_ALIENI - larghezzaAlieno (i) / 2, pos_y_attuale, 0);
+		char stringa_punteggio [] = "=      ";
+		char valore_punteggio [MAX_STRINGA_GENERICA];
+		sprintf(valore_punteggio, "%d", PUNTEGGIO_ALIENI [i]);
+		strcat (stringa_punteggio, valore_punteggio);
+		strcat (stringa_punteggio, "  PTS");
+		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_LEFT, stringa_punteggio);
 
-		char str_valore [] = "";
-		unsigned int pos_x_attuale = POS_X_NOMI_PUNTEGGI;
-		if (i == posizione_punteggio_attuale)
-		{
-			char nome_visualizzato [CARATTERI_NOME];
-			strcpy (nome_visualizzato, nuovo_punteggio.nome);
-			if (strlen (nome_visualizzato) < CARATTERI_NOME)
-			{
-				strcat (nome_visualizzato, "_");
-			}
-			p--;
-			char lettera [] = " ";
-			for (unsigned int j = 0; j < strlen (nome_visualizzato); j++)
-			{
-				if (!(j == strlen (nome_visualizzato) - 1 && redraw_lampeggio))
-				{
-					lettera [0] = nome_visualizzato [j];
-					al_draw_text(font_testo, COLORE_DEFAULT, pos_x_attuale, pos_y_attuale, ALLEGRO_ALIGN_LEFT, lettera);
-					pos_x_attuale += al_get_text_width (font_testo, lettera);
-				}
-			}
-			sprintf(str_valore, "%d", nuovo_punteggio.valore);
-		}
-		else
-		{
-			al_draw_text(font_testo, COLORE_DEFAULT, POS_X_NOMI_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, classifica.highscores [p].nome);
-			sprintf(str_valore, "%d", classifica.highscores [p].valore);
-		}
-		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_VALORI_PUNTEGGI, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_valore);
+		pos_y_attuale += SPAZIO_TESTO + altezzaAlieno (i);
 	}
-	//FINE DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
 
-	//INIZIO DELLA VISUALIZZAZIONE DEL PREMI ENTER
-	al_draw_text(font_testo, COLORE_DEFAULT, POS_CENTRO_X, POS_Y_INDICAZIONI_HIGHSCORES, ALLEGRO_ALIGN_CENTER, "Premi enter per salvare e tornare al menu principale");
-	//FINE DELLA VISUALIZZAZIONE DEL PREMI ENTER
+	al_draw_tinted_bitmap(navicella_misteriosa, ROSSO, POS_X_ESEMPIO_ALIENI - al_get_bitmap_width (navicella_misteriosa) / 2, pos_y_attuale, 0);
+	al_draw_text(font_testo, COLORE_DEFAULT, POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_LEFT, "=      ?  PTS");
+	//FINE DELLA VISUALIZZAZIONE DEGLI ALIENI E I RELATIVI PUNTEGGI
+
+	//INIZIO DELLA VISUALIZZAZIONE DEL MENU
+	for (int i = 0; i < menu_principale.n_voci; i++)
+	{
+		if (!(menu_principale.voce_selezionata == i && !redraw_lampeggio))
+		{
+			pos_y_attuale = POS_Y_VOCI_MENU_PRINCIPALE + (SPAZIO_TESTO + DIMENSIONE_TESTO) * i;
+			if ((!partita_salvata) && (static_cast <voce_menu_principale> (i) == v_carica))
+			{
+				al_draw_text(font_testo, GRIGIO, POS_CENTRO_X, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, menu_principale.testi_menu [i]);
+			}
+			else
+			{
+				al_draw_text(font_testo, COLORE_DEFAULT, POS_CENTRO_X, pos_y_attuale, ALLEGRO_ALIGN_CENTRE, menu_principale.testi_menu [i]);
+			}
+		}
+	}
+	//FINE DELLA VISUALIZZAZIONE DEL MENU
 
 	al_flip_display();
 	//FINE VISUALIZZAZIONE
-}
-
-unsigned int altezzaCarroArmato ()
-{
-	return al_get_bitmap_height (carro_armato);
-}
-
-unsigned int larghezzaCarroArmato ()
-{
-	return al_get_bitmap_width (carro_armato);
-}
-
-unsigned int altezzaNavicellaMisteriosa ()
-{
-	return al_get_bitmap_height (navicella_misteriosa);
-}
-
-unsigned int larghezzaNavicellaMisteriosa ()
-{
-	return al_get_bitmap_width (navicella_misteriosa);
-}
-
-unsigned int altezzaSparoAlienoAttuale (unsigned int pos_x_sparo)
-{
-	return al_get_bitmap_height (scegliSparo (pos_x_sparo)) / N_STATI_SPRITE;
-}
-
-unsigned int larghezzaSparoAlienoAttuale (unsigned int pos_x_sparo)
-{
-	return al_get_bitmap_width (scegliSparo (pos_x_sparo)) / N_STATI_SPRITE;
-}
-
-unsigned int altezzaSparoCarroArmato ()
-{
-	return al_get_bitmap_height (carro_armato);
-}
-
-unsigned int larghezzaSparoCarroArmato ()
-{
-	return al_get_bitmap_width (sparo_carro);
-}
-
-unsigned int altezzaAlieno (unsigned int n_fila_alieno)
-{
-	return al_get_bitmap_height (tipi_alieni [n_fila_alieno]);
-}
-
-unsigned int larghezzaAlieno (unsigned int n_fila_alieno)
-{
-	return al_get_bitmap_width (tipi_alieni [n_fila_alieno]) / N_STATI_SPRITE;
-}
-
-unsigned int larghezzaLatoUnitaBarriera ()
-{
-	return al_get_bitmap_width (barriera) / N_STATI_SPRITE;
 }
 //FINE MODULO
