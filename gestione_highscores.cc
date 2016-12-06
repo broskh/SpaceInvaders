@@ -96,7 +96,7 @@ int posizionePunteggio (Classifica classifica, Punteggio nuovo_punteggio)
 	}
 	if (classifica.n_highscores < MAX_HIGHSCORES)
 	{
-		classifica.n_highscores++;
+//		classifica.n_highscores++;
 		return classifica.n_highscores - 1;
 	}
 	return -1;
