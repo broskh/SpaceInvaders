@@ -217,7 +217,31 @@ void stampaGioca (Partita partita, bool animazione, colore colore_alieni);
  * @param classifica Classifica degli highscores.
  */
 void stampaHighscores (Classifica classifica);
+
+/*
+ * Stampa sul display tutto il contenuto che riguarda la schermata del menù impostazioni.
+ *
+ * @param menu_impostazioni Menu delle impostazioni.
+ * @param impostazioni Impostazioni da mostrare.
+ * @param redraw_lampeggio Valore booleano che indica se è necessario mostrare o no gli elementi che necessitano di un effetto lampeggiante.
+ */
 void stampaImpostazioni (Menu menu_impostazioni, Impostazioni impostazioni, bool redraw_lampeggio);
+
+/*
+ * Stampa sul display tutto il contenuto che riguarda la schermata del menù di pausa.
+ *
+ * @param menu_pausa Menu di pausa.
+ * @param redraw_lampeggio Valore booleano che indica se è necessario mostrare o no gli elementi che necessitano di un effetto lampeggiante.
+ */
 void stampaMenuPausa (Menu menu_pausa, bool redraw_lampeggio);
+
+/*
+ * Stampa sul display tutto il contenuto che riguarda la schermata del menù principale.
+ *
+ * @param menu_principale Menu principale.
+ * @param partita_salvata Valore booleano che indica se è presente una partita salvata o me no.
+ * @param colore_alieni Colore con il quale mostrare gli alieni.
+ * @param redraw_lampeggio Valore booleano che indica se è necessario mostrare o no gli elementi che necessitano di un effetto lampeggiante.
+ */
 void stampaMenuPrincipale (Menu menu_principale, bool partita_salvata, colore colore_alieni, bool redraw_lampeggio);
 //FINE INTERFACCIA
