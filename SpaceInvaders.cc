@@ -94,6 +94,8 @@ static ALLEGRO_TIMER *timer_comparsa_navicella = NULL;
 static ALLEGRO_TIMER *timer_spostamento_ondata = NULL;
 static ALLEGRO_TIMER *timer_spostamento_navicella = NULL;
 static ALLEGRO_TIMER *timer_spostamento_spari = NULL;
+static ALLEGRO_DISPLAY *display = NULL; /**<Display del gioco.*/
+
 /**
  * FARE DOCUMENTAZIONE PER MAIN
  */
@@ -102,7 +104,7 @@ int main ()
 	assert (al_init());
 	assert (al_install_keyboard());
 	
-	ALLEGRO_DISPLAY * display = inizializzaGrafica ();
+	display = inizializzaGrafica ();
 	inizializzaAudio ();
  
    	coda_eventi = al_create_event_queue();
@@ -257,7 +259,7 @@ int main ()
 
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
-						stampaMenuPrincipale (menu_principale, redraw_lampeggio, partita_salvata, impostazioni.colore_alieni);
+						stampaMenuPrincipale (menu_principale, partita_salvata, impostazioni.colore_alieni, redraw_lampeggio);
 					}
 			   	}
 				al_stop_timer(timer_lampeggio_voce);
@@ -550,7 +552,7 @@ int main ()
 
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
-						stampaImpostazioni (impostazioni, menu_impostazioni, redraw_lampeggio);
+						stampaImpostazioni (menu_impostazioni, impostazioni, redraw_lampeggio);
 					}
 			   	}
 				al_stop_timer(timer_lampeggio_voce);
@@ -785,6 +787,7 @@ unsigned int percentualeVelocitaOndata (Ondata ondata)
 
 void distruggiTimer ()
 {
+	al_destroy_display(display);
 	al_destroy_timer(frame_rate_generale);
 	al_destroy_timer(timer_lampeggio_voce);
 	al_destroy_timer(timer_comparsa_sparo_alieni);

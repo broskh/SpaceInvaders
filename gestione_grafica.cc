@@ -12,30 +12,34 @@
 #include "gestione_partita.h"
 
 //INIZIO VARIABILI DI MODULO
-static ALLEGRO_DISPLAY *display = NULL;
-static ALLEGRO_BITMAP *barriera = NULL;
-static ALLEGRO_BITMAP *carro_armato = NULL;
-static ALLEGRO_BITMAP *sparo_carro = NULL;
-static ALLEGRO_BITMAP *navicella_misteriosa = NULL;
-static ALLEGRO_BITMAP *tipi_alieni [N_TIPI_ALIENI] = {NULL, NULL, NULL};
-static ALLEGRO_BITMAP *spari_alieni [N_TIPI_ALIENI] = {NULL, NULL};
-static ALLEGRO_BITMAP *esplosione_carro = NULL;
-static ALLEGRO_BITMAP *esplosione_alieno = NULL;
-static ALLEGRO_FONT *font_titolo = NULL;
-static ALLEGRO_FONT *font_testo = NULL;
-static ALLEGRO_COLOR VERDE;
-static ALLEGRO_COLOR BIANCO;
-static ALLEGRO_COLOR ARANCIONE;
-static ALLEGRO_COLOR GIALLO;
-static ALLEGRO_COLOR BLU;
-static ALLEGRO_COLOR ROSSO;
-static ALLEGRO_COLOR NERO;
-static ALLEGRO_COLOR GRIGIO;
-static ALLEGRO_COLOR COLORE_DEFAULT;
+static ALLEGRO_BITMAP *unita_barriera = NULL; /**<Immagine utilizzata per rappresentare un'unità di barriera.*/
+static ALLEGRO_BITMAP *carro_armato = NULL; /**<Immagine utilizzata per rappresentare il carro armato.*/
+static ALLEGRO_BITMAP *esplosione_alieno = NULL; /**<Immagine utilizzata per rappresentare l'esplosione di un alieno.*/
+static ALLEGRO_BITMAP *esplosione_carro = NULL; /**<Immagine utilizzata per rappresentare l'esplosione del carro armato.*/
+static ALLEGRO_BITMAP *navicella_misteriosa = NULL; /**<Immagine utilizzata per rappresentare la navicella misteriosa.*/
+static ALLEGRO_BITMAP *spari_alieni [N_TIPI_ALIENI] = {NULL, NULL}; /**<Immagini utilizzate per rappresentare gli spari alieni.*/
+static ALLEGRO_BITMAP *sparo_carro = NULL; /**<Immagine utilizzata per rappresentare lo sparo del carro armato.*/
+static ALLEGRO_BITMAP *tipi_alieni [N_TIPI_ALIENI] = {NULL, NULL, NULL}; /**<Immagine utilizzata per rappresentare i diversi alieni.*/
+static ALLEGRO_COLOR ARANCIONE; /**<Colore arancione.*/
+static ALLEGRO_COLOR BIANCO; /**<Colore bianco.*/
+static ALLEGRO_COLOR BLU; /**<Colore blu.*/
+static ALLEGRO_COLOR COLORE_DEFAULT; /**<Colore usato di default.*/
+static ALLEGRO_COLOR GIALLO; /**<Colore giallo.*/
+static ALLEGRO_COLOR GRIGIO; /**<Colore grigio.*/
+static ALLEGRO_COLOR NERO; /**<Colore nero.*/
+static ALLEGRO_COLOR ROSSO; /**<Colore rosso.*/
+static ALLEGRO_COLOR VERDE; /**<Colore verde.*/
+static ALLEGRO_FONT *font_testo = NULL; /**<Font utilizzato per scrivere il testo presente all'interno del gioco.*/
+static ALLEGRO_FONT *font_titolo = NULL; /**<Font utilizzato per scrivere esclusivamente il titolo del gioco nel menù principale.*/
 //FINE VARIABILI DI MODULO
 
 //INIZIO MODULO
-void disegnaBarriera (ALLEGRO_BITMAP *barriera_sprite, stato_barriera barriera [ALTEZZA_BARRIERA] [LARGHEZZA_BARRIERA], unsigned int pos_x, unsigned int pos_y)
+//INIZIO FUNZIONI PRIVATE
+/*
+ * Disegna una barriera data la matrice contenente lo stato di ogni unità della barriera e le posizioni rispetto
+ * all'asse x e y del punto iniziale.
+ */
+void disegnaBarriera (stato_barriera barriera [ALTEZZA_BARRIERA] [LARGHEZZA_BARRIERA], unsigned int pos_x, unsigned int pos_y)
 {
 	unsigned int dx = pos_x; 
 	unsigned int dy = pos_y;
@@ -46,11 +50,11 @@ void disegnaBarriera (ALLEGRO_BITMAP *barriera_sprite, stato_barriera barriera [
 		{
 			if (barriera [i] [j] == integra)
 			{
-				al_draw_tinted_bitmap_region(barriera_sprite, COLORE_DEFAULT, 0, 0, larghezzaLatoUnitaBarriera (), al_get_bitmap_height (barriera_sprite), dx, dy, 0);
+				al_draw_tinted_bitmap_region(unita_barriera, COLORE_DEFAULT, 0, 0, larghezzaLatoUnitaBarriera (), altezzaLatoUnitaBarriera (), dx, dy, 0);
 			}
 			else if (barriera [i] [j] == parziale)
 			{
-				al_draw_tinted_bitmap_region(barriera_sprite, COLORE_DEFAULT, larghezzaLatoUnitaBarriera (), 0, larghezzaLatoUnitaBarriera (), al_get_bitmap_height (barriera_sprite), dx, dy, 0);
+				al_draw_tinted_bitmap_region(unita_barriera, COLORE_DEFAULT, larghezzaLatoUnitaBarriera (), 0, larghezzaLatoUnitaBarriera (), altezzaLatoUnitaBarriera (), dx, dy, 0);
 			}
 			dx += larghezzaLatoUnitaBarriera ();
 		}
@@ -59,6 +63,9 @@ void disegnaBarriera (ALLEGRO_BITMAP *barriera_sprite, stato_barriera barriera [
 	}
 }
 
+/*
+ * Sceglie l'alieno da mostrare sulla base del numero di fila dell'ondata nella quale si trova.
+ */
 ALLEGRO_BITMAP* scegliAlieno (unsigned int numero_fila)
 {
 	if (numero_fila < N_FILE_ALIENI)
@@ -69,6 +76,9 @@ ALLEGRO_BITMAP* scegliAlieno (unsigned int numero_fila)
 	return NULL;
 }
 
+/*
+ * Converte una variabile di tipo "colore" in una di tipo "ALLEGRO_COLOR".
+ */
 ALLEGRO_COLOR scelgliColore (colore colore_alieni)
 {
 	ALLEGRO_COLOR colore_allegro = VERDE;
@@ -93,10 +103,14 @@ ALLEGRO_COLOR scelgliColore (colore colore_alieni)
 	return colore_allegro;
 }
 
+/*
+ * Sceglie lo sparo da mostrare sulla base della posizione rispetto all'asse x dello sparo.
+ */
 ALLEGRO_BITMAP * scegliSparo (int pos_x)
 {
 	return spari_alieni [pos_x % 2];
 }
+//FINE FUNZIONI PRIVATE
 
 unsigned int altezzaAlieno (unsigned int n_fila_alieno)
 {
@@ -106,6 +120,11 @@ unsigned int altezzaAlieno (unsigned int n_fila_alieno)
 unsigned int altezzaCarroArmato ()
 {
 	return al_get_bitmap_height (carro_armato);
+}
+
+unsigned int altezzaLatoUnitaBarriera ()
+{
+	return al_get_bitmap_height (unita_barriera);
 }
 
 unsigned int altezzaNavicellaMisteriosa ()
@@ -125,12 +144,11 @@ unsigned int altezzaSparoCarroArmato ()
 
 void distruggiGrafica ()
 {
-	al_destroy_display(display);
 	al_destroy_font (font_testo);
 	al_destroy_font (font_titolo);
 	al_destroy_bitmap(spari_alieni [0]);
 	al_destroy_bitmap(spari_alieni [1]);
-	al_destroy_bitmap(barriera);
+	al_destroy_bitmap(unita_barriera);
 	al_destroy_bitmap(carro_armato);
 	al_destroy_bitmap(sparo_carro);
 	al_destroy_bitmap(navicella_misteriosa);
@@ -147,7 +165,8 @@ ALLEGRO_DISPLAY * inizializzaGrafica ()
 	assert (al_init_font_addon());
 	assert (al_init_ttf_addon()); 
 
-	display = al_create_display(LARGHEZZA_DISPLAY, ALTEZZA_DISPLAY);
+	
+	ALLEGRO_DISPLAY *display = al_create_display(LARGHEZZA_DISPLAY, ALTEZZA_DISPLAY);
 	assert (display);
 
 	font_titolo = al_load_ttf_font(FILE_FONT_TITOLO, DIMENSIONE_TITOLO, 0);
@@ -155,8 +174,8 @@ ALLEGRO_DISPLAY * inizializzaGrafica ()
 	font_testo = al_load_ttf_font(FILE_FONT_TESTO, DIMENSIONE_TESTO, 0);
  	assert (font_testo);
 	
-	barriera = al_load_bitmap(FILE_BARRIERA);
-	assert (barriera);
+	unita_barriera = al_load_bitmap(FILE_BARRIERA);
+	assert (unita_barriera);
 	spari_alieni [0] = al_load_bitmap(FILE_SPARO_ALIENI_1);
 	assert (spari_alieni [0]);
 	spari_alieni [1] = al_load_bitmap(FILE_SPARO_ALIENI_2);
@@ -203,7 +222,7 @@ unsigned int larghezzaCarroArmato ()
 
 unsigned int larghezzaLatoUnitaBarriera ()
 {
-	return al_get_bitmap_width (barriera) / N_STATI_SPRITE;
+	return al_get_bitmap_width (unita_barriera) / N_STATI_SPRITE;
 }
 
 unsigned int larghezzaNavicellaMisteriosa ()
@@ -360,7 +379,7 @@ void stampaGioca (Partita partita, bool animazione, colore colore_alieni)
 	pos_x_attuale = DISTANZA_BARRIERE;
 	for (unsigned int i = 0; i < N_BARRIERE; i++)
 	{
-		disegnaBarriera (barriera, partita.barriere [i], pos_x_attuale, POS_Y_BARRIERE);
+		disegnaBarriera (partita.barriere [i], pos_x_attuale, POS_Y_BARRIERE);
 		pos_x_attuale += DISTANZA_BARRIERE + larghezzaLatoUnitaBarriera () * LARGHEZZA_BARRIERA;
 	}
 	//FINE DELLA VISUALIZZAZIONE DELLE BARRIERE
@@ -434,7 +453,7 @@ void stampaHighscores (Classifica classifica)
 	//FINE VISUALIZZAZIONE
 }
 
-void stampaImpostazioni (Impostazioni impostazioni, Menu menu_impostazioni, bool redraw_lampeggio)
+void stampaImpostazioni (Menu menu_impostazioni, Impostazioni impostazioni, bool redraw_lampeggio)
 {
 	//INIZIO VISUALIZZAZIONE
 	al_clear_to_color(NERO);
@@ -505,7 +524,7 @@ void stampaMenuPausa (Menu menu_pausa, bool redraw_lampeggio)
 	//FINE VISUALIZZAZIONE
 }
 
-void stampaMenuPrincipale (Menu menu_principale, bool redraw_lampeggio, bool partita_salvata, colore colore_alieni)
+void stampaMenuPrincipale (Menu menu_principale, bool partita_salvata, colore colore_alieni, bool redraw_lampeggio)
 {
 	//INIZIO VISUALIZZAZIONE
 	al_clear_to_color(NERO);

@@ -101,6 +101,13 @@ unsigned int altezzaAlieno (unsigned int n_fila_alieno);
 unsigned int altezzaCarroArmato ();
 
 /**
+ * Fornisce l'altezza in pixel di un'unità che compone la barriera.
+ *
+ * @return l'altezza di un'unità che compone la barriera.
+ */
+unsigned int altezzaLatoUnitaBarriera ();
+
+/**
  * Fornisce l'altezza in pixel della navicella misteriosa.
  *
  * @return l'altezza della navicella misteriosa.
@@ -184,10 +191,33 @@ unsigned int larghezzaSparoAlienoAttuale (unsigned int pos_x_sparo);
  * @return la larghezza dello sparo del carro armato.
  */
 unsigned int larghezzaSparoCarroArmato ();
+
+/*
+ * Stampa sul display tutto il contenuto che riguarda la schermata di fine partita.
+ *
+ * @param classifica Classifica degli highscores.
+ * @param nuovo_punteggio Punteggio raggiunto nella partita appena terminata.
+ * @param posizione_punteggio_attuale Posizione all'interno della classifica del punteggio raggiunto nella partita appena terminata. É uguale a "-1" se non rientra all'interno della classifica.
+ * @param redraw_lampeggio Valore booleano che indica se è necessario mostrare o no gli elementi che necessitano di un effetto lampeggiante.
+ */
 void stampaFinePartita (Classifica classifica, Punteggio nuovo_punteggio, int posizione_punteggio_attuale, bool redraw_lampeggio);
+
+/*
+ * Stampa sul display tutto il contenuto che riguarda la schermata di gioco.
+ *
+ * @param partita Partita in corso.
+ * @param animazione Valore booleano utilizzato per fare determinate scelte riguardo ad alcuni elementi da mostrare, consentendo così un effetto di animazione.
+ * @param colore_alieni Colore con il quale mostrare gli alieni.
+ */
 void stampaGioca (Partita partita, bool animazione, colore colore_alieni);
+
+/*
+ * Stampa sul display tutto il contenuto che riguarda la schermata degli highscores.
+ *
+ * @param classifica Classifica degli highscores.
+ */
 void stampaHighscores (Classifica classifica);
-void stampaImpostazioni (Impostazioni impostazioni, Menu menu_impostazioni, bool redraw_lampeggio);
+void stampaImpostazioni (Menu menu_impostazioni, Impostazioni impostazioni, bool redraw_lampeggio);
 void stampaMenuPausa (Menu menu_pausa, bool redraw_lampeggio);
-void stampaMenuPrincipale (Menu menu_principale, bool redraw_lampeggio, bool partita_salvata, colore colore_alieni);
+void stampaMenuPrincipale (Menu menu_principale, bool partita_salvata, colore colore_alieni, bool redraw_lampeggio);
 //FINE INTERFACCIA
