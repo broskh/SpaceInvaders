@@ -37,7 +37,7 @@
 #include "strutture_dati.h"
 #include "gestione_partita.h"
 #include "gestione_impostazioni.h"
-#include "gestione_highscores.h"
+#include "gestione_classifica.h"
 #include "gestione_menu.h"
 #include "gestione_grafica.h"
 #include "gestione_audio.h"

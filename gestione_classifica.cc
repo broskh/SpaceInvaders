@@ -1,5 +1,5 @@
 /*
- * File contenente il modulo di gestione degli highscores.
+ * File contenente il modulo per la gestione della classifica.
  */
 
 using namespace std;
@@ -8,9 +8,10 @@ using namespace std;
 #include <cstring>
 #include <cassert>
 #include "strutture_dati.h"
-#include "gestione_highscores.h"
+#include "gestione_classifica.h"
 
 //INIZIO MODULO
+//INIZIO FUNZIONI PRIVATE
 void output (Punteggio punteggio, ostream &os)
 {
 	os<<punteggio.nome<<" "<<punteggio.valore;	
@@ -30,6 +31,20 @@ void scambiaPunteggio (Punteggio &punt1, Punteggio &punt2)
 	Punteggio temp = punt2;
 	punt2 = punt1;
 	punt1 = temp;
+}
+//FINE FUNZIONI PRIVATE
+
+void aggiungiPunteggio (Classifica &classifica, Punteggio nuovo_punteggio, int posizione)
+{
+	Punteggio pros = nuovo_punteggio;
+	if (classifica.n_highscores < MAX_HIGHSCORES)
+	{
+		classifica.n_highscores++;
+	}
+	for (int i = posizione; i < classifica.n_highscores; i++)
+	{
+		scambiaPunteggio (classifica.highscores [i], pros);
+	}
 }
 
 bool caricaPunteggi (Classifica &classifica)
@@ -60,29 +75,10 @@ bool caricaPunteggi (Classifica &classifica)
 	return true;
 }
 
-void salvaPunteggi (Classifica classifica)
-{
-	ofstream f(FILE_HIGHSCORES) ;
-	output (classifica, f);
-}
-
 void inizializzaPunteggio (Punteggio &punteggio, char nome [], int valore)
 {
 	strcpy (punteggio.nome, nome);
 	punteggio.valore = valore;
-}
-
-void aggiungiPunteggio (Classifica &classifica, Punteggio nuovo_punteggio, int posizione)
-{
-	Punteggio pros = nuovo_punteggio;
-	if (classifica.n_highscores < MAX_HIGHSCORES)
-	{
-		classifica.n_highscores++;
-	}
-	for (int i = posizione; i < classifica.n_highscores; i++)
-	{
-		scambiaPunteggio (classifica.highscores [i], pros);
-	}
 }
 
 int posizionePunteggio (Classifica classifica, Punteggio nuovo_punteggio)
@@ -102,13 +98,19 @@ int posizionePunteggio (Classifica classifica, Punteggio nuovo_punteggio)
 	return -1;
 }
 
-void stampa (Punteggio punteggio)
+void salvaPunteggi (Classifica classifica)
 {
-	output (punteggio, cout);
+	ofstream f(FILE_HIGHSCORES) ;
+	output (classifica, f);
 }
 
 void stampa (Classifica classifica)
 {
 	output (classifica, cout);
+}
+
+void stampa (Punteggio punteggio)
+{
+	output (punteggio, cout);
 }
 //FINE MODULO
