@@ -1,24 +1,33 @@
 /*
- * File contenente il modulo di gestione delle impostazioni.
+ * File contenente il modulo per la gestione delle impostazioni.
  */
 
 using namespace std;
+
 #include <iostream>
 #include <fstream>
 #include <cstring>
 #include "strutture_dati.h"
 #include "gestione_impostazioni.h"
 
-const unsigned int MAX_STRING = 15;
-
 //INIZIO MODULO
+//INIZIO FUNZIONI PRIVATE
+void inizializzaImpostazioni (Impostazioni &impostazioni, bool musica, bool effetti_audio, colore colore_alieni, unsigned int vite_iniziali)
+{
+	impostazioni.musica = musica;
+	impostazioni.eff_audio = effetti_audio;
+	impostazioni.colore_alieni = colore_alieni;
+	impostazioni.vite_iniziali = vite_iniziali;
+}
+
 void output (Impostazioni impostazioni, ostream &os)
 {
-	os<<"musica = "<<impostazioni.musica<<endl;
-	os<<"effetti_audio = "<<impostazioni.eff_audio<<endl;
-	os<<"colore_alieni = "<<impostazioni.colore_alieni<<endl;
-	os<<"vite_iniziali = "<<impostazioni.vite_iniziali<<endl;
+	os<<CAMPO_MUSICA<<" = "<<impostazioni.musica<<endl;
+	os<<CAMPO_EFFETTI_AUDIO<<" = "<<impostazioni.eff_audio<<endl;
+	os<<CAMPO_COLORE_ALIENI<<" = "<<impostazioni.colore_alieni<<endl;
+	os<<CAMPO_VITE_INIZIALI<<" = "<<impostazioni.vite_iniziali<<endl;
 }
+//FINE FUNZIONI PRIVATE
 
 bool caricaImpostazioni (Impostazioni &impostazioni)
 {
@@ -31,29 +40,29 @@ bool caricaImpostazioni (Impostazioni &impostazioni)
 	bool musica, eff_audio;
 	colore colore_alieni;
 	unsigned int vite_iniziali;
-	char voice [MAX_STRING];
+	char voice [MAX_STRINGA_GENERICA];
 
 	while (f>>voice)
 	{
 		f.ignore (2, '=');
-		if (strcmp(voice, "musica") == 0)
+		if (strcmp(voice, CAMPO_MUSICA) == 0)
 		{
 			f>>musica;
 			musica_trov = true;
 		}
-		else if (strcmp(voice, "effetti_audio") == 0)
+		else if (strcmp(voice, CAMPO_EFFETTI_AUDIO) == 0)
 		{
 			f>>eff_audio;
 			eff_audio_trov = true;
 		}
-		else if (strcmp(voice, "colore_alieni") == 0)
+		else if (strcmp(voice, CAMPO_COLORE_ALIENI) == 0)
 		{
 			int colore_int;
 			f>>colore_int;
 			colore_alieni = static_cast <colore> (colore_int);
 			mod_grafica_trov = true;
 		}
-		else if (strcmp(voice, "vite_iniziali") == 0)
+		else if (strcmp(voice, CAMPO_VITE_INIZIALI) == 0)
 		{
 			f>>vite_iniziali;
 			vite_iniz_trov = true;
@@ -64,27 +73,19 @@ bool caricaImpostazioni (Impostazioni &impostazioni)
 		inizializzaImpostazioni (impostazioni, musica, eff_audio, colore_alieni, vite_iniziali);
 		return true;
 	}
-	cerr<<"File di configurazione incompleto"<<endl;
+	cerr<<"File di configurazione corrotto."<<endl;
 	return false;
+}
+
+void impostaValoriDefault (Impostazioni &impostazioni)
+{
+	inizializzaImpostazioni (impostazioni, DEFAULT_MUSICA, DEFAULT_EFFETTI_AUDIO, DEFAULT_COLORE_ALIENI, DEFAULT_VITE_INIZIALI);
 }
 
 void salvaImpostazioni (Impostazioni impostazioni)
 {
 	ofstream f(FILE_IMPOSTAZIONI) ;
 	output (impostazioni, f);
-}
-
-void inizializzaImpostazioni (Impostazioni &impostazioni, bool musica, bool effetti_audio, colore colore_alieni, unsigned int vite_iniziali)
-{
-	impostazioni.musica = musica;
-	impostazioni.eff_audio = effetti_audio;
-	impostazioni.colore_alieni = colore_alieni;
-	impostazioni.vite_iniziali = vite_iniziali;
-}
-
-void impostaValoriImpostazioniDefault (Impostazioni &impostazioni)
-{
-	inizializzaImpostazioni (impostazioni, DEFAULT_MUSICA, DEFAULT_EFFETTI_AUDIO, DEFAULT_COLORE_ALIENI, DEFAULT_VITE_INIZIALI);
 }
 
 void stampa (Impostazioni impostazioni)

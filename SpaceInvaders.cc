@@ -155,7 +155,7 @@ int main ()
 	Impostazioni impostazioni;
 	if (!caricaImpostazioni (impostazioni))
 	{
-		impostaValoriImpostazioniDefault (impostazioni);
+		impostaValoriDefault (impostazioni);
 		salvaImpostazioni (impostazioni);
 	}
 	if (!caricaPunteggi (classifica))
@@ -545,7 +545,7 @@ int main ()
 								cambia_schermata = true;
 								break;
 							case ALLEGRO_KEY_R:
-								impostaValoriImpostazioniDefault (impostazioni);
+								impostaValoriDefault (impostazioni);
 								break;
 						}
 					}
