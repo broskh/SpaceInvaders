@@ -311,14 +311,14 @@ void stampaGioca (Partita partita, bool animazione, colore colore_alieni)
 
 	//INIZIO DELLA VISUALIZZAZIONE DELLE INFORMAZIONI
 	char stringa_punteggio [] = "Punteggio:    ";
-	char valore_punteggio [MAX_STRINGA_GENERICA];
+	generic_string valore_punteggio;
 	sprintf(valore_punteggio, "%d", partita.punteggio.valore);
 	strcat (stringa_punteggio, valore_punteggio);
 	pos_x_attuale = (POS_CENTRO_X - al_get_text_width(font_testo, stringa_punteggio)) / 2;
 	al_draw_text(font_testo, COLORE_DEFAULT, pos_x_attuale, POS_Y_INFORMAZIONI_PARTITA, ALLEGRO_ALIGN_LEFT, stringa_punteggio);
 
 	char stringa_vite [] = "Vite:    ";
-	char valore_vite [MAX_STRINGA_GENERICA];
+	generic_string valore_vite;
 	sprintf(valore_vite, "%d", partita.vite_rimanenti);
 	strcat (stringa_vite, valore_vite);
 	pos_x_attuale = (POS_CENTRO_X - al_get_text_width(font_testo, stringa_vite)) / 2 + POS_CENTRO_X;
@@ -474,8 +474,8 @@ void stampaImpostazioni (Menu menu_impostazioni, Impostazioni impostazioni, bool
 		pos_x_attuale = POS_X_VALORI_IMPOSTAZIONI;
 		if (!(menu_impostazioni.voce_selezionata == i && !redraw_lampeggio))
 		{
-			char str_stato [MAX_STRINGA_GENERICA] = "<    ";
-			char str_valore [MAX_STRINGA_GENERICA];
+			generic_string str_stato = "<    ";
+			generic_string str_valore;
 			assert(stringaValoreVoceImpostazioni (str_valore, static_cast <voce_menu_impostazioni> (i), impostazioni));
 			strcat (str_stato, str_valore);
 			strcat (str_stato, "     >");
@@ -540,7 +540,7 @@ void stampaMenuPrincipale (Menu menu_principale, bool partita_salvata, colore co
 	{
 		al_draw_tinted_bitmap_region(tipi_alieni [i], colore_allegro, 0, 0, larghezzaAlieno (i), altezzaAlieno (i), POS_X_ESEMPIO_ALIENI - larghezzaAlieno (i) / 2, pos_y_attuale, 0);
 		char stringa_punteggio [] = "=      ";
-		char valore_punteggio [MAX_STRINGA_GENERICA];
+		generic_string valore_punteggio;
 		sprintf(valore_punteggio, "%d", PUNTEGGIO_ALIENI [i]);
 		strcat (stringa_punteggio, valore_punteggio);
 		strcat (stringa_punteggio, "  PTS");

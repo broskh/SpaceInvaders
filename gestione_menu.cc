@@ -60,7 +60,7 @@ void voceSuc (Menu &menu, int voce_saltata)
 	}
 }
 
-void inizializzaMenu (Menu &menu, const char testi_menu [] [MAX_STRINGA_GENERICA], int n_voci, int voce_sel)
+void inizializzaMenu (Menu &menu, const generic_string testi_menu [], int n_voci, int voce_sel)
 {
 	menu.n_voci = n_voci;
 	menu.voce_selezionata = voce_sel;

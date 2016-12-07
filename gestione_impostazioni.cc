@@ -40,7 +40,7 @@ bool caricaImpostazioni (Impostazioni &impostazioni)
 	bool musica, eff_audio;
 	colore colore_alieni;
 	unsigned int vite_iniziali;
-	char voice [MAX_STRINGA_GENERICA];
+	generic_string voice;
 
 	while (f>>voice)
 	{

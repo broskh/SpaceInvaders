@@ -8,11 +8,6 @@ const unsigned int N_BARRIERE = 4; /**<Numero delle barriere presenti in una par
 const unsigned int LARGHEZZA_BARRIERA = 20; /**<Largezza della barriera (in unità).*/
 //FINE COSTANTI BARRIERE
 
-//INIZIO COSTANTI GENERICHE
-const int MAX_STRINGA_GENERICA = 20; /**<Numero di caratteri utilizzato per stringhe generiche.*/
-const int MAX_STRINGA_GENERICA_LUNGA = 60; /**<Numero di caratteri utilizzato per stringhe generiche lunghe.*/
-//FINE COSTANTI GENERICHE
-
 //INIZIO COSTANTI ONDATA
 const unsigned int N_COL_ALIENI = 11; /**<Numero delle colonne di alieni.*/
 const unsigned int N_FILE_ALIENI = 6; /**<Numero delle file di alieni.*/
@@ -28,6 +23,10 @@ const int MAX_N_VOCI_MENU = 5; /**<Numero di voci massime presenti in un menu.*/
 const int MAX_VITE = 10; /**<Numero massimo di vite.*/
 const int N_COLORI_ALIENI = 5; /**<Numero di modalità cromatiche disponibili per la colorazione degli alieni.*/
 //FINE COSTANTI VARIE
+
+typedef char generic_long_string [61]; /**<Stringa generica in grado di contenere 60 caratteri.*/
+
+typedef char generic_string [21]; /**<Stringa generica in grado di contenere 20 caratteri.*/
 
 /** Tipo che indica un colore.
  *
@@ -99,7 +98,7 @@ struct Impostazioni
  */
 struct Menu
 {
-	char testi_menu [MAX_N_VOCI_MENU] [MAX_STRINGA_GENERICA + 1]; /**<Testi usati per rappresentare le voci del menù.*/
+	generic_string testi_menu [MAX_N_VOCI_MENU]; /**<Testi usati per rappresentare le voci del menù.*/
 	int n_voci; /**<Numero di voci presenti nel menù.*/
 	int voce_selezionata; /**<Voce del menù attualmente selezionata.*/
 };

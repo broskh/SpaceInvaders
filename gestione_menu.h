@@ -2,13 +2,13 @@
  * Header file contenente l'interfaccia del modulo di gestione degi menu.
  */
 
-const char MENU_PRINCIPALE [] [MAX_STRINGA_GENERICA] = {"Gioca", "Carica partita", "Opzioni", "Highscores", "Esci"}; /**<Voci del munù principale*/
+const generic_string MENU_PRINCIPALE [] = {"Gioca", "Carica partita", "Opzioni", "Highscores", "Esci"}; /**<Voci del munù principale*/
 const int N_VOCI_MENU_PRINC = 5; /**<Numero di voci del menù principale.*/
-const char MENU_IMPOSTAZIONI [] [MAX_STRINGA_GENERICA] = {"Musica: ", "Effetti audio: ", "Colore alieni: ", "Vite iniziali: "}; /**<Voci del munù impostazioni.*/
+const generic_string MENU_IMPOSTAZIONI [] = {"Musica: ", "Effetti audio: ", "Colore alieni: ", "Vite iniziali: "}; /**<Voci del munù impostazioni.*/
 const int N_VOCI_MENU_IMPO = 4; /**<Numero di voci del menù impostazioni.*/
-const char INDICAZIONI_IMPOSTAZIONI [] [MAX_STRINGA_GENERICA_LUNGA] = {"Usa le frecce su e giu' per cambiare opzione", "Usa le frecce destra e sinistra per modificare il valore", "Premi enter per salvare e tornare al menu principale", "Premi R per ripristinare i valori di default"}; /**<Indicazioni del menù impostazioni.*/
+const generic_long_string INDICAZIONI_IMPOSTAZIONI [] = {"Usa le frecce su e giu' per cambiare opzione", "Usa le frecce destra e sinistra per modificare il valore", "Premi enter per salvare e tornare al menu principale", "Premi R per ripristinare i valori di default"}; /**<Indicazioni del menù impostazioni.*/
 const int N_INDICAZIONI_MENU_IMPO = 4; /**<Numero di indicazioni del menù impostazioni.*/
-const char MENU_PAUSA [] [MAX_STRINGA_GENERICA] = {"Continua partita", "Salva partita", "Abbandona partita"}; /**<Indicazioni del menù di pausa.*/
+const generic_string MENU_PAUSA [] = {"Continua partita", "Salva partita", "Abbandona partita"}; /**<Indicazioni del menù di pausa.*/
 const int N_VOCI_MENU_PAUSA = 3; /**<Numero di voci del menù di pausa.*/
 
 //INIZIO INTERFACCIA
@@ -50,7 +50,7 @@ void voceSuc (Menu &menu, int voce_saltata);
  * @param n_voci Valore intero da assegnare al campo {@link #Menu.n_voci n_voci}.
  * @param voce_sel Valore "intero da assegnare al campo {@link #Menu.voce_sel voce_sel}.
  */
-void inizializzaMenu (Menu &menu, const char testi_menu [] [MAX_STRINGA_GENERICA], int n_voci, int voce_sel);
+void inizializzaMenu (Menu &menu, const generic_string testi_menu [], int n_voci, int voce_sel);
 
 /**
  * Genera una stringa in grado di rappresentare lo stato del valore di un particolare campo delle impostazioni.
