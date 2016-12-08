@@ -26,7 +26,7 @@ void aggiungiPunteggio (Classifica &classifica, Punteggio nuovo_punteggio, int p
 bool caricaPunteggi (Classifica &classifica);
 
 /**
- * Memorizza in una struttura "Punteggio" i valori passati per parametro.
+ * Memorizza in una struttura {@link Punteggio} i valori passati per parametro.
  *
  * @param punteggio Struttura {@link Punteggio} nella quale verranno memorizzati i valori.
  * @param nome Stringa di tre caratteri contenente il nome del giocatore che ha raggiunto il punteggio.

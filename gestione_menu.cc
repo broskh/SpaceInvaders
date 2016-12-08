@@ -1,5 +1,5 @@
 /*
- * File contenente il modulo di gestione dei menu.
+ * File contenente il modulo per la gestione dei menu.
  */
 
 
@@ -7,9 +7,6 @@
 #include <cstdio>
 #include "strutture_dati.h"
 #include "gestione_menu.h"
-
-#include <iostream>
-using namespace std;
 
 //INIZIO MODULO
 int precInRangeCircuito (int n, int min, int max)
@@ -30,34 +27,6 @@ int sucInRangeCircuito (int n, int min, int max)
 		n = min;
 	}
 	return n;
-}
-
-void vocePrec (Menu &menu)
-{
-	menu.voce_selezionata = precInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
-}
-
-void vocePrec (Menu &menu, int voce_saltata)
-{
-	menu.voce_selezionata = precInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
-	if (menu.voce_selezionata == voce_saltata)
-	{
-		menu.voce_selezionata = precInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
-	}
-}
-
-void voceSuc (Menu &menu)
-{
-	menu.voce_selezionata = sucInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
-}
-
-void voceSuc (Menu &menu, int voce_saltata)
-{
-	menu.voce_selezionata = sucInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
-	if (menu.voce_selezionata == voce_saltata)
-	{
-		menu.voce_selezionata = sucInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
-	}
 }
 
 void inizializzaMenu (Menu &menu, const generic_string testi_menu [], int n_voci, int voce_sel)
@@ -82,40 +51,40 @@ bool stringaValoreVoceImpostazioni (char stringa [], voce_menu_impostazioni voce
 		case v_musica:
 			if (impostazioni.musica)
 			{
-				strcpy (stringa, "On");
+				strcpy (stringa, STRINGA_ON);
 			}
 			else
 			{
-				strcpy (stringa, "Off");
+				strcpy (stringa, STRINGA_OFF);
 			}
 			break;
 		case v_eff_audio:
 			if (impostazioni.eff_audio)
 			{
-				strcpy (stringa, "On");
+				strcpy (stringa, STRINGA_ON);
 			}
 			else
 			{
-				strcpy (stringa, "Off");
+				strcpy (stringa, STRINGA_OFF);
 			}
 			break;
 		case v_colori_alieni:
 			switch (impostazioni.colore_alieni)
 			{
 				case verde:
-					strcpy (stringa, "Verde");
+					strcpy (stringa, STRINGA_VERDE);
 					break;
 				case bianco:
-					strcpy (stringa, "Bianco");
+					strcpy (stringa, STRINGA_BIANCO);
 					break;
 				case arancione:
-					strcpy (stringa, "Arancione");
+					strcpy (stringa, STRINGA_ARANCIONE);
 					break;
 				case giallo:
-					strcpy (stringa, "Giallo");
+					strcpy (stringa, STRINGA_GIALLO);
 					break;
 				case blu:
-					strcpy (stringa, "Blu");
+					strcpy (stringa, STRINGA_BLU);
 					break;
 			}
 			break;
@@ -173,5 +142,33 @@ bool valoreCampoImpostazioniSuc (voce_menu_impostazioni voce, Impostazioni &impo
 			break;
 	}
 	return true;
+}
+
+void vocePrec (Menu &menu)
+{
+	menu.voce_selezionata = precInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
+}
+
+void vocePrec (Menu &menu, int voce_saltata)
+{
+	menu.voce_selezionata = precInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
+	if (menu.voce_selezionata == voce_saltata)
+	{
+		menu.voce_selezionata = precInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
+	}
+}
+
+void voceSuc (Menu &menu)
+{
+	menu.voce_selezionata = sucInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
+}
+
+void voceSuc (Menu &menu, int voce_saltata)
+{
+	menu.voce_selezionata = sucInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
+	if (menu.voce_selezionata == voce_saltata)
+	{
+		menu.voce_selezionata = sucInRangeCircuito (menu.voce_selezionata, 0, menu.n_voci);
+	}
 }
 //FINE MODULO
