@@ -132,14 +132,12 @@ unsigned int altezzaSparoCarroArmato ();
 
 /**
  * Procedura di distruzione del modulo per la gestione della grafica.
- * 
  * Si occupa di deallocare correttamente la memoria alloccata in fase di inizializzazione del modulo.
  */
 void distruggiGrafica ();
 
 /**
  * Procedura di inizializzazione del modulo per la gestione della grafica.
- * 
  * Si occupa di inizializzare correttamente tutte le variabili necessarie e di seguire i metodi di inizializzazione di determinate librerie "Allegro".
  */
 void inizializzaGrafica ();

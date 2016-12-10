@@ -77,14 +77,12 @@ void fermaSuonoNavicellaMisteriosa ();
 
 /**
  * Procedura di inizializzazione del modulo per la gestione dell'audio.
- * 
  * Si occupa di inizializzare correttamente tutte le variabili necessarie e di seguire i metodi di inizializzazione di determinate librerie "Allegro".
  */
 void inizializzaAudio ();
 
 /**
  * Modifica la velocità della musica di sottofondo all'ondata di alieni in movimento.
- *
  * La modifica viene effettuata sulla base della {@link VELOCITA_SOTTOFONDO_ONDATA_MIN velocità minima}
  * e della {@link VELOCITA_SOTTOFONDO_ONDATA_MAX velocità massima} indicate.
  *

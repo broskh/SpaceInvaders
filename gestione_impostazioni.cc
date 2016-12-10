@@ -12,6 +12,9 @@ using namespace std;
 
 //INIZIO MODULO
 //INIZIO FUNZIONI PRIVATE
+/*
+ * Inizializza le impostazioni con le informazioni di base.
+ */
 void inizializzaImpostazioni (Impostazioni &impostazioni, bool musica, bool effetti_audio, colore colore_alieni, unsigned int vite_iniziali)
 {
 	impostazioni.musica = musica;
@@ -20,6 +23,9 @@ void inizializzaImpostazioni (Impostazioni &impostazioni, bool musica, bool effe
 	impostazioni.vite_iniziali = vite_iniziali;
 }
 
+/*
+ * Stampa tutte le informazioni delle Impostazioni sullo stream passato per parametro.
+ */
 void output (Impostazioni impostazioni, ostream &os)
 {
 	os<<CAMPO_MUSICA<<" = "<<impostazioni.musica<<endl;

@@ -15,6 +15,9 @@ using namespace std;
 
 //INIZIO MODULO
 //INIZIO FUNZIONI PRIVATE
+/*
+ * Ritorna il numero precedente di n, retrocedendo del peso definito e non andando oltre il valore minimo min.
+ */
 int precInRange (int n, int peso, int min)
 {
 	n -= peso;
@@ -25,11 +28,17 @@ int precInRange (int n, int peso, int min)
 	return n;
 }
 
+/*
+ * Ritorna il numero precedente di n, retrocedendo di un peso uguale a 1 e non andando oltre il valore minimo min.
+ */
 int precInRange (int n, int min)
 {
 	return precInRange (n, 1, min);
 }
 
+/*
+ * Controlla se si è verificata una generica collisione sulle barriere basandosi sulle coordinate e la larghezza del corpo collidente.
+ */
 bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALTEZZA_BARRIERA] [LARGHEZZA_BARRIERA], unsigned int pos_x_corpo, unsigned int pos_y_corpo, unsigned int larghezza_corpo)
 {
 	bool collisione = false;
@@ -72,6 +81,9 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALTEZZA_
 	return collisione;
 }
 
+/*
+ * Inizializza un alieno con le informazioni di base.
+ */
 void inizializzaAlieno (Alieno &alieno, unsigned int punteggio)
 {
 	alieno.stato = true;
@@ -79,6 +91,9 @@ void inizializzaAlieno (Alieno &alieno, unsigned int punteggio)
 	alieno.esplosione = false;
 }
 
+/*
+ * Inizializza le barriere con le informazioni di base.
+ */
 void inizializzaBarriere (stato_barriera barriera [ALTEZZA_BARRIERA] [LARGHEZZA_BARRIERA])
 {
 	unsigned int offset_no_disegno = CENTRO_ORIZZONTALE_BARRIERA - SMUSSO_SUPERIORE - 1;
@@ -111,6 +126,9 @@ void inizializzaBarriere (stato_barriera barriera [ALTEZZA_BARRIERA] [LARGHEZZA_
 	}
 }
 
+/*
+ * Inizializza il carro armato con le informazioni di base.
+ */
 void inizializzaCarroArmato (Carro &carro)
 {
 	carro.esplosione = 0;
@@ -118,6 +136,9 @@ void inizializzaCarroArmato (Carro &carro)
 	carro.sparo.stato = false;
 }
 
+/*
+ * Inizializza la navicella misteriosa con le informazioni di base.
+ */
 void inizializzaNavicellaMisteriosa (Navicella &navicella)
 {
 	navicella.stato = false;
@@ -125,6 +146,9 @@ void inizializzaNavicellaMisteriosa (Navicella &navicella)
 	navicella.punteggio = 0;
 }
 
+/*
+ * Stampa tutte le informazioni di una Partita sullo stream passato per parametro.
+ */
 void output (Partita partita, ostream &os)
 {
 	os<<partita.punteggio.valore<<endl<<endl;
@@ -172,6 +196,9 @@ void output (Partita partita, ostream &os)
 	os<<partita.carro_armato.sparo.pos_y<<endl<<endl;
 }
 
+/*
+ * Ritorna la larghezza di un alieno sulla base della fila dell'ondata alla quale appartiene.
+ */
 unsigned int sceltaLarghezzaAlieno (unsigned int numero_fila)
 {
 	if (numero_fila < N_FILE_ALIENI)
@@ -182,6 +209,9 @@ unsigned int sceltaLarghezzaAlieno (unsigned int numero_fila)
 	return 0;
 }
 
+/*
+ * Ritorna il numero successivo di n, procedendo del peso definito e non andando oltre il valore assimo max.
+ */
 int sucInRange (int n, int peso, int max)
 {
 	n += peso;
@@ -192,6 +222,9 @@ int sucInRange (int n, int peso, int max)
 	return n;
 }
 
+/*
+ * Ritorna il numero successivo di n, procedendo di un peso uguale a 1 e non andando oltre il valore assimo max.
+ */
 int sucInRange (int n, int max)
 {
 	return sucInRange (n, 1, max);

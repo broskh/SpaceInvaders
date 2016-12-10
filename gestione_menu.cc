@@ -9,6 +9,10 @@
 #include "gestione_menu.h"
 
 //INIZIO MODULO
+//INIZIO FUNZIONI PRIVATE
+/*
+ * Ritorna il numero precedente di n. Se n raggiunge un valore minore di min, riparte da max - 1.
+ */
 int precInRangeCircuito (int n, int min, int max)
 {
 	n--;
@@ -19,6 +23,9 @@ int precInRangeCircuito (int n, int min, int max)
 	return n;
 }
 
+/*
+ * Ritorna il numero successivo di n. Se n raggiunge un valore maggiore di max, riparte da min.
+ */
 int sucInRangeCircuito (int n, int min, int max)
 {
 	n++;
@@ -28,6 +35,7 @@ int sucInRangeCircuito (int n, int min, int max)
 	}
 	return n;
 }
+//FINE FUNZIONI PRIVATE
 
 void inizializzaMenu (Menu &menu, const generic_string testi_menu [], int n_voci, int voce_sel)
 {

@@ -12,11 +12,17 @@ using namespace std;
 
 //INIZIO MODULO
 //INIZIO FUNZIONI PRIVATE
+/*
+ * Stampa tutte le informazioni di un Punteggio sullo stream passato per parametro.
+ */
 void output (Punteggio punteggio, ostream &os)
 {
 	os<<punteggio.nome<<" "<<punteggio.valore;	
 }
 
+/*
+ * Stampa tutte le informazioni di una Classifica sullo stream passato per parametro.
+ */
 void output (Classifica classifica, ostream &os)
 {
 	for (int i = 0; i < classifica.n_highscores; i++)
@@ -26,6 +32,9 @@ void output (Classifica classifica, ostream &os)
 	}
 }
 
+/*
+ * Scambia due punteggi fra loro.
+ */
 void scambiaPunteggio (Punteggio &punt1, Punteggio &punt2)
 {
 	Punteggio temp = punt2;

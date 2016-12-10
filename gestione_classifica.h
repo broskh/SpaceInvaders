@@ -60,7 +60,6 @@ void salvaPunteggi (Classifica classifica);
  * 
  * @param highscores Array dei punteggi da stampare.
  * @param n Numero di punteggi nell'array.
- * 
  */
 void stampa (Classifica classifica);
 
@@ -68,7 +67,6 @@ void stampa (Classifica classifica);
  * Stampa su console un {@link Punteggio}.
  * 
  * @param punteggio {@link Punteggio} da stampare.
- * 
  */
 void stampa (Punteggio punteggio);
 //FINE INTERFACCIA
