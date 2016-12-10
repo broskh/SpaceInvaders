@@ -529,11 +529,10 @@ void creaSparoCarroArmato (Carro &carro)
 	carro.sparo.pos_y = MARGINE_INF_GIOCO - altezzaCarroArmato () - altezzaSparoCarroArmato ();
 }
 
-bool eliminaFileSalvataggio (bool &partita_salvata)
+bool eliminaFileSalvataggio ()
 {
 	if (!remove (FILE_SALVATAGGIO_PARTITA))
 	{
-		partita_salvata = false;
 		return true;
 	}
 	return false;
@@ -584,23 +583,23 @@ void muoviAlieni (Ondata &ondata)
 	}
 }
 
-void muoviCarroDestra (unsigned int &pos_x_carro)
+void muoviCarroDestra (Carro &carro)
 {
-	pos_x_carro = sucInRange (pos_x_carro, PESO_SPOSTAMENTO_CARRO_ARMATO, MARGINE_DX_GIOCO - larghezzaCarroArmato ());
+	carro.pos_x = sucInRange (carro.pos_x, PESO_SPOSTAMENTO_CARRO_ARMATO, MARGINE_DX_GIOCO - larghezzaCarroArmato ());
 }
 
-void muoviCarroSinistra (unsigned int &pos_x_carro)
+void muoviCarroSinistra (Carro &carro)
 {
-	pos_x_carro = precInRange (pos_x_carro, PESO_SPOSTAMENTO_CARRO_ARMATO, MARGINE_SX_GIOCO);
+	carro.pos_x = precInRange (carro.pos_x, PESO_SPOSTAMENTO_CARRO_ARMATO, MARGINE_SX_GIOCO);
 }
 
-void muoviNavicellaMisteriosa (Partita &partita)
+void muoviNavicellaMisteriosa (Navicella &navicella)
 {
 	unsigned int limite_dx = MARGINE_DX_GIOCO - larghezzaNavicellaMisteriosa ();
-	partita.navicella_misteriosa.pos_x = sucInRange (partita.navicella_misteriosa.pos_x, limite_dx);
-	if (partita.navicella_misteriosa.pos_x == limite_dx)
+	navicella.pos_x = sucInRange (navicella.pos_x, limite_dx);
+	if (navicella.pos_x == limite_dx)
 	{
-		partita.navicella_misteriosa.stato = false;
+		navicella.stato = false;
 	}
 }
 
@@ -674,14 +673,10 @@ unsigned int percentualeAlieniEliminati (Ondata ondata)
 	return 100 - ondata.alieni_rimasti * 100 / N_ALIENI_TOTALE;
 }
 
-void salvaPartita (Partita partita_in_corso, bool &partita_salvata)
+void salvaPartita (Partita partita)
 {
 	ofstream f(FILE_SALVATAGGIO_PARTITA);
-	Partita partita = partita_in_corso;
-
 	output (partita, f);
-
-	partita_salvata = true;
 }
 
 void stampaPartita (Partita partita)

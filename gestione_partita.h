@@ -35,109 +35,205 @@ const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file co
 /**
  * Carica da un file una partita lasciata in sospeso.
  * 
- * @param salvataggio Struttura {@link partita} contenente i dati della partita caricata.
- * @param file File dal quale caricare la partita.
+ * @param salvataggio Partita nella quale memorizzare i dati caricati.
  * 
  * @return "false" nel caso in cui il caricamento non sia riuscito, "true" altrimenti.
  */
 bool caricaPartita (Partita &salvataggio);
 
+/**
+ * Controlla se è avvenuta una collisione su un alieno.
+ * 
+ * @param partita Partita nella quale controllare se è avvenuta la collisione.
+ * 
+ * @return "false" nel caso in cui la collisione non sia avvenuta, "true" altrimenti.
+ */
 bool controlloCollisioneAlieni (Partita &partita);
 
+/**
+ * Controlla se è avvenuta, da parte dell'ondata di alieni, una collisione contro le barriere.
+ * 
+ * @param partita Partita nella quale controllare se è avvenuta la collisione.
+ * 
+ * @return "false" nel caso in cui la collisione non sia avvenuta, "true" altrimenti.
+ */
 bool controlloCollisioneBarriereDaOndata (Partita &partita);
 
+/**
+ * Controlla se è avvenuta, da parte di uno sparo alieno, una collisione contro le barriere.
+ * 
+ * @param partita Partita nella quale controllare se è avvenuta la collisione.
+ * 
+ * @return "false" nel caso in cui la collisione non sia avvenuta, "true" altrimenti.
+ */
 bool controlloCollisioneBarriereDaSparoAlieni (Partita &partita);
 
+/**
+ * Controlla se è avvenuta, da parte di uno sparo del carro, una collisione contro le barriere.
+ * 
+ * @param partita Partita nella quale controllare se è avvenuta la collisione.
+ * 
+ * @return "false" nel caso in cui la collisione non sia avvenuta, "true" altrimenti.
+ */
 bool controlloCollisioneBarriereDaSparoCarro (Partita &partita);
 
+/**
+ * Controlla se è avvenuta, da parte dell'ondata di alieni, una collisione contro il carro armato.
+ * 
+ * @param partita Partita nella quale controllare se è avvenuta la collisione.
+ * 
+ * @return "false" nel caso in cui la collisione non sia avvenuta, "true" altrimenti.
+ */
 bool controlloCollisioneCarroDaOndata (Partita &partita);
 
+/**
+ * Controlla se è avvenuta, da parte di uno sapro alieno, una collisione contro il carro armato.
+ * 
+ * @param partita Partita nella quale controllare se è avvenuta la collisione.
+ * 
+ * @return "false" nel caso in cui la collisione non sia avvenuta, "true" altrimenti.
+ */
 bool controlloCollisioneCarroDaSparoAlieni (Partita &partita);
 
+/**
+ * Controlla se è avvenuta una collisione contro la navicella misteriosa.
+ * 
+ * @param partita Partita nella quale controllare se è avvenuta la collisione.
+ * 
+ * @return "false" nel caso in cui la collisione non sia avvenuta, "true" altrimenti.
+ */
 bool controlloCollisioneNavicellaMisteriosa (Partita &partita);
 
+/**
+ * Controlla se sono stati distrutti tutti gli alieni facenti parte dell'ondata.
+ * 
+ * @param ondata Ondata nella quale controllare lo stato degli alieni.
+ * 
+ * @return "true" se tutti gli alieni dell'ondata sono stati distrutti, "false" altrimenti.
+ */
 bool controlloFineOndata (Ondata ondata);
 
+/**
+ * Controlla se il giocatore ha terminato le proprie vite.
+ * 
+ * @param partita Partita da controllare.
+ * 
+ * @return "true" se la partita è terminata, "false" altrimenti.
+ */
 bool controlloFinePartita (Partita partita);
 
+/**
+ * Se si verifica la condizione probabilistica, crea la navicella misteriosa.
+ * 
+ * @param partita Partita nella quale inserire le informazioni riguardanti la navicella misteriosa.
+ */
 void creaNavicellaMisteriosa (Partita &partita);
 
+/**
+ * Crea uno sparo alieno.
+ * 
+ * @param partita Partita nella quale inserire le informazioni riguardanti lo sparo alieno.
+ */
 void creaSparoAlieni (Partita &partita);
 
+/**
+ * Crea lo sapro del carro armato.
+ * 
+ * @param carro Carro armato nel quale inserire le informazioni riguardanti lo sparo.
+ */
 void creaSparoCarroArmato (Carro &carro);
 
 /**
- * Elimina un file di salvataggio nel caso in cui esista.
- *
- * @param file File di salvataggio da eliminare.
- * @param spaceInvaders Struttura {@link SpaceInvaders} contenente tutte le informazioni relative al gioco in esecuzione.
+ * Elimina il file di salvataggio nel caso in cui esista.
  * 
  * @return "true" se il file era presente ed è stato eliminato, "false" altrimenti.
  */
-bool eliminaFileSalvataggio (bool &partita_salvata);
+bool eliminaFileSalvataggio ();
 
 /**
- * Indica se esiste o meno una partita precedentemente salvata.
+ * Indica se esiste o meno una partita salvata.
  * 
- * @param file Percorso del file dove verificare la presenza del salvataggio.
- * 
- * @return "true" se esiste una partita precedentemente salvata, "false" altrimenti.
+ * @return "true" se esiste una partita salvata, "false" altrimenti.
  */
 bool esisteSalvataggio ();
 
+/**
+ * Muove l'ondata di alieni.
+ *
+ * @param ondata Ondata di alieni da muovere.
+ */
 void muoviAlieni(Ondata &ondata);
 
 /**
- * Stabilisce qual'è il valore di offset del carro armato che deve andare verso destra.
+ * Muove il carro armato a destra.
  *
- * @param offset_carro Precedente valore dell'offset del carro armato.
+ * @param carro Carro da muovere.
  */
-void muoviCarroDestra (unsigned int &pos_x_carro);
+void muoviCarroDestra (Carro &carro);
 
 /**
- * Stabilisce qual'è il valore di offset del carro armato che deve andare verso sinistra.
+ * Muove il carro armato a sinistra.
  *
- * @param offset_carro Precedente valore dell'offset del carro armato.
+ * @param carro Carro da muovere.
  */
-void muoviCarroSinistra (unsigned int &pos_x_carro);
+void muoviCarroSinistra (Carro &carro);
 
-void muoviNavicellaMisteriosa (Partita &partita);
+/**
+ * Muove la navicella misteriosa.
+ *
+ * @param navicella Navicella misteriosa da muovere.
+ */
+void muoviNavicellaMisteriosa (Navicella &navicella);
 
+/**
+ * Muove uno sapro alieno.
+ *
+ * @param sapro Sparo alieno da muovere.
+ */
 void muoviSparoAlieni (Sparo &sparo);
 
 /**
- * Stabilisce qual'è la posizione rispetto all'asse y dello sparo del carro armato in movimento.
- * 
- * @param sapro Sparo del carro armato.
- * @param limite_sup Limite superiore dello sparo del carro armato.
+ * Muove lo sapro del carro armato.
+ *
+ * @param sapro Sparo del carro armato da muovere.
  */
 void muoviSparoCarro (Sparo &sparo);
 
 /**
- * Memorizza in una struttura {@link Ondata} i valori necessari per la realizzazione di una nuova ondata.
+ * Inizializza un'ondata ripristinando tutte le informazioni di base.
  *
- * @param ondata Struttura {@link Ondata} nella quale verranno memorizzati i valori.
+ * @param ondata Ondata da inizializzare.
  */
 void nuovaOndata (Ondata &ondata);
 
 /**
- * Memorizza in una struttura {@link Partita} i valori necessari per iniziare una nuova partita.
+ * Inizializza una partita con tutte le informazioni di base.
  *
- * @param partita Struttura {@link Partita} nella quale verranno memorizzati i valori.
- * @param impostazioni Struttura {@link Impostazioni} dal quale verranno prelevate alcune informazioni necessari per la corretta inizializzazione di una nuova partita.
- * @param pos_x_carro_armato Posizione iniziale rispetto all'asse x del carro armato.
+ * @param partita Partita da inizializzare
+ * @param impostazioni Impostazioni di gioco che modificano le informazioni da inserire nella nuova partita.
  */
 void nuovaPartita (Partita &partita, Impostazioni impostazioni);
 
+/**
+ * Percentuale degli alieni distrutti.
+ * 
+ * @param ondata Ondata di alieni.
+ * 
+ * @return la percentuale di alieni eliminati.
+ */
 unsigned int percentualeAlieniEliminati (Ondata ondata);
 
 /**
- * Salva una partita da sospendere su un file.
+ * Salva una partita su file.
  *
- * @param spaceInvaders struttura {@link SpaceInvaders} contenente tutte le informazioni relative al gioco in esecuzione.
- * @param file File nel quale salvare la partita.
+ * @param partita Partita da salvare.
  */
-void salvaPartita (Partita partita_in_corso, bool &partita_salvata);
+void salvaPartita (Partita partita);
 
+/*
+ * Stampa a console la partita.
+ * 
+ * @param partita Partita da stampare.
+ */
 void stampaPartita (Partita partita);
 //FINE INTERFACCIA

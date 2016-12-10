@@ -265,7 +265,10 @@ int main ()
 				al_stop_timer(timer_lampeggio_voce);
 				break;
 			case s_gioca:
-				eliminaFileSalvataggio (partita_salvata);
+				if (eliminaFileSalvataggio ())
+				{
+					partita_salvata = false;
+				}
 				if (impostazioni.musica)
 				{
 					fermaMusicaPrincipale ();
@@ -354,7 +357,7 @@ int main ()
 							{
 								if (partita_in_corso.navicella_misteriosa.stato)
 								{
-									muoviNavicellaMisteriosa (partita_in_corso);
+									muoviNavicellaMisteriosa (partita_in_corso.navicella_misteriosa);
 								}
 							}
 							else if (ev.timer.source == timer_spostamento_spari)
@@ -397,10 +400,10 @@ int main ()
 							switch(ev.keyboard.keycode)
 							{
 								case ALLEGRO_KEY_LEFT:
-									muoviCarroSinistra (partita_in_corso.carro_armato.pos_x);
+									muoviCarroSinistra (partita_in_corso.carro_armato);
 									break;
 								case ALLEGRO_KEY_RIGHT:
-									muoviCarroDestra (partita_in_corso.carro_armato.pos_x);
+									muoviCarroDestra (partita_in_corso.carro_armato);
 									break;
 								case ALLEGRO_KEY_SPACE:
 									if (!partita_in_corso.carro_armato.sparo.stato)
@@ -770,7 +773,8 @@ schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, Partita partita_in_cor
 	}
 	else if (voce == v_salva)
 	{
-		salvaPartita (partita_in_corso, partita_salvata);
+		salvaPartita (partita_in_corso);
+		partita_salvata = true;
 	}
 	else if (voce == v_abbandona)
 	{
