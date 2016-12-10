@@ -85,13 +85,13 @@ const char FILE_SPARO_CARRO [] ="Images/sparo_carro.png"; /**<Percorso del file 
 
 //INIZIO INTERFACCIA
 /**
- * Fornisce l'altezza in pixel dell'alieno sulla base del numero della fila dell'ondata nella quale si trova.
- *
- * @param n_fila_alieno Numero della fila dell'ondata nella quale si trova l'alieno.
- *
+ * Fornisce l'altezza in pixel di un alieno.
+ * Non viene fatta distinzione per la fila alla quale appartiene l'alieno, perchè per migliorare l'aspetto del gioco gli alieni devono 
+ * avere tutti la stessa altezza.
+ * 
  * @return l'altezza dell'alieno.
  */
-unsigned int altezzaAlieno (unsigned int n_fila_alieno);
+unsigned int altezzaAlieno ();
 
 /**
  * Fornisce l'altezza in pixel del carro armato.
@@ -141,10 +141,8 @@ void distruggiGrafica ();
  * Procedura di inizializzazione del modulo per la gestione della grafica.
  * 
  * Si occupa di inizializzare correttamente tutte le variabili necessarie e di seguire i metodi di inizializzazione di determinate librerie "Allegro".
- * 
- * @return il display del gioco.
  */
-ALLEGRO_DISPLAY * inizializzaGrafica ();
+void inizializzaGrafica ();
 
 /**
  * Fornisce la larghezza in pixel dell'alieno sulla base del numero della fila dell'ondata nella quale si trova.

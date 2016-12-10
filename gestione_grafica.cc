@@ -112,9 +112,9 @@ ALLEGRO_BITMAP * scegliSparo (int pos_x)
 }
 //FINE FUNZIONI PRIVATE
 
-unsigned int altezzaAlieno (unsigned int n_fila_alieno)
+unsigned int altezzaAlieno ()
 {
-	return al_get_bitmap_height (tipi_alieni [n_fila_alieno]);
+	return al_get_bitmap_height (tipi_alieni [0]);
 }
 
 unsigned int altezzaCarroArmato ()
@@ -159,15 +159,12 @@ void distruggiGrafica ()
 	al_destroy_bitmap(esplosione_alieno);
 }
 
-ALLEGRO_DISPLAY * inizializzaGrafica ()
+void inizializzaGrafica ()
 {
 	assert (al_init_image_addon());
 	assert (al_init_font_addon());
 	assert (al_init_ttf_addon()); 
 
-	
-	ALLEGRO_DISPLAY *display = al_create_display(LARGHEZZA_DISPLAY, ALTEZZA_DISPLAY);
-	assert (display);
 
 	font_titolo = al_load_ttf_font(FILE_FONT_TITOLO, DIMENSIONE_TITOLO, 0);
 	assert (font_titolo);
@@ -206,8 +203,6 @@ ALLEGRO_DISPLAY * inizializzaGrafica ()
 	NERO = al_map_rgb(0, 0, 0);
 	GRIGIO = al_map_rgb(84, 84, 84);
 	COLORE_DEFAULT = VERDE;
-
-	return display;
 }
 
 unsigned int larghezzaAlieno (unsigned int n_fila_alieno)
@@ -538,7 +533,7 @@ void stampaMenuPrincipale (Menu menu_principale, bool partita_salvata, colore co
 	unsigned int pos_y_attuale = POS_Y_ESMEPIO_ALIENI;
 	for (unsigned int i = 0; i < N_TIPI_ALIENI; i++)
 	{
-		al_draw_tinted_bitmap_region(tipi_alieni [i], colore_allegro, 0, 0, larghezzaAlieno (i), altezzaAlieno (i), POS_X_ESEMPIO_ALIENI - larghezzaAlieno (i) / 2, pos_y_attuale, 0);
+		al_draw_tinted_bitmap_region(tipi_alieni [i], colore_allegro, 0, 0, larghezzaAlieno (i), altezzaAlieno (), POS_X_ESEMPIO_ALIENI - larghezzaAlieno (i) / 2, pos_y_attuale, 0);
 		char stringa_punteggio [] = "=      ";
 		generic_string valore_punteggio;
 		sprintf(valore_punteggio, "%d", PUNTEGGIO_ALIENI [i]);
@@ -546,7 +541,7 @@ void stampaMenuPrincipale (Menu menu_principale, bool partita_salvata, colore co
 		strcat (stringa_punteggio, "  PTS");
 		al_draw_text(font_testo, COLORE_DEFAULT, POS_X_ESEMPIO_PUNTEGGIO, pos_y_attuale, ALLEGRO_ALIGN_LEFT, stringa_punteggio);
 
-		pos_y_attuale += SPAZIO_TESTO + altezzaAlieno (i);
+		pos_y_attuale += SPAZIO_TESTO + altezzaAlieno ();
 	}
 
 	al_draw_tinted_bitmap(navicella_misteriosa, ROSSO, POS_X_ESEMPIO_ALIENI - al_get_bitmap_width (navicella_misteriosa) / 2, pos_y_attuale, 0);

@@ -103,9 +103,11 @@ int main ()
 {
 	assert (al_init());
 	assert (al_install_keyboard());
-	
-	display = inizializzaGrafica ();
+	inizializzaGrafica ();
 	inizializzaAudio ();
+
+	display = al_create_display (LARGHEZZA_DISPLAY, ALTEZZA_DISPLAY);
+	assert (display);
  
    	coda_eventi = al_create_event_queue();
    	assert (coda_eventi);
@@ -163,8 +165,6 @@ int main ()
 		classifica.n_highscores = 0;
 	}
 	//FINE INIZIALIZZAZIONE DELLA STRUTTURA PRINCIPALE
-	
-	unsigned int larghezze_alieni [N_TIPI_ALIENI] = {larghezzaAlieno (0), larghezzaAlieno (1), larghezzaAlieno (2)};	
 
 	schermata schermata_att = s_menu;
 	bool cambia_schermata;
@@ -200,7 +200,7 @@ int main ()
 					fermaMusicaPrincipale ();
 				}
 				menu_principale.voce_selezionata = v_gioca;
-				nuovaPartita (partita_in_corso, impostazioni, POS_X_PRIMO_ASSE_ALIENI, POS_Y_PRIMA_FILA_ONDATA, POS_CENTRO_X - larghezzaCarroArmato () / 2);
+				nuovaPartita (partita_in_corso, impostazioni);
 				partita_salvata = esisteSalvataggio ();
 				al_start_timer(timer_lampeggio_voce);
 				
@@ -336,14 +336,14 @@ int main ()
 							{
 								if (!partita_in_corso.sparo_alieni.stato)
 								{
-									creaSparoAlieni (partita_in_corso, DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, larghezzaSparoAlienoAttuale (partita_in_corso.sparo_alieni.pos_x), altezzaAlieno (0));
+									creaSparoAlieni (partita_in_corso);
 								}
 							}
 							else if (ev.timer.source == timer_comparsa_navicella)
 							{
 								if (!partita_in_corso.navicella_misteriosa.stato)
 								{
-									creaNavicellaMisteriosa (partita_in_corso, MARGINE_SX_GIOCO);
+									creaNavicellaMisteriosa (partita_in_corso);
 									if (impostazioni.eff_audio && partita_in_corso.navicella_misteriosa.stato)
 									{
 										avviaSuonoNavicellaMisteriosa ();
@@ -354,23 +354,23 @@ int main ()
 							{
 								if (partita_in_corso.navicella_misteriosa.stato)
 								{
-									muoviNavicellaMisteriosa (partita_in_corso, MARGINE_DX_GIOCO - larghezzaNavicellaMisteriosa ());
+									muoviNavicellaMisteriosa (partita_in_corso);
 								}
 							}
 							else if (ev.timer.source == timer_spostamento_spari)
 							{
 								if (partita_in_corso.carro_armato.sparo.stato)
 								{
-									muoviSparoCarro (partita_in_corso.carro_armato.sparo, MARGINE_SUP_GIOCO);
+									muoviSparoCarro (partita_in_corso.carro_armato.sparo);
 								}
 								if (partita_in_corso.sparo_alieni.stato)
 								{
-									muoviSparoAlieni (partita_in_corso.sparo_alieni, MARGINE_INF_GIOCO - altezzaSparoAlienoAttuale (partita_in_corso.sparo_alieni.pos_x));
+									muoviSparoAlieni (partita_in_corso.sparo_alieni);
 								}
 							}
 							else if (ev.timer.source == timer_spostamento_ondata)
 							{
-								muoviAlieni (partita_in_corso.ondata, DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, MARGINE_INF_GIOCO - altezzaCarroArmato (), MARGINE_DX_GIOCO - (larghezzaAlieno (2)) / 2, MARGINE_SX_GIOCO);
+								muoviAlieni (partita_in_corso.ondata);
 							}
 						}						
 					}
@@ -397,15 +397,15 @@ int main ()
 							switch(ev.keyboard.keycode)
 							{
 								case ALLEGRO_KEY_LEFT:
-									muoviSinistraCarro (partita_in_corso.carro_armato.pos_x, MARGINE_SX_GIOCO);
+									muoviCarroSinistra (partita_in_corso.carro_armato.pos_x);
 									break;
 								case ALLEGRO_KEY_RIGHT:
-									muoviDestraCarro (partita_in_corso.carro_armato.pos_x, MARGINE_DX_GIOCO - larghezzaCarroArmato ());
+									muoviCarroDestra (partita_in_corso.carro_armato.pos_x);
 									break;
 								case ALLEGRO_KEY_SPACE:
 									if (!partita_in_corso.carro_armato.sparo.stato)
 									{
-										creaSparoCarroArmato (partita_in_corso.carro_armato, partita_in_corso.carro_armato.pos_x + larghezzaCarroArmato () / 2, MARGINE_INF_GIOCO - altezzaCarroArmato () - altezzaSparoCarroArmato ());
+										creaSparoCarroArmato (partita_in_corso.carro_armato);
 										if (impostazioni.eff_audio)
 										{
 											avviaSuonoSparoCarroArmato ();
@@ -423,7 +423,7 @@ int main ()
 						//INIZIO DEI CONTROLLI
 						if (!partita_in_corso.carro_armato.esplosione)
 						{
-							if (controlloCollisioneCarroDaSparoAlieni (partita_in_corso, larghezzaCarroArmato (), altezzaSparoAlienoAttuale (partita_in_corso.sparo_alieni.pos_x), larghezzaSparoAlienoAttuale (partita_in_corso.sparo_alieni.pos_x), MARGINE_INF_GIOCO - altezzaCarroArmato ()))
+							if (controlloCollisioneCarroDaSparoAlieni (partita_in_corso))
 							{
 								partita_in_corso.carro_armato.esplosione = 1;
 								if (impostazioni.eff_audio)
@@ -431,13 +431,13 @@ int main ()
 									avviaSuonoEsplosioneCarroArmato ();
 								}
 							}
-							if (controlloFinePartita (partita_in_corso) || controlloCollisioneCarroDaOndata (partita_in_corso, DISTANZA_FILE_ALIENI, altezzaAlieno (0), MARGINE_INF_GIOCO - altezzaCarroArmato ()))
+							if (controlloFinePartita (partita_in_corso) || controlloCollisioneCarroDaOndata (partita_in_corso))
 							{
 								schermata_att = s_fine_partita;
 								cambia_schermata = true;
 								break;
 							}
-							if (controlloCollisioneAlieni (partita_in_corso, larghezzaSparoCarroArmato (), DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, altezzaAlieno (0), larghezze_alieni))
+							if (controlloCollisioneAlieni (partita_in_corso))
 							{
 								if (impostazioni.musica)
 								{
@@ -448,28 +448,28 @@ int main ()
 									avviaSuonoEsplosioneAlieno ();
 								}
 							}
-							if (controlloCollisioneBarriereDaSparoCarro (partita_in_corso, POS_X_PRIMA_BARRIERA, POS_Y_BARRIERE, DISTANZA_BARRIERE, larghezzaSparoCarroArmato ()))
+							if (controlloCollisioneBarriereDaSparoCarro (partita_in_corso))
 							{
 								;
 							}
-							if (controlloCollisioneBarriereDaSparoAlieni (partita_in_corso, POS_X_PRIMA_BARRIERA, POS_Y_BARRIERE, DISTANZA_BARRIERE, altezzaSparoAlienoAttuale (partita_in_corso.sparo_alieni.pos_x), larghezzaSparoAlienoAttuale (partita_in_corso.sparo_alieni.pos_x)))
+							if (controlloCollisioneBarriereDaSparoAlieni (partita_in_corso))
 							{
 								;
 							}
-							if (controlloCollisioneNavicellaMisteriosa (partita_in_corso, MARGINE_SUP_GIOCO + altezzaNavicellaMisteriosa (), larghezzaNavicellaMisteriosa (), larghezzaSparoCarroArmato ()))
+							if (controlloCollisioneNavicellaMisteriosa (partita_in_corso))
 							{
 								if (impostazioni.eff_audio)
 								{
 									avviaSuonoEsplosioneNavicellaMisteriosa ();
 								}
 							}
-							if (controlloCollisioneBarriereDaOndata (partita_in_corso, POS_X_PRIMA_BARRIERA, POS_Y_BARRIERE, DISTANZA_BARRIERE, DISTANZA_FILE_ALIENI, DISTANZA_ASSI_COL_ALIENI, altezzaAlieno (0), larghezze_alieni))
+							if (controlloCollisioneBarriereDaOndata (partita_in_corso))
 							{
 								;
 							}
 							if (controlloFineOndata (partita_in_corso.ondata))
 							{
-								nuovaPartita (partita_in_corso, impostazioni, POS_X_PRIMO_ASSE_ALIENI, POS_Y_PRIMA_FILA_ONDATA, POS_CENTRO_X - larghezzaCarroArmato () / 2);
+								nuovaOndata (partita_in_corso.ondata);
 							}
 							if (impostazioni.eff_audio)
 							{								
@@ -685,7 +685,7 @@ int main ()
 									salvaPunteggi (classifica);
 								}
 
-								nuovaPartita (partita_in_corso, impostazioni, POS_X_PRIMO_ASSE_ALIENI, POS_Y_PRIMA_FILA_ONDATA, POS_CENTRO_X - larghezzaCarroArmato () / 2);
+								nuovaPartita (partita_in_corso, impostazioni);
 								schermata_att = s_menu;
 								cambia_schermata = true;
 								break;
