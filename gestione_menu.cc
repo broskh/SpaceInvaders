@@ -7,6 +7,7 @@
 #include <cstdio>
 #include "strutture_dati.h"
 #include "gestione_menu.h"
+#include "gestione_partita.h"
 
 //INIZIO MODULO
 //INIZIO FUNZIONI PRIVATE
@@ -36,6 +37,49 @@ int sucInRangeCircuito (int n, int min, int max)
 	return n;
 }
 //FINE FUNZIONI PRIVATE
+
+schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, Partita partita_in_corso, bool &partita_salvata)
+{
+	if (voce == v_continua)
+	{
+		return s_gioca;
+	}
+	else if (voce == v_salva)
+	{
+		salvaPartita (partita_in_corso);
+		partita_salvata = true;
+	}
+	else if (voce == v_abbandona)
+	{
+		;
+	}
+	return s_menu;
+}
+
+schermata cambiaSchermataMenuPrincipale (voce_menu_principale voce)
+{
+	if (voce == v_gioca)
+	{
+		return s_gioca;
+	}
+	else if (voce == v_carica)
+	{
+		return s_carica;
+	}
+	else if (voce == v_opzioni)
+	{
+		return s_opzioni;
+	}
+	else if (voce == v_highscores)
+	{
+		return s_highscores;
+	}
+	else if (voce == v_esci)
+	{
+		return s_esci;
+	}
+	return s_menu;
+}
 
 void inizializzaMenu (Menu &menu, const generic_string testi_menu [], int n_voci, int voce_sel)
 {

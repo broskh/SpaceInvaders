@@ -92,9 +92,9 @@ void inizializzaAlieno (Alieno &alieno, unsigned int punteggio)
 }
 
 /*
- * Inizializza le barriere con le informazioni di base.
+ * Inizializza una barriera con le informazioni di base.
  */
-void inizializzaBarriere (stato_barriera barriera [ALTEZZA_BARRIERA] [LARGHEZZA_BARRIERA])
+void inizializzaBarriera (stato_barriera barriera [ALTEZZA_BARRIERA] [LARGHEZZA_BARRIERA])
 {
 	unsigned int offset_no_disegno = CENTRO_ORIZZONTALE_BARRIERA - SMUSSO_SUPERIORE - 1;
 	for (unsigned int i = 0; i < ALTEZZA_BARRIERA; i++)
@@ -231,7 +231,7 @@ int sucInRange (int n, int max)
 }
 //FINE FUNZIONI PRIVATE
 
-bool caricaPartita (Partita &salvataggio)
+bool caricaPartita (Partita &partita)
 {
 	ifstream f (FILE_SALVATAGGIO_PARTITA);
     	if (!f) {
@@ -313,7 +313,7 @@ bool caricaPartita (Partita &salvataggio)
 		return false;
 	}
 
-	salvataggio = temp;
+	partita = temp;
 	return true;
 }
 
@@ -656,7 +656,7 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni)
 
 	for (unsigned int i = 0; i < N_BARRIERE; i++)
 	{
-		inizializzaBarriere (partita.barriere [i]);
+		inizializzaBarriera (partita.barriere [i]);
 	}
 
 	nuovaOndata (partita.ondata);

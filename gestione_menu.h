@@ -28,6 +28,27 @@ const char STRINGA_BLU [] = "Blu"; /**<Stringa per rappresentare il valore "blu"
 
 //INIZIO INTERFACCIA
 /**
+ * Calcola il valore della prossima schermata da mostrare nel menù di pausa e agisce di conseguenza sulla 
+ * partita (se necessario).
+ * 
+ * @param voce Voce del menù di pausa attualmente selezionata.
+ * @param partita_in_corso Partita attualmente in pausa.
+ * @param partita_salvata Valore booleano che indica se è presente una partita salvata.
+ *
+ * @return il valore della prossima schermata da mostrare.
+ */
+schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, Partita partita_in_corso, bool &partita_salvata);
+
+/**
+ * Calcola il valore della prossima schermata da mostrare nel menù principale.
+ * 
+ * @param voce Voce del menù principale attualmente selezionata.
+ *
+ * @return il valore della prossima schermata da mostrare.
+ */
+schermata cambiaSchermataMenuPrincipale (voce_menu_principale voce);
+
+/**
  * Memorizza in una struttura {@link Menu} i valori passati per parametro.
  *
  * @param menu Menu che conterrà le informazioni passate come parametro.
