@@ -103,7 +103,18 @@ static ALLEGRO_DISPLAY *display = NULL; /**<Display del gioco.*/
 
 /**
  * Combina tutti i moduli e le strutture dati per realizzare il gioco.
+ * In particolare si occupa di gestire il cambio delle varie schermate e la coda degli eventi che interagisce con esse.
+ * Dopo una prima fase di inizializzazione, all'interno di un loop infinito è presente uno switch-case dove ad ogni 
+ * case corrisponde la gestione di una schermata differente del gioco. Sarà quindi all'interno di questo blocco che, 
+ * se necessaria, verrà gestita correttamente anche la coda degli eventi.
+ * In particolare, il case che si occupa di gestire la schermata di uscita dal gioco è l'unico modo per uscire 
+ * correttamente dal gioco (il main ritorna il valore 0), ed è per questo che, anche quando viene registrato 
+ * il click sulla crocetta in altro a destra della finestra, si passa per questa schermata.
  * 
+ * @return lo stato di uscita del programma\: 
+ * se è "0", tutto è andato correttamente; 
+ * se è "1" il programma è uscito inaspettatamente dal ciclo di gestione delle schermate; 
+ * se è "2" il programma ha tentato di gestire una schermata inesistente.
  */
 int main ()
 {
@@ -121,7 +132,6 @@ int main ()
    	coda_eventi = al_create_event_queue();
    	assert (coda_eventi);
 	ALLEGRO_EVENT ev;
-	al_wait_for_event(coda_eventi, &ev);
  
 	//INIZIALIZZAZIONE DEI TIMER
 	timer_fps = al_create_timer(1.0 / FPS_GIOCO);
@@ -220,16 +230,16 @@ int main ()
 				}
 				else
 				{
-					fermaMusicaPrincipale ();
+					fermaMusicaPrincipale (); //se è stata disattivata nelle impostazioni, viene disattivata
 				}
 				menu_principale.voce_selezionata = v_gioca; //quando avvio il menù la voce selezionata è sempre "gioca"
 				nuovaPartita (partita_in_corso, impostazioni); //inizializzo una nuova partita
 				partita_salvata = esisteSalvataggio (); //controllo se esiste una partita salvata
 				al_start_timer(timer_lampeggio_voce);
-				al_flush_event_queue (coda_eventi);
 				
 				while(!cambia_schermata) //ciclo finchè non è necessario cambiare schermata
 			   	{
+					al_wait_for_event(coda_eventi, &ev);
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
 						if (ev.timer.source == timer_fps)
@@ -284,9 +294,10 @@ int main ()
 					}
 			   	}
 				al_stop_timer(timer_lampeggio_voce);
+				al_flush_event_queue (coda_eventi);
 				break;
 			case s_gioca:
-				if (eliminaFileSalvataggio ())
+				if (eliminaFileSalvataggio ()) //elimino il salvataggio precedente
 				{
 					partita_salvata = false;
 				}
@@ -294,26 +305,24 @@ int main ()
 				{
 					fermaMusicaPrincipale ();
 					avviaMusicaOndata ();
-					modificaVelocitaMusicaOndata (percentualeVelocitaOndata (partita_in_corso.ondata));
+					modificaVelocitaMusicaOndata (percentualeVelocitaOndata (partita_in_corso.ondata)); //se è stata caricata una partita correggo subito la vleocità del sottofondo
 				}
-				if (impostazioni.eff_audio && partita_in_corso.navicella_misteriosa.stato)
+				if (impostazioni.eff_audio && partita_in_corso.navicella_misteriosa.stato) //se è stata caricata una partita dove la navicella era in movimento
 				{
 					avviaSuonoNavicellaMisteriosa ();
 				}
-
 				al_start_timer(timer_comparsa_sparo_alieni);
 				al_start_timer(timer_animazione);
 				al_start_timer(timer_comparsa_navicella);
 				al_start_timer(timer_spostamento_carro_armato);
 				al_start_timer(timer_spostamento_navicella);
 				al_start_timer(timer_spostamento_spari);
-				al_set_timer_speed(timer_spostamento_ondata, 1.0 / (((FREQUENZA_SPOSTAMENTO_ONDATA_MAX - FREQUENZA_SPOSTAMENTO_ONDATA_MIN) / 100 * percentualeVelocitaOndata (partita_in_corso.ondata)) + FREQUENZA_SPOSTAMENTO_ONDATA_MIN));
+				al_set_timer_speed(timer_spostamento_ondata, 1.0 / (((FREQUENZA_SPOSTAMENTO_ONDATA_MAX - FREQUENZA_SPOSTAMENTO_ONDATA_MIN) / 100 * percentualeVelocitaOndata (partita_in_corso.ondata)) + FREQUENZA_SPOSTAMENTO_ONDATA_MIN)); //se è stata caricata una partita correggo subito la vleocità del movimento dell'ondata
 				al_start_timer(timer_spostamento_ondata);
-				al_flush_event_queue (coda_eventi);
 
 				while(!cambia_schermata)
 			   	{
-
+					al_wait_for_event(coda_eventi, &ev);
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
 						if (ev.timer.source == timer_fps)
@@ -325,7 +334,7 @@ int main ()
 							animazione = !animazione;
 							if (partita_in_corso.carro_armato.esplosione)
 							{
-								if (partita_in_corso.carro_armato.esplosione <= RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_CARRO * 2)
+								if (partita_in_corso.carro_armato.esplosione <= RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_CARRO * 2) //necessario per realizzare l'effetto di animazione
 								{
 									partita_in_corso.carro_armato.esplosione++;
 								}
@@ -334,7 +343,7 @@ int main ()
 									partita_in_corso.carro_armato.esplosione = false;
 								}
 							}
-							//per animazione di esplosione degli alieni
+							//per controllare quali alieni necessitano di un effetto di animazione
 							for (unsigned int i = 0; i < N_FILE_ALIENI; i++)
 							{
 								for (unsigned int j = 0; j < N_COL_ALIENI; j++)
@@ -411,12 +420,6 @@ int main ()
 							}
 						}						
 					}
-					else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-					{
-						schermata_att = s_esci;
-						cambia_schermata = true;
-						break;
-					}
 					else if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
 					{
 						switch(ev.keyboard.keycode)
@@ -453,8 +456,14 @@ int main ()
 								break;
 						}
 					}
+					else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+					{
+						schermata_att = s_esci;
+						cambia_schermata = true;
+						break;
+					}
 
-					if (sparo_carro && !partita_in_corso.carro_armato.esplosione) //se è premuto il tasto per sparare, creo lo sparo se non ne esiste già uno
+					if (sparo_carro && !partita_in_corso.carro_armato.esplosione) //se è premuto il tasto per sparare, creo lo sparo (se non ne esiste già uno)
 					{
 						if (!partita_in_corso.carro_armato.sparo.stato)
 						{
@@ -469,68 +478,68 @@ int main ()
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
 						stampaGioca (partita_in_corso, animazione, impostazioni.colore_alieni);
+					}
 
-						//INIZIO DEI CONTROLLI
-						if (!partita_in_corso.carro_armato.esplosione)
+					//INIZIO DEI CONTROLLI
+					if (!partita_in_corso.carro_armato.esplosione)
+					{
+						if (controlloCollisioneCarroDaSparoAlieni (partita_in_corso))
 						{
-							if (controlloCollisioneCarroDaSparoAlieni (partita_in_corso))
+							partita_in_corso.carro_armato.esplosione = 1;
+							if (impostazioni.eff_audio)
 							{
-								partita_in_corso.carro_armato.esplosione = 1;
-								if (impostazioni.eff_audio)
-								{
-									avviaSuonoEsplosioneCarroArmato ();
-								}
+								avviaSuonoEsplosioneCarroArmato ();
 							}
-							if (controlloFinePartita (partita_in_corso) || controlloCollisioneCarroDaOndata (partita_in_corso))
+						}
+						if (controlloFinePartita (partita_in_corso) || controlloCollisioneCarroDaOndata (partita_in_corso))
+						{
+							schermata_att = s_fine_partita;
+							cambia_schermata = true;
+							break;
+						}
+						if (controlloCollisioneAlieni (partita_in_corso))
+						{
+							if (impostazioni.musica)
 							{
-								schermata_att = s_fine_partita;
-								cambia_schermata = true;
-								break;
-							}
-							if (controlloCollisioneAlieni (partita_in_corso))
-							{
-								if (impostazioni.musica)
-								{
-									modificaVelocitaMusicaOndata (percentualeVelocitaOndata (partita_in_corso.ondata));
-								}
-								if (impostazioni.eff_audio)
-								{
-									avviaSuonoEsplosioneAlieno ();
-								}
-							}
-							if (controlloCollisioneBarriereDaSparoCarro (partita_in_corso))
-							{
-								;
-							}
-							if (controlloCollisioneBarriereDaSparoAlieni (partita_in_corso))
-							{
-								;
-							}
-							if (controlloCollisioneNavicellaMisteriosa (partita_in_corso))
-							{
-								if (impostazioni.eff_audio)
-								{
-									avviaSuonoEsplosioneNavicellaMisteriosa ();
-								}
-							}
-							if (controlloCollisioneBarriereDaOndata (partita_in_corso))
-							{
-								;
-							}
-							if (controlloFineOndata (partita_in_corso.ondata))
-							{
-								nuovaOndata (partita_in_corso.ondata);
+								modificaVelocitaMusicaOndata (percentualeVelocitaOndata (partita_in_corso.ondata));
 							}
 							if (impostazioni.eff_audio)
-							{								
-								if (!partita_in_corso.navicella_misteriosa.stato)
-								{
-									fermaSuonoNavicellaMisteriosa ();
-								}
+							{
+								avviaSuonoEsplosioneAlieno ();
 							}
-							//FINE DEI CONTROLLI
+						}
+						if (controlloCollisioneBarriereDaSparoCarro (partita_in_corso))
+						{
+							;
+						}
+						if (controlloCollisioneBarriereDaSparoAlieni (partita_in_corso))
+						{
+							;
+						}
+						if (controlloCollisioneNavicellaMisteriosa (partita_in_corso))
+						{
+							if (impostazioni.eff_audio)
+							{
+								avviaSuonoEsplosioneNavicellaMisteriosa ();
+							}
+						}
+						if (controlloCollisioneBarriereDaOndata (partita_in_corso))
+						{
+							;
+						}
+						if (controlloFineOndata (partita_in_corso.ondata))
+						{
+							nuovaOndata (partita_in_corso.ondata);
+						}
+						if (impostazioni.eff_audio)
+						{								
+							if (!partita_in_corso.navicella_misteriosa.stato)
+							{
+								fermaSuonoNavicellaMisteriosa ();
+							}
 						}
 					}
+					//FINE DEI CONTROLLI
 			   	}
 				fermaSuonoNavicellaMisteriosa ();
 				fermaMusicaOndata ();
@@ -542,19 +551,20 @@ int main ()
 				al_stop_timer(timer_spostamento_navicella);
 				al_stop_timer(timer_spostamento_spari);
 				al_stop_timer(timer_spostamento_ondata);
+				al_flush_event_queue (coda_eventi);
 				break;
-			case s_carica:
+			case s_carica: //carico la partita salvata e passo subito alla schermata di gioco
 				assert (caricaPartita (partita_in_corso));
 				schermata_att = s_gioca;
 				cambia_schermata = true;
 				break;
 			case s_opzioni:
-				menu_impostazioni.voce_selezionata = v_musica;
-
+				menu_impostazioni.voce_selezionata = v_musica; //quando passo alla schermata delle impostazioni, la voce musica è sempre selezionata inizialmente
 				al_start_timer(timer_lampeggio_voce);
-				al_flush_event_queue (coda_eventi);
+
 				while(!cambia_schermata)
 			   	{
+					al_wait_for_event(coda_eventi, &ev);
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
 						if (ev.timer.source == timer_fps)
@@ -583,10 +593,10 @@ int main ()
 								voceSuc (menu_impostazioni);
 								break;
 							case ALLEGRO_KEY_LEFT:
-								assert (valoreCampoImpostazioniPrec (static_cast <voce_menu_impostazioni> (menu_impostazioni.voce_selezionata), impostazioni));
+								valoreCampoImpostazioniPrec (static_cast <voce_menu_impostazioni> (menu_impostazioni.voce_selezionata), impostazioni);
 								break;
 							case ALLEGRO_KEY_RIGHT:
-								assert (valoreCampoImpostazioniSuc (static_cast <voce_menu_impostazioni> (menu_impostazioni.voce_selezionata), impostazioni));
+								valoreCampoImpostazioniSuc (static_cast <voce_menu_impostazioni> (menu_impostazioni.voce_selezionata), impostazioni);
 								break;
 							case ALLEGRO_KEY_ENTER:
 								salvaImpostazioni (impostazioni);
@@ -605,12 +615,14 @@ int main ()
 					}
 			   	}
 				al_stop_timer(timer_lampeggio_voce);
+				al_flush_event_queue (coda_eventi);
 				break;
 			case s_highscores:
 				al_start_timer(timer_lampeggio_voce);
-				al_flush_event_queue (coda_eventi);
+
 				while(!cambia_schermata)
 			   	{
+					al_wait_for_event(coda_eventi, &ev);
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
 						if (ev.timer.source == timer_fps)
@@ -645,14 +657,15 @@ int main ()
 					}
 			   	}
 				al_stop_timer(timer_lampeggio_voce);
+				al_flush_event_queue (coda_eventi);
 				break;
 			case s_pausa:
-				menu_pausa.voce_selezionata = v_continua;
+				menu_pausa.voce_selezionata = v_continua; //quando passo alla schermata di pausa, la voce continua è sempre selezionata inizialmente
 				al_start_timer(timer_lampeggio_voce);
-				al_flush_event_queue (coda_eventi);
-				
+		
 				while(!cambia_schermata)
 			   	{
+					al_wait_for_event(coda_eventi, &ev);
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
 						if (ev.timer.source == timer_fps)
@@ -693,14 +706,15 @@ int main ()
 					}
 			   	}
 				al_stop_timer(timer_lampeggio_voce);
+				al_flush_event_queue (coda_eventi);
 				break;
 			case s_fine_partita:
-				posizione = posizionePunteggio (classifica, partita_in_corso.punteggio);
-
+				posizione = posizionePunteggio (classifica, partita_in_corso.punteggio); //salvo la posizione delal classifica nella quale potrebbe essere inserito il nuovo punteggio
 				al_start_timer(timer_lampeggio_voce);
-				al_flush_event_queue (coda_eventi);
+
 				while(!cambia_schermata)
 			   	{
+					al_wait_for_event(coda_eventi, &ev);
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
 						if (ev.timer.source == timer_fps)
@@ -729,24 +743,24 @@ int main ()
 									salvaPunteggi (classifica);
 								}
 
-								nuovaPartita (partita_in_corso, impostazioni);
+								nuovaPartita (partita_in_corso, impostazioni); //inizializzo correttamente la variabile contenente la partita in corso
 								schermata_att = s_menu;
 								cambia_schermata = true;
 								break;
 							case ALLEGRO_KEY_BACKSPACE:
-								partita_in_corso.punteggio.nome [strlen (partita_in_corso.punteggio.nome) - 1] = '\0';
+								partita_in_corso.punteggio.nome [strlen (partita_in_corso.punteggio.nome) - 1] = '\0'; //cancello il carattere precedente
 								break;
 							default:
-								if (ev.keyboard.keycode >= ALLEGRO_KEY_A && ev.keyboard.keycode <= ALLEGRO_KEY_Z)
+								if (ev.keyboard.keycode >= ALLEGRO_KEY_A && ev.keyboard.keycode <= ALLEGRO_KEY_Z) //se è una lettera
 								{
-									if (strlen (partita_in_corso.punteggio.nome) < CARATTERI_NOME)
+									if (strlen (partita_in_corso.punteggio.nome) < CARATTERI_NOME) //se non sono già state inserite tutte le lettere consentite per il nome
 									{
-										input [0] = ev.keyboard.keycode - ALLEGRO_KEY_A + 'A';
-										strcat (partita_in_corso.punteggio.nome, input);
+										input [0] = ev.keyboard.keycode - ALLEGRO_KEY_A + 'A'; //leggo la lettera e la salvo maiuscola
+										strcat (partita_in_corso.punteggio.nome, input); //aggiorno il nome del giocatore
 									}
 									else
 									{
-										partita_in_corso.punteggio.nome [CARATTERI_NOME - 1] = ev.keyboard.keycode - ALLEGRO_KEY_A + 'a';
+										partita_in_corso.punteggio.nome [CARATTERI_NOME - 1] = ev.keyboard.keycode - ALLEGRO_KEY_A + 'A'; //modifico l'ultima lettera che è possibile inserire
 									}
 								}
 								break;
@@ -759,26 +773,27 @@ int main ()
 					}
 			   	}
 				al_stop_timer(timer_lampeggio_voce);
+				al_flush_event_queue (coda_eventi);
 				break;
 			case s_esci:
 				distruggiGrafica ();
 				distruggiAudio ();
 				distruggiCoda ();
 				distruggiTimer ();
-				return 0;
+				return 0; //uscita corretta dal gioco
 			default:
 				distruggiGrafica ();
 				distruggiAudio ();
 				distruggiCoda ();
 				distruggiTimer ();
-				return 2;
+				return 2; //tentativo di gestione di una schermata inesistente
 		}
 	}
 	distruggiGrafica ();
 	distruggiAudio ();
 	distruggiCoda ();
 	distruggiTimer ();
-   	return 1;
+   	return 1; //uscita non prevista dal ciclo di gestione delle schermate
 }
 
 unsigned int percentualeVelocitaOndata (Ondata ondata)
