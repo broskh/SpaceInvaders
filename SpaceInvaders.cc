@@ -191,11 +191,11 @@ int main ()
 
 	//INIZIALIZZAZIONE DELLE VARIABILI CONTENENTI LE INFORMAZIONI DI MENÙ
 	Menu menu_principale;
-	inizializzaMenu (menu_principale, MENU_PRINCIPALE, N_VOCI_MENU_PRINC, v_gioca);
+	inizializzaMenuPrincipale (menu_principale);
 	Menu menu_impostazioni;
-	inizializzaMenu (menu_impostazioni, MENU_IMPOSTAZIONI, N_VOCI_MENU_IMPO, v_musica);
+	inizializzaMenuImpostazioni (menu_impostazioni);
 	Menu menu_pausa;
-	inizializzaMenu (menu_pausa, MENU_PAUSA, N_VOCI_MENU_PAUSA, v_continua);
+	inizializzaMenuPausa (menu_pausa);
 
 	//INIZIALIZZAZIONE DELLE VARIABILI NECESSARIE PER LA GRAFICA
 	schermata schermata_att = s_menu;

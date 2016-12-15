@@ -49,14 +49,25 @@ schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, Partita partita_in_cor
 schermata cambiaSchermataMenuPrincipale (voce_menu_principale voce);
 
 /**
- * Memorizza in una struttura {@link Menu} i valori passati per parametro.
+ * Inizializza un {@link Menu menù} con i valori necessari per utilizzarlo come menù delle impostazioni.
  *
- * @param menu Menu che conterrà le informazioni passate come parametro.
- * @param testi_menu Testi che rappresentano le voci di menù.
- * @param n_voci Numero di voci del menù.
- * @param voce_sel Voce di menù attualmente selezionata.
+ * @param menu Menu da inizializzare.
  */
-void inizializzaMenu (Menu &menu, const generic_string testi_menu [], int n_voci, int voce_sel);
+void inizializzaMenuImpostazioni (Menu &menu);
+
+/**
+ * Inizializza un {@link Menu menù} con i valori necessari per utilizzarlo come menù di pausa.
+ *
+ * @param menu Menu da inizializzare.
+ */
+void inizializzaMenuPausa (Menu &menu);
+
+/**
+ * Inizializza un {@link Menu menù} con i valori necessari per utilizzarlo come menù principale.
+ *
+ * @param menu Menu da inizializzare.
+ */
+void inizializzaMenuPrincipale (Menu &menu);
 
 /**
  * Genera una stringa in grado di rappresentare lo stato del valore di un particolare campo delle impostazioni.

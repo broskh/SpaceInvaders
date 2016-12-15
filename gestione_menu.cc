@@ -12,6 +12,24 @@
 //INIZIO MODULO
 //INIZIO FUNZIONI PRIVATE
 /*
+ * Inizializza un menù con i valori passati per parametro.
+ */
+void inizializzaMenu (Menu &menu, const generic_string testi_menu [], int n_voci, int voce_sel)
+{
+	menu.n_voci = n_voci;
+	menu.voce_selezionata = voce_sel;
+	int i, j;
+	for (i = 0; i < menu.n_voci; i++)
+	{
+		for (j = 0; testi_menu [i] [j] != '\0'; j++)
+		{	
+			menu.testi_menu [i] [j] = testi_menu [i] [j];
+		}
+		menu.testi_menu [i] [j] = '\0';
+	}
+}
+
+/*
  * Ritorna il numero precedente di n. Se n raggiunge un valore minore di min, riparte da max - 1.
  */
 int precInRangeCircuito (int n, int min, int max)
@@ -81,19 +99,19 @@ schermata cambiaSchermataMenuPrincipale (voce_menu_principale voce)
 	return s_menu;
 }
 
-void inizializzaMenu (Menu &menu, const generic_string testi_menu [], int n_voci, int voce_sel)
+void inizializzaMenuImpostazioni (Menu &menu)
 {
-	menu.n_voci = n_voci;
-	menu.voce_selezionata = voce_sel;
-	int i, j;
-	for (i = 0; i < menu.n_voci; i++)
-	{
-		for (j = 0; testi_menu [i] [j] != '\0'; j++)
-		{	
-			menu.testi_menu [i] [j] = testi_menu [i] [j];
-		}
-		menu.testi_menu [i] [j] = '\0';
-	}
+	inizializzaMenu (menu, MENU_IMPOSTAZIONI, N_VOCI_MENU_IMPO, v_musica);
+}
+
+void inizializzaMenuPausa (Menu &menu)
+{
+	inizializzaMenu (menu, MENU_PAUSA, N_VOCI_MENU_PAUSA, v_continua);
+}
+
+void inizializzaMenuPrincipale (Menu &menu)
+{
+	inizializzaMenu (menu, MENU_PRINCIPALE, N_VOCI_MENU_PRINC, v_gioca);
 }
 
 bool stringaValoreVoceImpostazioni (char stringa [], voce_menu_impostazioni voce, Impostazioni impostazioni)
