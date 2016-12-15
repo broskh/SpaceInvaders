@@ -52,16 +52,16 @@ const unsigned int RANGE_PERCENTUALE_INCREMENTO_VELOCITA_ONDATA = 100 / STADI_IN
 //FINE COSTANTI PER ANIMAZIONE
 
 //INIZIO COSTANTI PER VARI TIMER
-const float FPS_ANIMAZIONE = 4; /**<FPS dell'animazione.*/
-const float FPS_COMPARSA_NAVICELLA_MISTERIOSA = 1; /**<FPS della possibile comparsa della navicella misteriosa.*/
-const float FPS_COMPARSA_SPARO_ALIENI = 1.5; /**<FPS della frequenza di creazione degli spari alieni.*/
-const float FPS_GENERALE = 60; /**<FPS del gioco completo.*/
-const float FPS_LAMPEGGIO_MENU = 3.5; /**<FPS dell'effetto lampeggiante sull'opzione selezionata dei menù.*/
-const float FPS_SPOSTAMENTO_CARRO_ARMATO = 115; /**<FPS dello spostamento del carro armato.*/
-const float FPS_SPOSTAMENTO_NAVICELLA_MISTERIOSA = 220; /**<FPS dello spostamento della navicella misteriosa.*/
-const float FPS_SPOSTAMENTO_ONDATA_MAX = 240; /**<FPS massimo del movimento dell'ondata.*/
-const float FPS_SPOSTAMENTO_ONDATA_MIN = 70; /**<FPS minimo del movimento dell'ondata.*/
-const float FPS_SPOSTAMENTO_SPARI = 150; /**<FPS dello spostamento degli spari.*/
+const float FREQUENZA_ANIMAZIONE = 4; /**<Frequenza dell'animazione.*/
+const float FREQUENZA_COMPARSA_NAVICELLA_MISTERIOSA = 1; /**<Frequenza della possibile comparsa della navicella misteriosa.*/
+const float FREQUENZA_COMPARSA_SPARO_ALIENI = 1.5; /**<Frequenza di creazione degli spari alieni.*/
+const float FPS_GIOCO = 60; /**<FPS del gioco.*/
+const float FREQUENZA_LAMPEGGIO_MENU = 3.5; /**<Frequenza dell'effetto lampeggiante sull'opzione selezionata dei menù.*/
+const float FREQUENZA_SPOSTAMENTO_CARRO_ARMATO = 115; /**<Frequenza dello spostamento del carro armato.*/
+const float FREQUENZA_SPOSTAMENTO_NAVICELLA_MISTERIOSA = 220; /**<Frequenza dello spostamento della navicella misteriosa.*/
+const float FREQUENZA_SPOSTAMENTO_ONDATA_MAX = 240; /**<Frequenza massima del movimento dell'ondata.*/
+const float FREQUENZA_SPOSTAMENTO_ONDATA_MIN = 70; /**<Frequenza minima del movimento dell'ondata.*/
+const float FREQUENZA_SPOSTAMENTO_SPARI = 150; /**<Frequenza dello spostamento degli spari.*/
 //FINE COSTANTI PER VARI TIMER
 
 //INIZIO FUNZIONI PRIVATE
@@ -89,7 +89,7 @@ void distruggiTimer ();
 
 //INIZIO VARIABILI GLOBALI
 static ALLEGRO_EVENT_QUEUE *coda_eventi = NULL; /**<Coda degli eventi.*/
-static ALLEGRO_TIMER *timer_generale = NULL; /**<Timer per ricaricamento grafica generale.*/
+static ALLEGRO_TIMER *timer_fps = NULL; /**<Timer per ricaricamento grafica generale.*/
 static ALLEGRO_TIMER *timer_lampeggio_voce = NULL; /**<Timer per effettuare l'effetto lampeggiante.*/
 static ALLEGRO_TIMER *timer_comparsa_sparo_alieni= NULL; /**<Timer per la comparsa degli spari alieni.*/
 static ALLEGRO_TIMER *timer_animazione = NULL; /**<Timer per l'animazione.*/
@@ -120,38 +120,40 @@ int main ()
 	//INIZIALIZZAZIONE DELLA CODA DEGLI EVENTI
    	coda_eventi = al_create_event_queue();
    	assert (coda_eventi);
+	ALLEGRO_EVENT ev;
+	al_wait_for_event(coda_eventi, &ev);
  
 	//INIZIALIZZAZIONE DEI TIMER
-	timer_generale = al_create_timer(1.0 / FPS_GENERALE);
-	assert (timer_generale);
+	timer_fps = al_create_timer(1.0 / FPS_GIOCO);
+	assert (timer_fps);
 
-	timer_lampeggio_voce = al_create_timer(1.0 / FPS_LAMPEGGIO_MENU);
+	timer_lampeggio_voce = al_create_timer(1.0 / FREQUENZA_LAMPEGGIO_MENU);
 	assert (timer_lampeggio_voce);
 
-	timer_comparsa_sparo_alieni = al_create_timer(1.0 / FPS_COMPARSA_SPARO_ALIENI);
+	timer_comparsa_sparo_alieni = al_create_timer(1.0 / FREQUENZA_COMPARSA_SPARO_ALIENI);
 	assert (timer_comparsa_sparo_alieni);
 
-	timer_animazione = al_create_timer(1.0 / FPS_ANIMAZIONE);
+	timer_animazione = al_create_timer(1.0 / FREQUENZA_ANIMAZIONE);
 	assert (timer_animazione);
 
-	timer_comparsa_navicella = al_create_timer(1.0 / FPS_COMPARSA_NAVICELLA_MISTERIOSA);
+	timer_comparsa_navicella = al_create_timer(1.0 / FREQUENZA_COMPARSA_NAVICELLA_MISTERIOSA);
 	assert (timer_comparsa_navicella);
 
-	timer_spostamento_carro_armato = al_create_timer(1.0 / FPS_SPOSTAMENTO_CARRO_ARMATO);
+	timer_spostamento_carro_armato = al_create_timer(1.0 / FREQUENZA_SPOSTAMENTO_CARRO_ARMATO);
 	assert (timer_spostamento_carro_armato);
 
-	timer_spostamento_navicella = al_create_timer(1.0 / FPS_SPOSTAMENTO_NAVICELLA_MISTERIOSA);
+	timer_spostamento_navicella = al_create_timer(1.0 / FREQUENZA_SPOSTAMENTO_NAVICELLA_MISTERIOSA);
 	assert (timer_spostamento_navicella);
 
-	timer_spostamento_spari= al_create_timer(1.0 / FPS_SPOSTAMENTO_SPARI);
+	timer_spostamento_spari= al_create_timer(1.0 / FREQUENZA_SPOSTAMENTO_SPARI);
 	assert (timer_spostamento_spari);
 
-	timer_spostamento_ondata = al_create_timer(1.0 / FPS_SPOSTAMENTO_ONDATA_MAX);
+	timer_spostamento_ondata = al_create_timer(1.0 / FREQUENZA_SPOSTAMENTO_ONDATA_MAX);
 	assert (timer_spostamento_ondata);
  
 	//REGISTRAZIONE DEGLI EVENTI NELLA CODA
    	al_register_event_source(coda_eventi, al_get_display_event_source(display));
-	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_generale));
+	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_fps));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_lampeggio_voce));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_comparsa_sparo_alieni));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_animazione));
@@ -202,14 +204,14 @@ int main ()
 	bool sparo_carro = false;
 
 	al_clear_to_color(al_map_rgb(0, 0, 0));
-	al_start_timer(timer_generale);
+	al_start_timer(timer_fps);
 	
-	while (true)
+	while (true) //loop infinito che gestisce tutte le schermate del gioco
 	{
 		cambia_schermata = false;
 		redraw_lampeggio = false;
 		animazione = false;
-		switch (schermata_att)
+		switch (schermata_att) //ogni case corrisponde ad una schermata differente
 		{
 			case s_menu:
 				if (impostazioni.musica)
@@ -220,19 +222,17 @@ int main ()
 				{
 					fermaMusicaPrincipale ();
 				}
-				menu_principale.voce_selezionata = v_gioca;
-				nuovaPartita (partita_in_corso, impostazioni);
-				partita_salvata = esisteSalvataggio ();
+				menu_principale.voce_selezionata = v_gioca; //quando avvio il menù la voce selezionata è sempre "gioca"
+				nuovaPartita (partita_in_corso, impostazioni); //inizializzo una nuova partita
+				partita_salvata = esisteSalvataggio (); //controllo se esiste una partita salvata
 				al_start_timer(timer_lampeggio_voce);
+				al_flush_event_queue (coda_eventi);
 				
-				while(!cambia_schermata)
+				while(!cambia_schermata) //ciclo finchè non è necessario cambiare schermata
 			   	{
-					ALLEGRO_EVENT ev;
-					al_wait_for_event(coda_eventi, &ev);
-
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == timer_generale)
+						if (ev.timer.source == timer_fps)
 						{
 							redraw = true;
 						}
@@ -243,7 +243,7 @@ int main ()
 					}
 					else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 					{
-						schermata_att = s_esci;
+						schermata_att = s_esci; //per chiudere il gioco correttamente chiamo la schermata di uscita
 						cambia_schermata = true;
 						break;
 					}
@@ -272,7 +272,7 @@ int main ()
 								}
 								break;
 							case ALLEGRO_KEY_ENTER:
-								schermata_att = cambiaSchermataMenuPrincipale (static_cast <voce_menu_principale> (menu_principale.voce_selezionata));
+								schermata_att = cambiaSchermataMenuPrincipale (static_cast <voce_menu_principale> (menu_principale.voce_selezionata)); //capisce con questo metodo quale schermata deve aprire
 								cambia_schermata = true;
 								break;
 						}
@@ -307,18 +307,16 @@ int main ()
 				al_start_timer(timer_spostamento_carro_armato);
 				al_start_timer(timer_spostamento_navicella);
 				al_start_timer(timer_spostamento_spari);
-				al_set_timer_speed(timer_spostamento_ondata, 1.0 / (((FPS_SPOSTAMENTO_ONDATA_MAX - FPS_SPOSTAMENTO_ONDATA_MIN) / 100 * percentualeVelocitaOndata (partita_in_corso.ondata)) + FPS_SPOSTAMENTO_ONDATA_MIN));
+				al_set_timer_speed(timer_spostamento_ondata, 1.0 / (((FREQUENZA_SPOSTAMENTO_ONDATA_MAX - FREQUENZA_SPOSTAMENTO_ONDATA_MIN) / 100 * percentualeVelocitaOndata (partita_in_corso.ondata)) + FREQUENZA_SPOSTAMENTO_ONDATA_MIN));
 				al_start_timer(timer_spostamento_ondata);
-
+				al_flush_event_queue (coda_eventi);
 
 				while(!cambia_schermata)
 			   	{
-					ALLEGRO_EVENT ev;
-					al_wait_for_event(coda_eventi, &ev);
 
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == timer_generale)
+						if (ev.timer.source == timer_fps)
 						{
 							redraw = true;
 						}
@@ -551,17 +549,15 @@ int main ()
 				cambia_schermata = true;
 				break;
 			case s_opzioni:
-				al_start_timer(timer_lampeggio_voce);
 				menu_impostazioni.voce_selezionata = v_musica;
 
+				al_start_timer(timer_lampeggio_voce);
+				al_flush_event_queue (coda_eventi);
 				while(!cambia_schermata)
-			   	{				
-					ALLEGRO_EVENT ev;
-					al_wait_for_event(coda_eventi, &ev);
-
+			   	{
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == timer_generale)
+						if (ev.timer.source == timer_fps)
 						{
 							redraw = true;
 						}
@@ -612,14 +608,12 @@ int main ()
 				break;
 			case s_highscores:
 				al_start_timer(timer_lampeggio_voce);
+				al_flush_event_queue (coda_eventi);
 				while(!cambia_schermata)
-			   	{				
-					ALLEGRO_EVENT ev;
-					al_wait_for_event(coda_eventi, &ev);
-
+			   	{
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == timer_generale)
+						if (ev.timer.source == timer_fps)
 						{
 							redraw = true;
 						}
@@ -655,15 +649,13 @@ int main ()
 			case s_pausa:
 				menu_pausa.voce_selezionata = v_continua;
 				al_start_timer(timer_lampeggio_voce);
+				al_flush_event_queue (coda_eventi);
 				
 				while(!cambia_schermata)
 			   	{
-					ALLEGRO_EVENT ev;
-					al_wait_for_event(coda_eventi, &ev);
-
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == timer_generale)
+						if (ev.timer.source == timer_fps)
 						{
 							redraw = true;
 						}
@@ -702,17 +694,16 @@ int main ()
 			   	}
 				al_stop_timer(timer_lampeggio_voce);
 				break;
-			case s_fine_partita:	
-				al_start_timer(timer_lampeggio_voce);
+			case s_fine_partita:
 				posizione = posizionePunteggio (classifica, partita_in_corso.punteggio);
-				while(!cambia_schermata)
-			   	{				
-					ALLEGRO_EVENT ev;
-					al_wait_for_event(coda_eventi, &ev);
 
+				al_start_timer(timer_lampeggio_voce);
+				al_flush_event_queue (coda_eventi);
+				while(!cambia_schermata)
+			   	{
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == timer_generale)
+						if (ev.timer.source == timer_fps)
 						{
 							redraw = true;
 						}
@@ -803,7 +794,7 @@ void distruggiDisplay ()
 
 void distruggiTimer ()
 {
-	al_destroy_timer(timer_generale);
+	al_destroy_timer(timer_fps);
 	al_destroy_timer(timer_lampeggio_voce);
 	al_destroy_timer(timer_comparsa_sparo_alieni);
 	al_destroy_timer(timer_animazione);
