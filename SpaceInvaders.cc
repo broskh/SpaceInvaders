@@ -223,7 +223,7 @@ int main ()
 		switch (schermata_att) //ogni case corrisponde ad una schermata differente
 		{
 			case s_menu:
-				if (impostazioni.musica)
+				if (statoMusica(impostazioni))
 				{
 					avviaMusicaPrincipale ();
 				}
@@ -289,7 +289,7 @@ int main ()
 
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
-						stampaMenuPrincipale (menu_principale, partita_salvata, impostazioni.colore_alieni, redraw_lampeggio);
+						stampaMenuPrincipale (menu_principale, partita_salvata, statoColoreAlieni (impostazioni), redraw_lampeggio);
 					}
 			   	}
 				al_stop_timer(timer_lampeggio_voce);
@@ -300,13 +300,13 @@ int main ()
 				{
 					partita_salvata = false;
 				}
-				if (impostazioni.musica)
+				if (statoMusica (impostazioni))
 				{
 					fermaMusicaPrincipale ();
 					avviaMusicaOndata ();
 					modificaVelocitaMusicaOndata (percentualeVelocitaOndata (partita_in_corso.ondata)); //se è stata caricata una partita correggo subito la vleocità del sottofondo
 				}
-				if (impostazioni.eff_audio && partita_in_corso.navicella_misteriosa.stato) //se è stata caricata una partita dove la navicella era in movimento
+				if (statoEffettiAudio (impostazioni) && partita_in_corso.navicella_misteriosa.stato) //se è stata caricata una partita dove la navicella era in movimento
 				{
 					avviaSuonoNavicellaMisteriosa ();
 				}
@@ -375,7 +375,7 @@ int main ()
 								if (!partita_in_corso.navicella_misteriosa.stato)
 								{
 									creaNavicellaMisteriosa (partita_in_corso);
-									if (impostazioni.eff_audio && partita_in_corso.navicella_misteriosa.stato)
+									if (statoEffettiAudio (impostazioni) && partita_in_corso.navicella_misteriosa.stato)
 									{
 										avviaSuonoNavicellaMisteriosa ();
 									}
@@ -467,7 +467,7 @@ int main ()
 						if (!partita_in_corso.carro_armato.sparo.stato)
 						{
 							creaSparoCarroArmato (partita_in_corso.carro_armato);
-							if (impostazioni.eff_audio)
+							if (statoEffettiAudio (impostazioni))
 							{
 								avviaSuonoSparoCarroArmato ();
 							}
@@ -476,7 +476,7 @@ int main ()
 
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
-						stampaGioca (partita_in_corso, animazione, impostazioni.colore_alieni);
+						stampaGioca (partita_in_corso, animazione, statoColoreAlieni (impostazioni));
 					}
 
 					//INIZIO DEI CONTROLLI
@@ -485,7 +485,7 @@ int main ()
 						if (controlloCollisioneCarroDaSparoAlieni (partita_in_corso))
 						{
 							partita_in_corso.carro_armato.esplosione = 1;
-							if (impostazioni.eff_audio)
+							if (statoEffettiAudio (impostazioni))
 							{
 								avviaSuonoEsplosioneCarroArmato ();
 							}
@@ -498,11 +498,11 @@ int main ()
 						}
 						if (controlloCollisioneAlieni (partita_in_corso))
 						{
-							if (impostazioni.musica)
+							if (statoMusica (impostazioni))
 							{
 								modificaVelocitaMusicaOndata (percentualeVelocitaOndata (partita_in_corso.ondata));
 							}
-							if (impostazioni.eff_audio)
+							if (statoEffettiAudio (impostazioni))
 							{
 								avviaSuonoEsplosioneAlieno ();
 							}
@@ -517,7 +517,7 @@ int main ()
 						}
 						if (controlloCollisioneNavicellaMisteriosa (partita_in_corso))
 						{
-							if (impostazioni.eff_audio)
+							if (statoEffettiAudio (impostazioni))
 							{
 								avviaSuonoEsplosioneNavicellaMisteriosa ();
 							}
@@ -530,7 +530,7 @@ int main ()
 						{
 							nuovaOndata (partita_in_corso.ondata);
 						}
-						if (impostazioni.eff_audio)
+						if (statoEffettiAudio (impostazioni))
 						{								
 							if (!partita_in_corso.navicella_misteriosa.stato)
 							{

@@ -50,4 +50,31 @@ void salvaImpostazioni (Impostazioni impostazioni);
  * @param impostazioni Impostazioni da stampare.
  */
 void stampa (Impostazioni impostazioni);
+
+/*
+ * Ritorna lo stato del campo colore_alieni.
+ * 
+ * @param impostazioni Impostazioni da analizzare.
+ * 
+ * @return il colore degli alieni.
+ */
+colore statoColoreAlieni (Impostazioni impostazioni);
+
+/*
+ * Ritorna lo stato del campo eff_audio.
+ * 
+ * @param impostazioni Impostazioni da analizzare.
+ * 
+ * @return "true" se gli effetti audio sono attivati, "false" altrimenti.
+ */
+bool statoEffettiAudio (Impostazioni impostazioni);
+
+/*
+ * Ritorna lo stato del campo musica.
+ * 
+ * @param impostazioni Impostazioni da analizzare.
+ * 
+ * @return "true" se la musica è attivata, "false" altrimenti.
+ */
+bool statoMusica (Impostazioni impostazioni);
 //FINE INTERFACCIA

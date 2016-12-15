@@ -98,4 +98,19 @@ void stampa (Impostazioni impostazioni)
 {
 	output (impostazioni, cout);
 }
+
+colore statoColoreAlieni (Impostazioni impostazioni)
+{
+	return impostazioni.colore_alieni;
+}
+
+bool statoEffettiAudio (Impostazioni impostazioni)
+{
+	return impostazioni.eff_audio;
+}
+
+bool statoMusica (Impostazioni impostazioni)
+{
+	return impostazioni.musica;
+}
 //FINE MODULO
