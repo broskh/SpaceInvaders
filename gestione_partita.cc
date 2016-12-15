@@ -585,12 +585,12 @@ void muoviAlieni (Ondata &ondata)
 
 void muoviCarroDestra (Carro &carro)
 {
-	carro.pos_x = sucInRange (carro.pos_x, PESO_SPOSTAMENTO_CARRO_ARMATO, MARGINE_DX_GIOCO - larghezzaCarroArmato ());
+	carro.pos_x = sucInRange (carro.pos_x, MARGINE_DX_GIOCO - larghezzaCarroArmato ());
 }
 
 void muoviCarroSinistra (Carro &carro)
 {
-	carro.pos_x = precInRange (carro.pos_x, PESO_SPOSTAMENTO_CARRO_ARMATO, MARGINE_SX_GIOCO);
+	carro.pos_x = precInRange (carro.pos_x, MARGINE_SX_GIOCO);
 }
 
 void muoviNavicellaMisteriosa (Navicella &navicella)

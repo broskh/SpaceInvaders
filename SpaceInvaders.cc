@@ -57,10 +57,11 @@ const float FPS_COMPARSA_NAVICELLA_MISTERIOSA = 1; /**<FPS della possibile compa
 const float FPS_COMPARSA_SPARO_ALIENI = 1.5; /**<FPS della frequenza di creazione degli spari alieni.*/
 const float FPS_GENERALE = 60; /**<FPS del gioco completo.*/
 const float FPS_LAMPEGGIO_MENU = 3.5; /**<FPS dell'effetto lampeggiante sull'opzione selezionata dei menù.*/
+const float FPS_SPOSTAMENTO_CARRO_ARMATO = 115; /**<FPS dello spostamento del carro armato.*/
 const float FPS_SPOSTAMENTO_NAVICELLA_MISTERIOSA = 220; /**<FPS dello spostamento della navicella misteriosa.*/
 const float FPS_SPOSTAMENTO_ONDATA_MAX = 240; /**<FPS massimo del movimento dell'ondata.*/
 const float FPS_SPOSTAMENTO_ONDATA_MIN = 70; /**<FPS minimo del movimento dell'ondata.*/
-const float FPS_SPOSTAMENTO_SPARI = 210; /**<FPS dello spostamento degli spari.*/
+const float FPS_SPOSTAMENTO_SPARI = 150; /**<FPS dello spostamento degli spari.*/
 //FINE COSTANTI PER VARI TIMER
 
 //INIZIO FUNZIONI PRIVATE
@@ -92,6 +93,7 @@ static ALLEGRO_TIMER *timer_generale = NULL; /**<Timer per ricaricamento grafica
 static ALLEGRO_TIMER *timer_lampeggio_voce = NULL; /**<Timer per effettuare l'effetto lampeggiante.*/
 static ALLEGRO_TIMER *timer_comparsa_sparo_alieni= NULL; /**<Timer per la comparsa degli spari alieni.*/
 static ALLEGRO_TIMER *timer_animazione = NULL; /**<Timer per l'animazione.*/
+static ALLEGRO_TIMER *timer_spostamento_carro_armato = NULL; /**<Timer per lo spostamento del carro armato.*/
 static ALLEGRO_TIMER *timer_comparsa_navicella = NULL; /**<Timer per la comparsa della navicella misteriosa.*/
 static ALLEGRO_TIMER *timer_spostamento_ondata = NULL; /**<Timer per lo spostamento dell'ondata aliena.*/
 static ALLEGRO_TIMER *timer_spostamento_navicella = NULL; /**<Timer per lo spostamento della navicella misteriosa.*/
@@ -135,6 +137,9 @@ int main ()
 	timer_comparsa_navicella = al_create_timer(1.0 / FPS_COMPARSA_NAVICELLA_MISTERIOSA);
 	assert (timer_comparsa_navicella);
 
+	timer_spostamento_carro_armato = al_create_timer(1.0 / FPS_SPOSTAMENTO_CARRO_ARMATO);
+	assert (timer_spostamento_carro_armato);
+
 	timer_spostamento_navicella = al_create_timer(1.0 / FPS_SPOSTAMENTO_NAVICELLA_MISTERIOSA);
 	assert (timer_spostamento_navicella);
 
@@ -152,6 +157,7 @@ int main ()
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_animazione));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_comparsa_navicella));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_spostamento_navicella));
+	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_spostamento_carro_armato));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_spostamento_spari));
 	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_spostamento_ondata));
 	al_register_event_source(coda_eventi, al_get_keyboard_event_source());
@@ -189,6 +195,11 @@ int main ()
 	//VARIABILI NECESSARIE PER LA SCHERMATA DI FINE PARTITA
 	int posizione;
 	char input [] = " ";
+
+	//VARIABILI NECESSARIE PER LA SCHERMATA DI GIOCO (IN PARTICOLARE PER PERMETTERE DI TENERE PREMUTI I TASTI DI MOVIMENTO E DI SPARO)
+	bool muovi_carro_destra = false;
+	bool muovi_carro_sinistra = false;
+	bool sparo_carro = false;
 
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 	al_start_timer(timer_generale);
@@ -293,6 +304,7 @@ int main ()
 				al_start_timer(timer_comparsa_sparo_alieni);
 				al_start_timer(timer_animazione);
 				al_start_timer(timer_comparsa_navicella);
+				al_start_timer(timer_spostamento_carro_armato);
 				al_start_timer(timer_spostamento_navicella);
 				al_start_timer(timer_spostamento_spari);
 				al_set_timer_speed(timer_spostamento_ondata, 1.0 / (((FPS_SPOSTAMENTO_ONDATA_MAX - FPS_SPOSTAMENTO_ONDATA_MIN) / 100 * percentualeVelocitaOndata (partita_in_corso.ondata)) + FPS_SPOSTAMENTO_ONDATA_MIN));
@@ -363,6 +375,20 @@ int main ()
 									}
 								}
 							}
+							else if (ev.timer.source == timer_spostamento_carro_armato)
+							{
+								if (!partita_in_corso.carro_armato.esplosione)
+								{
+									if (muovi_carro_destra)
+									{
+										muoviCarroDestra (partita_in_corso.carro_armato);
+									}
+									else if (muovi_carro_sinistra)
+									{
+										muoviCarroSinistra (partita_in_corso.carro_armato);
+									}
+								}
+							}
 							else if (ev.timer.source == timer_spostamento_navicella)
 							{
 								if (partita_in_corso.navicella_misteriosa.stato)
@@ -401,33 +427,46 @@ int main ()
 								schermata_att = s_pausa;
 								cambia_schermata = true;
 								break;
+							case ALLEGRO_KEY_LEFT:
+								muovi_carro_destra = false;
+								muovi_carro_sinistra = true;
+								break;
+							case ALLEGRO_KEY_RIGHT:
+								muovi_carro_sinistra = false;
+								muovi_carro_destra = true;
+								break;
+							case ALLEGRO_KEY_SPACE:
+								sparo_carro = true;
+								break;
 						}
 					}
-					else if(ev.type == ALLEGRO_EVENT_KEY_CHAR)
+					else if(ev.type == ALLEGRO_EVENT_KEY_UP)
 					{
-						if (!partita_in_corso.carro_armato.esplosione)
+						switch(ev.keyboard.keycode)
 						{
-							switch(ev.keyboard.keycode)
+							case ALLEGRO_KEY_LEFT:
+								muovi_carro_sinistra = false;
+								break;
+							case ALLEGRO_KEY_RIGHT:
+								muovi_carro_destra = false;
+								break;
+							case ALLEGRO_KEY_SPACE:
+								sparo_carro = false;
+								break;
+						}
+					}
+
+					if (sparo_carro && !partita_in_corso.carro_armato.esplosione) //se è premuto il tasto per sparare, creo lo sparo se non ne esiste già uno
+					{
+						if (!partita_in_corso.carro_armato.sparo.stato)
+						{
+							creaSparoCarroArmato (partita_in_corso.carro_armato);
+							if (impostazioni.eff_audio)
 							{
-								case ALLEGRO_KEY_LEFT:
-									muoviCarroSinistra (partita_in_corso.carro_armato);
-									break;
-								case ALLEGRO_KEY_RIGHT:
-									muoviCarroDestra (partita_in_corso.carro_armato);
-									break;
-								case ALLEGRO_KEY_SPACE:
-									if (!partita_in_corso.carro_armato.sparo.stato)
-									{
-										creaSparoCarroArmato (partita_in_corso.carro_armato);
-										if (impostazioni.eff_audio)
-										{
-											avviaSuonoSparoCarroArmato ();
-										}
-									}
-									break;
+								avviaSuonoSparoCarroArmato ();
 							}
 						}
-					}				
+					}
 
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
@@ -501,6 +540,7 @@ int main ()
 				al_stop_timer(timer_comparsa_sparo_alieni);
 				al_stop_timer(timer_animazione);
 				al_stop_timer(timer_comparsa_navicella);
+				al_stop_timer(timer_spostamento_carro_armato);
 				al_stop_timer(timer_spostamento_navicella);
 				al_stop_timer(timer_spostamento_spari);
 				al_stop_timer(timer_spostamento_ondata);
@@ -768,6 +808,7 @@ void distruggiTimer ()
 	al_destroy_timer(timer_comparsa_sparo_alieni);
 	al_destroy_timer(timer_animazione);
 	al_destroy_timer(timer_comparsa_navicella);
+	al_destroy_timer(timer_spostamento_carro_armato);
 	al_destroy_timer(timer_spostamento_navicella);
 	al_destroy_timer(timer_spostamento_spari);
 	al_destroy_timer(timer_spostamento_ondata);

@@ -16,11 +16,6 @@ const unsigned int SMUSSO_INFERIORE = (LARGHEZZA_BARRIERA - (LARGHEZZA_PIEDE * 2
 const unsigned int SMUSSO_SUPERIORE = 4; /**<Dimensione dello smusso superiore di una barriera.*/
 //INIZIO COSTANTI PER BARRIERE
 
-//INIZIO COSTANTI PER CARRO ARMATO
-const unsigned int PESO_SPOSTAMENTO_CARRO_ARMATO = 5; /**<Peso (in pixel) dello spostamento laterale del carro armato.*/
-const unsigned int RIP_ANIMAZIONE_ESPLOSIONE_CARRO = 2; /**<Numero di ripetizioni dell'animazione di esplosione del carro.*/
-//FINE COSTANTI PER CARRO ARMATO
-
 //INIZIO COSTANTI PER NAVICELLA MISTERIOSA
 const unsigned int PROBABILITA_COMPARSA_NAVICELLA = 15; /**<Percentuale di probabilità che compaia la navicella misteriosa.*/
 const unsigned int PUNTEGGIO_NAVICELLA_MAX = 500; /**<Punteggio massimo che può assumere la navicella misteriosa.*/
