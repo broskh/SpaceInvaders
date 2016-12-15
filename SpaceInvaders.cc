@@ -47,7 +47,7 @@
 #include "gestione_audio.h"
 
 //INIZIO COSTANTI PER ANIMAZIONE
-const unsigned int STADI_INCREMENTO_VELOCITA_ONDATA = 5; /**<Stadi di incremento della velocità dell'ondata.*/
+const unsigned int STADI_INCREMENTO_VELOCITA_ONDATA = 6; /**<Stadi di incremento della velocità dell'ondata.*/
 const unsigned int RANGE_PERCENTUALE_INCREMENTO_VELOCITA_ONDATA = 100 / STADI_INCREMENTO_VELOCITA_ONDATA; /**<Range percentualedi incremento della velocità.*/
 //FINE COSTANTI PER ANIMAZIONE
 
@@ -59,7 +59,7 @@ const float FPS_GIOCO = 60; /**<FPS del gioco.*/
 const float FREQUENZA_LAMPEGGIO_MENU = 3.5; /**<Frequenza dell'effetto lampeggiante sull'opzione selezionata dei menù.*/
 const float FREQUENZA_SPOSTAMENTO_CARRO_ARMATO = 115; /**<Frequenza dello spostamento del carro armato.*/
 const float FREQUENZA_SPOSTAMENTO_NAVICELLA_MISTERIOSA = 220; /**<Frequenza dello spostamento della navicella misteriosa.*/
-const float FREQUENZA_SPOSTAMENTO_ONDATA_MAX = 240; /**<Frequenza massima del movimento dell'ondata.*/
+const float FREQUENZA_SPOSTAMENTO_ONDATA_MAX = 260; /**<Frequenza massima del movimento dell'ondata.*/
 const float FREQUENZA_SPOSTAMENTO_ONDATA_MIN = 70; /**<Frequenza minima del movimento dell'ondata.*/
 const float FREQUENZA_SPOSTAMENTO_SPARI = 150; /**<Frequenza dello spostamento degli spari.*/
 //FINE COSTANTI PER VARI TIMER
@@ -186,7 +186,7 @@ int main ()
 	}
 	if (!caricaPunteggi (classifica))
 	{
-		classifica.n_highscores = 0;
+		inizializzaClassifica (classifica);
 	}
 
 	//INIZIALIZZAZIONE DELLE VARIABILI CONTENENTI LE INFORMAZIONI DI MENÙ
@@ -206,7 +206,6 @@ int main ()
 
 	//VARIABILI NECESSARIE PER LA SCHERMATA DI FINE PARTITA
 	int posizione;
-	char input [] = " ";
 
 	//VARIABILI NECESSARIE PER LA SCHERMATA DI GIOCO (IN PARTICOLARE PER PERMETTERE DI TENERE PREMUTI I TASTI DI MOVIMENTO E DI SPARO)
 	bool muovi_carro_destra = false;
@@ -543,6 +542,9 @@ int main ()
 			   	}
 				fermaSuonoNavicellaMisteriosa ();
 				fermaMusicaOndata ();
+				muovi_carro_destra = false;
+				muovi_carro_sinistra = false;
+				sparo_carro = false;
 
 				al_stop_timer(timer_comparsa_sparo_alieni);
 				al_stop_timer(timer_animazione);
@@ -755,6 +757,7 @@ int main ()
 								{
 									if (strlen (partita_in_corso.punteggio.nome) < CARATTERI_NOME) //se non sono già state inserite tutte le lettere consentite per il nome
 									{
+										char input [] = " ";
 										input [0] = ev.keyboard.keycode - ALLEGRO_KEY_A + 'A'; //leggo la lettera e la salvo maiuscola
 										strcat (partita_in_corso.punteggio.nome, input); //aggiorno il nome del giocatore
 									}

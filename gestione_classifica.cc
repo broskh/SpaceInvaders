@@ -84,6 +84,11 @@ bool caricaPunteggi (Classifica &classifica)
 	return true;
 }
 
+void inizializzaClassifica (Classifica &classifica)
+{
+	classifica.n_highscores = 0;
+}
+
 void inizializzaPunteggio (Punteggio &punteggio, char nome [], int valore)
 {
 	strcpy (punteggio.nome, nome);

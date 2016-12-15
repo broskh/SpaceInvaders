@@ -2,64 +2,66 @@
  * Header file contenente l'interfaccia del modulo per la gestione della classifica.
  */
 
-const char FILE_HIGHSCORES [] = "highscores"; /**<Percorso del file contenente gli highscores.*/
+const char FILE_HIGHSCORES [] = "highscores"; /**<Percorso del file contenente la classifica.*/
 
 //INIZIO INTERFACCIA
 /**
- * Aggiunge il nuovo punteggio nella posizione specificata dell'array.
+ * Aggiunge il nuovo punteggio nella posizione specificata della classifica.
  *
- * @param highscores Array di strutture {@link punteggio} contenente i punteggi migliori.
- * @param n_highscores Numero di punteggi presenti attualmente nell'array "highscores".
- * @param nuovo_punteggio Nuovo punteggio raggiunto da aggiungere (se necessario) fra i punteggi migliori.
- * @param posizione Posizione dell'array nella quale inserire il punteggio.
+ * @param classifica Classifica da modificare.
+ * @param nuovo_punteggio Punteggio da aggiungere nella classifica.
+ * @param posizione Posizione dell'array contenente la classifica nella quale inserire il punteggio.
  */
 void aggiungiPunteggio (Classifica &classifica, Punteggio nuovo_punteggio, int posizione);
 
 /**
- * Carica da un file i migliori punteggi e li memorizza in un'apposita struttura.
+ * Carica dal file la classifica.
  * 
- * @param highscores Array di strutture {@link Punteggio} nel quale memorizzare i valori.
- * @param n_highscores Numero di punteggi presenti attualmente nell'array "highscores".
+ * @param classifica Classifica nella quale caricare le informazioni.
  *
  * @return "false" nel caso in cui il caricamento non sia riuscito, "true" altrimenti.
  */
 bool caricaPunteggi (Classifica &classifica);
 
 /**
- * Memorizza in una struttura {@link Punteggio} i valori passati per parametro.
+ * Inizializza una {@link Classifica} vuota.
  *
- * @param punteggio Struttura {@link Punteggio} nella quale verranno memorizzati i valori.
- * @param nome Stringa di tre caratteri contenente il nome del giocatore che ha raggiunto il punteggio.
+ * @param classifica {@link Classifica} da inizializzare.
+ */
+void inizializzaClassifica (Classifica &classifica);
+
+/**
+ * Inizializza un {@link Punteggio} con i valori passati per parametro.
+ *
+ * @param punteggio {@link Punteggio} nel quale verranno memorizzati i valori.
+ * @param nome Stringa contenente il nome del giocatore che ha raggiunto il punteggio.
  * @param valore Valore del punteggio.
  */
 void inizializzaPunteggio (Punteggio &punteggio, char nome [], int valore);
 
 /**
- * Controlla in quale posizione della classifica degli highscores il nuovo punteggio merita di essere inserito.
- * Se il punteggio non deve essere aggiunto agli highscores, il metodo ritorna il valore "-1".
+ * Calcola in quale posizione della classifica il nuovo punteggio merita di essere inserito.
+ * Se il punteggio non deve essere aggiunto alla classifica, il metodo ritorna il valore "-1".
  *
- * @param highscores Array di strutture {@link punteggio} contenente i punteggi migliori.
- * @param n_highscores Numero di punteggi presenti attualmente nell'array "highscores".
- * @param nuovo_punteggio Nuovo punteggio raggiunto da aggiungere (se necessario) fra i punteggi migliori.
+ * @param classifica Classifica analizzata.
+ * @param nuovo_punteggio Punteggio da controllare.
  * 
- * @return la posizione dell'array degli highscores nella quale il nuovo punteggio andrebbe inserito; "-1" se
+ * @return la posizione dell'array dei punteggi nella quale il nuovo punteggio andrebbe inserito. Ritorna "-1" se
  * il punteggio non merita di essere inserito.
  */
 int posizionePunteggio (Classifica classifica, Punteggio nuovo_punteggio);
 
 /**
- * Salva i migliori punteggi su file.
+ * Salva la classifica su file.
  *
- * @param highscores Array di strutture {@link Punteggio} che contiene i punteggi da salvare nel file.
- * @param n_highscores Numero di punteggi presenti attualmente nell'array "highscores".
+ * @param classifica {@link Classifica} da salvare.
  */
 void salvaPunteggi (Classifica classifica);
 
 /**
- * Stampa su console un'array di punteggi.
+ * Stampa su console la {@link Classifica}.
  * 
- * @param highscores Array dei punteggi da stampare.
- * @param n Numero di punteggi nell'array.
+ * @param classifica Classifica da stampare.
  */
 void stampa (Classifica classifica);
 
