@@ -28,25 +28,24 @@ const char STRINGA_BLU [] = "Blu"; /**<Stringa per rappresentare il valore "blu"
 
 //INIZIO INTERFACCIA
 /**
- * Calcola il valore della prossima schermata da mostrare nel menù di pausa e agisce di conseguenza sulla 
- * partita (se necessario).
+ * Calcola il valore della schermata da mostrare all'uscita dal menù di pausa e agisce di conseguenza sulla partita.
  * 
- * @param voce Voce del menù di pausa attualmente selezionata.
+ * @param menu Menù di pausa.
  * @param partita_in_corso Partita attualmente in pausa.
  * @param partita_salvata Valore booleano che indica se è presente una partita salvata.
  *
  * @return il valore della prossima schermata da mostrare.
  */
-schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, Partita partita_in_corso, bool &partita_salvata);
+schermata cambiaSchermataMenuPausa (Menu menu, Partita partita_in_corso, bool &partita_salvata);
 
 /**
- * Calcola il valore della prossima schermata da mostrare nel menù principale.
+ * Calcola il valore della prossima schermata da mostrare a seconda della selezione effettuta nel menù principale.
  * 
- * @param voce Voce del menù principale attualmente selezionata.
+ * @param menu Menù principale.
  *
  * @return il valore della prossima schermata da mostrare.
  */
-schermata cambiaSchermataMenuPrincipale (voce_menu_principale voce);
+schermata cambiaSchermataMenuPrincipale (Menu menu);
 
 /**
  * Inizializza un {@link Menu menù} con i valori necessari per utilizzarlo come menù delle impostazioni.
@@ -93,23 +92,23 @@ bool stringaValoreVoceImpostazioni (char stringa [], voce_menu_impostazioni voce
  * Modifica il valore di un determinato campo della struttura {@link Impostazioni}, assegnandone il precedente.
  * Tramite la voce di menu passata come parametro capisce quale campo deve andare a modificare.
  *
- * @param voce Voce del menù impostazioni attualmente selezionata.
+ * @param menu Menù delle impostazioni.
  * @param impostazioni Struttura {@link Impostazioni} da modificare.
  *
  * @return "true" se la voce di menù passata corrispone ad un tipo {@link voce_menu_impostazioni}, "false" altrimenti.
  */
-bool valoreCampoImpostazioniPrec (voce_menu_impostazioni voce, Impostazioni &impostazioni);
+bool valoreCampoImpostazioniPrec (Menu menu, Impostazioni &impostazioni);
 
 /*
  * Modifica il valore di un determinato campo della struttura {@link Impostazioni}, assegnandone il successivo.
  * Tramite la voce di menu passata come parametro capisce quale campo deve andare a modificare.
  *
- * @param voce Voce del menù impostazioni attualmente selezionata.
+ * @param menu Menù delle impostazioni.
  * @param impostazioni Struttura {@link Impostazioni} da modificare.
  *
  * @return "true" se la voce di menù passata corrispone ad un tipo {@link voce_menu_impostazioni}, "false" altrimenti.
  */
-bool valoreCampoImpostazioniSuc (voce_menu_impostazioni voce, Impostazioni &impostazioni);
+bool valoreCampoImpostazioniSuc (Menu menu, Impostazioni &impostazioni);
 
 /**
  * Modifica il valore della voce selezionata impostandola alla precedente.

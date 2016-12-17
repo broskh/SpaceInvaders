@@ -281,7 +281,7 @@ int main ()
 								}
 								break;
 							case ALLEGRO_KEY_ENTER:
-								schermata_att = cambiaSchermataMenuPrincipale (static_cast <voce_menu_principale> (menu_principale.voce_selezionata)); //capisce con questo metodo quale schermata deve aprire
+								schermata_att = cambiaSchermataMenuPrincipale (menu_principale); //capisce con questo metodo quale schermata deve aprire
 								cambia_schermata = true;
 								break;
 						}
@@ -595,10 +595,10 @@ int main ()
 								voceSuc (menu_impostazioni);
 								break;
 							case ALLEGRO_KEY_LEFT:
-								valoreCampoImpostazioniPrec (static_cast <voce_menu_impostazioni> (menu_impostazioni.voce_selezionata), impostazioni);
+								valoreCampoImpostazioniPrec (menu_impostazioni, impostazioni);
 								break;
 							case ALLEGRO_KEY_RIGHT:
-								valoreCampoImpostazioniSuc (static_cast <voce_menu_impostazioni> (menu_impostazioni.voce_selezionata), impostazioni);
+								valoreCampoImpostazioniSuc (menu_impostazioni, impostazioni);
 								break;
 							case ALLEGRO_KEY_ENTER:
 								salvaImpostazioni (impostazioni);
@@ -696,7 +696,7 @@ int main ()
 								voceSuc (menu_pausa);
 								break;
 							case ALLEGRO_KEY_ENTER:
-								schermata_att = cambiaSchermataMenuPausa (static_cast <voce_menu_pausa> (menu_pausa.voce_selezionata), partita_in_corso, partita_salvata);
+								schermata_att = cambiaSchermataMenuPausa (menu_pausa, partita_in_corso, partita_salvata);
 								cambia_schermata = true;
 								break;
 						}

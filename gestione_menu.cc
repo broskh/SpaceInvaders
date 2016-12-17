@@ -56,43 +56,43 @@ int sucInRangeCircuito (int n, int min, int max)
 }
 //FINE FUNZIONI PRIVATE
 
-schermata cambiaSchermataMenuPausa (voce_menu_pausa voce, Partita partita_in_corso, bool &partita_salvata)
+schermata cambiaSchermataMenuPausa (Menu menu, Partita partita_in_corso, bool &partita_salvata)
 {
-	if (voce == v_continua)
+	if (menu.voce_selezionata == v_continua)
 	{
 		return s_gioca;
 	}
-	else if (voce == v_salva)
+	else if (menu.voce_selezionata == v_salva)
 	{
 		salvaPartita (partita_in_corso);
 		partita_salvata = true;
 	}
-	else if (voce == v_abbandona)
+	else if (menu.voce_selezionata == v_abbandona)
 	{
 		;
 	}
 	return s_menu;
 }
 
-schermata cambiaSchermataMenuPrincipale (voce_menu_principale voce)
+schermata cambiaSchermataMenuPrincipale (Menu menu)
 {
-	if (voce == v_gioca)
+	if (menu.voce_selezionata == v_gioca)
 	{
 		return s_gioca;
 	}
-	else if (voce == v_carica)
+	else if (menu.voce_selezionata == v_carica)
 	{
 		return s_carica;
 	}
-	else if (voce == v_opzioni)
+	else if (menu.voce_selezionata == v_opzioni)
 	{
 		return s_opzioni;
 	}
-	else if (voce == v_highscores)
+	else if (menu.voce_selezionata == v_highscores)
 	{
 		return s_highscores;
 	}
-	else if (voce == v_esci)
+	else if (menu.voce_selezionata == v_esci)
 	{
 		return s_esci;
 	}
@@ -173,9 +173,9 @@ bool stringaValoreVoceImpostazioni (char stringa [], voce_menu_impostazioni voce
 	return true;
 }
 
-bool valoreCampoImpostazioniPrec (voce_menu_impostazioni voce, Impostazioni &impostazioni)
+bool valoreCampoImpostazioniPrec (Menu menu, Impostazioni &impostazioni)
 {
-	switch (voce)
+	switch (menu.voce_selezionata)
 	{
 		case v_musica:
 			impostazioni.musica = !impostazioni.musica;
@@ -196,9 +196,9 @@ bool valoreCampoImpostazioniPrec (voce_menu_impostazioni voce, Impostazioni &imp
 	return true;
 }
 
-bool valoreCampoImpostazioniSuc (voce_menu_impostazioni voce, Impostazioni &impostazioni)
+bool valoreCampoImpostazioniSuc (Menu menu, Impostazioni &impostazioni)
 {
-	switch (voce)
+	switch (menu.voce_selezionata)
 	{
 		case v_musica:
 			impostazioni.musica = !impostazioni.musica;
