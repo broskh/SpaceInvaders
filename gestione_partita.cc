@@ -230,6 +230,15 @@ int sucInRange (int n, int max)
 	return sucInRange (n, 1, max);
 }
 //FINE FUNZIONI PRIVATE
+void avanzaEsplosioneAlieno (Partita &partita, unsigned int n_fila, unsigned int n_colonna)
+{
+	partita.ondata.alieni [n_fila] [n_colonna].esplosione++;
+}
+
+void avanzaEsplosioneCarroArmato (Partita &partita)
+{
+	partita.carro_armato.esplosione++;
+}
 
 bool caricaPartita (Partita &partita)
 {
@@ -462,9 +471,9 @@ bool controlloCollisioneNavicellaMisteriosa (Partita &partita)
 	return collisione;
 }
 
-bool controlloFineOndata (Ondata ondata)
+bool controlloFineOndata (Partita partita)
 {
-	if (ondata.alieni_rimasti > 0)
+	if (partita.ondata.alieni_rimasti > 0)
 	{
 		return false;
 	}
@@ -522,11 +531,11 @@ void creaSparoAlieni (Partita &partita)
 	}
 }
 
-void creaSparoCarroArmato (Carro &carro)
+void creaSparoCarroArmato (Partita &partita)
 {
-	carro.sparo.stato = true;
-	carro.sparo.pos_x = carro.pos_x + larghezzaCarroArmato () / 2;
-	carro.sparo.pos_y = MARGINE_INF_GIOCO - altezzaCarroArmato () - altezzaSparoCarroArmato ();
+	partita.carro_armato.sparo.stato = true;
+	partita.carro_armato.sparo.pos_x = partita.carro_armato.pos_x + larghezzaCarroArmato () / 2;
+	partita.carro_armato.sparo.pos_y = MARGINE_INF_GIOCO - altezzaCarroArmato () - altezzaSparoCarroArmato ();
 }
 
 bool eliminaFileSalvataggio ()
@@ -544,7 +553,7 @@ bool esisteSalvataggio ()
     	return f;
 }
 
-void muoviAlieni (Ondata &ondata)
+void muoviAlieni (Partita &partita)
 {
 	unsigned int limite_dx = MARGINE_DX_GIOCO - (larghezzaAlieno (2)) / 2;
 	unsigned int pos_y_carro = MARGINE_INF_GIOCO - altezzaCarroArmato ();
@@ -553,76 +562,76 @@ void muoviAlieni (Ondata &ondata)
 	{
 		for (int j = N_COL_ALIENI - 1; j > n_colonne_alieni_attivi; j--)
 		{
-			if (ondata.alieni [i] [j].stato && j > n_colonne_alieni_attivi)
+			if (partita.ondata.alieni [i] [j].stato && j > n_colonne_alieni_attivi)
 			{
 				n_colonne_alieni_attivi = j;
 			}
 		}
 	}
 	unsigned int margine_dx_primo_asse = limite_dx - DISTANZA_ASSI_COL_ALIENI * n_colonne_alieni_attivi;
-	if (ondata.alieni_rimasti)
+	if (partita.ondata.alieni_rimasti)
 	{
-		if (ondata.dir_alieni == destra)
+		if (partita.ondata.dir_alieni == destra)
 		{
-			ondata.pos_x = sucInRange (ondata.pos_x, margine_dx_primo_asse);
-			if (ondata.pos_x == margine_dx_primo_asse)
+			partita.ondata.pos_x = sucInRange (partita.ondata.pos_x, margine_dx_primo_asse);
+			if (partita.ondata.pos_x == margine_dx_primo_asse)
 			{
-				ondata.dir_alieni = sinistra;
-				ondata.pos_y = sucInRange (ondata.pos_y, DISTANZA_FILE_ALIENI / 4, pos_y_carro);
+				partita.ondata.dir_alieni = sinistra;
+				partita.ondata.pos_y = sucInRange (partita.ondata.pos_y, DISTANZA_FILE_ALIENI / 4, pos_y_carro);
 			}
 		}
-		else if (ondata.dir_alieni == sinistra)
+		else if (partita.ondata.dir_alieni == sinistra)
 		{
-			ondata.pos_x = precInRange (ondata.pos_x, MARGINE_SX_GIOCO);
-			if (ondata.pos_x == MARGINE_SX_GIOCO)
+			partita.ondata.pos_x = precInRange (partita.ondata.pos_x, MARGINE_SX_GIOCO);
+			if (partita.ondata.pos_x == MARGINE_SX_GIOCO)
 			{
-				ondata.dir_alieni = destra;
-				ondata.pos_y = sucInRange (ondata.pos_y, DISTANZA_FILE_ALIENI / 4, pos_y_carro);
+				partita.ondata.dir_alieni = destra;
+				partita.ondata.pos_y = sucInRange (partita.ondata.pos_y, DISTANZA_FILE_ALIENI / 4, pos_y_carro);
 			}
 		}
 	}
 }
 
-void muoviCarroDestra (Carro &carro)
+void muoviCarroDestra (Partita &partita)
 {
-	carro.pos_x = sucInRange (carro.pos_x, MARGINE_DX_GIOCO - larghezzaCarroArmato ());
+	partita.carro_armato.pos_x = sucInRange (partita.carro_armato.pos_x, MARGINE_DX_GIOCO - larghezzaCarroArmato ());
 }
 
-void muoviCarroSinistra (Carro &carro)
+void muoviCarroSinistra (Partita &partita)
 {
-	carro.pos_x = precInRange (carro.pos_x, MARGINE_SX_GIOCO);
+	partita.carro_armato.pos_x = precInRange (partita.carro_armato.pos_x, MARGINE_SX_GIOCO);
 }
 
-void muoviNavicellaMisteriosa (Navicella &navicella)
+void muoviNavicellaMisteriosa (Partita &partita)
 {
 	unsigned int limite_dx = MARGINE_DX_GIOCO - larghezzaNavicellaMisteriosa ();
-	navicella.pos_x = sucInRange (navicella.pos_x, limite_dx);
-	if (navicella.pos_x == limite_dx)
+	partita.navicella_misteriosa.pos_x = sucInRange (partita.navicella_misteriosa.pos_x, limite_dx);
+	if (partita.navicella_misteriosa.pos_x == limite_dx)
 	{
-		navicella.stato = false;
+		partita.navicella_misteriosa.stato = false;
 	}
 }
 
-void muoviSparoAlieni (Sparo &sparo)
+void muoviSparoAlieni (Partita &partita)
 {
-	unsigned int limite_inferiore = MARGINE_INF_GIOCO - altezzaSparoAlienoAttuale (sparo.pos_x);
-	sparo.pos_y = sucInRange (sparo.pos_y, limite_inferiore);
-	if (sparo.pos_y >= limite_inferiore)
+	unsigned int limite_inferiore = MARGINE_INF_GIOCO - altezzaSparoAlienoAttuale (partita.sparo_alieni.pos_x);
+	partita.sparo_alieni.pos_y = sucInRange (partita.sparo_alieni.pos_y, limite_inferiore);
+	if (partita.sparo_alieni.pos_y >= limite_inferiore)
 	{
-		sparo.stato = false;
+		partita.sparo_alieni.stato = false;
 	}
 }
 
-void muoviSparoCarro (Sparo &sparo)
+void muoviSparoCarro (Partita &partita)
 {
-	sparo.pos_y = precInRange (sparo.pos_y, MARGINE_SUP_GIOCO);
-	if (sparo.pos_y == MARGINE_SUP_GIOCO)
+	partita.carro_armato.sparo.pos_y = precInRange (partita.carro_armato.sparo.pos_y, MARGINE_SUP_GIOCO);
+	if (partita.carro_armato.sparo.pos_y == MARGINE_SUP_GIOCO)
 	{
-		sparo.stato = false;
+		partita.carro_armato.sparo.stato = false;
 	}
 }
 
-void nuovaOndata (Ondata &ondata)
+void nuovaOndata (Partita &partita)
 {
 	int i = 0;
 
@@ -630,19 +639,19 @@ void nuovaOndata (Ondata &ondata)
 	{		
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{
-			inizializzaAlieno (ondata.alieni [N_FILE_ALIENI - 1 - i] [j], PUNTEGGIO_ALIENI [i / (N_FILE_ALIENI / N_TIPI_ALIENI)]);
+			inizializzaAlieno (partita.ondata.alieni [N_FILE_ALIENI - 1 - i] [j], PUNTEGGIO_ALIENI [i / (N_FILE_ALIENI / N_TIPI_ALIENI)]);
 		}
 	}
 
 	assert (i = N_FILE_ALIENI);
 	
-	ondata.alieni_rimasti = N_ALIENI_TOTALE;
+	partita.ondata.alieni_rimasti = N_ALIENI_TOTALE;
 	
-	ondata.dir_alieni = destra;
+	partita.ondata.dir_alieni = destra;
 	
-	ondata.pos_x = POS_X_PRIMO_ASSE_ALIENI;
+	partita.ondata.pos_x = POS_X_PRIMO_ASSE_ALIENI;
 	
-	ondata.pos_y = POS_Y_PRIMA_FILA_ONDATA;
+	partita.ondata.pos_y = POS_Y_PRIMA_FILA_ONDATA;
 }
 
 void nuovaPartita (Partita &partita, Impostazioni impostazioni)
@@ -659,7 +668,7 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni)
 		inizializzaBarriera (partita.barriere [i]);
 	}
 
-	nuovaOndata (partita.ondata);
+	nuovaOndata (partita);
 
 	partita.sparo_alieni.stato = false;
 	
@@ -668,9 +677,14 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni)
 	inizializzaCarroArmato (partita.carro_armato);
 }
 
-unsigned int percentualeAlieniEliminati (Ondata ondata)
+unsigned int percentualeAlieniEliminati (Partita partita)
 {
-	return 100 - ondata.alieni_rimasti * 100 / N_ALIENI_TOTALE;
+	return 100 - partita.ondata.alieni_rimasti * 100 / N_ALIENI_TOTALE;
+}
+
+Punteggio * punteggioAttuale (Partita &partita)
+{
+	return &partita.punteggio;
 }
 
 void salvaPartita (Partita partita)
@@ -683,4 +697,40 @@ void stampaPartita (Partita partita)
 {
 	output (partita, cout);
 }
+
+unsigned int statoEsplosioneAlieno (Partita partita, unsigned int n_fila, unsigned int n_colonna)
+{
+	return partita.ondata.alieni [n_fila] [n_colonna].esplosione;
+}
+
+unsigned int statoEsplosioneCarroArmato (Partita partita)
+{
+	return partita.carro_armato.esplosione;
+}
+
+bool statoNavicellaMisteriosa (Partita partita)
+{
+	return partita.navicella_misteriosa.stato;
+}
+
+bool statoSparoAlieni (Partita partita)
+{
+	return partita.sparo_alieni.stato;
+}
+
+bool statoSparoCarroArmato (Partita partita)
+{
+	return partita.carro_armato.sparo.stato;
+}
+
+void terminaEsplosioneAlieno (Partita &partita, unsigned int n_fila, unsigned int n_colonna)
+{
+	partita.ondata.alieni [n_fila] [n_colonna].esplosione = 0;
+}
+
+void terminaEsplosioneCarroArmato (Partita &partita)
+{
+	partita.carro_armato.esplosione = 0;
+}
+
 //FINE MODULO

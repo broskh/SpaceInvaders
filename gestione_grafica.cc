@@ -235,7 +235,7 @@ unsigned int larghezzaSparoCarroArmato ()
 	return al_get_bitmap_width (sparo_carro);
 }
 
-void stampaFinePartita (Classifica classifica, Punteggio nuovo_punteggio, int posizione_punteggio_attuale, bool redraw_lampeggio)
+void stampaFinePartita (Classifica classifica, Partita partita, int posizione_punteggio_attuale, bool redraw_lampeggio)
 {
 	//INIZIO VISUALIZZAZIONE
 	al_clear_to_color(NERO);
@@ -261,7 +261,7 @@ void stampaFinePartita (Classifica classifica, Punteggio nuovo_punteggio, int po
 		if (i == posizione_punteggio_attuale)
 		{
 			char nome_visualizzato [CARATTERI_NOME];
-			strcpy (nome_visualizzato, nuovo_punteggio.nome);
+			strcpy (nome_visualizzato, partita.punteggio.nome);
 			if (strlen (nome_visualizzato) < CARATTERI_NOME)
 			{
 				strcat (nome_visualizzato, "_");
@@ -277,7 +277,7 @@ void stampaFinePartita (Classifica classifica, Punteggio nuovo_punteggio, int po
 					pos_x_attuale += al_get_text_width (font_testo, lettera);
 				}
 			}
-			sprintf(str_valore, "%d", nuovo_punteggio.valore);
+			sprintf(str_valore, "%d", partita.punteggio.valore);
 		}
 		else
 		{

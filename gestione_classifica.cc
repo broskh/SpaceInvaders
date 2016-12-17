@@ -42,6 +42,19 @@ void scambiaPunteggio (Punteggio &punt1, Punteggio &punt2)
 	punt1 = temp;
 }
 //FINE FUNZIONI PRIVATE
+void aggiungiLetteraNomePunteggio (Punteggio &punteggio, char nuova_lettera)
+{	
+	if (strlen (punteggio.nome) < CARATTERI_NOME) //se non sono già state inserite tutte le lettere consentite per il nome
+	{
+		char input [] = " ";
+		input [0] = nuova_lettera;
+		strcat (punteggio.nome, input); //aggiorno il nome del giocatore
+	}
+	else
+	{
+		punteggio.nome [CARATTERI_NOME - 1] = nuova_lettera; //modifico l'ultima lettera che è possibile inserire
+	}
+}
 
 void aggiungiPunteggio (Classifica &classifica, Punteggio nuovo_punteggio, int posizione)
 {
@@ -54,6 +67,11 @@ void aggiungiPunteggio (Classifica &classifica, Punteggio nuovo_punteggio, int p
 	{
 		scambiaPunteggio (classifica.highscores [i], pros);
 	}
+}
+
+void cancellaUltimoCarattereNome (Punteggio &punteggio)
+{
+	punteggio.nome [strlen (punteggio.nome) - 1] = '\0';
 }
 
 bool caricaPunteggi (Classifica &classifica)

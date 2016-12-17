@@ -28,6 +28,22 @@ const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file co
 
 //INIZIO INTERFACCIA
 /**
+ * Incrementa il valore dell'esplosione di un alieno.
+ * 
+ * @param partita Partita da modificare.
+ * @param n_fila Numero della fila nella quale si trova l'alieno.
+ * @param n_colonna Numero di colonna nella quale si trova l'alieno.
+ */
+void avanzaEsplosioneAlieno (Partita &partita, unsigned int n_fila, unsigned int n_colonna);
+
+/**
+ * Incrementa il valore dell'esplosione del carro armato.
+ * 
+ * @param partita Partita da modificare.
+ */
+void avanzaEsplosioneCarroArmato (Partita &partita);
+
+/**
  * Carica da un file una partita lasciata in sospeso.
  * 
  * @param salvataggio Partita nella quale memorizzare i dati caricati.
@@ -102,11 +118,11 @@ bool controlloCollisioneNavicellaMisteriosa (Partita &partita);
 /**
  * Controlla se sono stati distrutti tutti gli alieni facenti parte dell'ondata.
  * 
- * @param ondata Ondata nella quale controllare lo stato degli alieni.
+ * @param partita Partita nella quale controllare lo stato dell'ondata.
  * 
  * @return "true" se tutti gli alieni dell'ondata sono stati distrutti, "false" altrimenti.
  */
-bool controlloFineOndata (Ondata ondata);
+bool controlloFineOndata (Partita partita);
 
 /**
  * Controlla se il giocatore ha terminato le proprie vite.
@@ -120,23 +136,23 @@ bool controlloFinePartita (Partita partita);
 /**
  * Se si verifica la condizione probabilistica, crea la navicella misteriosa.
  * 
- * @param partita Partita nella quale inserire le informazioni riguardanti la navicella misteriosa.
+ * @param partita Partita da modificare.
  */
 void creaNavicellaMisteriosa (Partita &partita);
 
 /**
  * Crea uno sparo alieno.
  * 
- * @param partita Partita nella quale inserire le informazioni riguardanti lo sparo alieno.
+ * @param partita Partita da modificare.
  */
 void creaSparoAlieni (Partita &partita);
 
 /**
  * Crea lo sapro del carro armato.
  * 
- * @param carro Carro armato nel quale inserire le informazioni riguardanti lo sparo.
+ * @param partita Partita da modificare.
  */
-void creaSparoCarroArmato (Carro &carro);
+void creaSparoCarroArmato (Partita &partita);
 
 /**
  * Elimina il file di salvataggio nel caso in cui esista.
@@ -155,51 +171,51 @@ bool esisteSalvataggio ();
 /**
  * Muove l'ondata di alieni.
  *
- * @param ondata Ondata di alieni da muovere.
+ * @param partita Partita da modificare.
  */
-void muoviAlieni(Ondata &ondata);
+void muoviAlieni(Partita &partita);
 
 /**
  * Muove il carro armato a destra.
  *
- * @param carro Carro da muovere.
+ * @param partita Partita da modificare.
  */
-void muoviCarroDestra (Carro &carro);
+void muoviCarroDestra (Partita &partita);
 
 /**
  * Muove il carro armato a sinistra.
  *
- * @param carro Carro da muovere.
+ * @param partita Partita da modificare.
  */
-void muoviCarroSinistra (Carro &carro);
+void muoviCarroSinistra (Partita &partita);
 
 /**
  * Muove la navicella misteriosa.
  *
- * @param navicella Navicella misteriosa da muovere.
+ * @param partita Partita da modificare.
  */
-void muoviNavicellaMisteriosa (Navicella &navicella);
+void muoviNavicellaMisteriosa (Partita &partita);
 
 /**
- * Muove uno sapro alieno.
+ * Muove uno sparo alieno.
  *
- * @param sapro Sparo alieno da muovere.
+ * @param partita Partita da modificare.
  */
-void muoviSparoAlieni (Sparo &sparo);
+void muoviSparoAlieni (Partita &partita);
 
 /**
- * Muove lo sapro del carro armato.
+ * Muove lo sparo del carro armato.
  *
- * @param sapro Sparo del carro armato da muovere.
+ * @param partita Partita da modificare.
  */
-void muoviSparoCarro (Sparo &sparo);
+void muoviSparoCarro (Partita &partita);
 
 /**
  * Inizializza un'ondata ripristinando tutte le informazioni di base.
  *
- * @param ondata Ondata da inizializzare.
+ * @param partita Partita da modificare.
  */
-void nuovaOndata (Ondata &ondata);
+void nuovaOndata (Partita &partita);
 
 /**
  * Inizializza una partita con tutte le informazioni di base.
@@ -212,11 +228,18 @@ void nuovaPartita (Partita &partita, Impostazioni impostazioni);
 /**
  * Percentuale degli alieni distrutti.
  * 
- * @param ondata Ondata di alieni.
+ * @param partita Partita da analizzare.
  * 
  * @return la percentuale di alieni eliminati.
  */
-unsigned int percentualeAlieniEliminati (Ondata ondata);
+unsigned int percentualeAlieniEliminati (Partita partita);
+
+/**
+ * Ritorna il punteggio della partita.
+ * 
+ * @param Partita partita da analizzare.
+ */
+Punteggio * punteggioAttuale (Partita &partita);
 
 /**
  * Salva una partita su file.
@@ -231,4 +254,67 @@ void salvaPartita (Partita partita);
  * @param partita Partita da stampare.
  */
 void stampaPartita (Partita partita);
+
+/*
+ * Ritorna il valore dello stato di esplosione di un alieno.
+ * 
+ * @param partita Partita da analizzare.
+ * @param n_fila Numero della fila nella quale si trova l'alieno.
+ * @param n_colonna Numero di colonna nella quale si trova l'alieno.
+ * 
+ * @return il valore dello stato di esplosione dell'alieno.
+ */
+unsigned int statoEsplosioneAlieno (Partita partita, unsigned int n_fila, unsigned int n_colonna);
+
+/*
+ * Ritorna il valore dello stato di esplosione del carro armato.
+ * 
+ * @param partita Partita da analizzare.
+ * 
+ * @return il valore dello stato di esplosione del carro armato.
+ */
+unsigned int statoEsplosioneCarroArmato (Partita partita);
+
+/*
+ * Ritorna lo stato della navicella misteriosa.
+ * 
+ * @param partita Partita da analizzare.
+ * 
+ * @return "true" se la navicella misteriosa è comparsa, "false" altrimenti.
+ */
+bool statoNavicellaMisteriosa (Partita partita);
+
+/*
+ * Ritorna lo stato dello sparo degli alieni.
+ * 
+ * @param partita Partita da analizzare.
+ * 
+ * @return "true" se lo sparo è stato effettuato, "false" altrimenti.
+ */
+bool statoSparoAlieni (Partita partita);
+
+/*
+ * Ritorna lo stato dello sparo del carro armato.
+ * 
+ * @param partita Partita da analizzare.
+ * 
+ * @return "true" se lo sparo è stato effettuato, "false" altrimenti.
+ */
+bool statoSparoCarroArmato (Partita partita);
+
+/**
+ * Pone termine all'esplosione di un alieno.
+ * 
+ * @param partita Partita da modificare.
+ * @param n_fila Numero della fila nella quale si trova l'alieno.
+ * @param n_colonna Numero di colonna nella quale si trova l'alieno.
+ */
+void terminaEsplosioneAlieno (Partita &partita, unsigned int n_fila, unsigned int n_colonna);
+
+/**
+ * Pone termine all'esplosione del carro armato.
+ * 
+ * @param partita Partita da modificare.
+ */
+void terminaEsplosioneCarroArmato (Partita &partita);
 //FINE INTERFACCIA

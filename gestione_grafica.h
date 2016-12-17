@@ -192,11 +192,11 @@ unsigned int larghezzaSparoCarroArmato ();
  * Stampa sul display tutto il contenuto che riguarda la schermata di fine partita.
  *
  * @param classifica Classifica degli highscores.
- * @param nuovo_punteggio Punteggio raggiunto nella partita appena terminata.
+ * @param partita Partita appena terminata.
  * @param posizione_punteggio_attuale Posizione all'interno della classifica del punteggio raggiunto nella partita appena terminata. É uguale a "-1" se non rientra all'interno della classifica.
  * @param redraw_lampeggio Valore booleano che indica se è necessario mostrare o no gli elementi che necessitano di un effetto lampeggiante.
  */
-void stampaFinePartita (Classifica classifica, Punteggio nuovo_punteggio, int posizione_punteggio_attuale, bool redraw_lampeggio);
+void stampaFinePartita (Classifica classifica, Partita partita, int posizione_punteggio_attuale, bool redraw_lampeggio);
 
 /*
  * Stampa sul display tutto il contenuto che riguarda la schermata di gioco.

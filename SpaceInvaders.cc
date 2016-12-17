@@ -69,7 +69,7 @@ const float FREQUENZA_SPOSTAMENTO_SPARI = 150; /**<Frequenza dello spostamento d
  * Ritorna la percentuale della velocità dell'ondata aliena prendendo in considerazione gli alieni rimasti e il
  * il range percentuale di incremento della velocità.
  */
-unsigned int percentualeVelocitaOndata (Ondata ondata);
+unsigned int percentualeVelocitaOndata (Partita partita);
 
 /*
  * Dealloca la memoria riguardante la coda degli eventi.
@@ -304,9 +304,9 @@ int main ()
 				{
 					fermaMusicaPrincipale ();
 					avviaMusicaOndata ();
-					modificaVelocitaMusicaOndata (percentualeVelocitaOndata (partita_in_corso.ondata)); //se è stata caricata una partita correggo subito la vleocità del sottofondo
+					modificaVelocitaMusicaOndata (percentualeVelocitaOndata (partita_in_corso)); //se è stata caricata una partita correggo subito la vleocità del sottofondo
 				}
-				if (statoEffettiAudio (impostazioni) && partita_in_corso.navicella_misteriosa.stato) //se è stata caricata una partita dove la navicella era in movimento
+				if (statoEffettiAudio (impostazioni) && statoNavicellaMisteriosa (partita_in_corso)) //se è stata caricata una partita dove la navicella era in movimento
 				{
 					avviaSuonoNavicellaMisteriosa ();
 				}
@@ -316,7 +316,7 @@ int main ()
 				al_start_timer(timer_spostamento_carro_armato);
 				al_start_timer(timer_spostamento_navicella);
 				al_start_timer(timer_spostamento_spari);
-				al_set_timer_speed(timer_spostamento_ondata, 1.0 / (((FREQUENZA_SPOSTAMENTO_ONDATA_MAX - FREQUENZA_SPOSTAMENTO_ONDATA_MIN) / 100 * percentualeVelocitaOndata (partita_in_corso.ondata)) + FREQUENZA_SPOSTAMENTO_ONDATA_MIN)); //se è stata caricata una partita correggo subito la vleocità del movimento dell'ondata
+				al_set_timer_speed(timer_spostamento_ondata, 1.0 / (((FREQUENZA_SPOSTAMENTO_ONDATA_MAX - FREQUENZA_SPOSTAMENTO_ONDATA_MIN) / 100 * percentualeVelocitaOndata (partita_in_corso)) + FREQUENZA_SPOSTAMENTO_ONDATA_MIN)); //se è stata caricata una partita correggo subito la vleocità del movimento dell'ondata
 				al_start_timer(timer_spostamento_ondata);
 
 				while(!cambia_schermata)
@@ -331,15 +331,15 @@ int main ()
 						else if (ev.timer.source == timer_animazione)
 						{
 							animazione = !animazione;
-							if (partita_in_corso.carro_armato.esplosione)
+							if (statoEsplosioneCarroArmato (partita_in_corso))
 							{
-								if (partita_in_corso.carro_armato.esplosione <= RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_CARRO * 2) //necessario per realizzare l'effetto di animazione
+								if (statoEsplosioneCarroArmato (partita_in_corso) <= RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_CARRO * 2) //necessario per realizzare l'effetto di animazione
 								{
-									partita_in_corso.carro_armato.esplosione++;
+									avanzaEsplosioneCarroArmato (partita_in_corso);
 								}
 								else
 								{
-									partita_in_corso.carro_armato.esplosione = false;
+									terminaEsplosioneCarroArmato (partita_in_corso);
 								}
 							}
 							//per controllare quali alieni necessitano di un effetto di animazione
@@ -347,35 +347,35 @@ int main ()
 							{
 								for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 								{
-									if (partita_in_corso.ondata.alieni [i] [j].esplosione)
+									if (statoEsplosioneAlieno (partita_in_corso, i, j))
 									{
-										if (partita_in_corso.ondata.alieni [i] [j].esplosione <= RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_ALIENI)
+										if (statoEsplosioneAlieno (partita_in_corso, i, j) <= RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_ALIENI)
 										{
-											partita_in_corso.ondata.alieni [i] [j].esplosione++;
+											avanzaEsplosioneAlieno (partita_in_corso, i, j);
 										}
 										else
 										{
-											partita_in_corso.ondata.alieni [i] [j].esplosione = false;
+											terminaEsplosioneAlieno (partita_in_corso, i, j);
 										}
 									}
 								}
 							}
 						}
-						else if (!partita_in_corso.carro_armato.esplosione)
+						else if (!statoEsplosioneCarroArmato (partita_in_corso))
 						{
 							if (ev.timer.source == timer_comparsa_sparo_alieni)
 							{
-								if (!partita_in_corso.sparo_alieni.stato)
+								if (!statoSparoAlieni (partita_in_corso))
 								{
 									creaSparoAlieni (partita_in_corso);
 								}
 							}
 							else if (ev.timer.source == timer_comparsa_navicella)
 							{
-								if (!partita_in_corso.navicella_misteriosa.stato)
+								if (!statoNavicellaMisteriosa (partita_in_corso))
 								{
 									creaNavicellaMisteriosa (partita_in_corso);
-									if (statoEffettiAudio (impostazioni) && partita_in_corso.navicella_misteriosa.stato)
+									if (statoEffettiAudio (impostazioni) && statoNavicellaMisteriosa (partita_in_corso))
 									{
 										avviaSuonoNavicellaMisteriosa ();
 									}
@@ -383,39 +383,39 @@ int main ()
 							}
 							else if (ev.timer.source == timer_spostamento_carro_armato)
 							{
-								if (!partita_in_corso.carro_armato.esplosione)
+								if (!statoEsplosioneCarroArmato (partita_in_corso))
 								{
 									if (muovi_carro_destra)
 									{
-										muoviCarroDestra (partita_in_corso.carro_armato);
+										muoviCarroDestra (partita_in_corso);
 									}
 									else if (muovi_carro_sinistra)
 									{
-										muoviCarroSinistra (partita_in_corso.carro_armato);
+										muoviCarroSinistra (partita_in_corso);
 									}
 								}
 							}
 							else if (ev.timer.source == timer_spostamento_navicella)
 							{
-								if (partita_in_corso.navicella_misteriosa.stato)
+								if (statoNavicellaMisteriosa (partita_in_corso))
 								{
-									muoviNavicellaMisteriosa (partita_in_corso.navicella_misteriosa);
+									muoviNavicellaMisteriosa (partita_in_corso);
 								}
 							}
 							else if (ev.timer.source == timer_spostamento_spari)
 							{
-								if (partita_in_corso.carro_armato.sparo.stato)
+								if (statoSparoCarroArmato (partita_in_corso))
 								{
-									muoviSparoCarro (partita_in_corso.carro_armato.sparo);
+									muoviSparoCarro (partita_in_corso);
 								}
-								if (partita_in_corso.sparo_alieni.stato)
+								if (statoSparoAlieni (partita_in_corso))
 								{
-									muoviSparoAlieni (partita_in_corso.sparo_alieni);
+									muoviSparoAlieni (partita_in_corso);
 								}
 							}
 							else if (ev.timer.source == timer_spostamento_ondata)
 							{
-								muoviAlieni (partita_in_corso.ondata);
+								muoviAlieni (partita_in_corso);
 							}
 						}						
 					}
@@ -462,11 +462,11 @@ int main ()
 						break;
 					}
 
-					if (sparo_carro && !partita_in_corso.carro_armato.esplosione) //se è premuto il tasto per sparare, creo lo sparo (se non ne esiste già uno)
+					if (sparo_carro && !statoEsplosioneCarroArmato (partita_in_corso)) //se è premuto il tasto per sparare, creo lo sparo (se non ne esiste già uno)
 					{
-						if (!partita_in_corso.carro_armato.sparo.stato)
+						if (!statoSparoCarroArmato (partita_in_corso))
 						{
-							creaSparoCarroArmato (partita_in_corso.carro_armato);
+							creaSparoCarroArmato (partita_in_corso);
 							if (statoEffettiAudio (impostazioni))
 							{
 								avviaSuonoSparoCarroArmato ();
@@ -480,11 +480,11 @@ int main ()
 					}
 
 					//INIZIO DEI CONTROLLI
-					if (!partita_in_corso.carro_armato.esplosione)
+					if (!statoEsplosioneCarroArmato (partita_in_corso))
 					{
 						if (controlloCollisioneCarroDaSparoAlieni (partita_in_corso))
 						{
-							partita_in_corso.carro_armato.esplosione = 1;
+							avanzaEsplosioneCarroArmato (partita_in_corso);
 							if (statoEffettiAudio (impostazioni))
 							{
 								avviaSuonoEsplosioneCarroArmato ();
@@ -500,7 +500,7 @@ int main ()
 						{
 							if (statoMusica (impostazioni))
 							{
-								modificaVelocitaMusicaOndata (percentualeVelocitaOndata (partita_in_corso.ondata));
+								modificaVelocitaMusicaOndata (percentualeVelocitaOndata (partita_in_corso));
 							}
 							if (statoEffettiAudio (impostazioni))
 							{
@@ -526,13 +526,13 @@ int main ()
 						{
 							;
 						}
-						if (controlloFineOndata (partita_in_corso.ondata))
+						if (controlloFineOndata (partita_in_corso))
 						{
-							nuovaOndata (partita_in_corso.ondata);
+							nuovaOndata (partita_in_corso);
 						}
 						if (statoEffettiAudio (impostazioni))
 						{								
-							if (!partita_in_corso.navicella_misteriosa.stato)
+							if (!statoNavicellaMisteriosa (partita_in_corso))
 							{
 								fermaSuonoNavicellaMisteriosa ();
 							}
@@ -711,7 +711,7 @@ int main ()
 				al_flush_event_queue (coda_eventi);
 				break;
 			case s_fine_partita:
-				posizione = posizionePunteggio (classifica, partita_in_corso.punteggio); //salvo la posizione delal classifica nella quale potrebbe essere inserito il nuovo punteggio
+				posizione = posizionePunteggio (classifica, * (punteggioAttuale (partita_in_corso))); //salvo la posizione delal classifica nella quale potrebbe essere inserito il nuovo punteggio
 				al_start_timer(timer_lampeggio_voce);
 
 				while(!cambia_schermata)
@@ -741,7 +741,7 @@ int main ()
 							case ALLEGRO_KEY_ENTER:
 								if (posizione != -1)
 								{
-									aggiungiPunteggio (classifica, partita_in_corso.punteggio, posizione);
+									aggiungiPunteggio (classifica, * (punteggioAttuale (partita_in_corso)), posizione);
 									salvaPunteggi (classifica);
 								}
 
@@ -750,21 +750,12 @@ int main ()
 								cambia_schermata = true;
 								break;
 							case ALLEGRO_KEY_BACKSPACE:
-								partita_in_corso.punteggio.nome [strlen (partita_in_corso.punteggio.nome) - 1] = '\0'; //cancello il carattere precedente
+								cancellaUltimoCarattereNome (* (punteggioAttuale (partita_in_corso)));
 								break;
 							default:
 								if (ev.keyboard.keycode >= ALLEGRO_KEY_A && ev.keyboard.keycode <= ALLEGRO_KEY_Z) //se è una lettera
 								{
-									if (strlen (partita_in_corso.punteggio.nome) < CARATTERI_NOME) //se non sono già state inserite tutte le lettere consentite per il nome
-									{
-										char input [] = " ";
-										input [0] = ev.keyboard.keycode - ALLEGRO_KEY_A + 'A'; //leggo la lettera e la salvo maiuscola
-										strcat (partita_in_corso.punteggio.nome, input); //aggiorno il nome del giocatore
-									}
-									else
-									{
-										partita_in_corso.punteggio.nome [CARATTERI_NOME - 1] = ev.keyboard.keycode - ALLEGRO_KEY_A + 'A'; //modifico l'ultima lettera che è possibile inserire
-									}
+									aggiungiLetteraNomePunteggio (* (punteggioAttuale (partita_in_corso)), ev.keyboard.keycode - ALLEGRO_KEY_A + 'A');
 								}
 								break;
 						}
@@ -772,7 +763,7 @@ int main ()
 
 					if(redraw && al_is_event_queue_empty(coda_eventi))
 					{
-						stampaFinePartita (classifica, partita_in_corso.punteggio, posizione, redraw_lampeggio);
+						stampaFinePartita (classifica, partita_in_corso, posizione, redraw_lampeggio);
 					}
 			   	}
 				al_stop_timer(timer_lampeggio_voce);
@@ -799,9 +790,9 @@ int main ()
    	return 1; //uscita non prevista dal ciclo di gestione delle schermate
 }
 
-unsigned int percentualeVelocitaOndata (Ondata ondata)
+unsigned int percentualeVelocitaOndata (Partita partita)
 {
-	int percentuale_alieni_eliminati = percentualeAlieniEliminati (ondata);
+	int percentuale_alieni_eliminati = percentualeAlieniEliminati (partita);
 	return percentuale_alieni_eliminati - (percentuale_alieni_eliminati % RANGE_PERCENTUALE_INCREMENTO_VELOCITA_ONDATA);
 }
 

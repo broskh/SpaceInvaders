@@ -6,6 +6,15 @@ const char FILE_HIGHSCORES [] = "highscores"; /**<Percorso del file contenente l
 
 //INIZIO INTERFACCIA
 /**
+ * Aggiunge una lettera al nome del realizzatore del punteggio.
+ * Se il nome ha giù raggiunto il numero massimo di caratteri, la nuova lettera sostituisce l'ultima all'interno del nome.
+ *
+ * @param punteggio Punteggio da modificare.
+ * @param nuova_lettera Nuova lettera da aggiugnere al nome.
+ */
+void aggiungiLetteraNomePunteggio (Punteggio &punteggio, char nuova_lettera);
+
+/**
  * Aggiunge il nuovo punteggio nella posizione specificata della classifica.
  *
  * @param classifica Classifica da modificare.
@@ -13,6 +22,13 @@ const char FILE_HIGHSCORES [] = "highscores"; /**<Percorso del file contenente l
  * @param posizione Posizione dell'array contenente la classifica nella quale inserire il punteggio.
  */
 void aggiungiPunteggio (Classifica &classifica, Punteggio nuovo_punteggio, int posizione);
+
+/**
+ * Cancella l'ultimo carattere dal nome del giocatore che ha realizzato il punteggio.
+ * 
+ * @param putneggio Punteggio da modificare.
+ */
+void cancellaUltimoCarattereNome (Punteggio &punteggio);
 
 /**
  * Carica dal file la classifica.
