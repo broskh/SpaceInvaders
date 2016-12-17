@@ -114,6 +114,11 @@ void inizializzaMenuPrincipale (Menu &menu)
 	inizializzaMenu (menu, MENU_PRINCIPALE, N_VOCI_MENU_PRINC, v_gioca);
 }
 
+void selezionaPrimaVoce (Menu &menu)
+{
+	menu.voce_selezionata = 0;
+}
+
 bool stringaValoreVoceImpostazioni (char stringa [], voce_menu_impostazioni voce, Impostazioni impostazioni)
 {
 	switch (voce)

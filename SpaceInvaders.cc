@@ -231,7 +231,7 @@ int main ()
 				{
 					fermaMusicaPrincipale (); //se è stata disattivata nelle impostazioni, viene disattivata
 				}
-				menu_principale.voce_selezionata = v_gioca; //quando avvio il menù la voce selezionata è sempre "gioca"
+				selezionaPrimaVoce (menu_principale); //quando avvio il menù la voce selezionata è sempre "gioca"
 				nuovaPartita (partita_in_corso, impostazioni); //inizializzo una nuova partita
 				partita_salvata = esisteSalvataggio (); //controllo se esiste una partita salvata
 				al_start_timer(timer_lampeggio_voce);
@@ -561,7 +561,7 @@ int main ()
 				cambia_schermata = true;
 				break;
 			case s_opzioni:
-				menu_impostazioni.voce_selezionata = v_musica; //quando passo alla schermata delle impostazioni, la voce musica è sempre selezionata inizialmente
+				selezionaPrimaVoce (menu_impostazioni); //quando passo alla schermata delle impostazioni, la voce musica è sempre selezionata inizialmente
 				al_start_timer(timer_lampeggio_voce);
 
 				while(!cambia_schermata)
@@ -662,7 +662,7 @@ int main ()
 				al_flush_event_queue (coda_eventi);
 				break;
 			case s_pausa:
-				menu_pausa.voce_selezionata = v_continua; //quando passo alla schermata di pausa, la voce continua è sempre selezionata inizialmente
+				selezionaPrimaVoce (menu_pausa); //quando passo alla schermata di pausa, la voce continua è sempre selezionata inizialmente
 				al_start_timer(timer_lampeggio_voce);
 		
 				while(!cambia_schermata)

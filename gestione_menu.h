@@ -70,6 +70,13 @@ void inizializzaMenuPausa (Menu &menu);
 void inizializzaMenuPrincipale (Menu &menu);
 
 /**
+ * Nel menù la voce selezionata diventa la prima.
+ * 
+ * @param menu Menù da modificare.
+ */
+void selezionaPrimaVoce (Menu &menu);
+
+/**
  * Genera una stringa in grado di rappresentare lo stato del valore di un particolare campo delle impostazioni.
  * Necessita di conoscere la voce del menù impostazioni alla quale ci si riferisce per poter capire di quale 
  * striga ritornare.
