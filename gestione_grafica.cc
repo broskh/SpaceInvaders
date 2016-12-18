@@ -248,6 +248,7 @@ void stampaFinePartita (Classifica classifica, Partita partita, int posizione_pu
 	//INIZIO DELLA VISUALIZZAZIONE DEGLI HIGHSCORES
 	pos_y_attuale = POS_Y_ELENCO_PUNTEGGI;
 
+	posizione_punteggio_attuale--;
 	for (int i = 0, p = 0; i <= classifica.n_highscores && i < MAX_HIGHSCORES; i++, p++)
 	{
 		pos_y_attuale += DIMENSIONE_TESTO + SPAZIO_TESTO;

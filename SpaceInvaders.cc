@@ -438,6 +438,9 @@ int main ()
 							case ALLEGRO_KEY_SPACE:
 								sparo_carro = true;
 								break;
+							case ALLEGRO_KEY_R:
+								partita_in_corso.vite_rimanenti = 0;
+								break;
 						}
 					}
 					else if(ev.type == ALLEGRO_EVENT_KEY_UP)

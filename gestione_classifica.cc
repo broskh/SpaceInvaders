@@ -59,6 +59,7 @@ void aggiungiLetteraNomePunteggio (Punteggio &punteggio, char nuova_lettera)
 void aggiungiPunteggio (Classifica &classifica, Punteggio nuovo_punteggio, int posizione)
 {
 	Punteggio pros = nuovo_punteggio;
+	posizione--;
 	if (classifica.n_highscores < MAX_HIGHSCORES)
 	{
 		classifica.n_highscores++;
@@ -119,13 +120,12 @@ int posizionePunteggio (Classifica classifica, Punteggio nuovo_punteggio)
 	{
 		if (nuovo_punteggio.valore > classifica.highscores [i].valore)
 		{
-			return i;
+			return i + 1;
 		}
 	}
 	if (classifica.n_highscores < MAX_HIGHSCORES)
 	{
-//		classifica.n_highscores++;
-		return classifica.n_highscores - 1;
+		return classifica.n_highscores + 1;
 	}
 	return -1;
 }

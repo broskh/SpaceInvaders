@@ -19,7 +19,7 @@ void aggiungiLetteraNomePunteggio (Punteggio &punteggio, char nuova_lettera);
  *
  * @param classifica Classifica da modificare.
  * @param nuovo_punteggio Punteggio da aggiungere nella classifica.
- * @param posizione Posizione dell'array contenente la classifica nella quale inserire il punteggio.
+ * @param posizione Posizione della classifica nella quale inserire il punteggio.
  */
 void aggiungiPunteggio (Classifica &classifica, Punteggio nuovo_punteggio, int posizione);
 
@@ -62,7 +62,7 @@ void inizializzaPunteggio (Punteggio &punteggio, char nome [], int valore);
  * @param classifica Classifica analizzata.
  * @param nuovo_punteggio Punteggio da controllare.
  * 
- * @return la posizione dell'array dei punteggi nella quale il nuovo punteggio andrebbe inserito. Ritorna "-1" se
+ * @return la posizione della classifica nella quale il nuovo punteggio andrebbe inserito. Ritorna "-1" se
  * il punteggio non merita di essere inserito.
  */
 int posizionePunteggio (Classifica classifica, Punteggio nuovo_punteggio);
