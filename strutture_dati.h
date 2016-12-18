@@ -28,6 +28,8 @@ typedef char generic_long_string [61]; /**<Stringa generica in grado di contener
 
 typedef char generic_string [21]; /**<Stringa generica in grado di contenere 20 caratteri.*/
 
+typedef char numbering_string [4]; /**<Stringa utilizzata per la numerazione nella classifica degli highscore.*/
+
 /** Tipo che indica un colore.
  *
  * Il colore viene utilizzato nelle impostazioni per indicare il colore per gli alieni

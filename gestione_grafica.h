@@ -19,12 +19,19 @@ const unsigned int SPAZIO_TESTO = 10; /**<Spazio fra righe di testo adiacenti.*/
 const unsigned int SPAZIO_TESTO_GRANDE = 30; /**<Spazio grande fra righe di testo adiacenti.*/
 //FINE COSTANTI PER FONT E TESTI
 
+//INIZIO COSTANTI SCHERMATA FINE PARTITA
+const char STRINGA_INDICAZIONI_FINE_PARTITA [] = "Premi enter per salvare e tornare al menu principale"; /**<Indicazione nella schermata di fine partita.*/
+//FINE COSTANTI SCHERMATA FINE PARTITA
+
 //INIZIO COSTANTI SCHERMATA DEL MENU PRINCIPALE
 const unsigned int POS_X_ESEMPIO_ALIENI = 255; /**<Posizione rispetto all'asse x dalla quale mostrare gli alieni d'esempio nel menù principale.*/
 const unsigned int POS_X_ESEMPIO_PUNTEGGIO = 305; /**<Posizione rispetto all'asse x dalla quale mostrare i punteggi degli alieni d'esempio nel menù principale.*/
 const unsigned int POS_Y_ESMEPIO_ALIENI = 200; /**<Posizione rispetto all'asse y dalla quale mostrare gli alieni d'esempio nel menù principale.*/
 const unsigned int POS_Y_TITOLO_MENU_PRINCIPALE = 25; /**<Posizione rispetto all'asse y nella quale mostrare il titolo nel menù principale.*/
 const unsigned int POS_Y_VOCI_MENU_PRINCIPALE = 340; /**<Posizione rispetto all'asse y dalla quale mostrare le voci del menù principale.*/
+const char STRINGA_PUNTEGGIO_ALIENI [] = "  PTS"; /**<Stringa utilizzata per rappresentare il punteggio degli alieni.*/
+const char STRINGA_PUNTEGGIO_NAVICELLA_MISTERIOSA [] = "=      ?  PTS"; /**<Stringa utilizzata per rappresentare il punteggio della navicella misteriosa.*/
+const char STRINGA_TITOLO_MENU_PRINCIPALE [] = "."; /**<Titolo nella schermata del menù principale.*/
 //FINE COSTANTI SCHERMATA DEL MENU PRINCIPALE
 
 //INIZIO COSTANTI SCHERMATA DI GIOCO
@@ -36,6 +43,8 @@ const unsigned int POS_X_PRIMO_ASSE_ALIENI = POS_CENTRO_X - (DISTANZA_ASSI_COL_A
 const unsigned int POS_Y_BARRIERE = 360; /**<Posizone rispetto all'asse y dalla quale mostrare la prima barriera.*/
 const unsigned int POS_Y_INFORMAZIONI_PARTITA = 10; /**<Posizione rispetto all'asse y dalla quale mostrare le informazioni della partita.*/
 const unsigned int POS_Y_PRIMA_FILA_ONDATA = 80; /**<Posizione rispetto all'asse y dalla quale mostrare la prima fila di alieni.*/
+const char STRINGA_PUNTEGGIO [] = "Punteggio:    "; /**<Stringa utilizzata nella rappresentazione del punteggio nella schermata di gioco.*/
+const char STRINGA_VITE [] = "Vite:    "; /**<Stringa utilizzata nella rappresentazione delle vite nella schermata di gioco.*/
 //FINE COSTANTI SCHERMATA DI GIOCO
 
 //INIZIO COSTANTI SCHERMATA DEL MENU IMPOSTAZIONI
@@ -44,6 +53,7 @@ const unsigned int POS_X_VOCI_IMPOSTAZIONI = 95; /**<Posizione rispetto all'asse
 const unsigned int POS_Y_IMPOSTAZIONI = 105; /**<Posizione rispetto all'asse y dalla quale mostrare i campi impostazioni.*/
 const unsigned int POS_Y_INDICAZIONI_IMPOSTAZIONI = 310; /**<Posizione rispetto all'asse y dalla quale mostrare le indicazioni della schermata del meù impostazioni.*/
 const unsigned int POS_Y_TITOLO_IMPOSTAZIONI = 60; /**<Posizione rispetto all'asse y dalla quale mostrare il titolo della schermata del meù impostazioni.*/
+const char STRINGA_TITOLO_IMPOSTAZIONI [] = "IMPOSTAZIONI:"; /**<Titolo nella schermata del menù delle impostazioni.*/
 //FINE COSTANTI SCHERMATA DEL MENU IMPOSTAZIONI
 
 //INIZIO COSTANTI SCHERMATA DEGLI HIGHSCORES
@@ -53,16 +63,18 @@ const unsigned int POS_X_VALORI_PUNTEGGI = 330; /**<Posizione rispetto all'asse 
 const unsigned int POS_Y_ELENCO_PUNTEGGI = 90; /**<Posizione rispetto all'asse y dalla quale mostrare i punteggi.*/
 const unsigned int POS_Y_HIGHSCORES_TITOLO = 60; /**<Posizione rispetto all'asse y dalla quale mostrare il titolo della schermata degli highscores.*/
 const unsigned int POS_Y_INDICAZIONI_HIGHSCORES = 410; /**<Posizione rispetto all'asse y dalla quale mostrare le indicazioni della schermata degli highscores.*/
+const char STRINGA_INDICAZIONI_HIGHSCORES [] = "Premi enter per tornare al menu principale"; /**<Indicazione nella schermata della classifica degli highscores.*/
+const char STRINGA_TITOLO_HIGHSCORES [] = "HIGHSCORES:";  /**<Titolo nella schermata della classifica degli highscores.*/
 //FINE COSTANTI SCHERMATA DEGLI HIGHSCORES
 
 //INIZIO COSTANTI SCHERMATA DEL MENU DI PAUSA
 const unsigned int POS_Y_TITOLO_PAUSA = 100; /**<Posizione rispetto all'asse y dalla quale mostrare il titolo del menù di pausa.*/
 const unsigned int POS_Y_VOCI_PAUSA = 220; /**<Posizione rispetto all'asse y dalla quale mostrare le voci del menù di pausa.*/
+const char STRINGA_TITOLO_PAUSA [] = "PAUSA";  /**<Titolo nella schermata del menù di pausa.*/
 //FINE COSTANTI SCHERMATA DEL MENU DI PAUSA
 
 //INIZIO COSTANTI GENERICHE DI GIOCO
 const unsigned int N_STATI_SPRITE = 2; /**<Numero di stati degli sprite.*/
-const int MAX_STRINGA_NUMERAZIONE = 4; /**<Dimensione massima degli array di caratteri utilizzato per stringhe conteneti la numerazione nella classifica degli highscore.*/
 const int RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_ALIENI = 1; /**<Numero di ripetizioni dell'animazione dell'esplosione degli alieni.*/
 const int RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_CARRO = 2; /**<Numero di ripetizioni dell'animazione dell'esplosione del carro armato.*/
 //FINE COSTANTI GENERICHE DI GIOCO

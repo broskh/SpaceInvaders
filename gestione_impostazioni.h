@@ -18,6 +18,7 @@ const char CAMPO_VITE_INIZIALI [] = "vite_iniziali"; /**<Stringa per identificar
 
 //INIZIO COSTANTI PER FILE
 const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Percorso del file contenente le impostazioni salvate.*/
+const char STRINGA_FILE_IMPOSTAZIONI_NON_TROVATO [] = "Errore nel caricamento del file di configurazione. File non esistente."; /**<Messaggio di errore che indica che il file di configurazione non è stato trovato.*/
 //FINE COSTANTI PER FILE
 
 //INIZIO INTERFACCIA

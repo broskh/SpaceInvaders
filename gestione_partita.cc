@@ -44,12 +44,12 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALTEZZA_
 	bool collisione = false;
 	unsigned int altezza_barriera = ALTEZZA_BARRIERA * altezzaLatoUnitaBarriera ();
 	unsigned int larghezza_pixel_barriera = LARGHEZZA_BARRIERA * larghezzaLatoUnitaBarriera ();
-	if (pos_y_corpo >= POS_Y_BARRIERE && pos_y_corpo <= POS_Y_BARRIERE + altezza_barriera)
+	if (pos_y_corpo >= POS_Y_BARRIERE && pos_y_corpo <= POS_Y_BARRIERE + altezza_barriera) //controllo preventivo che il corpo collidente sia nella proiezione delle barriere rispetto all'asse y
 	{
 		unsigned int pos_x_attuale = POS_X_PRIMA_BARRIERA;
 		for (unsigned int n = 0 ; n < N_BARRIERE; n++)
 		{
-			if (pos_x_corpo + larghezza_corpo >= pos_x_attuale && pos_x_corpo <= pos_x_attuale + larghezza_pixel_barriera)
+			if (pos_x_corpo + larghezza_corpo >= pos_x_attuale && pos_x_corpo <= pos_x_attuale + larghezza_pixel_barriera) //controllo preventivo che il corpo collidente sia nella proiezione della barriera rispetto all'asse x
 			{
 				unsigned int pos_y_attuale = POS_Y_BARRIERE;
 				for (unsigned int r = 0; r < ALTEZZA_BARRIERA; r++)
@@ -243,10 +243,10 @@ void avanzaEsplosioneCarroArmato (Partita &partita)
 bool caricaPartita (Partita &partita)
 {
 	ifstream f (FILE_SALVATAGGIO_PARTITA);
-    	if (!f) {
-		cerr<<"Errore nel caricamento del file "<<FILE_SALVATAGGIO_PARTITA<<endl;
-		return false ;
-    	}
+	if (!f) {
+		cerr<<STRINGA_FILE_SALVATAGGIO_NON_TROVATO<<endl;
+		return false;
+	}
 	Partita temp;
 
 	if (!(f>>temp.punteggio.valore))
@@ -331,10 +331,10 @@ bool controlloCollisioneAlieni (Partita &partita)
 	bool collisione = false;
 	if (partita.carro_armato.sparo.stato)
 	{
-		unsigned int pos_y_fila  = partita.ondata.pos_y + altezzaAlieno () + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);
+		unsigned int pos_y_fila  = partita.ondata.pos_y + altezzaAlieno () + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1); //parto dal fondo
 		for (int i = N_FILE_ALIENI - 1; i >= 0; i--)
 		{
-			if (partita.carro_armato.sparo.pos_y <= pos_y_fila && partita.carro_armato.sparo.pos_y >= pos_y_fila - altezzaAlieno ())
+			if (partita.carro_armato.sparo.pos_y <= pos_y_fila && partita.carro_armato.sparo.pos_y >= pos_y_fila - altezzaAlieno ()) //controllo preventivo che il colpo sia nella proiezione di questa fila dell'ondata rispetto al'asse y
 			{
 				unsigned int larghezza_alieno = sceltaLarghezzaAlieno (i);
 				unsigned int pos_x_fila = partita.ondata.pos_x - larghezza_alieno / 2;
@@ -356,7 +356,7 @@ bool controlloCollisioneAlieni (Partita &partita)
 					pos_x_fila += DISTANZA_ASSI_COL_ALIENI;
 				}
 			}
-			if (partita.carro_armato.sparo.pos_y > pos_y_fila || collisione)
+			if (partita.carro_armato.sparo.pos_y > pos_y_fila || collisione) // se lo sparo ero in uno spazio fra le colonne di alieni o è stata registrata una collizione, esce dal ciclo
 			{
 				break;
 			}
@@ -380,7 +380,7 @@ bool controlloCollisioneBarriereDaOndata (Partita &partita)
 			{
 				for (unsigned int k = 0; k < larghezza_alieno; k += larghezzaLatoUnitaBarriera ())
 				{
-					for (unsigned int l = 0; l < altezzaLatoUnitaBarriera () * ALTEZZA_BARRIERA; l += altezzaLatoUnitaBarriera ())
+					for (unsigned int l = 0; l < altezzaLatoUnitaBarriera () * ALTEZZA_BARRIERA; l += altezzaLatoUnitaBarriera ()) //effettuo il controllo su ogni singola unità della barriera perchè nel momento in cui l'ondata scende, deve essere distrutta ogni unità colpita dagli alieni.
 					{
 						if (controlloCollisioneBarriere (partita.barriere, pos_x_attuale, pos_y_fila - l, larghezza_alieno))
 						{
@@ -488,7 +488,7 @@ bool controlloFinePartita (Partita partita)
 void creaNavicellaMisteriosa (Partita &partita)
 {
 	srand (time(NULL));	
-	if (rand() % (100 / PROBABILITA_COMPARSA_NAVICELLA) == 0)
+	if (rand() % (100 / PROBABILITA_COMPARSA_NAVICELLA) == 0) //la navicella viene creata solo se viene rispettata questa condizione. in questo modo compare seguendo un calcolo probabilistico.
 	{
 		partita.navicella_misteriosa.stato = true;
 		partita.navicella_misteriosa.punteggio = (rand() % ((PUNTEGGIO_NAVICELLA_MAX - PUNTEGGIO_NAVICELLA_MIN) / 10)) * 10 + PUNTEGGIO_NAVICELLA_MIN;
@@ -499,20 +499,12 @@ void creaNavicellaMisteriosa (Partita &partita)
 void creaSparoAlieni (Partita &partita)
 {
 	srand (time(NULL));
-	int fattore_casuale;
-	if (partita.ondata.alieni_rimasti < static_cast <int> (N_COL_ALIENI))
-	{
-		fattore_casuale =  rand() % partita.ondata.alieni_rimasti;
-	}
-	else
-	{
-		fattore_casuale =  rand() % N_COL_ALIENI;
-	}	
+	int fattore_casuale = rand() % N_COL_ALIENI; //numero casuale di una colonna d alieni
 	bool creato = false;
 	while (!creato)
 	{
 		unsigned int pos_y_attuale  = partita.ondata.pos_y + altezzaAlieno () + DISTANZA_FILE_ALIENI * (N_FILE_ALIENI - 1);
-		for (int i = N_FILE_ALIENI - 1; i >= 0 && !creato; i--)
+		for (int i = N_FILE_ALIENI - 1; i >= 0 && !creato; i--) //ciclo che controlla dall'ultima fila tutti gli alieni in una colonna
 		{
 			unsigned int pos_x_attuale = partita.ondata.pos_x - larghezzaSparoAlienoAttuale (partita.sparo_alieni.pos_x) / 2 + DISTANZA_ASSI_COL_ALIENI * fattore_casuale;
 			if (partita.ondata.alieni [i] [fattore_casuale].stato)
@@ -524,7 +516,7 @@ void creaSparoAlieni (Partita &partita)
 			}
 			pos_y_attuale -= DISTANZA_FILE_ALIENI;
 		}
-		if (!creato)
+		if (!creato) //se quella colonna dell'ondata non ha più alieni, si controlla la successiva
 		{
 			fattore_casuale = sucInRange (fattore_casuale, N_COL_ALIENI);
 		}
@@ -557,18 +549,23 @@ void muoviAlieni (Partita &partita)
 {
 	unsigned int limite_dx = MARGINE_DX_GIOCO - (larghezzaAlieno (2)) / 2;
 	unsigned int pos_y_carro = MARGINE_INF_GIOCO - altezzaCarroArmato ();
-	int n_colonne_alieni_attivi = 0;
+	int n_colonne_alieni_attivi = 0; //numero di colonne totali meno quelle completamente vuote a partire da destra
 	for (unsigned int i = 0; i < N_FILE_ALIENI; i++)
 	{
 		for (int j = N_COL_ALIENI - 1; j > n_colonne_alieni_attivi; j--)
 		{
-			if (partita.ondata.alieni [i] [j].stato && j > n_colonne_alieni_attivi)
+			if (partita.ondata.alieni [i] [j].stato)
 			{
 				n_colonne_alieni_attivi = j;
+				break;
 			}
 		}
+		if (n_colonne_alieni_attivi != 0)
+		{
+			break;
+		}
 	}
-	unsigned int margine_dx_primo_asse = limite_dx - DISTANZA_ASSI_COL_ALIENI * n_colonne_alieni_attivi;
+	unsigned int margine_dx_primo_asse = limite_dx - DISTANZA_ASSI_COL_ALIENI * n_colonne_alieni_attivi; //limite destro del primo asse dell'ondata
 	if (partita.ondata.alieni_rimasti)
 	{
 		if (partita.ondata.dir_alieni == destra)
@@ -577,7 +574,7 @@ void muoviAlieni (Partita &partita)
 			if (partita.ondata.pos_x == margine_dx_primo_asse)
 			{
 				partita.ondata.dir_alieni = sinistra;
-				partita.ondata.pos_y = sucInRange (partita.ondata.pos_y, DISTANZA_FILE_ALIENI / 4, pos_y_carro);
+				partita.ondata.pos_y = sucInRange (partita.ondata.pos_y, SPOSTAMENTO_ONDATA_GIU, pos_y_carro);
 			}
 		}
 		else if (partita.ondata.dir_alieni == sinistra)
@@ -586,7 +583,7 @@ void muoviAlieni (Partita &partita)
 			if (partita.ondata.pos_x == MARGINE_SX_GIOCO)
 			{
 				partita.ondata.dir_alieni = destra;
-				partita.ondata.pos_y = sucInRange (partita.ondata.pos_y, DISTANZA_FILE_ALIENI / 4, pos_y_carro);
+				partita.ondata.pos_y = sucInRange (partita.ondata.pos_y, SPOSTAMENTO_ONDATA_GIU, pos_y_carro);
 			}
 		}
 	}
@@ -732,5 +729,4 @@ void terminaEsplosioneCarroArmato (Partita &partita)
 {
 	partita.carro_armato.esplosione = 0;
 }
-
 //FINE MODULO

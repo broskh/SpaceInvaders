@@ -2,7 +2,10 @@
  * Header file contenente l'interfaccia del modulo per la gestione della classifica.
  */
 
+//INIZIO COSTANTI PER FILE
 const char FILE_HIGHSCORES [] = "highscores"; /**<Percorso del file contenente la classifica.*/
+const char STRINGA_FILE_HIGHSCORES_NON_TROVATO [] = "Errore nel caricamento del file degli highscores. File non esistente."; /**<Messaggio di errore che indica che il file degli highscores non è stato trovato.*/
+//FINE COSTANTI PER FILE
 
 //INIZIO INTERFACCIA
 /**

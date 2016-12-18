@@ -7,6 +7,7 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <cassert>
 #include "strutture_dati.h"
 #include "gestione_impostazioni.h"
 
@@ -38,17 +39,17 @@ void output (Impostazioni impostazioni, ostream &os)
 bool caricaImpostazioni (Impostazioni &impostazioni)
 {
 	ifstream f (FILE_IMPOSTAZIONI) ;
-    	if (!f) {
-		cerr<<"Errore nel caricamento del file "<<FILE_IMPOSTAZIONI<<endl;
+	if (!f) {
+		cerr<<STRINGA_FILE_IMPOSTAZIONI_NON_TROVATO<<FILE_IMPOSTAZIONI<<endl;
 		return false ;
-    	}
+	}
 	bool musica_trov = false, eff_audio_trov = false, mod_grafica_trov = false, vite_iniz_trov = false;
 	bool musica, eff_audio;
 	colore colore_alieni;
 	unsigned int vite_iniziali;
 	generic_string voice;
 
-	while (f>>voice)
+	while (f>>voice) //fatta in questa modo la lettura da file, così le voci possono essere anche in disordine
 	{
 		f.ignore (2, '=');
 		if (strcmp(voice, CAMPO_MUSICA) == 0)
@@ -73,14 +74,10 @@ bool caricaImpostazioni (Impostazioni &impostazioni)
 			f>>vite_iniziali;
 			vite_iniz_trov = true;
 		}
-    	}
-	if (musica_trov || eff_audio_trov || mod_grafica_trov || vite_iniz_trov)
-	{
-		inizializzaImpostazioni (impostazioni, musica, eff_audio, colore_alieni, vite_iniziali);
-		return true;
 	}
-	cerr<<"File di configurazione corrotto."<<endl;
-	return false;
+	assert (musica_trov && eff_audio_trov && mod_grafica_trov && vite_iniz_trov); //se non vengono trovati, il file è corrotto
+	inizializzaImpostazioni (impostazioni, musica, eff_audio, colore_alieni, vite_iniziali);
+	return true;
 }
 
 void impostaValoriDefault (Impostazioni &impostazioni)

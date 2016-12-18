@@ -42,9 +42,10 @@ void scambiaPunteggio (Punteggio &punt1, Punteggio &punt2)
 	punt1 = temp;
 }
 //FINE FUNZIONI PRIVATE
+
 void aggiungiLetteraNomePunteggio (Punteggio &punteggio, char nuova_lettera)
 {	
-	if (strlen (punteggio.nome) < CARATTERI_NOME) //se non sono già state inserite tutte le lettere consentite per il nome
+	if (strlen (punteggio.nome) < CARATTERI_NOME) //se non sono è già stato raggiunto il limite di lunghezza del nome
 	{
 		char input [] = " ";
 		input [0] = nuova_lettera;
@@ -59,7 +60,7 @@ void aggiungiLetteraNomePunteggio (Punteggio &punteggio, char nuova_lettera)
 void aggiungiPunteggio (Classifica &classifica, Punteggio nuovo_punteggio, int posizione)
 {
 	Punteggio pros = nuovo_punteggio;
-	posizione--;
+	posizione--; //posizione nell'array
 	if (classifica.n_highscores < MAX_HIGHSCORES)
 	{
 		classifica.n_highscores++;
@@ -78,10 +79,10 @@ void cancellaUltimoCarattereNome (Punteggio &punteggio)
 bool caricaPunteggi (Classifica &classifica)
 {
 	ifstream f (FILE_HIGHSCORES) ;
-    	if (!f) {
-		cerr<<"Errore nel caricamento del file "<<FILE_HIGHSCORES<<endl;
+	if (!f) {
+		cerr<<STRINGA_FILE_HIGHSCORES_NON_TROVATO<<endl;
 		return false ;
-    	}
+	}
 	int i = 0;
 	char nome [CARATTERI_NOME + 1];
 	int valore;
@@ -90,9 +91,8 @@ bool caricaPunteggi (Classifica &classifica)
 		f>>valore;
 		inizializzaPunteggio (classifica.highscores [i], nome, valore);
 		i++;
-    	}
-
-	assert (i <= 10);
+	}
+	assert (i <= 10); //se vengono letti più di 10 punteggi il file è corrotto
 	
 	if (i == 0)
 	{
@@ -120,12 +120,12 @@ int posizionePunteggio (Classifica classifica, Punteggio nuovo_punteggio)
 	{
 		if (nuovo_punteggio.valore > classifica.highscores [i].valore)
 		{
-			return i + 1;
+			return i + 1; //+1 perchè altrimenti ritornerei la posizione dell'array, non quella della classifica
 		}
 	}
 	if (classifica.n_highscores < MAX_HIGHSCORES)
 	{
-		return classifica.n_highscores + 1;
+		return classifica.n_highscores + 1; //+1 perchè altrimenti ritornerei la posizione dell'array, non quella della classifica
 	}
 	return -1;
 }
