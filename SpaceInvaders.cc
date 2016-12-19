@@ -45,32 +45,9 @@
 #include "gestione_menu.h"
 #include "gestione_grafica.h"
 #include "gestione_audio.h"
-
-//INIZIO COSTANTI PER ANIMAZIONE
-const unsigned int STADI_INCREMENTO_VELOCITA_ONDATA = 6; /**<Stadi di incremento della velocità dell'ondata.*/
-const unsigned int RANGE_PERCENTUALE_INCREMENTO_VELOCITA_ONDATA = 100 / STADI_INCREMENTO_VELOCITA_ONDATA; /**<Range percentualedi incremento della velocità.*/
-//FINE COSTANTI PER ANIMAZIONE
-
-//INIZIO COSTANTI PER VARI TIMER
-const float FREQUENZA_ANIMAZIONE = 4; /**<Frequenza dell'animazione.*/
-const float FREQUENZA_COMPARSA_NAVICELLA_MISTERIOSA = 1; /**<Frequenza della possibile comparsa della navicella misteriosa.*/
-const float FREQUENZA_COMPARSA_SPARO_ALIENI = 1.5; /**<Frequenza di creazione degli spari alieni.*/
-const float FPS_GIOCO = 60; /**<FPS del gioco.*/
-const float FREQUENZA_LAMPEGGIO_MENU = 3.5; /**<Frequenza dell'effetto lampeggiante sull'opzione selezionata dei menù.*/
-const float FREQUENZA_SPOSTAMENTO_CARRO_ARMATO = 115; /**<Frequenza dello spostamento del carro armato.*/
-const float FREQUENZA_SPOSTAMENTO_NAVICELLA_MISTERIOSA = 220; /**<Frequenza dello spostamento della navicella misteriosa.*/
-const float FREQUENZA_SPOSTAMENTO_ONDATA_MAX = 260; /**<Frequenza massima del movimento dell'ondata.*/
-const float FREQUENZA_SPOSTAMENTO_ONDATA_MIN = 70; /**<Frequenza minima del movimento dell'ondata.*/
-const float FREQUENZA_SPOSTAMENTO_SPARI = 150; /**<Frequenza dello spostamento degli spari.*/
-//FINE COSTANTI PER VARI TIMER
+#include "gestione_timer.h"
 
 //INIZIO FUNZIONI PRIVATE
-/*
- * Ritorna la percentuale della velocità dell'ondata aliena prendendo in considerazione gli alieni rimasti e il
- * il range percentuale di incremento della velocità.
- */
-unsigned int percentualeVelocitaOndata (Partita partita);
-
 /*
  * Dealloca la memoria riguardante la coda degli eventi.
  */
@@ -82,22 +59,14 @@ void distruggiCoda ();
 void distruggiDisplay ();
 
 /*
- * Dealloca la memoria riguardante i timer.
+ * Calcola la percentuale della velocità dell'ondata aliena prendendo in considerazione gli alieni rimasti e il
+ * il range percentuale di incremento della velocità.
  */
-void distruggiTimer ();
+unsigned int percentualeVelocitaOndata (Partita partita);
 //FINE FUNZIONI PRIVATE
 
 //INIZIO VARIABILI GLOBALI
 static ALLEGRO_EVENT_QUEUE *coda_eventi = NULL; /**<Coda degli eventi.*/
-static ALLEGRO_TIMER *timer_fps = NULL; /**<Timer per ricaricamento grafica generale.*/
-static ALLEGRO_TIMER *timer_lampeggio_voce = NULL; /**<Timer per effettuare l'effetto lampeggiante.*/
-static ALLEGRO_TIMER *timer_comparsa_sparo_alieni= NULL; /**<Timer per la comparsa degli spari alieni.*/
-static ALLEGRO_TIMER *timer_animazione = NULL; /**<Timer per l'animazione.*/
-static ALLEGRO_TIMER *timer_spostamento_carro_armato = NULL; /**<Timer per lo spostamento del carro armato.*/
-static ALLEGRO_TIMER *timer_comparsa_navicella = NULL; /**<Timer per la comparsa della navicella misteriosa.*/
-static ALLEGRO_TIMER *timer_spostamento_ondata = NULL; /**<Timer per lo spostamento dell'ondata aliena.*/
-static ALLEGRO_TIMER *timer_spostamento_navicella = NULL; /**<Timer per lo spostamento della navicella misteriosa.*/
-static ALLEGRO_TIMER *timer_spostamento_spari = NULL; /**<Timer per lo spostamento degli spari.*/
 static ALLEGRO_DISPLAY *display = NULL; /**<Display del gioco.*/
 //FINE VARIABILI GLOBALI
 
@@ -118,61 +87,27 @@ static ALLEGRO_DISPLAY *display = NULL; /**<Display del gioco.*/
  */
 int main ()
 {
-	//INIZIALIZZAZIONE DELLE LIBRERIE E DEI MODULI
+	//INIZIALIZZAZIONE DELLA LIBRERIA ALLEGRO
 	assert (al_init());
-	assert (al_install_keyboard());
-	inizializzaGrafica ();
-	inizializzaAudio ();
-
-	//INIZIALIZZAZIONE DEL DISPLAY
-	display = al_create_display (LARGHEZZA_DISPLAY, ALTEZZA_DISPLAY);
-	assert (display);
  
 	//INIZIALIZZAZIONE DELLA CODA DEGLI EVENTI
    	coda_eventi = al_create_event_queue();
    	assert (coda_eventi);
 	ALLEGRO_EVENT ev;
- 
-	//INIZIALIZZAZIONE DEI TIMER
-	timer_fps = al_create_timer(1.0 / FPS_GIOCO);
-	assert (timer_fps);
 
-	timer_lampeggio_voce = al_create_timer(1.0 / FREQUENZA_LAMPEGGIO_MENU);
-	assert (timer_lampeggio_voce);
-
-	timer_comparsa_sparo_alieni = al_create_timer(1.0 / FREQUENZA_COMPARSA_SPARO_ALIENI);
-	assert (timer_comparsa_sparo_alieni);
-
-	timer_animazione = al_create_timer(1.0 / FREQUENZA_ANIMAZIONE);
-	assert (timer_animazione);
-
-	timer_comparsa_navicella = al_create_timer(1.0 / FREQUENZA_COMPARSA_NAVICELLA_MISTERIOSA);
-	assert (timer_comparsa_navicella);
-
-	timer_spostamento_carro_armato = al_create_timer(1.0 / FREQUENZA_SPOSTAMENTO_CARRO_ARMATO);
-	assert (timer_spostamento_carro_armato);
-
-	timer_spostamento_navicella = al_create_timer(1.0 / FREQUENZA_SPOSTAMENTO_NAVICELLA_MISTERIOSA);
-	assert (timer_spostamento_navicella);
-
-	timer_spostamento_spari= al_create_timer(1.0 / FREQUENZA_SPOSTAMENTO_SPARI);
-	assert (timer_spostamento_spari);
-
-	timer_spostamento_ondata = al_create_timer(1.0 / FREQUENZA_SPOSTAMENTO_ONDATA_MAX);
-	assert (timer_spostamento_ondata);
- 
-	//REGISTRAZIONE DEGLI EVENTI NELLA CODA
+	//INIZIALIZZAZIONE DEL DISPLAY
+	display = al_create_display (LARGHEZZA_DISPLAY, ALTEZZA_DISPLAY);
+	assert (display);
    	al_register_event_source(coda_eventi, al_get_display_event_source(display));
-	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_fps));
-	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_lampeggio_voce));
-	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_comparsa_sparo_alieni));
-	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_animazione));
-	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_comparsa_navicella));
-	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_spostamento_navicella));
-	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_spostamento_carro_armato));
-	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_spostamento_spari));
-	al_register_event_source(coda_eventi, al_get_timer_event_source(timer_spostamento_ondata));
+
+	//INIZIALIZZAZIONE DELLA TASTIERA
+	assert (al_install_keyboard());
 	al_register_event_source(coda_eventi, al_get_keyboard_event_source());
+
+	//INIZIALIZZAZIONE DEI VARI MODULI
+	inizializzaGrafica ();
+	inizializzaAudio ();
+	inizializzaTimer (coda_eventi);
 	
 	//INIZIALIZZAZIONE DELLE VARIABILI CONTENENTI LE INFORMAZIONI DI GIOCO
 	Partita partita_in_corso;
@@ -213,7 +148,7 @@ int main ()
 	bool sparo_carro = false;
 
 	al_clear_to_color(al_map_rgb(0, 0, 0));
-	al_start_timer(timer_fps);
+	avviaTimerFps ();
 	
 	while (true) //loop infinito che gestisce tutte le schermate del gioco
 	{
@@ -234,18 +169,18 @@ int main ()
 				selezionaPrimaVoce (menu_principale); //quando avvio il menù la voce selezionata è sempre "gioca"
 				nuovaPartita (partita_in_corso, impostazioni); //inizializzo una nuova partita
 				partita_salvata = esisteSalvataggio (); //controllo se esiste una partita salvata
-				al_start_timer(timer_lampeggio_voce);
+				avviaTimerEffettoLampeggio ();
 				
 				while(!cambia_schermata) //ciclo finchè non è necessario cambiare schermata
 			   	{
 					al_wait_for_event(coda_eventi, &ev);
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == timer_fps)
+						if (ev.timer.source == timerFps ())
 						{
 							redraw = true;
 						}
-						else if (ev.timer.source == timer_lampeggio_voce)
+						else if (ev.timer.source == timerEffettoLampeggio ())
 						{
 							redraw_lampeggio = !redraw_lampeggio;
 						}
@@ -292,7 +227,7 @@ int main ()
 						stampaMenuPrincipale (menu_principale, partita_salvata, statoColoreAlieni (impostazioni), redraw_lampeggio);
 					}
 			   	}
-				al_stop_timer(timer_lampeggio_voce);
+				fermaTimerEffettoLampeggio ();
 				al_flush_event_queue (coda_eventi);
 				break;
 			case s_gioca:
@@ -310,25 +245,25 @@ int main ()
 				{
 					avviaSuonoNavicellaMisteriosa ();
 				}
-				al_start_timer(timer_comparsa_sparo_alieni);
-				al_start_timer(timer_animazione);
-				al_start_timer(timer_comparsa_navicella);
-				al_start_timer(timer_spostamento_carro_armato);
-				al_start_timer(timer_spostamento_navicella);
-				al_start_timer(timer_spostamento_spari);
-				al_set_timer_speed(timer_spostamento_ondata, 1.0 / (((FREQUENZA_SPOSTAMENTO_ONDATA_MAX - FREQUENZA_SPOSTAMENTO_ONDATA_MIN) / 100 * percentualeVelocitaOndata (partita_in_corso)) + FREQUENZA_SPOSTAMENTO_ONDATA_MIN)); //se è stata caricata una partita correggo subito la vleocità del movimento dell'ondata
-				al_start_timer(timer_spostamento_ondata);
+				avviaTimerComparsaSparoAlieni ();
+				avviaTimerAnimazione ();
+				avviaTimerComparsaNavicellaMisteriosa ();
+				avviaTimerSpostamentoCarroArmato ();
+				avviaTimerSpostamentoNavicellaMisteriosa ();
+				avviaTimerSpostamentoSpari ();
+				aggiornaVelocitaSpostamentoOndata (percentualeVelocitaOndata (partita_in_corso)); //se è stata caricata una partita correggo subito la vleocità del movimento dell'ondata
+				avviaTimerSpostamentoOndata ();
 
 				while(!cambia_schermata)
 			   	{
 					al_wait_for_event(coda_eventi, &ev);
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == timer_fps)
+						if (ev.timer.source == timerFps ())
 						{
 							redraw = true;
 						}
-						else if (ev.timer.source == timer_animazione)
+						else if (ev.timer.source == timerAnimazione ())
 						{
 							animazione = !animazione;
 							if (statoEsplosioneCarroArmato (partita_in_corso))
@@ -363,14 +298,14 @@ int main ()
 						}
 						else if (!statoEsplosioneCarroArmato (partita_in_corso))
 						{
-							if (ev.timer.source == timer_comparsa_sparo_alieni)
+							if (ev.timer.source == timerComparsaSparoAlieni ())
 							{
 								if (!statoSparoAlieni (partita_in_corso))
 								{
 									creaSparoAlieni (partita_in_corso);
 								}
 							}
-							else if (ev.timer.source == timer_comparsa_navicella)
+							else if (ev.timer.source == timerComparsaNavicellaMisteriosa ())
 							{
 								if (!statoNavicellaMisteriosa (partita_in_corso))
 								{
@@ -381,7 +316,7 @@ int main ()
 									}
 								}
 							}
-							else if (ev.timer.source == timer_spostamento_carro_armato)
+							else if (ev.timer.source == timerSpostamentoCarroArmato ())
 							{
 								if (!statoEsplosioneCarroArmato (partita_in_corso))
 								{
@@ -395,14 +330,14 @@ int main ()
 									}
 								}
 							}
-							else if (ev.timer.source == timer_spostamento_navicella)
+							else if (ev.timer.source == timerSpostamentoNavicellaMisteriosa ())
 							{
 								if (statoNavicellaMisteriosa (partita_in_corso))
 								{
 									muoviNavicellaMisteriosa (partita_in_corso);
 								}
 							}
-							else if (ev.timer.source == timer_spostamento_spari)
+							else if (ev.timer.source == timerSpostamentoSpari ())
 							{
 								if (statoSparoCarroArmato (partita_in_corso))
 								{
@@ -413,7 +348,7 @@ int main ()
 									muoviSparoAlieni (partita_in_corso);
 								}
 							}
-							else if (ev.timer.source == timer_spostamento_ondata)
+							else if (ev.timer.source == timerSpostamentoOndata ())
 							{
 								muoviAlieni (partita_in_corso);
 							}
@@ -549,13 +484,13 @@ int main ()
 				muovi_carro_sinistra = false;
 				sparo_carro = false;
 
-				al_stop_timer(timer_comparsa_sparo_alieni);
-				al_stop_timer(timer_animazione);
-				al_stop_timer(timer_comparsa_navicella);
-				al_stop_timer(timer_spostamento_carro_armato);
-				al_stop_timer(timer_spostamento_navicella);
-				al_stop_timer(timer_spostamento_spari);
-				al_stop_timer(timer_spostamento_ondata);
+				fermaTimerComparsaSparoAlieni ();
+				fermaTimerAnimazione ();
+				fermaTimerComparsaNavicellaMisteriosa ();
+				fermaTimerSpostamentoCarroArmato ();
+				fermaTimerSpostamentoNavicellaMisteriosa();
+				fermaTimerSpostamentoSpari ();
+				fermaTimerSpostamentoOndata ();
 				al_flush_event_queue (coda_eventi);
 				break;
 			case s_carica: //carico la partita salvata e passo subito alla schermata di gioco
@@ -565,18 +500,18 @@ int main ()
 				break;
 			case s_opzioni:
 				selezionaPrimaVoce (menu_impostazioni); //quando passo alla schermata delle impostazioni, la voce musica è sempre selezionata inizialmente
-				al_start_timer(timer_lampeggio_voce);
+				avviaTimerEffettoLampeggio ();
 
 				while(!cambia_schermata)
 			   	{
 					al_wait_for_event(coda_eventi, &ev);
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == timer_fps)
+						if (ev.timer.source == timerFps ())
 						{
 							redraw = true;
 						}
-						else if (ev.timer.source == timer_lampeggio_voce)
+						else if (ev.timer.source == timerEffettoLampeggio ())
 						{
 							redraw_lampeggio = !redraw_lampeggio;
 						}
@@ -619,22 +554,22 @@ int main ()
 						stampaImpostazioni (menu_impostazioni, impostazioni, redraw_lampeggio);
 					}
 			   	}
-				al_stop_timer(timer_lampeggio_voce);
+				fermaTimerEffettoLampeggio ();
 				al_flush_event_queue (coda_eventi);
 				break;
 			case s_highscores:
-				al_start_timer(timer_lampeggio_voce);
+				avviaTimerEffettoLampeggio ();
 
 				while(!cambia_schermata)
 			   	{
 					al_wait_for_event(coda_eventi, &ev);
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == timer_fps)
+						if (ev.timer.source == timerFps ())
 						{
 							redraw = true;
 						}
-						else if (ev.timer.source == timer_lampeggio_voce)
+						else if (ev.timer.source == timerEffettoLampeggio ())
 						{
 							redraw_lampeggio = !redraw_lampeggio;
 						}
@@ -661,23 +596,23 @@ int main ()
 						stampaHighscores (classifica);
 					}
 			   	}
-				al_stop_timer(timer_lampeggio_voce);
+				fermaTimerEffettoLampeggio ();
 				al_flush_event_queue (coda_eventi);
 				break;
 			case s_pausa:
 				selezionaPrimaVoce (menu_pausa); //quando passo alla schermata di pausa, la voce continua è sempre selezionata inizialmente
-				al_start_timer(timer_lampeggio_voce);
+				avviaTimerEffettoLampeggio ();
 		
 				while(!cambia_schermata)
 			   	{
 					al_wait_for_event(coda_eventi, &ev);
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == timer_fps)
+						if (ev.timer.source == timerFps ())
 						{
 							redraw = true;
 						}
-						else if (ev.timer.source == timer_lampeggio_voce)
+						else if (ev.timer.source == timerEffettoLampeggio ())
 						{
 							redraw_lampeggio = !redraw_lampeggio;
 						}
@@ -710,23 +645,23 @@ int main ()
 						stampaMenuPausa (menu_pausa, redraw_lampeggio);
 					}
 			   	}
-				al_stop_timer(timer_lampeggio_voce);
+				fermaTimerEffettoLampeggio ();
 				al_flush_event_queue (coda_eventi);
 				break;
 			case s_fine_partita:
 				posizione = posizionePunteggio (classifica, * (punteggioAttuale (partita_in_corso))); //salvo la posizione delal classifica nella quale potrebbe essere inserito il nuovo punteggio
-				al_start_timer(timer_lampeggio_voce);
+				avviaTimerEffettoLampeggio ();
 
 				while(!cambia_schermata)
 			   	{
 					al_wait_for_event(coda_eventi, &ev);
 					if(ev.type == ALLEGRO_EVENT_TIMER)
 					{
-						if (ev.timer.source == timer_fps)
+						if (ev.timer.source == timerFps ())
 						{
 							redraw = true;
 						}
-						else if (ev.timer.source == timer_lampeggio_voce)
+						else if (ev.timer.source == timerEffettoLampeggio ())
 						{
 							redraw_lampeggio = !redraw_lampeggio;
 						}
@@ -769,7 +704,7 @@ int main ()
 						stampaFinePartita (classifica, partita_in_corso, posizione, redraw_lampeggio);
 					}
 			   	}
-				al_stop_timer(timer_lampeggio_voce);
+				fermaTimerEffettoLampeggio ();
 				al_flush_event_queue (coda_eventi);
 				break;
 			case s_esci:
@@ -793,31 +728,18 @@ int main ()
    	return 1; //uscita non prevista dal ciclo di gestione delle schermate
 }
 
-unsigned int percentualeVelocitaOndata (Partita partita)
-{
-	int percentuale_alieni_eliminati = percentualeAlieniEliminati (partita);
-	return percentuale_alieni_eliminati - (percentuale_alieni_eliminati % RANGE_PERCENTUALE_INCREMENTO_VELOCITA_ONDATA);
-}
-
 void distruggiDisplay ()
 {
 	al_destroy_display(display);
 }
 
-void distruggiTimer ()
-{
-	al_destroy_timer(timer_fps);
-	al_destroy_timer(timer_lampeggio_voce);
-	al_destroy_timer(timer_comparsa_sparo_alieni);
-	al_destroy_timer(timer_animazione);
-	al_destroy_timer(timer_comparsa_navicella);
-	al_destroy_timer(timer_spostamento_carro_armato);
-	al_destroy_timer(timer_spostamento_navicella);
-	al_destroy_timer(timer_spostamento_spari);
-	al_destroy_timer(timer_spostamento_ondata);
-}
-
 void distruggiCoda ()
 {
 	al_destroy_event_queue(coda_eventi);
+}
+
+unsigned int percentualeVelocitaOndata (Partita partita)
+{
+	unsigned int percentuale_alieni_eliminati = percentualeAlieniEliminati (partita);
+	return percentuale_alieni_eliminati - (percentuale_alieni_eliminati % RANGE_PERCENTUALE_INCREMENTO_VELOCITA_ONDATA);
 }
