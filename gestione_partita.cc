@@ -548,24 +548,34 @@ bool esisteSalvataggio ()
 void muoviAlieni (Partita &partita)
 {
 	unsigned int limite_dx = MARGINE_DX_GIOCO - (larghezzaAlieno (2)) / 2;
+	unsigned int limite_sx = MARGINE_SX_GIOCO + (larghezzaAlieno (2)) / 2;
 	unsigned int pos_y_carro = MARGINE_INF_GIOCO - altezzaCarroArmato ();
-	int n_colonne_alieni_attivi = 0; //numero di colonne totali meno quelle completamente vuote a partire da destra
-	for (unsigned int i = 0; i < N_FILE_ALIENI; i++)
+	unsigned int offset_colonne_dx = 0; //numero di colonne totali meno quelle completamente mancanti a partire da destra
+	unsigned int offset_colonne_sx = N_COL_ALIENI - 1; //numero di colonne totali meno quelle completamente mancanti a partire da destra
+	for (int j = N_COL_ALIENI - 1; j >= 0 && offset_colonne_dx == 0; j--)
 	{
-		for (int j = N_COL_ALIENI - 1; j > n_colonne_alieni_attivi; j--)
+		for (unsigned int i = 0; i < N_FILE_ALIENI; i++)
 		{
 			if (partita.ondata.alieni [i] [j].stato)
 			{
-				n_colonne_alieni_attivi = j;
+				offset_colonne_dx = j;
 				break;
 			}
 		}
-		if (n_colonne_alieni_attivi != 0)
+	}
+	for (unsigned int j = 0; j < N_COL_ALIENI && offset_colonne_sx == N_COL_ALIENI - 1; j++)
+	{
+		for (unsigned int i = 0; i < N_FILE_ALIENI; i++)
 		{
-			break;
+			if (partita.ondata.alieni [i] [j].stato)
+			{
+				offset_colonne_sx = j;
+				break;
+			}
 		}
 	}
-	unsigned int margine_dx_primo_asse = limite_dx - DISTANZA_ASSI_COL_ALIENI * n_colonne_alieni_attivi; //limite destro del primo asse dell'ondata
+	unsigned int margine_dx_primo_asse = limite_dx - DISTANZA_ASSI_COL_ALIENI * offset_colonne_dx; //limite destro del primo asse dell'ondata
+	int margine_sx_primo_asse = limite_sx - DISTANZA_ASSI_COL_ALIENI * offset_colonne_sx; //limite sinistro del primo asse dell'ondata
 	if (partita.ondata.alieni_rimasti)
 	{
 		if (partita.ondata.dir_alieni == destra)
@@ -579,8 +589,8 @@ void muoviAlieni (Partita &partita)
 		}
 		else if (partita.ondata.dir_alieni == sinistra)
 		{
-			partita.ondata.pos_x = precInRange (partita.ondata.pos_x, MARGINE_SX_GIOCO);
-			if (partita.ondata.pos_x == MARGINE_SX_GIOCO)
+			partita.ondata.pos_x = precInRange (partita.ondata.pos_x, margine_sx_primo_asse);
+			if (static_cast <int> (partita.ondata.pos_x) == margine_sx_primo_asse)
 			{
 				partita.ondata.dir_alieni = destra;
 				partita.ondata.pos_y = sucInRange (partita.ondata.pos_y, SPOSTAMENTO_ONDATA_GIU, pos_y_carro);
