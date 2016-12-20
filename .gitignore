@@ -33,6 +33,7 @@ SpaceInvaders
 *.config
 highscores
 *.sav
+dependencies
 
 # GIMP projects
 *.xcf
