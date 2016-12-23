@@ -2,6 +2,18 @@
  * File contenente le strutture dati.
  */
 
+//INIZIO CONFIGURAZIONE PER TRACING
+#ifdef DEBUG_MODE
+	extern unsigned int debug_level; /**<Indica il livello di debug.*/
+	#define DBG(A, B) {if ((A) <= debug_level) {B; } }
+#else
+	#define DBG(A, B)
+#endif
+
+#define D1(B) DBG(1, B)
+#define D2(B) DBG(2, B)
+//FINE CONFIGURAZIONE PER TRACING
+
 //INIZIO COSTANTI BARRIERE
 const unsigned int ALTEZZA_BARRIERA = 17; /**<Altezza della barriera (in unità).*/
 const unsigned int N_BARRIERE = 4; /**<Numero delle barriere presenti in una partita.*/
