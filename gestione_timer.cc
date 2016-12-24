@@ -2,9 +2,21 @@
  * File contenente il modulo per la gestione dei timer.
  */
 
+using namespace std;
+#include <iostream>
 #include <allegro5/allegro.h>
 #include "strutture_dati.h"
 #include "gestione_timer.h"
+
+//INIZIO CONFIGURAZIONE TRACING
+/*#ifdef DEBUG_MODE
+	#ifdef DEBUG_LEVEL
+		static unsigned int debug_level = DEBUG_LEVEL;
+	#else
+		static unsigned int debug_level = 0;
+	#endif
+#endif*/
+//FINE CONFIGURAZIONE TRACING
 
 //INIZIO VARIABILI DI MODULO
 static ALLEGRO_TIMER *timer_fps = NULL; /**<Timer per ricaricamento grafica generale.*/

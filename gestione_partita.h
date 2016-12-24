@@ -25,7 +25,6 @@ const unsigned int PUNTEGGIO_NAVICELLA_MIN = 100; /**<Punteggio minimo che può 
 
 //INIZIO COSTANTI PER FILE
 const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file contenente la partita salvata.*/
-const char STRINGA_FILE_SALVATAGGIO_NON_TROVATO [] = "Errore nel caricamento del file di salvataggio. File non esistente."; /**<Messaggio di errore che indica che il file di salvataggio non è stato trovato.*/
 //FINE COSTANTI PER FILE
 
 //INIZIO INTERFACCIA

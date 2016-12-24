@@ -10,6 +10,16 @@ using namespace std;
 #include "strutture_dati.h"
 #include "gestione_classifica.h"
 
+//INIZIO CONFIGURAZIONE TRACING
+#ifdef DEBUG_MODE
+	#ifdef DEBUG_LEVEL
+		static unsigned int debug_level = DEBUG_LEVEL;
+	#else
+		static unsigned int debug_level = 0;
+	#endif
+#endif
+//FINE CONFIGURAZIONE TRACING
+
 //INIZIO MODULO
 //INIZIO FUNZIONI PRIVATE
 /*
@@ -69,6 +79,7 @@ void aggiungiPunteggio (Classifica &classifica, Punteggio nuovo_punteggio, int p
 	{
 		scambiaPunteggio (classifica.highscores [i], pros);
 	}
+	D1(cout<<"Nuovo punteggio aggiunto nella posizione "<<posizione<<"."<<endl);
 }
 
 void cancellaUltimoCarattereNome (Punteggio &punteggio)
@@ -80,7 +91,7 @@ bool caricaPunteggi (Classifica &classifica)
 {
 	ifstream f (FILE_HIGHSCORES) ;
 	if (!f) {
-		cerr<<STRINGA_FILE_HIGHSCORES_NON_TROVATO<<endl;
+		D1(cout<<"Errore nel caricamento del file degli highscores. File non esistente."<<endl);
 		return false ;
 	}
 	int i = 0;
@@ -100,6 +111,7 @@ bool caricaPunteggi (Classifica &classifica)
 		return false;
 	}
 	classifica.n_highscores = i;
+	D1(cout<<"File degli highscores correttamente caricato."<<endl);
 	return true;
 }
 
@@ -134,6 +146,7 @@ void salvaPunteggi (Classifica classifica)
 {
 	ofstream f(FILE_HIGHSCORES) ;
 	output (classifica, f);
+	D1(cout<<"File degli highscores correttamente salvato."<<endl);
 }
 
 void stampa (Classifica classifica)

@@ -3,7 +3,6 @@
  */
 
 using namespace std;
-
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -12,6 +11,16 @@ using namespace std;
 #include "strutture_dati.h"
 #include "gestione_partita.h"
 #include "gestione_grafica.h"
+
+//INIZIO CONFIGURAZIONE TRACING
+#ifdef DEBUG_MODE
+	#ifdef DEBUG_LEVEL
+		static unsigned int debug_level = DEBUG_LEVEL;
+	#else
+		static unsigned int debug_level = 0;
+	#endif
+#endif
+//FINE CONFIGURAZIONE TRACING
 
 //INIZIO MODULO
 //INIZIO FUNZIONI PRIVATE
@@ -64,6 +73,7 @@ bool controlloCollisioneBarriere (stato_barriera barriere [N_BARRIERE] [ALTEZZA_
 								{
 									barriere [n] [r] [c] = static_cast <stato_barriera> (precInRange (barriere [n] [r] [c], 0));
 									collisione = true;
+									D2(cout<<"Barriera "<<n<<" colpita nella riga "<<r<<", colonna "<<c<<"."<<endl);
 								}
 								//break;
 							}
@@ -244,7 +254,7 @@ bool caricaPartita (Partita &partita)
 {
 	ifstream f (FILE_SALVATAGGIO_PARTITA);
 	if (!f) {
-		cerr<<STRINGA_FILE_SALVATAGGIO_NON_TROVATO<<endl;
+		D1(cout<<"Errore nel caricamento del file di salvataggio. File non esistente."<<endl);
 		return false;
 	}
 	Partita temp;
@@ -323,6 +333,7 @@ bool caricaPartita (Partita &partita)
 	}
 
 	partita = temp;
+	D1(cout<<"File di salvataggio caricato correttamente."<<endl);
 	return true;
 }
 
@@ -350,6 +361,7 @@ bool controlloCollisioneAlieni (Partita &partita)
 							partita.carro_armato.sparo.stato = false;
 							partita.ondata.alieni_rimasti--;
 							collisione = true;
+							D2(cout<<"Alieno nella riga "<<i<<", colonna "<<j<<" colpita."<<endl);
 						}
 						break;
 					}
@@ -435,6 +447,7 @@ bool controlloCollisioneCarroDaOndata (Partita &partita)
 			if (partita.ondata.alieni [i] [j].stato)
 			{
 				collisione = true;
+				D2(cout<<"Carro colpito dall'ondata aliena."<<endl);
 				break;
 			}
 		}
@@ -453,6 +466,7 @@ bool controlloCollisioneCarroDaSparoAlieni (Partita &partita)
 		partita.sparo_alieni.stato = false;
 		partita.carro_armato.esplosione = true;
 		collisione = true;
+		D2(cout<<"Carro colpito da uno sparo alieno."<<endl);
 	}
 	return collisione;
 }
@@ -467,6 +481,7 @@ bool controlloCollisioneNavicellaMisteriosa (Partita &partita)
 		partita.carro_armato.sparo.stato = false;
 		partita.punteggio.valore += partita.navicella_misteriosa.punteggio;
 		collisione = true;
+		D2(cout<<"Navicella misteriosa colpita."<<endl);
 	}
 	return collisione;
 }
@@ -477,12 +492,21 @@ bool controlloFineOndata (Partita partita)
 	{
 		return false;
 	}
+	D1(cout<<"Ondata aliena distrutta."<<endl);
 	return true;
 }
 
 bool controlloFinePartita (Partita partita)
 {
-	return (partita.vite_rimanenti < 0);
+	if (partita.vite_rimanenti < 0)
+	{
+		D1(cout<<"Partita terminata.."<<endl);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void creaNavicellaMisteriosa (Partita &partita)
@@ -493,6 +517,7 @@ void creaNavicellaMisteriosa (Partita &partita)
 		partita.navicella_misteriosa.stato = true;
 		partita.navicella_misteriosa.punteggio = (rand() % ((PUNTEGGIO_NAVICELLA_MAX - PUNTEGGIO_NAVICELLA_MIN) / 10)) * 10 + PUNTEGGIO_NAVICELLA_MIN;
 		partita.navicella_misteriosa.pos_x = MARGINE_SX_GIOCO;
+		D2(cout<<"Navicella misteriosa creata."<<endl);
 	}
 }
 
@@ -513,6 +538,7 @@ void creaSparoAlieni (Partita &partita)
 				partita.sparo_alieni.pos_x = pos_x_attuale;
 				partita.sparo_alieni.pos_y = pos_y_attuale;
 				creato = true;
+				D2(cout<<"Sparo alieno creato."<<endl);
 			}
 			pos_y_attuale -= DISTANZA_FILE_ALIENI;
 		}
@@ -528,12 +554,14 @@ void creaSparoCarroArmato (Partita &partita)
 	partita.carro_armato.sparo.stato = true;
 	partita.carro_armato.sparo.pos_x = partita.carro_armato.pos_x + larghezzaCarroArmato () / 2;
 	partita.carro_armato.sparo.pos_y = MARGINE_INF_GIOCO - altezzaCarroArmato () - altezzaSparoCarroArmato ();
+	D2(cout<<"Sparo del carro armato creato."<<endl);
 }
 
 bool eliminaFileSalvataggio ()
 {
 	if (!remove (FILE_SALVATAGGIO_PARTITA))
 	{
+		D1(cout<<"Rimosso file di salvataggio."<<endl);
 		return true;
 	}
 	return false;
@@ -698,6 +726,7 @@ void salvaPartita (Partita partita)
 {
 	ofstream f(FILE_SALVATAGGIO_PARTITA);
 	output (partita, f);
+	D1(cout<<"Partita caricata correttamente."<<endl);
 }
 
 void stampaPartita (Partita partita)

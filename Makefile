@@ -9,17 +9,17 @@ SpaceInvaders: $(OBJ)
 
 -include dependencies
 
-.PHONY: clean cleanall debug debug-level-2 depend dependall
+.PHONY: clean cleanAll debug debugExtended depend dependAll
 
-debug: DEBUG_FLAGS = -g -D DEBUG_MODE -D DEBUG_LEVEL=$(DEBUG_LEVEL)
-debug: SpaceInvaders
-debug-level-2: DEBUG_LEVEL=2
-debug-level-2: debug
 clean:
 	rm -f SpaceInvaders *.o
-cleanall:
+cleanAll:
 	rm -f SpaceInvaders *.o *~ dependencies highscores partita.sav SpaceInvaders.config
+debug: DEBUG_FLAGS = -g -D DEBUG_MODE -D DEBUG_LEVEL=$(DEBUG_LEVEL)
+debug: SpaceInvaders
+debugExtended: DEBUG_LEVEL=2
+debugExtended: debug
 depend:
 	g++ -MM *.cc > dependencies
-dependall:
+dependAll:
 	g++ -M *.cc > dependencies

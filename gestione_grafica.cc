@@ -2,6 +2,8 @@
  * File contenente il modulo per la gestione della grafica.
  */
 
+using namespace std;
+#include <iostream>
 #include <cstdio>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
@@ -10,6 +12,16 @@
 #include "gestione_grafica.h"
 #include "gestione_menu.h"
 #include "gestione_partita.h"
+
+//INIZIO CONFIGURAZIONE TRACING
+/*#ifdef DEBUG_MODE
+	#ifdef DEBUG_LEVEL
+		static unsigned int debug_level = DEBUG_LEVEL;
+	#else
+		static unsigned int debug_level = 0;
+	#endif
+#endif*/
+//FINE CONFIGURAZIONE TRACING
 
 //INIZIO VARIABILI DI MODULO
 static ALLEGRO_BITMAP *unita_barriera = NULL; /**<Immagine utilizzata per rappresentare un'unità di barriera.*/

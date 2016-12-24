@@ -4,7 +4,7 @@
 
 //INIZIO CONFIGURAZIONE PER TRACING
 #ifdef DEBUG_MODE
-	extern unsigned int debug_level; /**<Indica il livello di debug.*/
+	//extern unsigned int debug_level; /**<Indica il livello di debug.*/
 	#define DBG(A, B) {if ((A) <= debug_level) {B; } }
 #else
 	#define DBG(A, B)

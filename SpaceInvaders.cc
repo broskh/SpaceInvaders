@@ -37,6 +37,8 @@
  * @author Alessio Scheri
  */
 
+using namespace std;
+#include <iostream>
 #include <allegro5/allegro.h>
 #include "strutture_dati.h"
 #include "gestione_partita.h"
@@ -46,6 +48,16 @@
 #include "gestione_grafica.h"
 #include "gestione_audio.h"
 #include "gestione_timer.h"
+
+//INIZIO CONFIGURAZIONE TRACING
+/*#ifdef DEBUG_MODE
+	#ifdef DEBUG_LEVEL
+		static unsigned int debug_level = DEBUG_LEVEL;
+	#else
+		static unsigned int debug_level = 0;
+	#endif
+#endif*/
+//FINE CONFIGURAZIONE TRACING
 
 //INIZIO FUNZIONI PRIVATE
 /*

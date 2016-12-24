@@ -3,13 +3,22 @@
  */
 
 using namespace std;
-
 #include <iostream>
 #include <fstream>
 #include <cstring>
 #include <cassert>
 #include "strutture_dati.h"
 #include "gestione_impostazioni.h"
+
+//INIZIO CONFIGURAZIONE TRACING
+#ifdef DEBUG_MODE
+	#ifdef DEBUG_LEVEL
+		static unsigned int debug_level = DEBUG_LEVEL;
+	#else
+		static unsigned int debug_level = 0;
+	#endif
+#endif
+//FINE CONFIGURAZIONE TRACING
 
 //INIZIO MODULO
 //INIZIO FUNZIONI PRIVATE
@@ -40,7 +49,7 @@ bool caricaImpostazioni (Impostazioni &impostazioni)
 {
 	ifstream f (FILE_IMPOSTAZIONI) ;
 	if (!f) {
-		cerr<<STRINGA_FILE_IMPOSTAZIONI_NON_TROVATO<<FILE_IMPOSTAZIONI<<endl;
+		D1(cout<<"Errore nel caricamento del file di configurazione. File non esistente."<<endl);
 		return false ;
 	}
 	bool musica_trov = false, eff_audio_trov = false, mod_grafica_trov = false, vite_iniz_trov = false;
@@ -77,6 +86,7 @@ bool caricaImpostazioni (Impostazioni &impostazioni)
 	}
 	assert (musica_trov && eff_audio_trov && mod_grafica_trov && vite_iniz_trov); //se non vengono trovati, il file è corrotto
 	inizializzaImpostazioni (impostazioni, musica, eff_audio, colore_alieni, vite_iniziali);
+	D1(cout<<"Caricamento del file di configurazione avvenuto con successo."<<endl);
 	return true;
 }
 
@@ -89,6 +99,7 @@ void salvaImpostazioni (Impostazioni impostazioni)
 {
 	ofstream f(FILE_IMPOSTAZIONI) ;
 	output (impostazioni, f);
+	D1(cout<<"Salvataggio del file di configurazione avvenuto con successo."<<endl);
 }
 
 void stampa (Impostazioni impostazioni)

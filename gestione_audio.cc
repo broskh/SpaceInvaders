@@ -2,9 +2,22 @@
  * File contenente il modulo per la gestione dell'audio.
  */
 
+using namespace std;
+#include <iostream>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
+#include "strutture_dati.h"
 #include "gestione_audio.h"
+
+//INIZIO CONFIGURAZIONE TRACING
+#ifdef DEBUG_MODE
+	#ifdef DEBUG_LEVEL
+		static unsigned int debug_level = DEBUG_LEVEL;
+	#else
+		static unsigned int debug_level = 0;
+	#endif
+#endif
+//FINE CONFIGURAZIONE TRACING
 
 //INIZIO VARIABILI DI MODULO
 static ALLEGRO_SAMPLE *musica_principale = NULL; /**<Musica principale.*/
@@ -142,5 +155,6 @@ void inizializzaAudio ()
 void modificaVelocitaMusicaOndata (unsigned int percentuale_velocita_ondata)
 {
 	al_set_sample_instance_speed(istanza_sottofondo_ondata,((VELOCITA_SOTTOFONDO_ONDATA_MAX - VELOCITA_SOTTOFONDO_ONDATA_MIN) / 100 * percentuale_velocita_ondata) + VELOCITA_SOTTOFONDO_ONDATA_MIN);
+	D1(cout<<"Velocita' della musica di sottofondo dell'ondata aliena modificata."<<endl);
 }
 //FINE MODULO

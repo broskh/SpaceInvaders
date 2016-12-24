@@ -2,11 +2,23 @@
  * File contenente il modulo per la gestione dei menu.
  */
 
+using namespace std;
+#include <iostream>
 #include <cstring>
 #include <cstdio>
 #include "strutture_dati.h"
 #include "gestione_menu.h"
 #include "gestione_partita.h"
+
+//INIZIO CONFIGURAZIONE TRACING
+/*#ifdef DEBUG_MODE
+	#ifdef DEBUG_LEVEL
+		static unsigned int debug_level = DEBUG_LEVEL;
+	#else
+		static unsigned int debug_level = 0;
+	#endif
+#endif*/
+//FINE CONFIGURAZIONE TRACING
 
 //INIZIO MODULO
 //INIZIO FUNZIONI PRIVATE
