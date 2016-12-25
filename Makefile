@@ -1,15 +1,15 @@
-OBJ=SpaceInvaders.o gestione_impostazioni.o gestione_classifica.o gestione_partita.o gestione_menu.o gestione_grafica.o gestione_audio.o gestione_timer.o
-LIBS=allegro-5 allegro_acodec-5 allegro_audio-5 allegro_font-5 allegro_image-5 allegro_ttf-5
-CXXFLAGS=$(DEBUG_FLAGS) -Wall `pkg-config --cflags $(LIBS)`
-LDFLAGS=-export-dynamic `pkg-config --libs $(LIBS)`
+CXXFLAGS=$(DEBUG_FLAGS) $(NOASS) -Wall `pkg-config --cflags $(LIBS)`
 DEBUG_LEVEL=1
+LDFLAGS=-export-dynamic `pkg-config --libs $(LIBS)`
+LIBS=allegro-5 allegro_acodec-5 allegro_audio-5 allegro_font-5 allegro_image-5 allegro_ttf-5
+OBJ=SpaceInvaders.o gestione_impostazioni.o gestione_classifica.o gestione_partita.o gestione_menu.o gestione_grafica.o gestione_audio.o gestione_timer.o
 
 SpaceInvaders: $(OBJ)
 	g++ -o SpaceInvaders $(OBJ) $(LDFLAGS)
 
 -include dependencies
 
-.PHONY: clean cleanAll debug debugExtended depend dependAll
+.PHONY: clean cleanAll debug debugExtended depend dependAll noAsserts
 
 clean:
 	rm -f SpaceInvaders *.o
@@ -23,3 +23,6 @@ depend:
 	g++ -MM *.cc > dependencies
 dependAll:
 	g++ -M *.cc > dependencies
+noAsserts: NOASS=-D NDEBUG
+noAsserts: SpaceInvaders
+	

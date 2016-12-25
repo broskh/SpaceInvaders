@@ -668,9 +668,9 @@ void muoviSparoCarro (Partita &partita)
 
 void nuovaOndata (Partita &partita)
 {
-	int i = 0;
+	unsigned int i;
 
-	for (unsigned int i = 0; i < N_FILE_ALIENI; i++)
+	for (i = 0; i < N_FILE_ALIENI; i++)
 	{		
 		for (unsigned int j = 0; j < N_COL_ALIENI; j++)
 		{

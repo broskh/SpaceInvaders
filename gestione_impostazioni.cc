@@ -6,7 +6,6 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 #include <cstring>
-#include <cassert>
 #include "strutture_dati.h"
 #include "gestione_impostazioni.h"
 
@@ -84,10 +83,16 @@ bool caricaImpostazioni (Impostazioni &impostazioni)
 			vite_iniz_trov = true;
 		}
 	}
-	assert (musica_trov && eff_audio_trov && mod_grafica_trov && vite_iniz_trov); //se non vengono trovati, il file è corrotto
-	inizializzaImpostazioni (impostazioni, musica, eff_audio, colore_alieni, vite_iniziali);
-	D1(cout<<"Caricamento del file di configurazione avvenuto con successo."<<endl);
-	return true;
+	if (musica_trov && eff_audio_trov && mod_grafica_trov && vite_iniz_trov)
+	{
+		inizializzaImpostazioni (impostazioni, musica, eff_audio, colore_alieni, vite_iniziali);
+		D1(cout<<"Caricamento del file di configurazione avvenuto con successo."<<endl);
+		return true;
+	}
+	else //se non vengono trovati, il file è corrotto
+	{
+		return false;
+	}
 }
 
 void impostaValoriDefault (Impostazioni &impostazioni)

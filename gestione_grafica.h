@@ -151,8 +151,10 @@ void distruggiGrafica ();
 /**
  * Procedura di inizializzazione del modulo per la gestione della grafica.
  * Si occupa di inizializzare correttamente tutte le variabili necessarie e di seguire i metodi di inizializzazione di determinate librerie "Allegro".
+ * 
+ * @return "true" se il modulo è stato correttamente inizializzato, "false" altrimenti.
  */
-void inizializzaGrafica ();
+bool inizializzaGrafica ();
 
 /**
  * Fornisce la larghezza in pixel dell'alieno sulla base del numero della fila dell'ondata nella quale si trova.

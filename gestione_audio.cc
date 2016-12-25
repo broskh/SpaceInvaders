@@ -4,6 +4,7 @@
 
 using namespace std;
 #include <iostream>
+#include <cassert>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 #include "strutture_dati.h"
@@ -39,36 +40,43 @@ static ALLEGRO_SAMPLE_INSTANCE *istanza_sparo_carro_armato = NULL; /**<Istanza d
 //INIZIO MODULO
 void avviaMusicaOndata ()
 {
+	assert (istanza_sottofondo_ondata);
 	al_play_sample_instance(istanza_sottofondo_ondata);
 }
 
 void avviaMusicaPrincipale ()
 {
+	assert (musica_principale);
 	al_play_sample(musica_principale, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 }
 
 void avviaSuonoEsplosioneAlieno ()
 {
+	assert (istanza_esplosione_alieno);
 	al_play_sample_instance(istanza_esplosione_alieno);
 }
 
 void avviaSuonoEsplosioneCarroArmato ()
 {
+	assert (istanza_esplosione_carro_armato);
 	al_play_sample_instance(istanza_esplosione_carro_armato);
 }
 
 void avviaSuonoEsplosioneNavicellaMisteriosa ()
 {
+	assert (istanza_esplosione_navicella_misteriosa);
 	al_play_sample_instance(istanza_esplosione_navicella_misteriosa);
 }
 
 void avviaSuonoNavicellaMisteriosa ()
 {
+	assert (istanza_navicella_misteriosa);
 	al_play_sample_instance(istanza_navicella_misteriosa);
 }
 
 void avviaSuonoSparoCarroArmato ()
 {
+	assert (istanza_sparo_carro_armato);
 	al_play_sample_instance(istanza_sparo_carro_armato);
 }
 
@@ -91,69 +99,138 @@ void distruggiAudio ()
 
 void fermaMusicaOndata ()
 {
+	assert (istanza_sottofondo_ondata);
 	al_stop_sample_instance(istanza_sottofondo_ondata);
 }
 
 void fermaMusicaPrincipale ()
 {
+	assert (musica_principale);
 	al_stop_samples ();
 }
 
 void fermaSuonoNavicellaMisteriosa ()
 {
+	assert (istanza_navicella_misteriosa);
 	al_stop_sample_instance(istanza_navicella_misteriosa);
 }
 
-void inizializzaAudio ()
+bool inizializzaAudio ()
 {
-	assert (al_install_audio());
-	assert (al_init_acodec_addon());
-	assert (al_reserve_samples(true));
+	if (!al_install_audio())
+	{
+		D1(cout<<"Audio non installato correttamente."<<endl);
+		return false;
+	}
+	if (!al_init_acodec_addon())
+	{
+		D1(cout<<"Codec addon non installato correttamente."<<endl);
+		return false;
+	}
+	if (!al_reserve_samples(true))
+	{
+		D1(cout<<"ALLEGRO_SAMPLE non collegati correttamente al mixer di default."<<endl);
+		return false;
+	}
 
 	musica_principale = al_load_sample (FILE_MUSICA_PRINCIPALE);
-	assert (musica_principale);
+	if (!musica_principale)
+	{
+		D1(cout<<"musica_principale non creata correttamente."<<endl);
+		return false;
+	}
 
 	musica_sottofondo_ondata = al_load_sample (FILE_MUSICA_SOTTOFONDO_ONDATA);
-	assert (musica_sottofondo_ondata);
+	if (!musica_sottofondo_ondata)
+	{
+		D1(cout<<"musica_sottofondo_ondata non creata correttamente."<<endl);
+		return false;
+	}
 	istanza_sottofondo_ondata = al_create_sample_instance (musica_sottofondo_ondata);
-	assert (istanza_sottofondo_ondata);
+	if (!istanza_sottofondo_ondata)
+	{
+		D1(cout<<"istanza_sottofondo_ondata non creata correttamente."<<endl);
+		return false;
+	}
 	al_attach_sample_instance_to_mixer(istanza_sottofondo_ondata, al_get_default_mixer());
 	al_set_sample_instance_playmode(istanza_sottofondo_ondata, ALLEGRO_PLAYMODE_LOOP);
 
 	suono_esplosione_carro_armato = al_load_sample (FILE_SUONO_ESPLOSIONE_CARRO_ARMATO);
-	assert (suono_esplosione_carro_armato);
+	if (!suono_esplosione_carro_armato)
+	{
+		D1(cout<<"suono_esplosione_carro_armato non creato correttamente."<<endl);
+		return false;
+	}
 	istanza_esplosione_carro_armato = al_create_sample_instance (suono_esplosione_carro_armato);
-	assert (istanza_esplosione_carro_armato);
+	if (!istanza_esplosione_carro_armato)
+	{
+		D1(cout<<"istanza_esplosione_carro_armato non creata correttamente."<<endl);
+		return false;
+	}
 	al_attach_sample_instance_to_mixer(istanza_esplosione_carro_armato, al_get_default_mixer());
 
 	suono_esplosione_alieno = al_load_sample (FILE_SUONO_ESPLOSIONE_ALIENO);
-	assert (suono_esplosione_alieno);
+	if (!suono_esplosione_alieno)
+	{
+		D1(cout<<"suono_esplosione_alieno non creato correttamente."<<endl);
+		return false;
+	}
 	istanza_esplosione_alieno = al_create_sample_instance (suono_esplosione_alieno);
-	assert (istanza_esplosione_alieno);
+	if (!istanza_esplosione_alieno)
+	{
+		D1(cout<<"istanza_esplosione_alieno non creata correttamente."<<endl);
+		return false;
+	}
 	al_attach_sample_instance_to_mixer(istanza_esplosione_alieno, al_get_default_mixer());
 
 	suono_esplosione_navicella_misteriosa = al_load_sample (FILE_SUONO_ESPLOSIONE_NAVICELLA_MISTERIOSA);
-	assert (suono_esplosione_navicella_misteriosa);
+	if (!suono_esplosione_navicella_misteriosa)
+	{
+		D1(cout<<"suono_esplosione_navicella_misteriosa non creato correttamente."<<endl);
+		return false;
+	}
 	istanza_esplosione_navicella_misteriosa = al_create_sample_instance (suono_esplosione_navicella_misteriosa);
-	assert (istanza_esplosione_navicella_misteriosa);
+	if (!istanza_esplosione_navicella_misteriosa)
+	{
+		D1(cout<<"istanza_esplosione_navicella_misteriosa non creata correttamente."<<endl);
+		return false;
+	}
 	al_attach_sample_instance_to_mixer(istanza_esplosione_navicella_misteriosa, al_get_default_mixer());
 
 	suono_sparo_carro_armato = al_load_sample (FILE_SUONO_SPARO_CARRO_ARMATO);
-	assert (suono_sparo_carro_armato);
+	if (!suono_sparo_carro_armato)
+	{
+		D1(cout<<"suono_sparo_carro_armato non creato correttamente."<<endl);
+		return false;
+	}
 	istanza_sparo_carro_armato = al_create_sample_instance (suono_sparo_carro_armato);
-	assert (istanza_sparo_carro_armato);
+	if (!istanza_sparo_carro_armato)
+	{
+		D1(cout<<"istanza_sparo_carro_armato non creata correttamente."<<endl);
+		return false;
+	}
 	al_attach_sample_instance_to_mixer(istanza_sparo_carro_armato, al_get_default_mixer());
 
 	suono_navicella_misteriosa = al_load_sample (FILE_SUONO_NAVICELLA_MISTERIOSA);
-	assert (suono_navicella_misteriosa);
+	if (!suono_navicella_misteriosa)
+	{
+		D1(cout<<"suono_navicella_misteriosa non creato correttamente."<<endl);
+		return false;
+	}
 	istanza_navicella_misteriosa = al_create_sample_instance (suono_navicella_misteriosa);
-	assert (istanza_navicella_misteriosa);
+	if (!istanza_navicella_misteriosa)
+	{
+		D1(cout<<"istanza_navicella_misteriosa non creata correttamente."<<endl);
+		return false;
+	}
 	al_attach_sample_instance_to_mixer(istanza_navicella_misteriosa, al_get_default_mixer());
 	al_set_sample_instance_playmode(istanza_navicella_misteriosa, ALLEGRO_PLAYMODE_LOOP);
+	return true;
 }
 
 void modificaVelocitaMusicaOndata (unsigned int percentuale_velocita_ondata)
 {
+	assert (istanza_sottofondo_ondata);
 	al_set_sample_instance_speed(istanza_sottofondo_ondata,((VELOCITA_SOTTOFONDO_ONDATA_MAX - VELOCITA_SOTTOFONDO_ONDATA_MIN) / 100 * percentuale_velocita_ondata) + VELOCITA_SOTTOFONDO_ONDATA_MIN);
 	D1(cout<<"Velocita' della musica di sottofondo dell'ondata aliena modificata."<<endl);
 }

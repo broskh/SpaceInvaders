@@ -127,8 +127,10 @@ void fermaTimerSpostamentoSpari ();
 /**
  * Procedura di inizializzazione del modulo per la gestione dei timer.
  * Si occupa di inizializzare correttamente tutte le variabili necessarie e di seguire i metodi di inizializzazione di determinate librerie "Allegro".
+ * 
+ * @return "true" se il modulo è stato correttamente inizializzato, "false" altrimenti.
  */
-void inizializzaTimer (ALLEGRO_EVENT_QUEUE *coda);
+bool inizializzaTimer (ALLEGRO_EVENT_QUEUE *coda);
 
 /**
  * Restituisce il puntatore al timer che gestisce la frequenza di animazione.

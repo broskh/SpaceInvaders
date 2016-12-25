@@ -4,6 +4,7 @@
 
 using namespace std;
 #include <iostream>
+#include <cassert>
 #include <cstdio>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
@@ -53,6 +54,7 @@ static ALLEGRO_FONT *font_titolo = NULL; /**<Font utilizzato per scrivere esclus
  */
 void disegnaBarriera (stato_barriera barriera [ALTEZZA_BARRIERA] [LARGHEZZA_BARRIERA], unsigned int pos_x, unsigned int pos_y)
 {
+	assert (unita_barriera);
 	unsigned int dx = pos_x; 
 	unsigned int dy = pos_y;
 
@@ -120,27 +122,32 @@ ALLEGRO_COLOR scelgliColore (colore colore_alieni)
  */
 ALLEGRO_BITMAP * scegliSparo (int pos_x)
 {
+	assert (spari_alieni [pos_x % 2]); 
 	return spari_alieni [pos_x % 2];
 }
 //FINE FUNZIONI PRIVATE
 
 unsigned int altezzaAlieno ()
 {
+	assert ((tipi_alieni [0]));
 	return al_get_bitmap_height (tipi_alieni [0]); //gli alieni hanno tutta la stessa altezza
 }
 
 unsigned int altezzaCarroArmato ()
 {
+	assert (carro_armato);
 	return al_get_bitmap_height (carro_armato);
 }
 
 unsigned int altezzaLatoUnitaBarriera ()
 {
+	assert (unita_barriera);
 	return al_get_bitmap_height (unita_barriera);
 }
 
 unsigned int altezzaNavicellaMisteriosa ()
 {
+	assert (navicella_misteriosa);
 	return al_get_bitmap_height (navicella_misteriosa);
 }
 
@@ -151,7 +158,8 @@ unsigned int altezzaSparoAlienoAttuale (unsigned int pos_x_sparo)
 
 unsigned int altezzaSparoCarroArmato ()
 {
-	return al_get_bitmap_height (carro_armato);
+	assert (sparo_carro);
+	return al_get_bitmap_height (sparo_carro);
 }
 
 void distruggiGrafica ()
@@ -171,40 +179,103 @@ void distruggiGrafica ()
 	al_destroy_bitmap(esplosione_alieno);
 }
 
-void inizializzaGrafica ()
-{
-	assert (al_init_image_addon());
-	assert (al_init_font_addon());
-	assert (al_init_ttf_addon()); 
-
+bool inizializzaGrafica ()
+{ 
+	if (!al_init_image_addon())
+	{
+		D1(cout<<"<Image addon non inizializzato correttamente."<<endl);
+		return false;
+	}
+	if (!al_init_font_addon())
+	{
+		D1(cout<<"Font addon non inizializzato correttamente."<<endl);
+		return false;
+	}
+	if (!al_init_ttf_addon())
+	{
+		D1(cout<<"ttf addon non inizializzato correttamente."<<endl);
+		return false;
+	} 
 
 	font_titolo = al_load_ttf_font(FILE_FONT_TITOLO, DIMENSIONE_TITOLO, 0);
-	assert (font_titolo);
+	if (!font_titolo)
+	{
+		D1(cout<<"font_titolo non creato correttamente."<<endl);
+		return false;
+	}
 	font_testo = al_load_ttf_font(FILE_FONT_TESTO, DIMENSIONE_TESTO, 0);
- 	assert (font_testo);
+ 	if (!font_testo)
+	{
+		D1(cout<<"font_testo non creato correttamente."<<endl);
+		return false;
+	}
 	
 	unita_barriera = al_load_bitmap(FILE_BARRIERA);
-	assert (unita_barriera);
+	if (!unita_barriera)
+	{
+		D1(cout<<"unita_barriera non creata correttamente."<<endl);
+		return false;
+	}
 	spari_alieni [0] = al_load_bitmap(FILE_SPARO_ALIENI_1);
-	assert (spari_alieni [0]);
+	if (!spari_alieni [0])
+	{
+		D1(cout<<"spari_alieni [0] non creato correttamente."<<endl);
+		return false;
+	}
 	spari_alieni [1] = al_load_bitmap(FILE_SPARO_ALIENI_2);
-	assert (spari_alieni [1]);
+	if (!spari_alieni [1])
+	{
+		D1(cout<<"spari_alieni [1] non creato correttamente."<<endl);
+		return false;
+	}
 	esplosione_carro = al_load_bitmap(FILE_ESPLOSIONE_CARRO);
-	assert (esplosione_carro);
+	if (!esplosione_carro)
+	{
+		D1(cout<<"esplosione_carro non creata correttamente."<<endl);
+		return false;
+	}
 	esplosione_alieno = al_load_bitmap(FILE_ESPLOSIONE_ALIENO);
-	assert (esplosione_alieno);
+	if (!esplosione_alieno)
+	{
+		D1(cout<<"esplosione_alieno non creata correttamente."<<endl);
+		return false;
+	}
 	carro_armato = al_load_bitmap(FILE_CARRO_ARMATO);
-	assert (carro_armato);
+	if (!carro_armato)
+	{
+		D1(cout<<"carro_armato non creato correttamente."<<endl);
+		return false;
+	}
 	sparo_carro = al_load_bitmap(FILE_SPARO_CARRO);
-	assert (sparo_carro);
+	if (!sparo_carro)
+	{
+		D1(cout<<"sparo_carro non creato correttamente."<<endl);
+		return false;
+	}
 	navicella_misteriosa = al_load_bitmap(FILE_NAVICELLA_MISTERIOSA);
-	assert (navicella_misteriosa);
+	if (!navicella_misteriosa)
+	{
+		D1(cout<<"navicella_misteriosa non creata correttamente."<<endl);
+		return false;
+	}
 	tipi_alieni [0] = al_load_bitmap(FILE_ALIENO_TIPO_1);
-	assert (tipi_alieni [0]);
+	if (!tipi_alieni [0])
+	{
+		D1(cout<<"tipi_alieni [0] non creato correttamente."<<endl);
+		return false;
+	}
 	tipi_alieni [1] = al_load_bitmap(FILE_ALIENO_TIPO_2);
-	assert (tipi_alieni [1]);
+	if (!tipi_alieni [1])
+	{
+		D1(cout<<"tipi_alieni [1] non creato correttamente."<<endl);
+		return false;
+	}
 	tipi_alieni [2] = al_load_bitmap(FILE_ALIENO_TIPO_3);
-	assert (tipi_alieni [2]);
+	if (!tipi_alieni [2])
+	{
+		D1(cout<<"tipi_alieni [2] non creato correttamente."<<endl);
+		return false;
+	}
 
 	VERDE = al_map_rgb(0, 255, 0);
 	BIANCO = al_map_rgb(255, 255, 255);
@@ -215,25 +286,30 @@ void inizializzaGrafica ()
 	NERO = al_map_rgb(0, 0, 0);
 	GRIGIO = al_map_rgb(84, 84, 84);
 	COLORE_DEFAULT = VERDE;
+	return true;
 }
 
 unsigned int larghezzaAlieno (unsigned int n_fila_alieno)
 {
+	assert (tipi_alieni [n_fila_alieno]);
 	return al_get_bitmap_width (tipi_alieni [n_fila_alieno]) / N_STATI_SPRITE;
 }
 
 unsigned int larghezzaCarroArmato ()
 {
+	assert (carro_armato);
 	return al_get_bitmap_width (carro_armato);
 }
 
 unsigned int larghezzaLatoUnitaBarriera ()
 {
+	assert (unita_barriera);
 	return al_get_bitmap_width (unita_barriera) / N_STATI_SPRITE;
 }
 
 unsigned int larghezzaNavicellaMisteriosa ()
 {
+	assert (navicella_misteriosa);
 	return al_get_bitmap_width (navicella_misteriosa);
 }
 
@@ -244,11 +320,13 @@ unsigned int larghezzaSparoAlienoAttuale (unsigned int pos_x_sparo)
 
 unsigned int larghezzaSparoCarroArmato ()
 {
+	assert (sparo_carro);
 	return al_get_bitmap_width (sparo_carro);
 }
 
 void stampaFinePartita (Classifica classifica, Partita partita, int posizione_punteggio_attuale, bool redraw_lampeggio)
 {
+	assert (font_testo);
 	//INIZIO VISUALIZZAZIONE
 	al_clear_to_color(NERO);
 
@@ -305,6 +383,12 @@ void stampaFinePartita (Classifica classifica, Partita partita, int posizione_pu
 
 void stampaGioca (Partita partita, bool animazione, colore colore_alieni)
 {
+	assert (font_testo);
+	assert (navicella_misteriosa);
+	assert (esplosione_alieno);
+	assert (sparo_carro);
+	assert (esplosione_carro);
+	assert (carro_armato);
 	//INIZIO VISUALIZZAZIONE
 	al_clear_to_color(NERO);
 
@@ -421,6 +505,7 @@ void stampaGioca (Partita partita, bool animazione, colore colore_alieni)
 
 void stampaHighscores (Classifica classifica)
 {
+	assert (font_testo);
 	//INIZIO VISUALIZZAZIONE
 	al_clear_to_color(NERO);
 
@@ -459,6 +544,7 @@ void stampaHighscores (Classifica classifica)
 
 void stampaImpostazioni (Menu menu_impostazioni, Impostazioni impostazioni, bool redraw_lampeggio)
 {
+	assert (font_testo);
 	//INIZIO VISUALIZZAZIONE
 	al_clear_to_color(NERO);
 
@@ -503,6 +589,7 @@ void stampaImpostazioni (Menu menu_impostazioni, Impostazioni impostazioni, bool
 
 void stampaMenuPausa (Menu menu_pausa, bool redraw_lampeggio)
 {
+	assert (font_testo);
 	//INIZIO VISUALIZZAZIONE
 	al_clear_to_color(NERO);
 	
@@ -530,6 +617,12 @@ void stampaMenuPausa (Menu menu_pausa, bool redraw_lampeggio)
 
 void stampaMenuPrincipale (Menu menu_principale, bool partita_salvata, colore colore_alieni, bool redraw_lampeggio)
 {
+	assert (font_titolo);
+	assert (font_testo);
+	assert (tipi_alieni [0]);
+	assert (tipi_alieni [1]);
+	assert (tipi_alieni [2]);
+	assert (navicella_misteriosa);
 	//INIZIO VISUALIZZAZIONE
 	al_clear_to_color(NERO);
 

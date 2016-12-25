@@ -50,13 +50,13 @@ using namespace std;
 #include "gestione_timer.h"
 
 //INIZIO CONFIGURAZIONE TRACING
-/*#ifdef DEBUG_MODE
+#ifdef DEBUG_MODE
 	#ifdef DEBUG_LEVEL
 		static unsigned int debug_level = DEBUG_LEVEL;
 	#else
 		static unsigned int debug_level = 0;
 	#endif
-#endif*/
+#endif
 //FINE CONFIGURAZIONE TRACING
 
 //INIZIO FUNZIONI PRIVATE
@@ -95,31 +95,75 @@ static ALLEGRO_DISPLAY *display = NULL; /**<Display del gioco.*/
  * @return lo stato di uscita del programma\: 
  * se è "0", tutto è andato correttamente; 
  * se è "1" il programma è uscito inaspettatamente dal ciclo di gestione delle schermate; 
- * se è "2" il programma ha tentato di gestire una schermata inesistente.
+ * se è "2" il programma ha tentato di gestire una schermata inesistente. 
+ * se è "3" si è verificato qualche errore in fase di inizializzazione delle librerie. 
+ * se è "4" si è verificato un errore di altro tipo.
  */
 int main ()
 {
 	//INIZIALIZZAZIONE DELLA LIBRERIA ALLEGRO
-	assert (al_init());
+	if (!al_init())
+	{
+		D1(cout<<"Libreria allegro non inizializzata correttamente."<<endl);
+		return 3;
+	}
  
 	//INIZIALIZZAZIONE DELLA CODA DEGLI EVENTI
    	coda_eventi = al_create_event_queue();
-   	assert (coda_eventi);
+   	if (!coda_eventi)
+	{
+		D1(cout<<"Coda degli eventi non creata correttamente."<<endl);
+		return 3;
+	}
 	ALLEGRO_EVENT ev;
-
 	//INIZIALIZZAZIONE DEL DISPLAY
 	display = al_create_display (LARGHEZZA_DISPLAY, ALTEZZA_DISPLAY);
-	assert (display);
+	if (!display)
+	{
+		D1(cout<<"Display non creato correttamente."<<endl);
+		distruggiCoda ();
+		return 3;
+	}
    	al_register_event_source(coda_eventi, al_get_display_event_source(display));
 
 	//INIZIALIZZAZIONE DELLA TASTIERA
-	assert (al_install_keyboard());
+	if (!al_install_keyboard())
+	{
+		D1(cout<<"Tastiera non installata correttamente."<<endl);
+		distruggiDisplay ();
+		distruggiCoda ();
+		return 3;
+	}
 	al_register_event_source(coda_eventi, al_get_keyboard_event_source());
 
 	//INIZIALIZZAZIONE DEI VARI MODULI
-	inizializzaGrafica ();
-	inizializzaAudio ();
-	inizializzaTimer (coda_eventi);
+	if (!inizializzaGrafica ())
+	{
+		D1(cout<<"Modulo per la gestione della grafica non inizializzata correttamente."<<endl);
+		distruggiGrafica ();
+		distruggiDisplay ();
+		distruggiCoda ();
+		return 3;
+	}
+	if (!inizializzaAudio ())
+	{
+		D1(cout<<"Modulo per la gestione dell'audio non inizializzata correttamente."<<endl);
+		distruggiAudio ();
+		distruggiGrafica ();
+		distruggiDisplay ();
+		distruggiCoda ();
+		return 3;
+	}
+	if (!inizializzaTimer (coda_eventi))
+	{
+		D1(cout<<"Modulo per la gestione dei timer non inizializzata correttamente."<<endl);
+		distruggiTimer ();
+		distruggiAudio ();
+		distruggiGrafica ();
+		distruggiDisplay ();
+		distruggiCoda ();
+		return 3;
+	}
 	
 	//INIZIALIZZAZIONE DELLE VARIABILI CONTENENTI LE INFORMAZIONI DI GIOCO
 	Partita partita_in_corso;
@@ -503,7 +547,13 @@ int main ()
 				al_flush_event_queue (coda_eventi);
 				break;
 			case s_carica: //carico la partita salvata e passo subito alla schermata di gioco
-				assert (caricaPartita (partita_in_corso));
+				if (!caricaPartita (partita_in_corso)) {					
+					distruggiGrafica ();
+					distruggiAudio ();
+					distruggiCoda ();
+					distruggiTimer ();
+					return 4;
+				}
 				schermata_att = s_gioca;
 				cambia_schermata = true;
 				break;
