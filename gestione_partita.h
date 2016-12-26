@@ -6,7 +6,7 @@
 const unsigned int N_ALIENI_TOTALE = N_FILE_ALIENI * N_COL_ALIENI; /**<Numero totale degli alieni che compongono una nuovao ondata.*/
 const unsigned int N_TIPI_ALIENI = 3; /**<Numero dei differenti tipi di alieni.*/
 const unsigned int PUNTEGGIO_ALIENI [N_TIPI_ALIENI] = {10, 20, 30}; /**<Punteggi attribuiti ai differenti tipi di alieni.*/
-const unsigned int SPOSTAMENTO_ONDATA_GIU = 9; /**<Peso dello spostamento verso il basso dell'ondata.*/
+const unsigned int SPOSTAMENTO_ONDATA_GIU = 5; /**<Peso dello spostamento verso il basso dell'ondata.*/
 //FINE COSTANTI PER ALIENI
 
 //INIZIO COSTANTI PER BARRIERE
@@ -18,7 +18,7 @@ const unsigned int SMUSSO_SUPERIORE = 4; /**<Dimensione dello smusso superiore d
 //INIZIO COSTANTI PER BARRIERE
 
 //INIZIO COSTANTI PER NAVICELLA MISTERIOSA
-const unsigned int PROBABILITA_COMPARSA_NAVICELLA = 10; /**<Percentuale di probabilità che compaia la navicella misteriosa.*/
+const unsigned int PROBABILITA_COMPARSA_NAVICELLA = 25; /**<Percentuale di probabilità che compaia la navicella misteriosa.*/
 const unsigned int PUNTEGGIO_NAVICELLA_MAX = 500; /**<Punteggio massimo che può assumere la navicella misteriosa.*/
 const unsigned int PUNTEGGIO_NAVICELLA_MIN = 100; /**<Punteggio minimo che può assumere la navicella misteriosa.*/
 //FINE COSTANTI PER NAVICELLA MISTERIOSA
@@ -123,7 +123,7 @@ bool controlloCollisioneNavicellaMisteriosa (Partita &partita);
  * 
  * @return "true" se tutti gli alieni dell'ondata sono stati distrutti, "false" altrimenti.
  */
-bool controlloFineOndata (Partita partita);
+bool controlloFineOndata (Partita &partita);
 
 /**
  * Controlla se il giocatore ha terminato le proprie vite.

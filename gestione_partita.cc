@@ -486,12 +486,14 @@ bool controlloCollisioneNavicellaMisteriosa (Partita &partita)
 	return collisione;
 }
 
-bool controlloFineOndata (Partita partita)
+bool controlloFineOndata (Partita &partita)
 {
 	if (partita.ondata.alieni_rimasti > 0)
 	{
 		return false;
 	}
+	partita.vite_rimanenti++;
+	partita.punteggio.valore += 500;
 	D1(cout<<"Ondata aliena distrutta."<<endl);
 	return true;
 }
