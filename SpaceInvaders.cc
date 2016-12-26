@@ -489,6 +489,7 @@ int main ()
 						}
 						if (controlloCollisioneAlieni (partita_in_corso))
 						{
+							aggiornaVelocitaSpostamentoOndata (percentualeVelocitaOndata (partita_in_corso));
 							if (statoMusica (impostazioni))
 							{
 								modificaVelocitaMusicaOndata (percentualeVelocitaOndata (partita_in_corso));

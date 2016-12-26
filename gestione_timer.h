@@ -3,7 +3,7 @@
  */
 
 //INIZIO COSTANTI PER ANIMAZIONE
-const unsigned int STADI_INCREMENTO_VELOCITA_ONDATA = 6; /**<Stadi di incremento della velocità dell'ondata.*/
+const unsigned int STADI_INCREMENTO_VELOCITA_ONDATA = 3; /**<Stadi di incremento della velocità dell'ondata.*/
 const unsigned int RANGE_PERCENTUALE_INCREMENTO_VELOCITA_ONDATA = 100 / STADI_INCREMENTO_VELOCITA_ONDATA; /**<Range percentualedi incremento della velocità.*/
 //FINE COSTANTI PER ANIMAZIONE
 
@@ -14,8 +14,8 @@ const float FREQUENZA_COMPARSA_SPARO_ALIENI = 1.5; /**<Frequenza di creazione de
 const float FPS_GIOCO = 60; /**<FPS del gioco.*/
 const float FREQUENZA_LAMPEGGIO_MENU = 3.5; /**<Frequenza dell'effetto lampeggiante sull'opzione selezionata dei menù.*/
 const float FREQUENZA_SPOSTAMENTO_CARRO_ARMATO = 115; /**<Frequenza dello spostamento del carro armato.*/
-const float FREQUENZA_SPOSTAMENTO_NAVICELLA_MISTERIOSA = 180; /**<Frequenza dello spostamento della navicella misteriosa.*/
-const float FREQUENZA_SPOSTAMENTO_ONDATA_MAX = 260; /**<Frequenza massima del movimento dell'ondata.*/
+const float FREQUENZA_SPOSTAMENTO_NAVICELLA_MISTERIOSA = 170; /**<Frequenza dello spostamento della navicella misteriosa.*/
+const float FREQUENZA_SPOSTAMENTO_ONDATA_MAX = 110; /**<Frequenza massima del movimento dell'ondata.*/
 const float FREQUENZA_SPOSTAMENTO_ONDATA_MIN = 70; /**<Frequenza minima del movimento dell'ondata.*/
 const float FREQUENZA_SPOSTAMENTO_SPARI = 150; /**<Frequenza dello spostamento degli spari.*/
 //FINE COSTANTI PER VARI TIMER
