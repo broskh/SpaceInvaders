@@ -10,13 +10,13 @@ using namespace std;
 #include "gestione_timer.h"
 
 //INIZIO CONFIGURAZIONE TRACING
-/*#ifdef DEBUG_MODE
+#ifdef DEBUG_MODE
 	#ifdef DEBUG_LEVEL
 		static unsigned int debug_level = DEBUG_LEVEL;
 	#else
 		static unsigned int debug_level = 0;
 	#endif
-#endif*/
+#endif
 //FINE CONFIGURAZIONE TRACING
 
 //INIZIO VARIABILI DI MODULO
