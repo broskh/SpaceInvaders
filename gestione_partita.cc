@@ -475,7 +475,7 @@ bool controlloCollisioneNavicellaMisteriosa (Partita &partita)
 {
 	unsigned int pos_y_fondo_navicella = MARGINE_SUP_GIOCO + altezzaNavicellaMisteriosa ();
 	bool collisione = false;
-	if (partita.carro_armato.sparo.stato && partita.carro_armato.sparo.pos_y <= (pos_y_fondo_navicella) && ((partita.carro_armato.sparo.pos_x + larghezzaSparoCarroArmato ()) >= partita.navicella_misteriosa.pos_x && partita.carro_armato.sparo.pos_x <= (partita.navicella_misteriosa.pos_x + larghezzaNavicellaMisteriosa ())))
+	if (partita.carro_armato.sparo.stato && partita.navicella_misteriosa.stato && partita.carro_armato.sparo.pos_y <= (pos_y_fondo_navicella) && ((partita.carro_armato.sparo.pos_x + larghezzaSparoCarroArmato ()) >= partita.navicella_misteriosa.pos_x && partita.carro_armato.sparo.pos_x <= (partita.navicella_misteriosa.pos_x + larghezzaNavicellaMisteriosa ())))
 	{
 		partita.navicella_misteriosa.stato = false;
 		partita.carro_armato.sparo.stato = false;
