@@ -18,7 +18,7 @@ const unsigned int SMUSSO_SUPERIORE = 4; /**<Dimensione dello smusso superiore d
 //INIZIO COSTANTI PER BARRIERE
 
 //INIZIO COSTANTI PER NAVICELLA MISTERIOSA
-const unsigned int PROBABILITA_COMPARSA_NAVICELLA = 25; /**<Percentuale di probabilità che compaia la navicella misteriosa.*/
+const unsigned int PROBABILITA_COMPARSA_NAVICELLA = 35; /**<Percentuale di probabilità che compaia la navicella misteriosa.*/
 const unsigned int PUNTEGGIO_NAVICELLA_MAX = 500; /**<Punteggio massimo che può assumere la navicella misteriosa.*/
 const unsigned int PUNTEGGIO_NAVICELLA_MIN = 100; /**<Punteggio minimo che può assumere la navicella misteriosa.*/
 //FINE COSTANTI PER NAVICELLA MISTERIOSA
