@@ -3,33 +3,35 @@
  */
 
 /**
- * Riproduzione del celebre videogioco "Space Inavaders" con qualche lieve
- * variazione rispetto all'originale.
+ * Riproduzione del celebre videogioco "Space Inavaders"..
  * 
- * Mantiene inalterate tutte le caratteristiche del gioco originale.
- * Avremo quindi a che fare con una navicella, la quale avrà il compito di
+ * Mantiene inalterate tutte le caratteristiche di base del gioco originale.
+ * Avremo quindi a che fare con un carro armato, il quale avrà il compito di
  * abbattere, finchè avrà vite a disposizione, tutte le ondate di alieni che
  * ripetutamente si avvicineranno.
  *
  * Man mano che colpirà gli alieni, a seconda del tipo di alieno colpito,
- * il giocatore incrementerà il proprio vantaggio.
+ * il giocatore incrementerà il proprio vantaggio. Una volta che un'intera ondata
+ * verrà distrutta, ne ricomparirà subito un'altra.
  *
- * Il giocatore ad inizio partita avrà a disposizione tre barriere che quando
- * colpite dagli alieni o dal carro armato tenderanno prima a sgretolarsi, e 
+ * Ad intervalli di tempo casuali comparirà anche una navicella misteriosa. Se essa
+ * verrà colpita il giocatore avrà un incremento rilevante e casuale del punteggio.
+ *
+ * Il giocatore ad inizio partita avrà a disposizione tre barriere. Ogni qualvolta esse
+ * verranno colpite dagli alieni o dal carro armato, tenderanno prima a sgretolarsi, e 
  * infine a distruggersi.
  * 
  * Al termine della partita, se è stato ottenuto un punteggio degno di essere inserito 
- * nella classifica degli highscores, è possibile scegliere un nome di tre lettere 
- * e memorizzare il punteggio.
+ * nella classifica degli highscores, è possibile digitare un nome di massimo tre lettere 
+ * e salvare il punteggio.
  *
  * Attraverso le impostazioni è possibile abilitare o meno la musica e gli effetti
  * audio. Inoltre è possibile modificare la grafica cromatica degli alieni e
  * impostare il numero di vite con le quali si intende iniziare la partita.
  *
- * All'interno della partita è possibile mettere in pausa il gioco ed eventualmente
- * effettuare un salvataggio della partita, per poter così ricominciare a
- * giocare in un secondo momento da dove è stata precedentemente interrotta una
- * partita.
+ * Durante una partita è possibile mettere il gioco in pausa ed eventualmente
+ * effettuare un salvataggio della partita. In questo modo sarà possibile ricominciare 
+ * la stessa in un secondo momento, dall'esatto punto nel quale era stata precedentemente interrotta.
  * 
  * Dal menù principale è inoltre possibile visualizzare la classifica dei dieci migliori
  * punteggi raggiunti e il nome dei giocatori che hanno raggiunto tali risultati.

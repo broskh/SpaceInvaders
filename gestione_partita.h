@@ -118,6 +118,8 @@ bool controlloCollisioneNavicellaMisteriosa (Partita &partita);
 
 /**
  * Controlla se sono stati distrutti tutti gli alieni facenti parte dell'ondata.
+ * Se l'intera ondata è stata distrutta il giocatore avrà un incremento del punteggio 
+ * e delle vite rimanenti a disposizione.
  * 
  * @param partita Partita nella quale controllare lo stato dell'ondata.
  * 
