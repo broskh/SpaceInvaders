@@ -197,7 +197,8 @@ void output (Partita partita, ostream &os)
 
 	os<<partita.navicella_misteriosa.stato<<endl;
 	os<<partita.navicella_misteriosa.punteggio<<endl;
-	os<<partita.navicella_misteriosa.pos_x<<endl<<endl;
+	os<<partita.navicella_misteriosa.pos_x<<endl;
+	os<<partita.navicella_misteriosa.dir_navicella<<endl<<endl;
 
 	os<<partita.carro_armato.esplosione<<endl;
 	os<<partita.carro_armato.pos_x<<endl;
@@ -315,10 +316,10 @@ bool caricaPartita (Partita &partita)
 	{
 		return false;
 	}
-	int dir_int;
-	if (f>>dir_int)
+	int dir_al_int;
+	if (f>>dir_al_int)
 	{
-		temp.ondata.dir_alieni = static_cast <direzione> (dir_int);
+		temp.ondata.dir_alieni = static_cast <direzione> (dir_al_int);
 	}
 	else
 	{
@@ -336,6 +337,15 @@ bool caricaPartita (Partita &partita)
 	}
 	
 	if (!(f>>temp.navicella_misteriosa.stato && f>>temp.navicella_misteriosa.punteggio && f>>temp.navicella_misteriosa.pos_x))
+	{
+		return false;
+	}
+	int dir_nav_int;
+	if (f>>dir_nav_int)
+	{
+		temp.navicella_misteriosa.dir_navicella = static_cast <direzione> (dir_nav_int);
+	}
+	else
 	{
 		return false;
 	}
@@ -531,7 +541,15 @@ void creaNavicellaMisteriosa (Partita &partita)
 	{
 		partita.navicella_misteriosa.stato = true;
 		partita.navicella_misteriosa.punteggio = (rand() % ((PUNTEGGIO_NAVICELLA_MAX - PUNTEGGIO_NAVICELLA_MIN) / 10)) * 10 + PUNTEGGIO_NAVICELLA_MIN;
-		partita.navicella_misteriosa.pos_x = MARGINE_SX_GIOCO;
+		partita.navicella_misteriosa.dir_navicella = static_cast <direzione> (rand () % 2);
+		if (partita.navicella_misteriosa.dir_navicella == destra)
+		{
+			partita.navicella_misteriosa.pos_x = MARGINE_SX_GIOCO;
+		}
+		else
+		{
+			partita.navicella_misteriosa.pos_x = MARGINE_DX_GIOCO - larghezzaNavicellaMisteriosa ();
+		}
 		D2(cout<<"Navicella misteriosa creata."<<endl);
 	}
 }
@@ -654,11 +672,23 @@ void muoviCarroSinistra (Partita &partita)
 
 void muoviNavicellaMisteriosa (Partita &partita)
 {
-	unsigned int limite_dx = MARGINE_DX_GIOCO - larghezzaNavicellaMisteriosa ();
-	partita.navicella_misteriosa.pos_x = sucInRange (partita.navicella_misteriosa.pos_x, limite_dx);
-	if (partita.navicella_misteriosa.pos_x == limite_dx)
+	if (partita.navicella_misteriosa.dir_navicella == destra)
 	{
-		partita.navicella_misteriosa.stato = false;
+		unsigned int limite_dx = MARGINE_DX_GIOCO - larghezzaNavicellaMisteriosa ();
+		partita.navicella_misteriosa.pos_x = sucInRange (partita.navicella_misteriosa.pos_x, limite_dx);
+		if (partita.navicella_misteriosa.pos_x == limite_dx)
+		{
+			partita.navicella_misteriosa.stato = false;
+		}
+	}
+	else
+	{
+		unsigned int limite_sx = MARGINE_SX_GIOCO;
+		partita.navicella_misteriosa.pos_x = precInRange (partita.navicella_misteriosa.pos_x, limite_sx);
+		if (partita.navicella_misteriosa.pos_x == limite_sx)
+		{
+			partita.navicella_misteriosa.stato = false;
+		}
 	}
 }
 
