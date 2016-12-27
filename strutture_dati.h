@@ -125,6 +125,7 @@ struct Navicella
 	bool stato; /**<Stato della navicella misteriosa che indica se è comparsa o no.*/
 	unsigned int punteggio; /**<Punteggio che il giocatore guadagna dalla distruzione di questa navicella misteriosa.*/
 	unsigned int pos_x; /**<Posizione rispetto all'asse x della navicella misteriosa.*/
+	direzione dir_navicella; /**<Direzione del movimento della navicella.*/
 };
 
 /**
