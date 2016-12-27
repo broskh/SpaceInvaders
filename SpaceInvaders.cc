@@ -59,6 +59,10 @@ using namespace std;
 #endif
 //FINE CONFIGURAZIONE TRACING
 
+//INIZIO COSTANTI MAIN
+const char TITOLO_FINESTRA [] = "Space Invaders"; /**<Titolo della finestra del gioco.*/
+//FINE OCSTANTI MAIN
+
 //INIZIO FUNZIONI PRIVATE
 /*
  * Dealloca la memoria riguardante la coda degli eventi.
@@ -124,6 +128,7 @@ int main ()
 		distruggiCoda ();
 		return 3;
 	}
+	al_set_window_title(display, TITOLO_FINESTRA);
    	al_register_event_source(coda_eventi, al_get_display_event_source(display));
 
 	//INIZIALIZZAZIONE DELLA TASTIERA
