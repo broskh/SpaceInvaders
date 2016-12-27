@@ -521,6 +521,10 @@ int main ()
 						if (controlloFineOndata (partita_in_corso))
 						{
 							nuovaOndata (partita_in_corso);
+							if (statoMusica (impostazioni))
+							{
+								modificaVelocitaMusicaOndata (percentualeVelocitaOndata (partita_in_corso));
+							}
 						}
 						if (statoEffettiAudio (impostazioni))
 						{								
