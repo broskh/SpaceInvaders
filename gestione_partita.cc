@@ -220,7 +220,7 @@ unsigned int sceltaLarghezzaAlieno (unsigned int numero_fila)
 }
 
 /*
- * Ritorna il numero successivo di n, procedendo del peso definito e non andando oltre il valore assimo max.
+ * Ritorna il numero successivo di n, procedendo del peso definito e non andando oltre il valore massimo max.
  */
 int sucInRange (int n, int peso, int max)
 {
@@ -233,11 +233,24 @@ int sucInRange (int n, int peso, int max)
 }
 
 /*
- * Ritorna il numero successivo di n, procedendo di un peso uguale a 1 e non andando oltre il valore assimo max.
+ * Ritorna il numero successivo di n, procedendo di un peso uguale a 1 e non andando oltre il valore massimo max.
  */
 int sucInRange (int n, int max)
 {
 	return sucInRange (n, 1, max);
+}
+
+/*
+ * Ritorna il numero successivo di n, procedendo di un peso uguale a 1 e quando raggiunge il valore max, riparte da 0.
+ */
+int sucInRangeCircolare (int n, int max)
+{
+	n ++;
+	if (n > max)
+	{
+		n = 0;
+	}
+	return n;
 }
 //FINE FUNZIONI PRIVATE
 void avanzaEsplosioneAlieno (Partita &partita, unsigned int n_fila, unsigned int n_colonna)
@@ -546,7 +559,7 @@ void creaSparoAlieni (Partita &partita)
 		}
 		if (!creato) //se quella colonna dell'ondata non ha più alieni, si controlla la successiva
 		{
-			fattore_casuale = sucInRange (fattore_casuale, N_COL_ALIENI);
+			fattore_casuale = sucInRangeCircolare (fattore_casuale, N_COL_ALIENI);
 		}
 	}
 }

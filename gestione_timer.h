@@ -10,7 +10,7 @@ const unsigned int RANGE_PERCENTUALE_INCREMENTO_VELOCITA_ONDATA = 100 / STADI_IN
 //INIZIO COSTANTI PER VARI TIMER
 const float FREQUENZA_ANIMAZIONE = 4; /**<Frequenza dell'animazione.*/
 const float FREQUENZA_COMPARSA_NAVICELLA_MISTERIOSA = 0.5; /**<Frequenza della possibile comparsa della navicella misteriosa.*/
-const float FREQUENZA_COMPARSA_SPARO_ALIENI = 1.5; /**<Frequenza di creazione degli spari alieni.*/
+const float FREQUENZA_COMPARSA_SPARO_ALIENI = 0.75; /**<Frequenza di creazione degli spari alieni.*/
 const float FPS_GIOCO = 60; /**<FPS del gioco.*/
 const float FREQUENZA_LAMPEGGIO_MENU = 3.5; /**<Frequenza dell'effetto lampeggiante sull'opzione selezionata dei menù.*/
 const float FREQUENZA_SPOSTAMENTO_CARRO_ARMATO = 115; /**<Frequenza dello spostamento del carro armato.*/
