@@ -27,6 +27,11 @@ const unsigned int PUNTEGGIO_NAVICELLA_MIN = 100; /**<Punteggio minimo che può 
 const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file contenente la partita salvata.*/
 //FINE COSTANTI PER FILE
 
+//INIZIO COSTANTI PER FINE ONDATA
+const unsigned int PUNTEGGIO_EXTRA_FINE_ONDATA = 500; /**<Putneggio extra che viene assegnato al giocatore dopo aver distrutto un'intera ondata.*/
+const unsigned int VITE_EXTRA_FINE_ONDATA = 1; /**<Vite extra che vengono assegnate al giocatore dopo aver distrutto un'intera ondata.*/
+//FINE COSTANTI PER FINE ONDATA
+
 //INIZIO INTERFACCIA
 /**
  * Incrementa il valore dell'esplosione di un alieno.

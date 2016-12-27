@@ -505,8 +505,8 @@ bool controlloFineOndata (Partita &partita)
 	{
 		return false;
 	}
-	partita.vite_rimanenti++;
-	partita.punteggio.valore += 500;
+	partita.vite_rimanenti += VITE_EXTRA_FINE_ONDATA;
+	partita.punteggio.valore += PUNTEGGIO_EXTRA_FINE_ONDATA;
 	D1(cout<<"Ondata aliena distrutta."<<endl);
 	return true;
 }
