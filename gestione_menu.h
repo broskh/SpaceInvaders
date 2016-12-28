@@ -81,12 +81,13 @@ void selezionaPrimaVoce (Menu &menu);
  * striga ritornare.
  *
  * @param stringa Stringa contenente il valore di una determinato campo delle {@link Impostazioni}.
+ * @param dimensione_stringa Dimensione della stringa.
  * @param voce Voce del menù impostazioni della quale si vuole ottenere il valore come stringa.
  * @param impostazioni Struttura {@link Impostazioni} dal quale si controlla il valore del campo.
  * 
  * @return "true" se la voce di menù passata corrispone ad un tipo {@link voce_menu_impostazioni}, "false" altrimenti.
  */
-bool stringaValoreVoceImpostazioni (char stringa [], voce_menu_impostazioni voce, Impostazioni impostazioni);
+bool stringaValoreVoceImpostazioni (char stringa [], size_t dimensione_stringa, voce_menu_impostazioni voce, Impostazioni impostazioni);
 
 /*
  * Modifica il valore di un determinato campo della struttura {@link Impostazioni}, assegnandone il precedente.

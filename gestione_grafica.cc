@@ -186,16 +186,12 @@ bool inizializzaGrafica ()
 		D1(cout<<"<Image addon non inizializzato correttamente."<<endl);
 		return false;
 	}
-	if (!al_init_font_addon())
-	{
-		D1(cout<<"Font addon non inizializzato correttamente."<<endl);
-		return false;
-	}
+	al_init_font_addon();
 	if (!al_init_ttf_addon())
 	{
 		D1(cout<<"ttf addon non inizializzato correttamente."<<endl);
 		return false;
-	} 
+	}
 
 	font_titolo = al_load_ttf_font(FILE_FONT_TITOLO, DIMENSIONE_TITOLO, 0);
 	if (!font_titolo)
@@ -566,7 +562,7 @@ void stampaImpostazioni (Menu menu_impostazioni, Impostazioni impostazioni, bool
 		{
 			generic_string str_stato = "<    ";
 			generic_string str_valore;
-			assert(stringaValoreVoceImpostazioni (str_valore, static_cast <voce_menu_impostazioni> (i), impostazioni));
+			assert(stringaValoreVoceImpostazioni (str_valore, sizeof (str_valore), static_cast <voce_menu_impostazioni> (i), impostazioni));
 			strcat (str_stato, str_valore);
 			strcat (str_stato, "     >");
 			al_draw_text(font_testo, COLORE_DEFAULT, pos_x_attuale, pos_y_attuale, ALLEGRO_ALIGN_LEFT, str_stato);

@@ -130,47 +130,47 @@ void selezionaPrimaVoce (Menu &menu)
 	menu.voce_selezionata = 0;
 }
 
-bool stringaValoreVoceImpostazioni (char stringa [], voce_menu_impostazioni voce, Impostazioni impostazioni)
+bool stringaValoreVoceImpostazioni (char stringa [], size_t dimensione_stringa, voce_menu_impostazioni voce, Impostazioni impostazioni)
 {
 	switch (voce)
 	{
 		case v_musica:
 			if (impostazioni.musica)
 			{
-				strncpy (stringa, STRINGA_ON, sizeof (stringa));
+				strncpy (stringa, STRINGA_ON, dimensione_stringa);
 			}
 			else
 			{
-				strncpy (stringa, STRINGA_OFF, sizeof (stringa));
+				strncpy (stringa, STRINGA_OFF, dimensione_stringa);
 			}
 			break;
 		case v_eff_audio:
 			if (impostazioni.eff_audio)
 			{
-				strncpy (stringa, STRINGA_ON, sizeof (stringa));
+				strncpy (stringa, STRINGA_ON, dimensione_stringa);
 			}
 			else
 			{
-				strncpy (stringa, STRINGA_OFF, sizeof (stringa));
+				strncpy (stringa, STRINGA_OFF, dimensione_stringa);
 			}
 			break;
 		case v_colori_alieni:
 			switch (impostazioni.colore_alieni)
 			{
 				case verde:
-					strncpy (stringa, STRINGA_VERDE, sizeof (stringa));
+					strncpy (stringa, STRINGA_VERDE, dimensione_stringa);
 					break;
 				case bianco:
-					strncpy (stringa, STRINGA_BIANCO, sizeof (stringa));
+					strncpy (stringa, STRINGA_BIANCO, dimensione_stringa);
 					break;
 				case arancione:
-					strncpy (stringa, STRINGA_ARANCIONE, sizeof (stringa));
+					strncpy (stringa, STRINGA_ARANCIONE, dimensione_stringa);
 					break;
 				case giallo:
-					strncpy (stringa, STRINGA_GIALLO, sizeof (stringa));
+					strncpy (stringa, STRINGA_GIALLO, dimensione_stringa);
 					break;
 				case blu:
-					strncpy (stringa, STRINGA_BLU, sizeof (stringa));
+					strncpy (stringa, STRINGA_BLU, dimensione_stringa);
 					break;
 			}
 			break;
