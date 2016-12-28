@@ -122,7 +122,7 @@ void inizializzaClassifica (Classifica &classifica)
 
 void inizializzaPunteggio (Punteggio &punteggio, char nome [], int valore)
 {
-	strcpy (punteggio.nome, nome);
+	strncpy (punteggio.nome, nome, sizeof (punteggio.nome));
 	punteggio.valore = valore;
 }
 

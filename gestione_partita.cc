@@ -4,6 +4,7 @@
 
 using namespace std;
 #include <iostream>
+#include <ctime>
 #include <fstream>
 #include <cstdlib>
 #include <cstring>
@@ -737,7 +738,7 @@ void nuovaOndata (Partita &partita)
 void nuovaPartita (Partita &partita, Impostazioni impostazioni)
 {
 	Punteggio punteggio;
-	strcpy (punteggio.nome, "");
+	strncpy (punteggio.nome, "", sizeof (punteggio.nome));
 	punteggio.valore = 0;
 	partita.punteggio = punteggio;
 

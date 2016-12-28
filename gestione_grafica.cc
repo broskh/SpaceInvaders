@@ -351,7 +351,7 @@ void stampaFinePartita (Classifica classifica, Partita partita, int posizione_pu
 		if (i == posizione_punteggio_attuale)
 		{
 			char nome_visualizzato [CARATTERI_NOME];
-			strcpy (nome_visualizzato, partita.punteggio.nome);
+			strncpy (nome_visualizzato, partita.punteggio.nome, sizeof (nome_visualizzato));
 			if (strlen (nome_visualizzato) < CARATTERI_NOME) //se il nome non ha raggiunto la dimensione massima metto come ultimo carattere _
 			{
 				strcat (nome_visualizzato, "_");
@@ -397,7 +397,7 @@ void stampaGioca (Partita partita, bool animazione, colore colore_alieni)
 
 	//INIZIO DELLA VISUALIZZAZIONE DELLE INFORMAZIONI
 	generic_string stringa_punteggio;
-	strcpy (stringa_punteggio, STRINGA_PUNTEGGIO);
+	strncpy (stringa_punteggio, STRINGA_PUNTEGGIO, sizeof (stringa_punteggio));
 	generic_string valore_punteggio;
 	sprintf(valore_punteggio, "%d", partita.punteggio.valore);
 	strcat (stringa_punteggio, valore_punteggio);
@@ -405,7 +405,7 @@ void stampaGioca (Partita partita, bool animazione, colore colore_alieni)
 	al_draw_text(font_testo, COLORE_DEFAULT, pos_x_attuale, POS_Y_INFORMAZIONI_PARTITA, ALLEGRO_ALIGN_LEFT, stringa_punteggio);
 
 	generic_string stringa_vite;
-	strcpy (stringa_vite, STRINGA_VITE);
+	strncpy (stringa_vite, STRINGA_VITE, sizeof (stringa_vite));
 	generic_string valore_vite;
 	sprintf(valore_vite, "%d", partita.vite_rimanenti);
 	strcat (stringa_vite, valore_vite);
@@ -636,7 +636,7 @@ void stampaMenuPrincipale (Menu menu_principale, bool partita_salvata, colore co
 	for (unsigned int i = 0; i < N_TIPI_ALIENI; i++)
 	{
 		al_draw_tinted_bitmap_region(tipi_alieni [i], colore_allegro, 0, 0, larghezzaAlieno (i), altezzaAlieno (), POS_X_ESEMPIO_ALIENI - larghezzaAlieno (i) / 2, pos_y_attuale, 0);
-		char stringa_punteggio [] = "=      ";
+		generic_string stringa_punteggio = "=      ";
 		generic_string valore_punteggio;
 		sprintf(valore_punteggio, "%d", PUNTEGGIO_ALIENI [i]);
 		strcat (stringa_punteggio, valore_punteggio);

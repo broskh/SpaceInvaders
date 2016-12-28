@@ -137,40 +137,40 @@ bool stringaValoreVoceImpostazioni (char stringa [], voce_menu_impostazioni voce
 		case v_musica:
 			if (impostazioni.musica)
 			{
-				strcpy (stringa, STRINGA_ON);
+				strncpy (stringa, STRINGA_ON, sizeof (stringa));
 			}
 			else
 			{
-				strcpy (stringa, STRINGA_OFF);
+				strncpy (stringa, STRINGA_OFF, sizeof (stringa));
 			}
 			break;
 		case v_eff_audio:
 			if (impostazioni.eff_audio)
 			{
-				strcpy (stringa, STRINGA_ON);
+				strncpy (stringa, STRINGA_ON, sizeof (stringa));
 			}
 			else
 			{
-				strcpy (stringa, STRINGA_OFF);
+				strncpy (stringa, STRINGA_OFF, sizeof (stringa));
 			}
 			break;
 		case v_colori_alieni:
 			switch (impostazioni.colore_alieni)
 			{
 				case verde:
-					strcpy (stringa, STRINGA_VERDE);
+					strncpy (stringa, STRINGA_VERDE, sizeof (stringa));
 					break;
 				case bianco:
-					strcpy (stringa, STRINGA_BIANCO);
+					strncpy (stringa, STRINGA_BIANCO, sizeof (stringa));
 					break;
 				case arancione:
-					strcpy (stringa, STRINGA_ARANCIONE);
+					strncpy (stringa, STRINGA_ARANCIONE, sizeof (stringa));
 					break;
 				case giallo:
-					strcpy (stringa, STRINGA_GIALLO);
+					strncpy (stringa, STRINGA_GIALLO, sizeof (stringa));
 					break;
 				case blu:
-					strcpy (stringa, STRINGA_BLU);
+					strncpy (stringa, STRINGA_BLU, sizeof (stringa));
 					break;
 			}
 			break;
