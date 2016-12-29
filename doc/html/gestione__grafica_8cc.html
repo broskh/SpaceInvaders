@@ -1,0 +1,713 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.11"/>
+<title>SpaceInvaders: Riferimenti per il file gestione_grafica.cc</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">SpaceInvaders
+   </div>
+   <div id="projectbrief">Riproduzione del celebre videogioco &#39;Space Inavaders&#39;.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generato da Doxygen 1.8.11 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Pagina&#160;Principale</span></a></li>
+      <li><a href="pages.html"><span>Pagine&#160;collegate</span></a></li>
+      <li><a href="annotated.html"><span>Classi</span></a></li>
+      <li class="current"><a href="files.html"><span>File</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Cerca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Elenco&#160;dei&#160;file</span></a></li>
+      <li><a href="globals.html"><span>Elementi&#160;dei&#160;file</span></a></li>
+    </ul>
+  </div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Funzioni</a>  </div>
+  <div class="headertitle">
+<div class="title">Riferimenti per il file gestione_grafica.cc</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;cassert&gt;</code><br />
+<code>#include &lt;cstdio&gt;</code><br />
+<code>#include &lt;allegro5/allegro_font.h&gt;</code><br />
+<code>#include &lt;allegro5/allegro_ttf.h&gt;</code><br />
+<code>#include &lt;allegro5/allegro_image.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="strutture__dati_8h_source.html">strutture_dati.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="gestione__grafica_8h_source.html">gestione_grafica.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="gestione__menu_8h_source.html">gestione_menu.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="gestione__partita_8h_source.html">gestione_partita.h</a>&quot;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Funzioni</h2></td></tr>
+<tr class="memitem:a7f51433a4e351c70412fb6b50270f367"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#a7f51433a4e351c70412fb6b50270f367">disegnaBarriera</a> (<a class="el" href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4a">stato_barriera</a> barriera[<a class="el" href="strutture__dati_8h.html#a0c06f1e70b8919ebae46e1c0dc0b6c35">ALTEZZA_BARRIERA</a>][<a class="el" href="strutture__dati_8h.html#aeb01fcec9b34e3b24cc7d5313be2c9d3">LARGHEZZA_BARRIERA</a>], unsigned int pos_x, unsigned int pos_y)</td></tr>
+<tr class="separator:a7f51433a4e351c70412fb6b50270f367"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6ec5dd792c0658bdd73aff3a20d7652"><td class="memItemLeft" align="right" valign="top">ALLEGRO_BITMAP *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#aa6ec5dd792c0658bdd73aff3a20d7652">scegliAlieno</a> (unsigned int numero_fila)</td></tr>
+<tr class="separator:aa6ec5dd792c0658bdd73aff3a20d7652"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e0641ae4a03ac9a59f8ecc48f707465"><td class="memItemLeft" align="right" valign="top">ALLEGRO_COLOR&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#a6e0641ae4a03ac9a59f8ecc48f707465">scelgliColore</a> (<a class="el" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2">colore</a> colore_alieni)</td></tr>
+<tr class="separator:a6e0641ae4a03ac9a59f8ecc48f707465"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe6883f339361a314b8db84c5083ba8f"><td class="memItemLeft" align="right" valign="top">ALLEGRO_BITMAP *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#abe6883f339361a314b8db84c5083ba8f">scegliSparo</a> (int pos_x)</td></tr>
+<tr class="separator:abe6883f339361a314b8db84c5083ba8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17502dbd32a098a3a2f221439883c46e"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#a17502dbd32a098a3a2f221439883c46e">altezzaAlieno</a> ()</td></tr>
+<tr class="memdesc:a17502dbd32a098a3a2f221439883c46e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fornisce l'altezza in pixel di un alieno.  <a href="#a17502dbd32a098a3a2f221439883c46e">Continua...</a><br /></td></tr>
+<tr class="separator:a17502dbd32a098a3a2f221439883c46e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39434024886955f5d3ed91adfa04ebf4"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#a39434024886955f5d3ed91adfa04ebf4">altezzaCarroArmato</a> ()</td></tr>
+<tr class="memdesc:a39434024886955f5d3ed91adfa04ebf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fornisce l'altezza in pixel del carro armato.  <a href="#a39434024886955f5d3ed91adfa04ebf4">Continua...</a><br /></td></tr>
+<tr class="separator:a39434024886955f5d3ed91adfa04ebf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd7c6074c602a88d1b13dd7ccf5e6d32"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#afd7c6074c602a88d1b13dd7ccf5e6d32">altezzaLatoUnitaBarriera</a> ()</td></tr>
+<tr class="memdesc:afd7c6074c602a88d1b13dd7ccf5e6d32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fornisce l'altezza in pixel di un'unità che compone la barriera.  <a href="#afd7c6074c602a88d1b13dd7ccf5e6d32">Continua...</a><br /></td></tr>
+<tr class="separator:afd7c6074c602a88d1b13dd7ccf5e6d32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa03db66526e2b863ded25a21b6f7a773"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#aa03db66526e2b863ded25a21b6f7a773">altezzaNavicellaMisteriosa</a> ()</td></tr>
+<tr class="memdesc:aa03db66526e2b863ded25a21b6f7a773"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fornisce l'altezza in pixel della navicella misteriosa.  <a href="#aa03db66526e2b863ded25a21b6f7a773">Continua...</a><br /></td></tr>
+<tr class="separator:aa03db66526e2b863ded25a21b6f7a773"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a889cc2eaa67a08507b9c8db745fd089e"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#a889cc2eaa67a08507b9c8db745fd089e">altezzaSparoAlienoAttuale</a> (unsigned int pos_x_sparo)</td></tr>
+<tr class="memdesc:a889cc2eaa67a08507b9c8db745fd089e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fornisce l'altezza in pixel dello sparo alieno corretto sulla base della posizione rispetto all'asse x dello sparo.  <a href="#a889cc2eaa67a08507b9c8db745fd089e">Continua...</a><br /></td></tr>
+<tr class="separator:a889cc2eaa67a08507b9c8db745fd089e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59fb70ed77d56bc1ce47198b04b5ace3"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#a59fb70ed77d56bc1ce47198b04b5ace3">altezzaSparoCarroArmato</a> ()</td></tr>
+<tr class="memdesc:a59fb70ed77d56bc1ce47198b04b5ace3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fornisce l'altezza in pixel dello sparo del carro armato.  <a href="#a59fb70ed77d56bc1ce47198b04b5ace3">Continua...</a><br /></td></tr>
+<tr class="separator:a59fb70ed77d56bc1ce47198b04b5ace3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f60f723518bd4293f53ff7a008a21d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#a5f60f723518bd4293f53ff7a008a21d2">distruggiGrafica</a> ()</td></tr>
+<tr class="memdesc:a5f60f723518bd4293f53ff7a008a21d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Procedura di distruzione del modulo per la gestione della grafica.  <a href="#a5f60f723518bd4293f53ff7a008a21d2">Continua...</a><br /></td></tr>
+<tr class="separator:a5f60f723518bd4293f53ff7a008a21d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cfe29e5f499cf91030327bdcc9522b0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#a9cfe29e5f499cf91030327bdcc9522b0">inizializzaGrafica</a> ()</td></tr>
+<tr class="memdesc:a9cfe29e5f499cf91030327bdcc9522b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Procedura di inizializzazione del modulo per la gestione della grafica.  <a href="#a9cfe29e5f499cf91030327bdcc9522b0">Continua...</a><br /></td></tr>
+<tr class="separator:a9cfe29e5f499cf91030327bdcc9522b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee627be423216d11c28dc0fa35a5b6b3"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#aee627be423216d11c28dc0fa35a5b6b3">larghezzaAlieno</a> (unsigned int n_fila_alieno)</td></tr>
+<tr class="memdesc:aee627be423216d11c28dc0fa35a5b6b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fornisce la larghezza in pixel dell'alieno sulla base del numero della fila dell'ondata nella quale si trova.  <a href="#aee627be423216d11c28dc0fa35a5b6b3">Continua...</a><br /></td></tr>
+<tr class="separator:aee627be423216d11c28dc0fa35a5b6b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2643c3d38fab207bcd587c68b7e55c3"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#aa2643c3d38fab207bcd587c68b7e55c3">larghezzaCarroArmato</a> ()</td></tr>
+<tr class="memdesc:aa2643c3d38fab207bcd587c68b7e55c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fornisce la larghezza in pixel del carro armato.  <a href="#aa2643c3d38fab207bcd587c68b7e55c3">Continua...</a><br /></td></tr>
+<tr class="separator:aa2643c3d38fab207bcd587c68b7e55c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a905e370e894083cb74e23116b8602bb3"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#a905e370e894083cb74e23116b8602bb3">larghezzaLatoUnitaBarriera</a> ()</td></tr>
+<tr class="memdesc:a905e370e894083cb74e23116b8602bb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fornisce la larghezza in pixel di un'unità che compone la barriera.  <a href="#a905e370e894083cb74e23116b8602bb3">Continua...</a><br /></td></tr>
+<tr class="separator:a905e370e894083cb74e23116b8602bb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2684fd5e9c034ab0989b05fc93d9f74"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#ab2684fd5e9c034ab0989b05fc93d9f74">larghezzaNavicellaMisteriosa</a> ()</td></tr>
+<tr class="memdesc:ab2684fd5e9c034ab0989b05fc93d9f74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fornisce la larghezza in pixel della navicella misteriosa.  <a href="#ab2684fd5e9c034ab0989b05fc93d9f74">Continua...</a><br /></td></tr>
+<tr class="separator:ab2684fd5e9c034ab0989b05fc93d9f74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af534bb5356154f57e9ca6c979e6b4021"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#af534bb5356154f57e9ca6c979e6b4021">larghezzaSparoAlienoAttuale</a> (unsigned int pos_x_sparo)</td></tr>
+<tr class="memdesc:af534bb5356154f57e9ca6c979e6b4021"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fornisce la larghezza in pixel dello sparo alieno corretto sulla base della posizione rispetto all'asse x dello sparo.  <a href="#af534bb5356154f57e9ca6c979e6b4021">Continua...</a><br /></td></tr>
+<tr class="separator:af534bb5356154f57e9ca6c979e6b4021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef4b1986a42606e729dd72ad9cd2dc66"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#aef4b1986a42606e729dd72ad9cd2dc66">larghezzaSparoCarroArmato</a> ()</td></tr>
+<tr class="memdesc:aef4b1986a42606e729dd72ad9cd2dc66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fornisce la larghezza in pixel dello sparo del carro armato.  <a href="#aef4b1986a42606e729dd72ad9cd2dc66">Continua...</a><br /></td></tr>
+<tr class="separator:aef4b1986a42606e729dd72ad9cd2dc66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9abded0eedf4672636d7388630a35ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#aa9abded0eedf4672636d7388630a35ce">stampaFinePartita</a> (<a class="el" href="structClassifica.html">Classifica</a> classifica, <a class="el" href="structPartita.html">Partita</a> partita, int posizione_punteggio_attuale, bool redraw_lampeggio)</td></tr>
+<tr class="separator:aa9abded0eedf4672636d7388630a35ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dcb878131d1bf02cd3389d43123be78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#a0dcb878131d1bf02cd3389d43123be78">stampaGioca</a> (<a class="el" href="structPartita.html">Partita</a> partita, bool animazione, <a class="el" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2">colore</a> colore_alieni)</td></tr>
+<tr class="separator:a0dcb878131d1bf02cd3389d43123be78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10e92ffafdd969d9eb7f29bd282475be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#a10e92ffafdd969d9eb7f29bd282475be">stampaHighscores</a> (<a class="el" href="structClassifica.html">Classifica</a> classifica)</td></tr>
+<tr class="separator:a10e92ffafdd969d9eb7f29bd282475be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c76847752215a9fc0b2c2906c6a76a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#a5c76847752215a9fc0b2c2906c6a76a4">stampaImpostazioni</a> (<a class="el" href="structMenu.html">Menu</a> menu_impostazioni, <a class="el" href="structImpostazioni.html">Impostazioni</a> impostazioni, bool redraw_lampeggio)</td></tr>
+<tr class="separator:a5c76847752215a9fc0b2c2906c6a76a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fe3f67111251bebf667b0dd41b3d698"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#a2fe3f67111251bebf667b0dd41b3d698">stampaMenuPausa</a> (<a class="el" href="structMenu.html">Menu</a> menu_pausa, bool redraw_lampeggio)</td></tr>
+<tr class="separator:a2fe3f67111251bebf667b0dd41b3d698"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb84a5cd0082580244400bc98b27f808"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gestione__grafica_8cc.html#aeb84a5cd0082580244400bc98b27f808">stampaMenuPrincipale</a> (<a class="el" href="structMenu.html">Menu</a> menu_principale, bool partita_salvata, <a class="el" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2">colore</a> colore_alieni, bool redraw_lampeggio)</td></tr>
+<tr class="separator:aeb84a5cd0082580244400bc98b27f808"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentazione delle funzioni</h2>
+<a class="anchor" id="a17502dbd32a098a3a2f221439883c46e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int altezzaAlieno </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fornisce l'altezza in pixel di un alieno. </p>
+<p>Non viene fatta distinzione per la fila alla quale appartiene l'alieno, perchè per migliorare l'aspetto del gioco gli alieni devono avere tutti la stessa altezza.</p>
+<dl class="section return"><dt>Restituisce</dt><dd>l'altezza dell'alieno. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a39434024886955f5d3ed91adfa04ebf4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int altezzaCarroArmato </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fornisce l'altezza in pixel del carro armato. </p>
+<dl class="section return"><dt>Restituisce</dt><dd>l'altezza del carro armato. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="afd7c6074c602a88d1b13dd7ccf5e6d32"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int altezzaLatoUnitaBarriera </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fornisce l'altezza in pixel di un'unità che compone la barriera. </p>
+<dl class="section return"><dt>Restituisce</dt><dd>l'altezza di un'unità che compone la barriera. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aa03db66526e2b863ded25a21b6f7a773"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int altezzaNavicellaMisteriosa </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fornisce l'altezza in pixel della navicella misteriosa. </p>
+<dl class="section return"><dt>Restituisce</dt><dd>l'altezza della navicella misteriosa. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a889cc2eaa67a08507b9c8db745fd089e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int altezzaSparoAlienoAttuale </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>pos_x_sparo</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fornisce l'altezza in pixel dello sparo alieno corretto sulla base della posizione rispetto all'asse x dello sparo. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pos_x_sparo</td><td>Posizione rispetto all'asse x dello sparo alieno.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>l'altezza dello sparo alieno corretto. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a59fb70ed77d56bc1ce47198b04b5ace3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int altezzaSparoCarroArmato </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fornisce l'altezza in pixel dello sparo del carro armato. </p>
+<dl class="section return"><dt>Restituisce</dt><dd>l'altezza dello sparo del carro armato. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a7f51433a4e351c70412fb6b50270f367"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void disegnaBarriera </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4a">stato_barriera</a>&#160;</td>
+          <td class="paramname"><em>barriera</em>[ALTEZZA_BARRIERA][LARGHEZZA_BARRIERA], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>pos_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>pos_y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a5f60f723518bd4293f53ff7a008a21d2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void distruggiGrafica </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Procedura di distruzione del modulo per la gestione della grafica. </p>
+<p>Si occupa di deallocare correttamente la memoria alloccata in fase di inizializzazione del modulo. </p>
+
+</div>
+</div>
+<a class="anchor" id="a9cfe29e5f499cf91030327bdcc9522b0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool inizializzaGrafica </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Procedura di inizializzazione del modulo per la gestione della grafica. </p>
+<p>Si occupa di inizializzare correttamente tutte le variabili necessarie e di seguire i metodi di inizializzazione di determinate librerie "Allegro".</p>
+<dl class="section return"><dt>Restituisce</dt><dd>"true" se il modulo è stato correttamente inizializzato, "false" altrimenti. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aee627be423216d11c28dc0fa35a5b6b3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int larghezzaAlieno </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>n_fila_alieno</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fornisce la larghezza in pixel dell'alieno sulla base del numero della fila dell'ondata nella quale si trova. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n_fila_alieno</td><td>Numero della fila dell'ondata nella quale si trova l'alieno.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>la larghezza dell'alieno. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aa2643c3d38fab207bcd587c68b7e55c3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int larghezzaCarroArmato </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fornisce la larghezza in pixel del carro armato. </p>
+<dl class="section return"><dt>Restituisce</dt><dd>la larghezza del carro armato. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a905e370e894083cb74e23116b8602bb3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int larghezzaLatoUnitaBarriera </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fornisce la larghezza in pixel di un'unità che compone la barriera. </p>
+<dl class="section return"><dt>Restituisce</dt><dd>la larghezza di un'unità che compone la barriera. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab2684fd5e9c034ab0989b05fc93d9f74"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int larghezzaNavicellaMisteriosa </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fornisce la larghezza in pixel della navicella misteriosa. </p>
+<dl class="section return"><dt>Restituisce</dt><dd>la larghezza della navicella misteriosa. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af534bb5356154f57e9ca6c979e6b4021"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int larghezzaSparoAlienoAttuale </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>pos_x_sparo</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fornisce la larghezza in pixel dello sparo alieno corretto sulla base della posizione rispetto all'asse x dello sparo. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pos_x_sparo</td><td>Posizione rispetto all'asse x dello sparo alieno.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>la larghezza dello sparo alieno corretto. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aef4b1986a42606e729dd72ad9cd2dc66"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int larghezzaSparoCarroArmato </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fornisce la larghezza in pixel dello sparo del carro armato. </p>
+<dl class="section return"><dt>Restituisce</dt><dd>la larghezza dello sparo del carro armato. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aa6ec5dd792c0658bdd73aff3a20d7652"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALLEGRO_BITMAP* scegliAlieno </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>numero_fila</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="abe6883f339361a314b8db84c5083ba8f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALLEGRO_BITMAP* scegliSparo </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pos_x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a6e0641ae4a03ac9a59f8ecc48f707465"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ALLEGRO_COLOR scelgliColore </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2">colore</a>&#160;</td>
+          <td class="paramname"><em>colore_alieni</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aa9abded0eedf4672636d7388630a35ce"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void stampaFinePartita </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structClassifica.html">Classifica</a>&#160;</td>
+          <td class="paramname"><em>classifica</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structPartita.html">Partita</a>&#160;</td>
+          <td class="paramname"><em>partita</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>posizione_punteggio_attuale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>redraw_lampeggio</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a0dcb878131d1bf02cd3389d43123be78"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void stampaGioca </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structPartita.html">Partita</a>&#160;</td>
+          <td class="paramname"><em>partita</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>animazione</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2">colore</a>&#160;</td>
+          <td class="paramname"><em>colore_alieni</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a10e92ffafdd969d9eb7f29bd282475be"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void stampaHighscores </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structClassifica.html">Classifica</a>&#160;</td>
+          <td class="paramname"><em>classifica</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a5c76847752215a9fc0b2c2906c6a76a4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void stampaImpostazioni </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structMenu.html">Menu</a>&#160;</td>
+          <td class="paramname"><em>menu_impostazioni</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structImpostazioni.html">Impostazioni</a>&#160;</td>
+          <td class="paramname"><em>impostazioni</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>redraw_lampeggio</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a2fe3f67111251bebf667b0dd41b3d698"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void stampaMenuPausa </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structMenu.html">Menu</a>&#160;</td>
+          <td class="paramname"><em>menu_pausa</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>redraw_lampeggio</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aeb84a5cd0082580244400bc98b27f808"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void stampaMenuPrincipale </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structMenu.html">Menu</a>&#160;</td>
+          <td class="paramname"><em>menu_principale</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>partita_salvata</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2">colore</a>&#160;</td>
+          <td class="paramname"><em>colore_alieni</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>redraw_lampeggio</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generato da &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.11
+</small></address>
+</body>
+</html>

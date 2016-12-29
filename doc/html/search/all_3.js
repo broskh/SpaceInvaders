@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['d1',['D1',['../strutture__dati_8h.html#a49e3064fc9acfb40caff8b137e5fd2c4',1,'strutture_dati.h']]],
+  ['d2',['D2',['../strutture__dati_8h.html#a263b14ae612de6499b23e7110481cbc8',1,'strutture_dati.h']]],
+  ['dbg',['DBG',['../strutture__dati_8h.html#a9fd176efd6d22cb809550f0271c2a93d',1,'strutture_dati.h']]],
+  ['default_5fcolore_5falieni',['DEFAULT_COLORE_ALIENI',['../gestione__impostazioni_8h.html#a32d925777d73133dde20debae372e0f3',1,'gestione_impostazioni.h']]],
+  ['default_5feffetti_5faudio',['DEFAULT_EFFETTI_AUDIO',['../gestione__impostazioni_8h.html#a59b46ba88b98afaa2e0343fa29bcf17b',1,'gestione_impostazioni.h']]],
+  ['default_5fmusica',['DEFAULT_MUSICA',['../gestione__impostazioni_8h.html#a0e15a605f772b076c880520f3a7025e1',1,'gestione_impostazioni.h']]],
+  ['default_5fvite_5finiziali',['DEFAULT_VITE_INIZIALI',['../gestione__impostazioni_8h.html#a9fea7de3585626fd655c07d69bc23ef2',1,'gestione_impostazioni.h']]],
+  ['destra',['destra',['../strutture__dati_8h.html#aed6e7c893fa0ed63b808c0def3f03f37a35f93f075e16b5c43c39b70af1a5ef5c',1,'strutture_dati.h']]],
+  ['dimensione_5ftesto',['DIMENSIONE_TESTO',['../gestione__grafica_8h.html#add5c6afcb48bfc4cf8deff4930a2edc8',1,'gestione_grafica.h']]],
+  ['dimensione_5ftitolo',['DIMENSIONE_TITOLO',['../gestione__grafica_8h.html#a9903491d90b67d4a29aff8ed0173c5c4',1,'gestione_grafica.h']]],
+  ['dir_5falieni',['dir_alieni',['../structOndata.html#a52abb01ce969cfbd599913f731f8d6c9',1,'Ondata']]],
+  ['dir_5fnavicella',['dir_navicella',['../structNavicella.html#ad5a492e4164f9885567bb535a2a9f534',1,'Navicella']]],
+  ['direzione',['direzione',['../strutture__dati_8h.html#aed6e7c893fa0ed63b808c0def3f03f37',1,'strutture_dati.h']]],
+  ['disegnabarriera',['disegnaBarriera',['../gestione__grafica_8cc.html#a7f51433a4e351c70412fb6b50270f367',1,'gestione_grafica.cc']]],
+  ['distanza_5fassi_5fcol_5falieni',['DISTANZA_ASSI_COL_ALIENI',['../gestione__grafica_8h.html#a192c985f2ad6982b12b2dd1fc963fac0',1,'gestione_grafica.h']]],
+  ['distanza_5fbarriere',['DISTANZA_BARRIERE',['../gestione__grafica_8h.html#afcfbc8a300b4929ec510b7e00283af40',1,'gestione_grafica.h']]],
+  ['distanza_5ffile_5falieni',['DISTANZA_FILE_ALIENI',['../gestione__grafica_8h.html#a2c80770a9c522066794deb838796486f',1,'gestione_grafica.h']]],
+  ['distruggiaudio',['distruggiAudio',['../gestione__audio_8cc.html#ae20083743eadd8c959237615abf84c3d',1,'distruggiAudio():&#160;gestione_audio.cc'],['../gestione__audio_8h.html#ae20083743eadd8c959237615abf84c3d',1,'distruggiAudio():&#160;gestione_audio.cc']]],
+  ['distruggicoda',['distruggiCoda',['../SpaceInvaders_8cc.html#ae2366ebaea2e2c9d20aed743c8804dcc',1,'SpaceInvaders.cc']]],
+  ['distruggidisplay',['distruggiDisplay',['../SpaceInvaders_8cc.html#aeea4de7dcab6698849d36d40912af4f7',1,'SpaceInvaders.cc']]],
+  ['distruggigrafica',['distruggiGrafica',['../gestione__grafica_8cc.html#a5f60f723518bd4293f53ff7a008a21d2',1,'distruggiGrafica():&#160;gestione_grafica.cc'],['../gestione__grafica_8h.html#a5f60f723518bd4293f53ff7a008a21d2',1,'distruggiGrafica():&#160;gestione_grafica.cc']]],
+  ['distruggitimer',['distruggiTimer',['../gestione__timer_8cc.html#a246af252cffdbe71d4c23b1711ad4f98',1,'distruggiTimer():&#160;gestione_timer.cc'],['../gestione__timer_8h.html#a246af252cffdbe71d4c23b1711ad4f98',1,'distruggiTimer():&#160;gestione_timer.cc']]],
+  ['distrutta',['distrutta',['../strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa89b9359be7b90fea6e3e1ce0d3789594',1,'strutture_dati.h']]]
+];

@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.11"/>
+<title>SpaceInvaders: Space Invaders</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { init_search(); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">SpaceInvaders
+   </div>
+   <div id="projectbrief">Riproduzione del celebre videogioco &#39;Space Inavaders&#39;.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generato da Doxygen 1.8.11 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Pagina&#160;Principale</span></a></li>
+      <li class="current"><a href="pages.html"><span>Pagine&#160;collegate</span></a></li>
+      <li><a href="annotated.html"><span>Classi</span></a></li>
+      <li><a href="files.html"><span>File</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Cerca" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">Space Invaders </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><h2>Introduzione</h2>
+<p>Riproduzione del celebre videogioco <em>Space Inavaders</em> che mantiene inalterate tutte le caratteristiche di base del gioco originale.</p>
+<p>Il giocatore quindi dovrà controllare un carro armato con il quale avrà il compito di abbattere, finchè avrà vite a disposizione, le ondate di alieni che ripetutamente si avvicineranno.</p>
+<h2>Descrizione del gioco</h2>
+<h3>Menù principale</h3>
+<p>Il gioco è dotato di un menù principale, dal quale è possibile accedere alle varie schermate.</p>
+<div class="image">
+<img src="http://imgur.com/ohHFaJy.png"  alt="Space Invaders - Menù principale"/>
+</div>
+ <blockquote class="doxtable">
+<p>Per muoversi fra le voci di menù è necessario utilizzare <em>freccia su</em> e <em>freccia giù</em>, mentre per accedere all'area selezionata è sufficiente premere <em>enter</em>. </p>
+</blockquote>
+<h3>Gioca</h3>
+<p>Si tratta della schermata dalla quale è possibile dilettarsi col gioco vero e proprio.</p>
+<p>Il giocatore, ad inizio partita, ha a disposizione tre barriere. Ogni qualvolta esse vengono colpite dagli alieni o dal carro armato, tenderanno prima a sgretolarsi, e infine a distruggersi.</p>
+<p>Man mano che gli alieni vengono colpiti, a seconda del tipo di alieno distrutto, il giocatore ha un incremento del proprio punteggio. Nel momento in cui un'intera ondata viene distrutta, ne ricompare subito un'altra.</p>
+<p>Inoltre, ad intervalli di tempo casuali compare una navicella misteriosa. Se essa viene colpita il giocatore viene premiato con un incremento rilevante e casuale del punteggio.</p>
+<div class="image">
+<img src="http://imgur.com/2EChJ08.png"  alt="Space Invaders - Gioca"/>
+</div>
+ <blockquote class="doxtable">
+<p>È necessario utilizzare <em>freccia destra</em> e <em>freccia sinistra</em> per muovere il carro armato, mentre con <em>barra spaziatrice</em> è possibile sparare. Durante una partita è possibile mettere il gioco in pausa premendo <em>esc</em>. </p>
+</blockquote>
+<h3>Menù di pausa</h3>
+<p>Da questo menù il giocatore può continuare, abbandonare o salvare la partita. Se viene scelto di salvare la partita il giocatore viene riportato al menù principale e la voce che consente di caricare la partita sarà abilitata. Tramite quella voce di menù potrà appunto ricominciare la partita dall'esatto punto nel quale era stata precedentemente interrotta.</p>
+<div class="image">
+<img src="http://imgur.com/o1t5O36.png"  alt="Space Invaders - Menù di pausa"/>
+</div>
+ <blockquote class="doxtable">
+<p>Per muoversi fra le voci è necessario utilizzare <em>freccia su</em> e <em>freccia giù</em>, mentre per scegliere un'operazione è sufficiente premere <em>enter</em>. </p>
+</blockquote>
+<h3>Fine partita</h3>
+<p>Al termine della partita, se è stato ottenuto un punteggio degno di essere inserito nella classifica degli highscores, è possibile digitare un nome di massimo tre lettere e salvarlo.</p>
+<div class="image">
+<img src="http://imgur.com/pXCDXam.png"  alt="Space Invaders - Fine partita"/>
+</div>
+ <blockquote class="doxtable">
+<p>Premendo <em>enter</em> viene salvato il punteggio e si torna al menù principale. </p>
+</blockquote>
+<h3>Opzioni</h3>
+<p>Attraverso le impostazioni è possibile abilitare o meno la musica e gli effetti audio. Inoltre è possibile modificare la grafica cromatica degli alieni e impostare il numero di vite con le quali si intende iniziare le partite.</p>
+<div class="image">
+<img src="http://imgur.com/HPXLMAP.png"  alt="Space Invaders - Menù delle impostazioni"/>
+</div>
+ <blockquote class="doxtable">
+<p>Usando <em>freccia su</em> e <em>freccia giù</em> è possibile muoversi fra i vari campi delle impostazioni. Con <em>freccia destra</em> e <em>freccia sinistra</em> è possibile modificare il valore selezionato. Con <em>r</em> vengono ripristinati i valori di default. Premendo <em>enter</em> le modifiche vengono salvate e si torna al menù principale. </p>
+</blockquote>
+<h3>Highscores</h3>
+<p>Dal menù principale è inoltre possibile visualizzare la classifica dei dieci migliori punteggi raggiunti e il nome dei giocatori che hanno raggiunto tali risultati.</p>
+<div class="image">
+<img src="http://imgur.com/Rv0TCdn.png"  alt="Space Invaders - Highscores"/>
+</div>
+ <blockquote class="doxtable">
+<p>Premendo <em>enter</em> si torna al menù principale. </p>
+</blockquote>
+<h2>Requisiti</h2>
+<p>Un requisito fondamentale per la compilazione del codice è la libreria grafica <em>allegro</em>. Per informazioni riguardanti l'installazione di questa libreria è sufficiente seguire le istruzioni riportate <a href="https://wiki.allegro.cc/index.php?title=Getting_Started">qui</a>.</p>
+<h2>Come installarlo</h2>
+<p>Per poter installare il gioco su distruibuzioni basate su debian è sufficiente seguire questi pochi e semplici passi:</p><ul>
+<li>Scaricare da github l'archivio .zip.</li>
+<li>Estrarre il contenuto dell'archivio appena scaricato.</li>
+<li>Entrare con un terminale all'interno della directory.</li>
+<li>Digitare sul terminale <code>make</code>. In questo modo avremo compilato e generato l'eseguibile <em>SpaceInvaders</em>.</li>
+</ul>
+<p>Infine per giocare, sempre dall'interno della cartella, è sufficiente digitare da console <code>./SpaceInvaders</code>.</p>
+<blockquote class="doxtable">
+<p>Testato su <em>Ubuntu 16.04.1 64bit</em>. </p>
+</blockquote>
+<h2>Altre opzioni di make</h2>
+<p>È possibile utilizzare make con altre opzioni per ottenere risultati differenti:</p><ul>
+<li><code>make clean</code> per eliminare tutti i file generati in fase di compilazione.</li>
+<li><code>make cleanAll</code> per eliminare tutti i file generati in fase di compilazione e i vari file di salvataggio e configurazione.</li>
+<li><code>make debug</code> per compilare il codice in modalità debug (viene abilitato anche un tracing a console).</li>
+<li><code>make debugExtended</code> per compilare il codice in modalità debug (viene abilitato anche un tracing esteso a console).</li>
+<li><code>make depend</code> per generare il file <em>dependencies</em> che contiene le dipendenze (non presenti nelle directory di default del sistema) dei file da compilare.</li>
+<li><code>make dependAll</code> per generare il file <em>dependencies</em> che contiene tutte le dipendenze dei file da compilare.</li>
+<li><code>make noAsserts</code> per compilare il codice disabilitando le asserts.</li>
+</ul>
+<h2>Referenze</h2>
+<ul>
+<li>La musica e gli effetti audio provengono da: (<a href="http://www.classicgaming.cc/classics/space-invaders/sounds">http://www.classicgaming.cc/classics/space-invaders/sounds</a>) e (<a href="http://downloads.khinsider.com/game-soundtracks/album/space-invaders-gbc-gb-">http://downloads.khinsider.com/game-soundtracks/album/space-invaders-gbc-gb-</a>).</li>
+<li>Il font utilizzato per il titolo nel menù principale proviene da: (<a href="http://www.fontspace.com/dustbust/invaders">http://www.fontspace.com/dustbust/invaders</a>). </li>
+</ul>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generato da &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.11
+</small></address>
+</body>
+</html>
