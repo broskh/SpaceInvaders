@@ -3,38 +3,47 @@
  */
 
 /**
- * Riproduzione del celebre videogioco "Space Inavaders".
+ * @mainpage GSeq
  * 
- * Mantiene inalterate tutte le caratteristiche di base del gioco originale.
- * Avremo quindi a che fare con un carro armato, il quale avrà il compito di
- * abbattere, finchè avrà vite a disposizione, tutte le ondate di alieni che
- * ripetutamente si avvicineranno.
+ * Riproduzione del celebre videogioco *Space Invaders* che mantiene inalterate 
+ * tutte le caratteristiche di base del gioco originale.
+ * Il giocatore quindi dovrà controllare un carro armato con il quale avrà 
+ * il compito di abbattere, finchè avrà vite a disposizione, le ondate di 
+ * alieni che ripetutamente si avvicineranno.
  *
- * Man mano che colpirà gli alieni, a seconda del tipo di alieno colpito,
- * il giocatore incrementerà il proprio punteggio. Una volta che un'intera ondata
- * verrà distrutta, ne ricomparirà subito un'altra.
+ * Il gioco è dotato di un menù principale, dal quale è possibile accedere 
+ * alle varie schermate.
  *
- * Ad intervalli di tempo casuali comparirà anche una navicella misteriosa. Se essa
- * verrà colpita il giocatore avrà un incremento rilevante e casuale del punteggio.
+ * Dalla schermata di gioco è possibile dilettarsi col gioco vero e proprio.
+ * Il giocatore, ad inizio partita, ha a disposizione tre barriere. Ogni 
+ * qualvolta esse vengono colpite dagli alieni o dal carro armato, tenderanno 
+ * prima a sgretolarsi, e infine a distruggersi.
+ * Man mano che gli alieni vengono colpiti, a seconda del tipo di alieno distrutto, 
+ * il giocatore ha un incremento del proprio punteggio. Nel momento in cui un'intera 
+ * ondata viene distrutta, ne ricompare subito un'altra.
+ * Inoltre, ad intervalli di tempo casuali compare una navicella misteriosa. Se 
+ * essa viene colpita il giocatore viene premiato con un incremento rilevante 
+ * e casuale del punteggio.
  *
- * Il giocatore ad inizio partita avrà a disposizione tre barriere. Ogni qualvolta esse
- * verranno colpite dagli alieni o dal carro armato, tenderanno prima a sgretolarsi, e 
- * infine a distruggersi.
+ * Dalla schermata di gioco è possibile accedere al menù di pausa dove il giocatore 
+ * può continuare, abbandonare o salvare la partita.
+ * Se viene scelto di salvare la partita il giocatore viene riportato al menù 
+ * principale e la voce che consente di caricare la partita sarà abilitata. Tramite 
+ * quella voce di menù potrà appunto ricominciare la partita dall'esatto punto 
+ * nel quale era stata precedentemente interrotta.
  * 
- * Al termine della partita, se è stato ottenuto un punteggio degno di essere inserito 
- * nella classifica degli highscores, è possibile digitare un nome di massimo tre lettere 
- * e salvare il punteggio.
+ * Al termine della partita, se è stato ottenuto un punteggio degno di essere 
+ * inserito nella classifica degli highscores, è possibile digitare un nome di 
+ * massimo tre lettere e salvarlo.
  *
- * Attraverso le impostazioni è possibile abilitare o meno la musica e gli effetti
- * audio. Inoltre è possibile modificare la grafica cromatica degli alieni e
- * impostare il numero di vite con le quali si intende iniziare la partita.
- *
- * Durante una partita è possibile mettere il gioco in pausa ed eventualmente
- * effettuare un salvataggio della partita. In questo modo sarà possibile ricominciare 
- * la stessa in un secondo momento, dall'esatto punto nel quale era stata precedentemente interrotta.
+ * Dal menù principale è possibile accedere al menù delle impostazioni. Qui è 
+ * possibile abilitare o meno la musica e gli effetti audio. Inoltre è possibile 
+ * modificare la grafica cromatica degli alieni e impostare il numero di vite 
+ * con le quali si intende iniziare le partite.
  * 
- * Dal menù principale è inoltre possibile visualizzare la classifica dei dieci migliori
- * punteggi raggiunti e il nome dei giocatori che hanno raggiunto tali risultati.
+ * Dal menù principale è inoltre possibile accedere alla classifica dei dieci 
+ * migliori punteggi raggiunti e il nome dei giocatori che hanno raggiunto tali 
+ * risultati.
  *
  * @author Alessio Scheri
  */
