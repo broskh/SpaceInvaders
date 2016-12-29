@@ -3,7 +3,7 @@
  */
 
 /**
- * Riproduzione del celebre videogioco "Space Inavaders"..
+ * Riproduzione del celebre videogioco "Space Inavaders".
  * 
  * Mantiene inalterate tutte le caratteristiche di base del gioco originale.
  * Avremo quindi a che fare con un carro armato, il quale avrà il compito di
@@ -11,7 +11,7 @@
  * ripetutamente si avvicineranno.
  *
  * Man mano che colpirà gli alieni, a seconda del tipo di alieno colpito,
- * il giocatore incrementerà il proprio vantaggio. Una volta che un'intera ondata
+ * il giocatore incrementerà il proprio punteggio. Una volta che un'intera ondata
  * verrà distrutta, ne ricomparirà subito un'altra.
  *
  * Ad intervalli di tempo casuali comparirà anche una navicella misteriosa. Se essa
