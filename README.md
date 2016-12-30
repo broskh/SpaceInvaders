@@ -82,3 +82,5 @@ La documentazione in formato HTML è presente all'interno della cartella *doc/ht
 ##Referenze
 - La musica e gli effetti audio provengono da: (http://www.classicgaming.cc/classics/space-invaders/sounds) e (http://downloads.khinsider.com/game-soundtracks/album/space-invaders-gbc-gb-).
 - Il font utilizzato per il titolo nel menù principale proviene da: (http://www.fontspace.com/dustbust/invaders).
+- Il font utilizzato per tutto il testo del gioco proviene da: (http://it.fonts2u.com/space-invaders-regular.carattere).
+- Per scaricare l'eseguibile pre-compilato per sistemi Windows cliccare [qui](https://drive.google.com/drive/folders/0ByFVa3igbMKoaF9xdnh0cTBrdU0?usp=sharing).
