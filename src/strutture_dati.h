@@ -102,7 +102,7 @@ struct Alieno
 struct Impostazioni
 {
 	bool musica; /**<Attivazione o disattivazione della musica.*/
-	bool eff_audio; /**<Attivazione o disattivazione degli effetti audio.*/
+	bool effetti_audio; /**<Attivazione o disattivazione degli effetti audio.*/
 	colore colore_alieni; /**<Colore per gli alieni.*/
 	unsigned int vite_iniziali; /**<Vite iniziali.*/
 };

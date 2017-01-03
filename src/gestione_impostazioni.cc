@@ -27,7 +27,7 @@ using namespace std;
 void inizializzaImpostazioni (Impostazioni &impostazioni, bool musica, bool effetti_audio, colore colore_alieni, unsigned int vite_iniziali)
 {
 	impostazioni.musica = musica;
-	impostazioni.eff_audio = effetti_audio;
+	impostazioni.effetti_audio = effetti_audio;
 	impostazioni.colore_alieni = colore_alieni;
 	impostazioni.vite_iniziali = vite_iniziali;
 }
@@ -38,7 +38,7 @@ void inizializzaImpostazioni (Impostazioni &impostazioni, bool musica, bool effe
 void output (Impostazioni impostazioni, ostream &os)
 {
 	os<<CAMPO_MUSICA<<" = "<<impostazioni.musica<<endl;
-	os<<CAMPO_EFFETTI_AUDIO<<" = "<<impostazioni.eff_audio<<endl;
+	os<<CAMPO_EFFETTI_AUDIO<<" = "<<impostazioni.effetti_audio<<endl;
 	os<<CAMPO_COLORE_ALIENI<<" = "<<impostazioni.colore_alieni<<endl;
 	os<<CAMPO_VITE_INIZIALI<<" = "<<impostazioni.vite_iniziali<<endl;
 }
@@ -119,7 +119,7 @@ colore statoColoreAlieni (Impostazioni impostazioni)
 
 bool statoEffettiAudio (Impostazioni impostazioni)
 {
-	return impostazioni.eff_audio;
+	return impostazioni.effetti_audio;
 }
 
 bool statoMusica (Impostazioni impostazioni)

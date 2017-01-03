@@ -145,7 +145,7 @@ bool stringaValoreVoceImpostazioni (char stringa [], size_t dimensione_stringa, 
 			}
 			break;
 		case v_eff_audio:
-			if (impostazioni.eff_audio)
+			if (impostazioni.effetti_audio)
 			{
 				strncpy (stringa, STRINGA_ON, dimensione_stringa);
 			}
@@ -192,7 +192,7 @@ bool valoreCampoImpostazioniPrec (Menu menu, Impostazioni &impostazioni)
 			impostazioni.musica = !impostazioni.musica;
 			break;
 		case v_eff_audio:
-			impostazioni.eff_audio = !impostazioni.eff_audio;
+			impostazioni.effetti_audio = !impostazioni.effetti_audio;
 			break;
 		case v_colori_alieni:
 			impostazioni.colore_alieni = static_cast <colore> (precInRangeCircuito (impostazioni.colore_alieni, 0, N_COLORI_ALIENI));
@@ -215,7 +215,7 @@ bool valoreCampoImpostazioniSuc (Menu menu, Impostazioni &impostazioni)
 			impostazioni.musica = !impostazioni.musica;
 			break;
 		case v_eff_audio:
-			impostazioni.eff_audio = !impostazioni.eff_audio;
+			impostazioni.effetti_audio = !impostazioni.effetti_audio;
 			break;
 		case v_colori_alieni:
 			impostazioni.colore_alieni = static_cast <colore> (sucInRangeCircuito (impostazioni.colore_alieni, 0, N_COLORI_ALIENI));
