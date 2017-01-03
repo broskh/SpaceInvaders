@@ -2,14 +2,13 @@ var indexSectionsWithContent =
 {
   0: "abcdefghilmnoprstv",
   1: "acimnops",
-  2: "grs",
+  2: "gs",
   3: "acdefilmnopstv",
   4: "abcdefhilmnoprstv",
   5: "gn",
   6: "cdsv",
   7: "abdgipsv",
-  8: "d",
-  9: "gs"
+  8: "d"
 };
 
 var indexSectionNames =
@@ -22,8 +21,7 @@ var indexSectionNames =
   5: "typedefs",
   6: "enums",
   7: "enumvalues",
-  8: "defines",
-  9: "pages"
+  8: "defines"
 };
 
 var indexSectionLabels =
@@ -36,7 +34,6 @@ var indexSectionLabels =
   5: "Ridefinizioni di tipo (typedef)",
   6: "Tipi enumerati (enum)",
   7: "Valori del tipo enumerato",
-  8: "Definizioni",
-  9: "Pagine"
+  8: "Definizioni"
 };
 

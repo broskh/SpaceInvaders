@@ -16,6 +16,5 @@ var searchData=
   ['gestione_5fpartita_2eh',['gestione_partita.h',['../gestione__partita_8h.html',1,'']]],
   ['gestione_5ftimer_2ecc',['gestione_timer.cc',['../gestione__timer_8cc.html',1,'']]],
   ['gestione_5ftimer_2eh',['gestione_timer.h',['../gestione__timer_8h.html',1,'']]],
-  ['giallo',['giallo',['../strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2aa22f2f415d1ddc962c7fc1e8c12342d0',1,'strutture_dati.h']]],
-  ['gseq',['GSeq',['../index.html',1,'']]]
+  ['giallo',['giallo',['../strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2aa22f2f415d1ddc962c7fc1e8c12342d0',1,'strutture_dati.h']]]
 ];

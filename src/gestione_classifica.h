@@ -3,7 +3,7 @@
  */
 
 //INIZIO COSTANTI PER FILE
-const char FILE_HIGHSCORES [] = "../highscores"; /**<Percorso del file contenente la classifica.*/
+const char FILE_HIGHSCORES [] = "highscores"; /**<Percorso del file contenente la classifica.*/
 //FINE COSTANTI PER FILE
 
 //INIZIO INTERFACCIA
@@ -28,7 +28,7 @@ void aggiungiPunteggio (Classifica &classifica, Punteggio nuovo_punteggio, int p
 /**
  * Cancella l'ultimo carattere dal nome del giocatore che ha realizzato il punteggio.
  * 
- * @param putneggio Punteggio da modificare.
+ * @param punteggio Punteggio da modificare.
  */
 void cancellaUltimoCarattereNome (Punteggio &punteggio);
 

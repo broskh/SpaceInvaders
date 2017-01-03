@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['space_20invaders',['Space Invaders',['../md_README.html',1,'']]],
   ['s_5fcarica',['s_carica',['../strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a75b8440498e5223c78dba7a1e09431fb',1,'strutture_dati.h']]],
   ['s_5fesci',['s_esci',['../strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8aac215683674fc57bcaad944ae6ecae65',1,'strutture_dati.h']]],
   ['s_5ffine_5fpartita',['s_fine_partita',['../strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a0bd1fe3fd1045a7090ca1b41db7f9c66',1,'strutture_dati.h']]],

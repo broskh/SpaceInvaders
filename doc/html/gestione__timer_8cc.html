@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>SpaceInvaders: Riferimenti per il file gestione_timer.cc</title>
+<title>Space Invaders: Riferimenti per il file gestione_timer.cc</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">SpaceInvaders
+   <div id="projectname">Space Invaders
    </div>
    <div id="projectbrief">Riproduzione del celebre videogioco &#39;Space Inavaders&#39;.</div>
   </td>
@@ -39,7 +39,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Pagina&#160;Principale</span></a></li>
-      <li><a href="pages.html"><span>Pagine&#160;collegate</span></a></li>
       <li><a href="annotated.html"><span>Classi</span></a></li>
       <li class="current"><a href="files.html"><span>File</span></a></li>
       <li>
@@ -209,7 +208,9 @@ Funzioni</h2></td></tr>
   </table>
   </dd>
 </dl>
-
+<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;{</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        assert (timer_spostamento_ondata);</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        al_set_timer_speed(timer_spostamento_ondata, 1.0 / (((<a class="code" href="gestione__timer_8h.html#a4fd31e2f883475ee2953325164549cb9">FREQUENZA_SPOSTAMENTO_ONDATA_MAX</a> - <a class="code" href="gestione__timer_8h.html#a0459f7caaa8daf7b61f710889df70aa6">FREQUENZA_SPOSTAMENTO_ONDATA_MIN</a>) / 100 * percentuale_velocita_alieni) + <a class="code" href="gestione__timer_8h.html#a0459f7caaa8daf7b61f710889df70aa6">FREQUENZA_SPOSTAMENTO_ONDATA_MIN</a>));</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div><div class="ttc" id="gestione__timer_8h_html_a0459f7caaa8daf7b61f710889df70aa6"><div class="ttname"><a href="gestione__timer_8h.html#a0459f7caaa8daf7b61f710889df70aa6">FREQUENZA_SPOSTAMENTO_ONDATA_MIN</a></div><div class="ttdeci">const float FREQUENZA_SPOSTAMENTO_ONDATA_MIN</div><div class="ttdoc">Frequenza minima del movimento dell&amp;#39;ondata. </div><div class="ttdef"><b>Definition:</b> gestione_timer.h:19</div></div>
+<div class="ttc" id="gestione__timer_8h_html_a4fd31e2f883475ee2953325164549cb9"><div class="ttname"><a href="gestione__timer_8h.html#a4fd31e2f883475ee2953325164549cb9">FREQUENZA_SPOSTAMENTO_ONDATA_MAX</a></div><div class="ttdeci">const float FREQUENZA_SPOSTAMENTO_ONDATA_MAX</div><div class="ttdoc">Frequenza massima del movimento dell&amp;#39;ondata. </div><div class="ttdef"><b>Definition:</b> gestione_timer.h:18</div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a0da5d9be58bb79d831cc48f82a228928"></a>
@@ -226,7 +227,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Avvia il timer che gestisce la frequenza di animazione. </p>
-
+<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        assert (timer_animazione);</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        al_start_timer(timer_animazione);</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="ab7d1f45190dbf2a7923f8c0b18906106"></a>
@@ -243,7 +244,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Avvia il timer che gestisce la frequenza di comparsa della navicella misteriosa. </p>
-
+<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        assert (timer_comparsa_navicella);</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        al_start_timer(timer_comparsa_navicella);</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a1c1cf75c2a165936394d0808b5528aac"></a>
@@ -260,7 +261,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Avvia il timer che gestisce la frequenza di comparsa dello sparo alieno. </p>
-
+<div class="fragment"><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;{</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        assert (timer_comparsa_sparo_alieni);</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        al_start_timer(timer_comparsa_sparo_alieni);</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a96a842234dd5a01a8f27f2263f01da46"></a>
@@ -277,7 +278,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Avvia il timer che gestisce la frequenza per realizzare l'effetto di lampeggio. </p>
-
+<div class="fragment"><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;{</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        assert (timer_lampeggio_voce);</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        al_start_timer(timer_lampeggio_voce);</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a3792822e008c0d1dcdc754a97594c1a1"></a>
@@ -294,7 +295,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Avvia il timer che gestisce il frame rate dell'intero gioco. </p>
-
+<div class="fragment"><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;{</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        assert (timer_fps);</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        al_start_timer(timer_fps);</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="ad5c60282d2c5a5cb9a5d08f7fcb2d7f8"></a>
@@ -311,7 +312,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Avvia il timer che gestisce la frequenza di spostamento del carro armato. </p>
-
+<div class="fragment"><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;{</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        assert (timer_spostamento_carro_armato);</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        al_start_timer(timer_spostamento_carro_armato);</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a4c91524245a6fd624832c77b04feab4d"></a>
@@ -328,7 +329,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Avvia il timer che gestisce la frequenza di spostamento della navicella misteriosa. </p>
-
+<div class="fragment"><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;{</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        assert (timer_spostamento_navicella);</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        al_start_timer(timer_spostamento_navicella);</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a973f615379c1ef63004444c435d3f328"></a>
@@ -345,7 +346,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Avvia il timer che gestisce la frequenza di spostamento dell'ondata di alieni. </p>
-
+<div class="fragment"><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;{</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        assert (timer_spostamento_ondata);</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        al_start_timer(timer_spostamento_ondata);</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a3d2dc6f6e44f623fcea842d669077265"></a>
@@ -362,7 +363,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Avvia il timer che gestisce la frequenza di spostamento degli spari. </p>
-
+<div class="fragment"><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;{</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        assert (timer_spostamento_spari);</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        al_start_timer(timer_spostamento_spari);</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a246af252cffdbe71d4c23b1711ad4f98"></a>
@@ -380,7 +381,7 @@ Funzioni</h2></td></tr>
 
 <p>Procedura di distruzione del modulo per la gestione dei timer. </p>
 <p>Si occupa di deallocare correttamente la memoria alloccata in fase di inizializzazione del modulo. </p>
-
+<div class="fragment"><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;{</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        al_destroy_timer(timer_fps);</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        al_destroy_timer(timer_lampeggio_voce);</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        al_destroy_timer(timer_comparsa_sparo_alieni);</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        al_destroy_timer(timer_animazione);</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        al_destroy_timer(timer_comparsa_navicella);</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        al_destroy_timer(timer_spostamento_carro_armato);</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        al_destroy_timer(timer_spostamento_navicella);</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        al_destroy_timer(timer_spostamento_spari);</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        al_destroy_timer(timer_spostamento_ondata);</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a9235326917bca45ddd23a64c4021b60e"></a>
@@ -397,7 +398,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Ferma il timer che gestisce la frequenza di animazione. </p>
-
+<div class="fragment"><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;{</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        assert (timer_animazione);</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        al_stop_timer(timer_animazione);</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a714bde32f92454cc10678c093c37fd2b"></a>
@@ -414,7 +415,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Ferma il timer che gestisce la frequenza di comparsa della navicella misteriosa. </p>
-
+<div class="fragment"><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;{</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        assert (timer_comparsa_navicella);</div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        al_stop_timer(timer_comparsa_navicella);</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="abee8d8153d1440c1a50690fa28461091"></a>
@@ -431,7 +432,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Ferma il timer che gestisce la frequenza di comparsa dello sparo alieno. </p>
-
+<div class="fragment"><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;{</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        assert (timer_comparsa_sparo_alieni);</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        al_stop_timer(timer_comparsa_sparo_alieni);</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a1f4fc47f8731e0700cc2f3afb41a6199"></a>
@@ -448,7 +449,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Ferma il timer che gestisce la frequenza per realizzare l'effetto di lampeggio. </p>
-
+<div class="fragment"><div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;{</div><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        assert (timer_lampeggio_voce);</div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        al_stop_timer(timer_lampeggio_voce);</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a4dff2cef67943737f5f5a9aeffdf1a93"></a>
@@ -465,7 +466,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Ferma il timer che gestisce il frame rate dell'intero gioco. </p>
-
+<div class="fragment"><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;{</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        assert (timer_fps);</div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        al_stop_timer(timer_fps);</div><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a0a30ecea023b2802041cf09e1c3d9ed9"></a>
@@ -482,7 +483,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Ferma il timer che gestisce la frequenza di spostamento del carro armato. </p>
-
+<div class="fragment"><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;{</div><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        assert (timer_spostamento_carro_armato);</div><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        al_stop_timer(timer_spostamento_carro_armato);</div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="ad98262dc5f12d6c27f9024409f47b08d"></a>
@@ -499,7 +500,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Ferma il timer che gestisce la frequenza di spostamento della navicella misteriosa. </p>
-
+<div class="fragment"><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;{</div><div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        assert (timer_spostamento_navicella);</div><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        al_stop_timer(timer_spostamento_navicella);</div><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a1fb6c18db0f3d216ee68edf58892573f"></a>
@@ -516,7 +517,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Ferma il timer che gestisce la frequenza di spostamento dell'ondata di alieni. </p>
-
+<div class="fragment"><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;{</div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        assert (timer_spostamento_ondata);</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        al_stop_timer(timer_spostamento_ondata);</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a71e80a271d202af81013eb7f26401dd4"></a>
@@ -533,7 +534,7 @@ Funzioni</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Ferma il timer che gestisce la frequenza di spostamento degli spari. </p>
-
+<div class="fragment"><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;{</div><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        assert (timer_spostamento_spari);</div><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        al_stop_timer(timer_spostamento_spari);</div><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a877356982a740db9dbddd77e32257d52"></a>
@@ -553,7 +554,17 @@ Funzioni</h2></td></tr>
 <p>Procedura di inizializzazione del modulo per la gestione dei timer. </p>
 <p>Si occupa di inizializzare correttamente tutte le variabili necessarie e di seguire i metodi di inizializzazione di determinate librerie "Allegro".</p>
 <dl class="section return"><dt>Restituisce</dt><dd>"true" se il modulo è stato correttamente inizializzato, "false" altrimenti. </dd></dl>
-
+<div class="fragment"><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;{ </div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        timer_fps = al_create_timer(1.0 / <a class="code" href="gestione__timer_8h.html#a6082465a18453542ed96937ca76081e7">FPS_GIOCO</a>);</div><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <span class="keywordflow">if</span> (!timer_fps)</div><div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        {</div><div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                <a class="code" href="strutture__dati_8h.html#a49e3064fc9acfb40caff8b137e5fd2c4">D1</a>(cout&lt;&lt;<span class="stringliteral">&quot;timer_fps non creato correttamente.&quot;</span>&lt;&lt;endl);</div><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        }</div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        timer_lampeggio_voce = al_create_timer(1.0 / <a class="code" href="gestione__timer_8h.html#a00c9b208b819e2613e53effcf62317da">FREQUENZA_LAMPEGGIO_MENU</a>);</div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="keywordflow">if</span> (!timer_lampeggio_voce)</div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        {</div><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                <a class="code" href="strutture__dati_8h.html#a49e3064fc9acfb40caff8b137e5fd2c4">D1</a>(cout&lt;&lt;<span class="stringliteral">&quot;timer_lampeggio_veloce non creato correttamente.&quot;</span>&lt;&lt;endl);</div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        }</div><div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div><div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        timer_comparsa_sparo_alieni = al_create_timer(1.0 / <a class="code" href="gestione__timer_8h.html#a85c80cf931fa03a5fb8a44f3179cd42a">FREQUENZA_COMPARSA_SPARO_ALIENI</a>);</div><div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        <span class="keywordflow">if</span> (!timer_comparsa_sparo_alieni)</div><div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        {</div><div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                <a class="code" href="strutture__dati_8h.html#a49e3064fc9acfb40caff8b137e5fd2c4">D1</a>(cout&lt;&lt;<span class="stringliteral">&quot;timer_comparsa_sparo_alieni non creato correttamente.&quot;</span>&lt;&lt;endl);</div><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        }</div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        timer_animazione = al_create_timer(1.0 / <a class="code" href="gestione__timer_8h.html#a9543c23a8d77f9a1da9e29afce1960b1">FREQUENZA_ANIMAZIONE</a>);</div><div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        <span class="keywordflow">if</span> (!timer_animazione)</div><div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        {</div><div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                <a class="code" href="strutture__dati_8h.html#a49e3064fc9acfb40caff8b137e5fd2c4">D1</a>(cout&lt;&lt;<span class="stringliteral">&quot;timer_animazione non creato correttamente.&quot;</span>&lt;&lt;endl);</div><div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        }</div><div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;</div><div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        timer_comparsa_navicella = al_create_timer(1.0 / <a class="code" href="gestione__timer_8h.html#a1f67a9db521c9738f5a744a9056456ef">FREQUENZA_COMPARSA_NAVICELLA_MISTERIOSA</a>);</div><div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="keywordflow">if</span> (!timer_comparsa_navicella)</div><div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        {</div><div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                <a class="code" href="strutture__dati_8h.html#a49e3064fc9acfb40caff8b137e5fd2c4">D1</a>(cout&lt;&lt;<span class="stringliteral">&quot;timer_comparsa_navicella non creato correttamente.&quot;</span>&lt;&lt;endl);</div><div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        }</div><div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;</div><div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        timer_spostamento_carro_armato = al_create_timer(1.0 / <a class="code" href="gestione__timer_8h.html#a4595309c67e136672146edef067474f3">FREQUENZA_SPOSTAMENTO_CARRO_ARMATO</a>);</div><div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        <span class="keywordflow">if</span> (!timer_spostamento_carro_armato)</div><div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        {</div><div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                <a class="code" href="strutture__dati_8h.html#a49e3064fc9acfb40caff8b137e5fd2c4">D1</a>(cout&lt;&lt;<span class="stringliteral">&quot;timer_spostamento_carro_armato non creato correttamente.&quot;</span>&lt;&lt;endl);</div><div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        }</div><div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;</div><div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        timer_spostamento_navicella = al_create_timer(1.0 / <a class="code" href="gestione__timer_8h.html#a17d0a7a4e70a2d768171f68498307b71">FREQUENZA_SPOSTAMENTO_NAVICELLA_MISTERIOSA</a>);</div><div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        <span class="keywordflow">if</span> (!timer_spostamento_navicella)</div><div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        {</div><div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                <a class="code" href="strutture__dati_8h.html#a49e3064fc9acfb40caff8b137e5fd2c4">D1</a>(cout&lt;&lt;<span class="stringliteral">&quot;timer_spostamento_navicella non creato correttamente.&quot;</span>&lt;&lt;endl);</div><div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        }</div><div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div><div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        timer_spostamento_spari = al_create_timer(1.0 / <a class="code" href="gestione__timer_8h.html#ad2d787782d1d9f22464fb33eeb0c856c">FREQUENZA_SPOSTAMENTO_SPARI</a>);</div><div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        <span class="keywordflow">if</span> (!timer_spostamento_spari)</div><div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        {</div><div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                <a class="code" href="strutture__dati_8h.html#a49e3064fc9acfb40caff8b137e5fd2c4">D1</a>(cout&lt;&lt;<span class="stringliteral">&quot;timer_spostamento_spari non creato correttamente.&quot;</span>&lt;&lt;endl);</div><div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        }</div><div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;</div><div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        timer_spostamento_ondata = al_create_timer(1.0 / <a class="code" href="gestione__timer_8h.html#a4fd31e2f883475ee2953325164549cb9">FREQUENZA_SPOSTAMENTO_ONDATA_MAX</a>);</div><div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keywordflow">if</span> (!timer_spostamento_ondata)</div><div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        {</div><div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                <a class="code" href="strutture__dati_8h.html#a49e3064fc9acfb40caff8b137e5fd2c4">D1</a>(cout&lt;&lt;<span class="stringliteral">&quot;timer_spostamento_ondata non creato correttamente.&quot;</span>&lt;&lt;endl);</div><div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        }</div><div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;</div><div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        al_register_event_source(coda, al_get_timer_event_source(timer_fps));</div><div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        al_register_event_source(coda, al_get_timer_event_source(timer_lampeggio_voce));</div><div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        al_register_event_source(coda, al_get_timer_event_source(timer_comparsa_sparo_alieni));</div><div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        al_register_event_source(coda, al_get_timer_event_source(timer_animazione));</div><div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        al_register_event_source(coda, al_get_timer_event_source(timer_comparsa_navicella));</div><div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        al_register_event_source(coda, al_get_timer_event_source(timer_spostamento_navicella));</div><div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        al_register_event_source(coda, al_get_timer_event_source(timer_spostamento_carro_armato));</div><div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        al_register_event_source(coda, al_get_timer_event_source(timer_spostamento_spari));</div><div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        al_register_event_source(coda, al_get_timer_event_source(timer_spostamento_ondata));</div><div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;}</div><div class="ttc" id="gestione__timer_8h_html_a4595309c67e136672146edef067474f3"><div class="ttname"><a href="gestione__timer_8h.html#a4595309c67e136672146edef067474f3">FREQUENZA_SPOSTAMENTO_CARRO_ARMATO</a></div><div class="ttdeci">const float FREQUENZA_SPOSTAMENTO_CARRO_ARMATO</div><div class="ttdoc">Frequenza dello spostamento del carro armato. </div><div class="ttdef"><b>Definition:</b> gestione_timer.h:16</div></div>
+<div class="ttc" id="gestione__timer_8h_html_a17d0a7a4e70a2d768171f68498307b71"><div class="ttname"><a href="gestione__timer_8h.html#a17d0a7a4e70a2d768171f68498307b71">FREQUENZA_SPOSTAMENTO_NAVICELLA_MISTERIOSA</a></div><div class="ttdeci">const float FREQUENZA_SPOSTAMENTO_NAVICELLA_MISTERIOSA</div><div class="ttdoc">Frequenza dello spostamento della navicella misteriosa. </div><div class="ttdef"><b>Definition:</b> gestione_timer.h:17</div></div>
+<div class="ttc" id="gestione__timer_8h_html_a85c80cf931fa03a5fb8a44f3179cd42a"><div class="ttname"><a href="gestione__timer_8h.html#a85c80cf931fa03a5fb8a44f3179cd42a">FREQUENZA_COMPARSA_SPARO_ALIENI</a></div><div class="ttdeci">const float FREQUENZA_COMPARSA_SPARO_ALIENI</div><div class="ttdoc">Frequenza di creazione degli spari alieni. </div><div class="ttdef"><b>Definition:</b> gestione_timer.h:13</div></div>
+<div class="ttc" id="gestione__timer_8h_html_a6082465a18453542ed96937ca76081e7"><div class="ttname"><a href="gestione__timer_8h.html#a6082465a18453542ed96937ca76081e7">FPS_GIOCO</a></div><div class="ttdeci">const float FPS_GIOCO</div><div class="ttdoc">FPS del gioco. </div><div class="ttdef"><b>Definition:</b> gestione_timer.h:14</div></div>
+<div class="ttc" id="gestione__timer_8h_html_a4fd31e2f883475ee2953325164549cb9"><div class="ttname"><a href="gestione__timer_8h.html#a4fd31e2f883475ee2953325164549cb9">FREQUENZA_SPOSTAMENTO_ONDATA_MAX</a></div><div class="ttdeci">const float FREQUENZA_SPOSTAMENTO_ONDATA_MAX</div><div class="ttdoc">Frequenza massima del movimento dell&amp;#39;ondata. </div><div class="ttdef"><b>Definition:</b> gestione_timer.h:18</div></div>
+<div class="ttc" id="gestione__timer_8h_html_a9543c23a8d77f9a1da9e29afce1960b1"><div class="ttname"><a href="gestione__timer_8h.html#a9543c23a8d77f9a1da9e29afce1960b1">FREQUENZA_ANIMAZIONE</a></div><div class="ttdeci">const float FREQUENZA_ANIMAZIONE</div><div class="ttdoc">Frequenza dell&amp;#39;animazione. </div><div class="ttdef"><b>Definition:</b> gestione_timer.h:11</div></div>
+<div class="ttc" id="gestione__timer_8h_html_a00c9b208b819e2613e53effcf62317da"><div class="ttname"><a href="gestione__timer_8h.html#a00c9b208b819e2613e53effcf62317da">FREQUENZA_LAMPEGGIO_MENU</a></div><div class="ttdeci">const float FREQUENZA_LAMPEGGIO_MENU</div><div class="ttdoc">Frequenza dell&amp;#39;effetto lampeggiante sull&amp;#39;opzione selezionata dei menù. </div><div class="ttdef"><b>Definition:</b> gestione_timer.h:15</div></div>
+<div class="ttc" id="gestione__timer_8h_html_ad2d787782d1d9f22464fb33eeb0c856c"><div class="ttname"><a href="gestione__timer_8h.html#ad2d787782d1d9f22464fb33eeb0c856c">FREQUENZA_SPOSTAMENTO_SPARI</a></div><div class="ttdeci">const float FREQUENZA_SPOSTAMENTO_SPARI</div><div class="ttdoc">Frequenza dello spostamento degli spari. </div><div class="ttdef"><b>Definition:</b> gestione_timer.h:20</div></div>
+<div class="ttc" id="strutture__dati_8h_html_a49e3064fc9acfb40caff8b137e5fd2c4"><div class="ttname"><a href="strutture__dati_8h.html#a49e3064fc9acfb40caff8b137e5fd2c4">D1</a></div><div class="ttdeci">#define D1(B)</div><div class="ttdef"><b>Definition:</b> strutture_dati.h:13</div></div>
+<div class="ttc" id="gestione__timer_8h_html_a1f67a9db521c9738f5a744a9056456ef"><div class="ttname"><a href="gestione__timer_8h.html#a1f67a9db521c9738f5a744a9056456ef">FREQUENZA_COMPARSA_NAVICELLA_MISTERIOSA</a></div><div class="ttdeci">const float FREQUENZA_COMPARSA_NAVICELLA_MISTERIOSA</div><div class="ttdoc">Frequenza della possibile comparsa della navicella misteriosa. </div><div class="ttdef"><b>Definition:</b> gestione_timer.h:12</div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a43dcaa60cc44294df1646fd3f952bc10"></a>
@@ -571,7 +582,7 @@ Funzioni</h2></td></tr>
 
 <p>Restituisce il puntatore al timer che gestisce la frequenza di animazione. </p>
 <dl class="section return"><dt>Restituisce</dt><dd>il puntatore al timer che gestisce la frequenza di animazione. </dd></dl>
-
+<div class="fragment"><div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;{</div><div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        assert (timer_animazione);</div><div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        <span class="keywordflow">return</span> timer_animazione;</div><div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="af3db0de4bfa010336ea55095ed4abf4a"></a>
@@ -589,7 +600,7 @@ Funzioni</h2></td></tr>
 
 <p>Restituisce il puntatore al timer che gestisce la frequenza di comparsa della navicella misteriosa. </p>
 <dl class="section return"><dt>Restituisce</dt><dd>il puntatore al timer che gestisce la frequenza di comparsa della navicella misteriosa. </dd></dl>
-
+<div class="fragment"><div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;{</div><div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        assert (timer_comparsa_navicella);</div><div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        <span class="keywordflow">return</span> timer_comparsa_navicella;</div><div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a129ab56e0e16603562623d62c399295a"></a>
@@ -607,7 +618,7 @@ Funzioni</h2></td></tr>
 
 <p>Restituisce il puntatore al timer che gestisce la frequenza di comparsa dello sparo alieno. </p>
 <dl class="section return"><dt>Restituisce</dt><dd>il puntatore al timer che gestisce la frequenza di comparsa dello sparo alieno. </dd></dl>
-
+<div class="fragment"><div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;{</div><div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        assert (timer_comparsa_sparo_alieni);</div><div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        <span class="keywordflow">return</span> timer_comparsa_sparo_alieni;</div><div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a6cbcbaf43bd16f734fc3c8ca10abf033"></a>
@@ -625,7 +636,7 @@ Funzioni</h2></td></tr>
 
 <p>Restituisce il puntatore al timer che gestisce la frequenza per realizzare l'effetto di lampeggio. </p>
 <dl class="section return"><dt>Restituisce</dt><dd>il puntatore al timer che gestisce la frequenza per realizzare l'effetto di lampeggio. </dd></dl>
-
+<div class="fragment"><div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;{</div><div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        assert (timer_lampeggio_voce);</div><div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        <span class="keywordflow">return</span> timer_lampeggio_voce;</div><div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a01ad1cc0e74bc2d17e6a7e7365b2419d"></a>
@@ -643,7 +654,7 @@ Funzioni</h2></td></tr>
 
 <p>Restituisce il puntatore al timer che gestisce il frame rate dell'intero gioco. </p>
 <dl class="section return"><dt>Restituisce</dt><dd>il puntatore al timer che gestisce il frame rate dell'intero gioco. </dd></dl>
-
+<div class="fragment"><div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;{</div><div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        assert (timer_fps);</div><div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        <span class="keywordflow">return</span> timer_fps;</div><div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a6ecd878c44b8f9694d67b6f996cb60db"></a>
@@ -661,7 +672,7 @@ Funzioni</h2></td></tr>
 
 <p>Restituisce il puntatore al timer che gestisce la frequenza di spostamento del carro armato. </p>
 <dl class="section return"><dt>Restituisce</dt><dd>il puntatore al timer che gestisce la frequenza di spostamento del carro armato. </dd></dl>
-
+<div class="fragment"><div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;{</div><div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        assert (timer_spostamento_carro_armato);</div><div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        <span class="keywordflow">return</span> timer_spostamento_carro_armato;</div><div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="ad7373c7c8dbe372349f7e1e0adc4423b"></a>
@@ -679,7 +690,7 @@ Funzioni</h2></td></tr>
 
 <p>Restituisce il puntatore al timer che gestisce la frequenza di spostamento della navicella misteriosa. </p>
 <dl class="section return"><dt>Restituisce</dt><dd>il puntatore al timer che gestisce la frequenza di spostamento della navicella misteriosa. </dd></dl>
-
+<div class="fragment"><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;{</div><div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        assert (timer_spostamento_navicella);</div><div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        <span class="keywordflow">return</span> timer_spostamento_navicella;</div><div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="ad28fc40039131518aa789dd1817ca41e"></a>
@@ -697,7 +708,7 @@ Funzioni</h2></td></tr>
 
 <p>Restituisce il puntatore al timer che gestisce la frequenza di spostamento dell'ondata di alieni. </p>
 <dl class="section return"><dt>Restituisce</dt><dd>il puntatore al timer che gestisce la frequenza di spostamento dell'ondata di alieni. </dd></dl>
-
+<div class="fragment"><div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;{</div><div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        assert (timer_spostamento_ondata);</div><div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        <span class="keywordflow">return</span> timer_spostamento_ondata;</div><div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="aa53e9f0cabbbbca561f8d2abed56eef6"></a>
@@ -715,13 +726,13 @@ Funzioni</h2></td></tr>
 
 <p>Restituisce il puntatore al timer che gestisce la frequenza di spostamento degli spari. </p>
 <dl class="section return"><dt>Restituisce</dt><dd>il puntatore al timer che gestisce la frequenza di spostamento degli spari. </dd></dl>
-
+<div class="fragment"><div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;{</div><div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        assert (timer_spostamento_spari);</div><div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        <span class="keywordflow">return</span> timer_spostamento_spari;</div><div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generato da &#160;<a href="http://www.doxygen.org/index.html">
+Generato Mar 3 Gen 2017 16:38:10 per Space Invaders da &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

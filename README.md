@@ -1,7 +1,7 @@
 # Space Invaders
 ## Introduzione
 Riproduzione del celebre videogioco *Space Invaders* che mantiene inalterate tutte le caratteristiche di base del gioco originale.
-
+<br>
 Il giocatore quindi dovrà controllare un carro armato con il quale avrà il compito di abbattere, finchè avrà vite a disposizione, le ondate di alieni che ripetutamente si avvicineranno.
 
 ## Descrizione del gioco
@@ -12,21 +12,26 @@ Il gioco è dotato di un menù principale, dal quale è possibile accedere alle 
 > Per muoversi fra le voci di menù è necessario utilizzare *freccia su* e *freccia giù*, mentre per accedere all'area selezionata è sufficiente premere *enter*.
 
 ###Gioca
-Si tratta della schermata dalla quale è possibile dilettarsi col gioco vero e proprio.
-
-Il giocatore, ad inizio partita, ha a disposizione tre barriere. Ogni qualvolta esse vengono colpite dagli alieni o dal carro armato, tenderanno prima a sgretolarsi, e infine a distruggersi.
-
-Man mano che gli alieni vengono colpiti, a seconda del tipo di alieno distrutto, il giocatore ha un incremento del proprio punteggio. Nel momento in cui un'intera ondata viene distrutta, ne ricompare subito un'altra.
-
-Inoltre, ad intervalli di tempo casuali compare una navicella misteriosa. Se essa viene colpita il giocatore viene premiato con un incremento rilevante e casuale del punteggio.
+Dalla schermata di gioco è possibile dilettarsi col gioco vero e proprio.<br>
+Il gioco ruota intorno ad un'ondata di alieni che si sposta costantemente con un movimento a zig-zag da destra a sinistra e viceversa. Ogni volta che raggiunge un margine laterale scende sensibilmente verso il basso e man mano che gli alieni vengono abbattuti l'ondata aumenta la propria velocità di movimento.
+<br>
+Ogni volta che un alieno viene colpito il punteggio del giocatore viene incrementato di un valore dipendente dal tipo di alieno colpito. Quando un'intera ondata viene abbattuta, ne ricompare immediatamente una nuova.
+<br>
+Il giocatore, ad inizio partita, ha a disposizione tre barriere. Ogni qualvolta esse vengono colpite dagli alieni o dal carro armato, tendono prima a sgretolarsi, e infine a distruggersi.
+<br>
+Inoltre, ad intervalli di tempo casuali, compare una navicella misteriosa. Se essa viene colpita il giocatore viene premiato con un incremento rilevante e casuale del proprio punteggio.
+<br>
+Lo scopo del gioco è impedire che l'ondata di alieni raggiunga il carro armato poichè, nel momento in cui questo avviene, la partita giunge al termine.
 
 ![Space Invaders - Gioca](http://imgur.com/2EChJ08.png)
 > È necessario utilizzare *freccia destra* e *freccia sinistra* per muovere il carro armato, mentre con *barra spaziatrice* è possibile sparare.
+<br>
 > Durante una partita è possibile mettere il gioco in pausa premendo *esc*.
 
 ###Menù di pausa
-Da questo menù il giocatore può continuare, abbandonare o salvare la partita.
-Se viene scelto di salvare la partita il giocatore viene riportato al menù principale e la voce che consente di caricare la partita sarà abilitata. Tramite quella voce di menù potrà appunto ricominciare la partita dall'esatto punto nel quale era stata precedentemente interrotta.
+Dalla schermata di gioco è possibile accedere al menù di pausa dove il giocatore può continuare, abbandonare o salvare la partita in corso.
+<br>
+Se viene scelto di salvare la partita il giocatore viene riportato al menù principale e la voce che consente di caricare la partita sarà abilitata. Tramite quella voce di menù potrà appunto ricominciare la partita dall'esatto punto nel quale l'aveva precedentemente interrotta.
 
 ![Space Invaders - Menù di pausa](http://imgur.com/o1t5O36.png)
 > Per muoversi fra le voci è necessario utilizzare *freccia su* e *freccia giù*, mentre per scegliere un'operazione è sufficiente premere *enter*.
@@ -38,7 +43,9 @@ Al termine della partita, se è stato ottenuto un punteggio degno di essere inse
 > Premendo *enter* viene salvato il punteggio e si torna al menù principale.
 
 ###Opzioni
-Attraverso le impostazioni è possibile abilitare o meno la musica e gli effetti audio. Inoltre è possibile modificare la grafica cromatica degli alieni e impostare il numero di vite con le quali si intende iniziare le partite.
+Dal menù principale è possibile accedere al menù delle impostazioni.
+<br>
+Questo menù consente di abilitare o meno la musica e gli effetti audio. Inoltre è possibile modificare la grafica cromatica degli alieni e impostare il numero di vite con le quali si intende iniziare le partite.
 
 ![Space Invaders - Menù delle impostazioni](http://imgur.com/HPXLMAP.png)
 > Usando *freccia su* e *freccia giù* è possibile muoversi fra i vari campi delle impostazioni. Con *freccia destra* e *freccia sinistra* è possibile modificare il valore selezionato. Con *r* vengono ripristinati i valori di default. Premendo *enter* le modifiche vengono salvate e si torna al menù principale.
