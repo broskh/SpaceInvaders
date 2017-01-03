@@ -59,6 +59,7 @@ Per poter installare il gioco su distruibuzioni basate su debian è sufficiente 
 - Estrarre il contenuto dell'archivio appena scaricato.
 - Entrare con un terminale all'interno della directory.
 - Digitare sul terminale `cd src`.
+- Digitare sul terminale `make depend`.
 - Digitare sul terminale `make`. In questo modo avremo compilato e generato l'eseguibile *SpaceInvaders*.
 
 Infine per giocare, sempre dall'interno della cartella, è sufficiente digitare da console `./SpaceInvaders`.
@@ -71,8 +72,7 @@ Infine per giocare, sempre dall'interno della cartella, è sufficiente digitare 
 - `make cleanAll` per eliminare tutti i file generati in fase di compilazione e i vari file di salvataggio e configurazione.
 - `make debug` per compilare il codice in modalità debug (viene abilitato anche un tracing a console).
 - `make debugExtended` per compilare il codice in modalità debug (viene abilitato anche un tracing esteso a console).
-- `make depend` per generare il file *dependencies* che contiene le dipendenze (non presenti nelle directory di default del sistema) dei file da compilare. 
-- `make dependAll` per generare il file *dependencies* che contiene tutte le dipendenze dei file da compilare. 
+- `make depend` per generare il file *dependencies* che contiene le dipendenze (non presenti nelle directory di default del sistema) dei file da compilare.
 - `make noAsserts` per compilare il codice disabilitando le asserts.
 
 ##Documentazione

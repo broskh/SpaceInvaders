@@ -21,8 +21,6 @@ debugExtended: DEBUG_LEVEL=2
 debugExtended: debug
 depend:
 	g++ -MM *.cc > dependencies
-dependAll:
-	g++ -M *.cc > dependencies
 noAsserts: NOASS=-D NDEBUG
 noAsserts: SpaceInvaders
 	
