@@ -14,7 +14,7 @@ SpaceInvaders: $(OBJ)
 clean:
 	rm -f SpaceInvaders *.o
 cleanAll:
-	rm -f SpaceInvaders *.o *~ dependencies highscores partita.sav SpaceInvaders.config
+	rm -f SpaceInvaders *.o *~ dependencies ../highscores ../partita.sav ../SpaceInvaders.config
 debug: DEBUG_FLAGS = -g -D DEBUG_MODE -D DEBUG_LEVEL=$(DEBUG_LEVEL)
 debug: SpaceInvaders
 debugExtended: DEBUG_LEVEL=2

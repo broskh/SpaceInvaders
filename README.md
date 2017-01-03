@@ -58,6 +58,7 @@ Per poter installare il gioco su distruibuzioni basate su debian è sufficiente 
 - Scaricare da github l'archivio .zip.
 - Estrarre il contenuto dell'archivio appena scaricato.
 - Entrare con un terminale all'interno della directory.
+- Digitare sul terminale `cd src`.
 - Digitare sul terminale `make`. In questo modo avremo compilato e generato l'eseguibile *SpaceInvaders*.
 
 Infine per giocare, sempre dall'interno della cartella, è sufficiente digitare da console `./SpaceInvaders`.

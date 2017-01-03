@@ -17,7 +17,7 @@ const char CAMPO_VITE_INIZIALI [] = "vite_iniziali"; /**<Stringa per identificar
 //FINE COSTANTI STRINGHE CAMPI
 
 //INIZIO COSTANTI PER FILE
-const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Percorso del file contenente le impostazioni salvate.*/
+const char FILE_IMPOSTAZIONI [] = "../SpaceInvaders.config"; /**<Percorso del file contenente le impostazioni salvate.*/
 //FINE COSTANTI PER FILE
 
 //INIZIO INTERFACCIA

@@ -24,7 +24,7 @@ const unsigned int PUNTEGGIO_NAVICELLA_MIN = 100; /**<Punteggio minimo che può 
 //FINE COSTANTI PER NAVICELLA MISTERIOSA
 
 //INIZIO COSTANTI PER FILE
-const char FILE_SALVATAGGIO_PARTITA [] = "partita.sav"; /**<Percorso del file contenente la partita salvata.*/
+const char FILE_SALVATAGGIO_PARTITA [] = "../partita.sav"; /**<Percorso del file contenente la partita salvata.*/
 //FINE COSTANTI PER FILE
 
 //INIZIO COSTANTI PER FINE ONDATA
