@@ -80,19 +80,19 @@ const int RIPETIZIONI_ANIMAZIONE_ESPLOSIONE_CARRO = 2; /**<Numero di ripetizioni
 //FINE COSTANTI GENERICHE DI GIOCO
 
 //INIZIO COSTANTI PER FILE
-const char FILE_ALIENO_TIPO_1 [] ="Images/alieno1.png"; /**<Percorso del file contenente l'immagine per rappresentare l'alieno di tipo 1.*/
-const char FILE_ALIENO_TIPO_2 [] ="Images/alieno2.png"; /**<Percorso del file contenente l'immagine per rappresentare l'alieno di tipo 2.*/
-const char FILE_ALIENO_TIPO_3 [] ="Images/alieno3.png"; /**<Percorso del file contenente l'immagine per rappresentare l'alieno di tipo 3.*/
-const char FILE_BARRIERA [] = "Images/barriera.png"; /**<Percorso del file contenente l'immagine per rappresentare un'unità della barriera.*/
-const char FILE_CARRO_ARMATO [] ="Images/carro_armato.png"; /**<Percorso del file contenente l'immagine per rappresentare il carro armato.*/
-const char FILE_ESPLOSIONE_ALIENO [] = "Images/esplosione_alieno.png"; /**<Percorso del file contenente l'immagine per rappresentare l'esplosione di un alieno.*/
-const char FILE_ESPLOSIONE_CARRO [] = "Images/esplosione_carro.png"; /**<Percorso del file contenente l'immagine per rappresentare l'esplosione carro armato.*/
-const char FILE_FONT_TESTO [] = "Fonts/space_invaders.ttf"; /**<Percorso del file contenente il font utilizzato per i testi.*/
-const char FILE_FONT_TITOLO [] = "Fonts/dustbust_invaders.ttf"; /**<Percorso del file contenente il font utilizzato per il titolo nel menù principale.*/
-const char FILE_NAVICELLA_MISTERIOSA [] ="Images/navicella_misteriosa.png"; /**<Percorso del file contenente l'immagine per rappresentare la navicella misteriosa.*/
-const char FILE_SPARO_ALIENI_1 [] = "Images/sparo_alieni_1.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo degli alieni con posizione relativa all'asse x pari.*/
-const char FILE_SPARO_ALIENI_2 [] = "Images/sparo_alieni_2.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo degli alieni con posizione relativa all'asse x dispari.*/
-const char FILE_SPARO_CARRO [] ="Images/sparo_carro.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo del carro armato.*/
+const char FILE_ALIENO_TIPO_1 [] ="../media/Images/alieno1.png"; /**<Percorso del file contenente l'immagine per rappresentare l'alieno di tipo 1.*/
+const char FILE_ALIENO_TIPO_2 [] ="../media/Images/alieno2.png"; /**<Percorso del file contenente l'immagine per rappresentare l'alieno di tipo 2.*/
+const char FILE_ALIENO_TIPO_3 [] ="../media/Images/alieno3.png"; /**<Percorso del file contenente l'immagine per rappresentare l'alieno di tipo 3.*/
+const char FILE_BARRIERA [] = "../media/Images/barriera.png"; /**<Percorso del file contenente l'immagine per rappresentare un'unità della barriera.*/
+const char FILE_CARRO_ARMATO [] ="../media/Images/carro_armato.png"; /**<Percorso del file contenente l'immagine per rappresentare il carro armato.*/
+const char FILE_ESPLOSIONE_ALIENO [] = "../media/Images/esplosione_alieno.png"; /**<Percorso del file contenente l'immagine per rappresentare l'esplosione di un alieno.*/
+const char FILE_ESPLOSIONE_CARRO [] = "../media/Images/esplosione_carro.png"; /**<Percorso del file contenente l'immagine per rappresentare l'esplosione carro armato.*/
+const char FILE_FONT_TESTO [] = "../media/Fonts/space_invaders.ttf"; /**<Percorso del file contenente il font utilizzato per i testi.*/
+const char FILE_FONT_TITOLO [] = "../media/Fonts/dustbust_invaders.ttf"; /**<Percorso del file contenente il font utilizzato per il titolo nel menù principale.*/
+const char FILE_NAVICELLA_MISTERIOSA [] ="../media/Images/navicella_misteriosa.png"; /**<Percorso del file contenente l'immagine per rappresentare la navicella misteriosa.*/
+const char FILE_SPARO_ALIENI_1 [] = "../media/Images/sparo_alieni_1.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo degli alieni con posizione relativa all'asse x pari.*/
+const char FILE_SPARO_ALIENI_2 [] = "../media/Images/sparo_alieni_2.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo degli alieni con posizione relativa all'asse x dispari.*/
+const char FILE_SPARO_CARRO [] ="../media/Images/sparo_carro.png"; /**<Percorso del file contenente l'immagine per rappresentare lo sparo del carro armato.*/
 //FINE COSTANTI PER FILE
 
 //INIZIO INTERFACCIA

@@ -3,7 +3,7 @@
  */
 
 //INIZIO COSTANTI PER FILE
-const char FILE_HIGHSCORES [] = "highscores"; /**<Percorso del file contenente la classifica.*/
+const char FILE_HIGHSCORES [] = "../highscores"; /**<Percorso del file contenente la classifica.*/
 //FINE COSTANTI PER FILE
 
 //INIZIO INTERFACCIA
