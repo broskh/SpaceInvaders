@@ -2,17 +2,12 @@
  * Header file contenente l'interfaccia del modulo per la gestione dei timer.
  */
 
-//INIZIO COSTANTI PER ANIMAZIONE
-const unsigned int STADI_INCREMENTO_VELOCITA_ONDATA = 3; /**<Stadi di incremento della velocità dell'ondata.*/
-const unsigned int RANGE_PERCENTUALE_INCREMENTO_VELOCITA_ONDATA = 100 / STADI_INCREMENTO_VELOCITA_ONDATA; /**<Range percentualedi incremento della velocità.*/
-//FINE COSTANTI PER ANIMAZIONE
-
 //INIZIO COSTANTI PER VARI TIMER
 const float FREQUENZA_ANIMAZIONE = 4; /**<Frequenza dell'animazione.*/
 const float FREQUENZA_COMPARSA_NAVICELLA_MISTERIOSA = 0.3; /**<Frequenza della possibile comparsa della navicella misteriosa.*/
 const float FREQUENZA_COMPARSA_SPARO_ALIENI = 0.75; /**<Frequenza di creazione degli spari alieni.*/
 const float FPS_GIOCO = 60; /**<FPS del gioco.*/
-const float FREQUENZA_LAMPEGGIO_MENU = 3.5; /**<Frequenza dell'effetto lampeggiante sull'opzione selezionata dei menù.*/
+const float FREQUENZA_LAMPEGGIO_MENU = 3.5; /**<Frequenza dell'effetto lampeggiante.*/
 const float FREQUENZA_SPOSTAMENTO_CARRO_ARMATO = 115; /**<Frequenza dello spostamento del carro armato.*/
 const float FREQUENZA_SPOSTAMENTO_NAVICELLA_MISTERIOSA = 150; /**<Frequenza dello spostamento della navicella misteriosa.*/
 const float FREQUENZA_SPOSTAMENTO_ONDATA_MAX = 120; /**<Frequenza massima del movimento dell'ondata.*/
@@ -22,7 +17,7 @@ const float FREQUENZA_SPOSTAMENTO_SPARI = 150; /**<Frequenza dello spostamento d
 
 //INIZIO INTERFACCIA
 /**
- * Aggiorna la velocità prendendo in considerazione la frequenza massima e minima di spostamento e la percentuale di velocità degli alieni.
+ * Aggiorna la velocità prendendo in considerazione la frequenza {@link FREQUENZA_SPOSTAMENTO_ONDATA_MAX massima} e {@link FREQUENZA_SPOSTAMENTO_ONDATA_MIN minima} di spostamento e la percentuale di velocità degli alieni.
  *
  * @param percentuale_velocita_alieni Percentuale di velocità degli alieni.
  */
@@ -126,7 +121,7 @@ void fermaTimerSpostamentoSpari ();
 
 /**
  * Procedura di inizializzazione del modulo per la gestione dei timer.
- * Si occupa di inizializzare correttamente tutte le variabili necessarie e di seguire i metodi di inizializzazione di determinate librerie "Allegro".
+ * Si occupa di inizializzare correttamente tutte le variabili necessarie e di eseguire i metodi di inizializzazione di determinate librerie "Allegro".
  * 
  * @return "true" se il modulo è stato correttamente inizializzato, "false" altrimenti.
  */

@@ -184,9 +184,9 @@ bool stringaValoreVoceImpostazioni (char stringa [], size_t dimensione_stringa, 
 	return true;
 }
 
-bool valoreCampoImpostazioniPrec (Menu menu, Impostazioni &impostazioni)
+bool valoreCampoImpostazioniPrec (Menu menu_impostazioni, Impostazioni &impostazioni)
 {
-	switch (menu.voce_selezionata)
+	switch (menu_impostazioni.voce_selezionata)
 	{
 		case v_musica:
 			impostazioni.musica = !impostazioni.musica;
@@ -207,9 +207,9 @@ bool valoreCampoImpostazioniPrec (Menu menu, Impostazioni &impostazioni)
 	return true;
 }
 
-bool valoreCampoImpostazioniSuc (Menu menu, Impostazioni &impostazioni)
+bool valoreCampoImpostazioniSuc (Menu menu_impostazioni, Impostazioni &impostazioni)
 {
-	switch (menu.voce_selezionata)
+	switch (menu_impostazioni.voce_selezionata)
 	{
 		case v_musica:
 			impostazioni.musica = !impostazioni.musica;

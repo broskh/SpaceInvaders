@@ -17,23 +17,23 @@ const char CAMPO_VITE_INIZIALI [] = "vite_iniziali"; /**<Stringa per identificar
 //FINE COSTANTI STRINGHE CAMPI
 
 //INIZIO COSTANTI PER FILE
-const char FILE_IMPOSTAZIONI [] = "../SpaceInvaders.config"; /**<Percorso del file contenente le impostazioni salvate.*/
+const char FILE_IMPOSTAZIONI [] = "SpaceInvaders.config"; /**<Percorso del file contenente le impostazioni salvate.*/
 //FINE COSTANTI PER FILE
 
 //INIZIO INTERFACCIA
 /**
  * Carica dal file di configurazione le impostazioni e le memorizza nell'apposita struttura.
  * 
- * @param impostazioni Struttura {@link Impostazioni} nella quale verranno caricate le impostazioni.
+ * @param impostazioni Struttura Impostazioni nella quale memorizzare le informazioni.
  * 
  * @return "false" nel caso in cui il caricamento non sia riuscito, "true" altrimenti.
  */
 bool caricaImpostazioni (Impostazioni &impostazioni);
 
 /**
- * Assegna a tutti i campi di una struttura {@link Impostazioni} i relativi valori di default.
+ * Assegna a tutti i campi di una struttura Impostazioni i relativi valori di default.
  *
- * @param impostazioni Struttura {@link Impostazioni} nella quale verranno settati i valori di default.
+ * @param impostazioni Struttura Impostazioni nella quale verranno memorizzati i valori di default.
  */
 void impostaValoriDefault (Impostazioni &impostazioni);
 
@@ -44,15 +44,15 @@ void impostaValoriDefault (Impostazioni &impostazioni);
  */
 void salvaImpostazioni (Impostazioni impostazioni);
 
-/*
+/**
  * Stampa a console le impostazioni.
  * 
  * @param impostazioni Impostazioni da stampare.
  */
 void stampa (Impostazioni impostazioni);
 
-/*
- * Ritorna lo stato del campo colore_alieni.
+/**
+ * Ritorna il colore degli alieni impostato.
  * 
  * @param impostazioni Impostazioni da analizzare.
  * 
@@ -60,8 +60,8 @@ void stampa (Impostazioni impostazioni);
  */
 colore statoColoreAlieni (Impostazioni impostazioni);
 
-/*
- * Ritorna lo stato del campo eff_audio.
+/**
+ * Ritorna lo stato degli effetti audio impostato.
  * 
  * @param impostazioni Impostazioni da analizzare.
  * 
@@ -69,8 +69,8 @@ colore statoColoreAlieni (Impostazioni impostazioni);
  */
 bool statoEffettiAudio (Impostazioni impostazioni);
 
-/*
- * Ritorna lo stato del campo musica.
+/**
+ * Ritorna lo stato della musica impostato.
  * 
  * @param impostazioni Impostazioni da analizzare.
  * 

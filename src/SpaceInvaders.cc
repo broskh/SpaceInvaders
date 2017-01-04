@@ -4,19 +4,21 @@
 
 /**
  * @mainpage
- * 
+ * # Introduzione
  * Riproduzione del celebre videogioco *Space Invaders* che mantiene inalterate 
  * tutte le caratteristiche di base del gioco originale.\n
  * Il giocatore quindi dovrà controllare un carro armato con il quale avrà il 
  * compito di abbattere, finchè avrà vite a disposizione, le ondate di alieni 
  * che ripetutamente si avvicineranno.
  *
+ * # Descrizione delle schermate
+ * ## Schermata del menù principale
  * Il gioco è dotato di un menù principale, dal quale è possibile accedere 
  * alle varie schermate.
  * > Per muoversi fra le voci di menù è necessario utilizzare *freccia su* e *freccia giù*,
  * > mentre per accedere all'area selezionata è sufficiente premere *enter*.
  *
- * 
+ * ## Schermata di gioco
  * Dalla schermata di gioco è possibile dilettarsi col gioco vero e proprio.\n
  * Il gioco ruota intorno ad un'ondata di alieni che si sposta costantemente con un movimento
  * a zig-zag da destra a sinistra e viceversa. Ogni volta che raggiunge un margine
@@ -37,7 +39,7 @@
  * > il carro armato, mentre con *barra spaziatrice* è possibile sparare.\n
  * > Durante una partita è possibile mettere il gioco in pausa premendo *esc*.
  *
- * 
+ * ## Schermata del menù di pausa
  * Dalla schermata di gioco è possibile accedere al menù di pausa dove il 
  * giocatore può continuare, abbandonare o salvare la partita in corso.\n
  * Se viene scelto di salvare la partita il giocatore viene riportato al menù 
@@ -47,13 +49,13 @@
  * > Per muoversi fra le voci è necessario utilizzare *freccia su* e *freccia giù*, 
  * > mentre per scegliere un'operazione è sufficiente premere *enter*.
  * 
- * 
+ * ## Schermata di fine partita
  * Al termine della partita, se è stato ottenuto un punteggio degno di essere 
  * inserito nella classifica degli highscores, è possibile digitare un nome di 
  * massimo tre lettere e salvarlo.
  * > Premendo *enter* viene salvato il punteggio e si torna al menù principale.
  *
- * 
+ * ## Schermata del menù delle impostazioni
  * Dal menù principale è possibile accedere al menù delle impostazioni.\n
  * Questo menù consente di abilitare o meno la musica e gli effetti audio. Inoltre 
  * è possibile modificare la grafica cromatica degli alieni e impostare il numero
@@ -63,13 +65,42 @@
  * > valore selezionato. Con *r* vengono ripristinati i valori di default. Premendo 
  * > *enter* le modifiche vengono salvate e si torna al menù principale.
  * 
- * 
+ * ## Schermata degli highscores
  * Dal menù principale è inoltre possibile visualizzare la classifica dei dieci 
  * migliori punteggi raggiunti e il nome dei giocatori che hanno raggiunto tali 
  * risultati.
  * > Premendo *enter* si torna al menù principale.
  *
- * @author Alessio Scheri
+ * # Struttura del programma
+ * Il progetto è composto da un {@link SpaceInvaders.cc file sorgente} contenente la
+ * funzione {@link main}, sette differenti moduli e un {@link strutture_dati.h file
+ * d'intestazione} contenente le dichiarazioni di tutte le strutture, i tipi e gli 
+ * enumerati utilizzati all'interno delle varie componenti del programma.
+ * 
+ * I moduli sono i seguenti:
+ * - {@link gestione_audio.h gestione_audio} - Attraverso apposite funzioni, variabili 
+ * e costanti fornisce il supporto necessario per la gestione delle componenti audio 
+ * del gioco.
+ * - {@link gestione_classifica.h gestione_classifica} - Attraverso apposite funzioni 
+ * e costanti fornisce il supporto necessario per la gestione della classifica e dei 
+ * punteggi del gioco.
+ * - {@link gestione_grafica.h gestione_grafica} - Attraverso apposite funzioni, variabili 
+ * e costanti fornisce il supporto necessario per la gestione delle componenti grafiche 
+ * del gioco.
+ * - {@link gestione_impostazioni.h gestione_impostazioni} - Attraverso apposite funzioni 
+ * e costanti fornisce il supporto necessario per la gestione delle impostazioni del gioco.
+ * - {@link gestione_menu.h gestione_menu} - Attraverso apposite funzioni e costanti 
+ * fornisce il supporto necessario per la gestione dei vari menù presenti nel gioco.
+ * - {@link gestione_partita.h gestione_partita} - Attraverso apposite funzioni e costanti 
+ * fornisce il supporto necessario per la gestione delle partite vere e proprie.
+ * - {@link gestione_timer.h gestione_timer} - Attraverso apposite funzioni, variabili 
+ * e costanti fornisce il supporto necessario per la gestione dei timer del gioco.
+ * 
+ * Per maggiori informazioni riguardanti la struttura del programma è possibile leggere 
+ * la documentazione relativa alla funzione {@link main}.
+ * 
+ * @author Alessio Scheri\n
+ * E-mail: <alessio.scheri@gmail.com>
  */
 
 using namespace std;
@@ -94,10 +125,6 @@ using namespace std;
 #endif
 //FINE CONFIGURAZIONE TRACING
 
-//INIZIO COSTANTI MAIN
-const char TITOLO_FINESTRA [] = "Space Invaders"; /**<Titolo della finestra del gioco.*/
-//FINE OCSTANTI MAIN
-
 //INIZIO FUNZIONI PRIVATE
 /*
  * Dealloca la memoria riguardante la coda degli eventi.
@@ -116,6 +143,15 @@ void distruggiDisplay ();
 unsigned int percentualeVelocitaOndata (Partita partita);
 //FINE FUNZIONI PRIVATE
 
+//INIZIO COSTANTI PER FINESTRA
+const char TITOLO_FINESTRA [] = "Space Invaders"; /**<Titolo della finestra del gioco.*/
+//FINE OCSTANTI PER FINESTRA
+
+//INIZIO COSTANTI PER VELOCITA ONDATA
+const unsigned int STADI_INCREMENTO_VELOCITA_ONDATA = 3; /**<Numero di stadi di incremento della velocità dell'ondata aliena.*/
+const unsigned int RANGE_PERCENTUALE_INCREMENTO_VELOCITA_ONDATA = 100 / STADI_INCREMENTO_VELOCITA_ONDATA; /**<Range della percentuale di incremento della velocità dell'ondata aliena.*/
+//FINE COSTANTI PER VELOCITA ONDATA
+
 //INIZIO VARIABILI GLOBALI
 static ALLEGRO_EVENT_QUEUE *coda_eventi = NULL; /**<Coda degli eventi.*/
 static ALLEGRO_DISPLAY *display = NULL; /**<Display del gioco.*/
@@ -123,20 +159,20 @@ static ALLEGRO_DISPLAY *display = NULL; /**<Display del gioco.*/
 
 /**
  * Combina tutti i moduli e le strutture dati per realizzare il gioco.
- * In particolare si occupa di gestire il cambio delle varie schermate e la coda degli eventi che interagisce con esse.
- * Dopo una prima fase di inizializzazione, all'interno di un loop infinito è presente uno switch-case dove ad ogni 
+ * In particolare si occupa di gestire il cambio delle varie schermate e la coda degli eventi che interagisce con esse.\n
+ * Dopo una prima fase di inizializzazione, all'interno di un loop infinito, è presente uno switch-case dove ad ogni 
  * case corrisponde la gestione di una schermata differente del gioco. Sarà quindi all'interno di questo blocco che, 
- * se necessaria, verrà gestita correttamente anche la coda degli eventi.
+ * se necessaria, verrà gestita in modo specifico anche la coda degli eventi.\n
  * In particolare, il case che si occupa di gestire la schermata di uscita dal gioco è l'unico modo per uscire 
  * correttamente dal gioco (il main ritorna il valore 0), ed è per questo che, anche quando viene registrato 
  * il click sulla crocetta in altro a destra della finestra, si passa per questa schermata.
  * 
- * @return lo stato di uscita del programma\: 
- * se è "0", tutto è andato correttamente; 
- * se è "1" il programma è uscito inaspettatamente dal ciclo di gestione delle schermate; 
- * se è "2" il programma ha tentato di gestire una schermata inesistente. 
- * se è "3" si è verificato qualche errore in fase di inizializzazione delle librerie. 
- * se è "4" si è verificato un errore di altro tipo.
+ * @return lo stato di uscita del programma: 
+ * - se è "0", tutto è andato correttamente.\n
+ * - se è "1", il programma è uscito inaspettatamente dal ciclo di gestione delle schermate.\n
+ * - se è "2", il programma ha tentato di gestire una schermata inesistente.\n
+ * - se è "3", si è verificato qualche errore in fase di inizializzazione delle librerie.\n
+ * - se è "4", si è verificato un errore di altro tipo.
  */
 int main ()
 {
@@ -217,7 +253,7 @@ int main ()
 	}
 	if (!caricaPunteggi (classifica))
 	{
-		inizializzaClassifica (classifica);
+		inizializzaClassificaVuota (classifica);
 	}
 
 	//INIZIALIZZAZIONE DELLE VARIABILI CONTENENTI LE INFORMAZIONI DI MENÙ

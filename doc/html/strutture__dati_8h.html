@@ -103,7 +103,7 @@ Composti</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struttura per contenere i dati delle impostazioni.  <a href="structImpostazioni.html#details">Continua...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMenu.html">Menu</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struttura per contenere i dati per la gestione dei menù.  <a href="structMenu.html#details">Continua...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struttura per contenere i dati per la gestione di un menù.  <a href="structMenu.html#details">Continua...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structNavicella.html">Navicella</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struttura per contenere i dati della navicella misteriosa.  <a href="structNavicella.html#details">Continua...</a><br /></td></tr>
@@ -129,12 +129,15 @@ Composti</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Definizioni</h2></td></tr>
-<tr class="memitem:a9fd176efd6d22cb809550f0271c2a93d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#a9fd176efd6d22cb809550f0271c2a93d">DBG</a>(A,  B)</td></tr>
-<tr class="separator:a9fd176efd6d22cb809550f0271c2a93d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49e3064fc9acfb40caff8b137e5fd2c4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#a49e3064fc9acfb40caff8b137e5fd2c4">D1</a>(B)&#160;&#160;&#160;<a class="el" href="strutture__dati_8h.html#a9fd176efd6d22cb809550f0271c2a93d">DBG</a>(1, B)</td></tr>
-<tr class="separator:a49e3064fc9acfb40caff8b137e5fd2c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a263b14ae612de6499b23e7110481cbc8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#a263b14ae612de6499b23e7110481cbc8">D2</a>(B)&#160;&#160;&#160;<a class="el" href="strutture__dati_8h.html#a9fd176efd6d22cb809550f0271c2a93d">DBG</a>(2, B)</td></tr>
-<tr class="separator:a263b14ae612de6499b23e7110481cbc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22493aa1cf973f3feae3f2a808e3d4e1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#a22493aa1cf973f3feae3f2a808e3d4e1">DBG</a>(MIN_DEBUG,  ISTRUZIONE)</td></tr>
+<tr class="memdesc:a22493aa1cf973f3feae3f2a808e3d4e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Se si è in modalità debug controlla il livello di debug attivo e se esso è maggiore di quello passato per parametro, esegue l'istruzione indicata.  <a href="#a22493aa1cf973f3feae3f2a808e3d4e1">Continua...</a><br /></td></tr>
+<tr class="separator:a22493aa1cf973f3feae3f2a808e3d4e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add1d086621c53e74e15e72e316377f09"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#add1d086621c53e74e15e72e316377f09">D1</a>(ISTRUZIONE)&#160;&#160;&#160;<a class="el" href="strutture__dati_8h.html#a22493aa1cf973f3feae3f2a808e3d4e1">DBG</a>(1, ISTRUZIONE)</td></tr>
+<tr class="memdesc:add1d086621c53e74e15e72e316377f09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Esegue l'istruzione indicata se il livello di debug attivo è uguale a 1.  <a href="#add1d086621c53e74e15e72e316377f09">Continua...</a><br /></td></tr>
+<tr class="separator:add1d086621c53e74e15e72e316377f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23246a6cf312ef60c6f553c5308036b9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#a23246a6cf312ef60c6f553c5308036b9">D2</a>(ISTRUZIONE)&#160;&#160;&#160;<a class="el" href="strutture__dati_8h.html#a22493aa1cf973f3feae3f2a808e3d4e1">DBG</a>(2, ISTRUZIONE)</td></tr>
+<tr class="memdesc:a23246a6cf312ef60c6f553c5308036b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Esegue l'istruzione indicata se il livello di debug attivo è uguale a 2.  <a href="#a23246a6cf312ef60c6f553c5308036b9">Continua...</a><br /></td></tr>
+<tr class="separator:a23246a6cf312ef60c6f553c5308036b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Ridefinizioni di tipo (typedef)</h2></td></tr>
@@ -144,8 +147,11 @@ Ridefinizioni di tipo (typedef)</h2></td></tr>
 <tr class="memitem:aaf99707c57d21a90b00b0e9f0bebc8c1"><td class="memItemLeft" align="right" valign="top">typedef char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#aaf99707c57d21a90b00b0e9f0bebc8c1">generic_string</a>[21]</td></tr>
 <tr class="memdesc:aaf99707c57d21a90b00b0e9f0bebc8c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringa generica in grado di contenere 20 caratteri.  <a href="#aaf99707c57d21a90b00b0e9f0bebc8c1">Continua...</a><br /></td></tr>
 <tr class="separator:aaf99707c57d21a90b00b0e9f0bebc8c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0229c622e2f5ffe85ce727c022a9442f"><td class="memItemLeft" align="right" valign="top">typedef char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#a0229c622e2f5ffe85ce727c022a9442f">name_string</a>[<a class="el" href="strutture__dati_8h.html#a3bc17e6a56587de6cbc0ea5fe1eb6a95">CARATTERI_NOME</a>+1]</td></tr>
+<tr class="memdesc:a0229c622e2f5ffe85ce727c022a9442f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringa utilizzata per contenere il nome di un giocatore (Max.  <a href="#a0229c622e2f5ffe85ce727c022a9442f">Continua...</a><br /></td></tr>
+<tr class="separator:a0229c622e2f5ffe85ce727c022a9442f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84f11ad7f630d06f905b5353288a42ac"><td class="memItemLeft" align="right" valign="top">typedef char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#a84f11ad7f630d06f905b5353288a42ac">numbering_string</a>[4]</td></tr>
-<tr class="memdesc:a84f11ad7f630d06f905b5353288a42ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringa utilizzata per la numerazione nella classifica degli highscore.  <a href="#a84f11ad7f630d06f905b5353288a42ac">Continua...</a><br /></td></tr>
+<tr class="memdesc:a84f11ad7f630d06f905b5353288a42ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stringa utilizzata per la numerazione nella classifica degli highscores.  <a href="#a84f11ad7f630d06f905b5353288a42ac">Continua...</a><br /></td></tr>
 <tr class="separator:a84f11ad7f630d06f905b5353288a42ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -163,7 +169,7 @@ Tipi enumerati (enum)</h2></td></tr>
 <tr class="separator:a4174ab8c7cb13bc1bf71bfea6718bcc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed6e7c893fa0ed63b808c0def3f03f37"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#aed6e7c893fa0ed63b808c0def3f03f37">direzione</a> { <a class="el" href="strutture__dati_8h.html#aed6e7c893fa0ed63b808c0def3f03f37a35f93f075e16b5c43c39b70af1a5ef5c">destra</a>, 
 <a class="el" href="strutture__dati_8h.html#aed6e7c893fa0ed63b808c0def3f03f37a898515c7bcad93969fef96b0b8247719">sinistra</a>
- }<tr class="memdesc:aed6e7c893fa0ed63b808c0def3f03f37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tipo che indica una direzione.  <a href="strutture__dati_8h.html#aed6e7c893fa0ed63b808c0def3f03f37">Continua...</a><br /></td></tr>
+ }<tr class="memdesc:aed6e7c893fa0ed63b808c0def3f03f37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tipo che indica una direzione laterale.  <a href="strutture__dati_8h.html#aed6e7c893fa0ed63b808c0def3f03f37">Continua...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:aed6e7c893fa0ed63b808c0def3f03f37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3793f8b736c6c45f96ab767c8be973e8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8">schermata</a> { <br />
@@ -183,7 +189,7 @@ Tipi enumerati (enum)</h2></td></tr>
 <tr class="memitem:a8629197103af9028381c30b21454da4a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4a">stato_barriera</a> { <a class="el" href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa89b9359be7b90fea6e3e1ce0d3789594">distrutta</a>, 
 <a class="el" href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa1e22d07d3c709fda63209561e423590e">parziale</a>, 
 <a class="el" href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa3a598b30f5ffdb3eca9945aa939962d4">integra</a>
- }<tr class="memdesc:a8629197103af9028381c30b21454da4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tipo che indica lo stato di ogni unità che costituisce la barriera.  <a href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4a">Continua...</a><br /></td></tr>
+ }<tr class="memdesc:a8629197103af9028381c30b21454da4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tipo che indica lo stato di una singola unità che costituisce la barriera.  <a href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4a">Continua...</a><br /></td></tr>
 </td></tr>
 <tr class="separator:a8629197103af9028381c30b21454da4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3e6e45851f5266648bd38ec7a2811d2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2">voce_menu_impostazioni</a> { <a class="el" href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2a8e8ce2da7b2a6a7487df85f1aa9ca1c8">v_musica</a>, 
@@ -223,19 +229,19 @@ Variabili</h2></td></tr>
 <tr class="memdesc:aeb01fcec9b34e3b24cc7d5313be2c9d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Largezza della barriera (in unità).  <a href="#aeb01fcec9b34e3b24cc7d5313be2c9d3">Continua...</a><br /></td></tr>
 <tr class="separator:aeb01fcec9b34e3b24cc7d5313be2c9d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b2201bb7a2860f450ee085ca62dec95"><td class="memItemLeft" align="right" valign="top">const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#a7b2201bb7a2860f450ee085ca62dec95">N_COL_ALIENI</a> = 11</td></tr>
-<tr class="memdesc:a7b2201bb7a2860f450ee085ca62dec95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numero delle colonne di alieni.  <a href="#a7b2201bb7a2860f450ee085ca62dec95">Continua...</a><br /></td></tr>
+<tr class="memdesc:a7b2201bb7a2860f450ee085ca62dec95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numero delle colonne di alieni di cui è composta l'ondata.  <a href="#a7b2201bb7a2860f450ee085ca62dec95">Continua...</a><br /></td></tr>
 <tr class="separator:a7b2201bb7a2860f450ee085ca62dec95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac161a7b08246a3c864c0953ca0abaca8"><td class="memItemLeft" align="right" valign="top">const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#ac161a7b08246a3c864c0953ca0abaca8">N_FILE_ALIENI</a> = 6</td></tr>
-<tr class="memdesc:ac161a7b08246a3c864c0953ca0abaca8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numero delle file di alieni.  <a href="#ac161a7b08246a3c864c0953ca0abaca8">Continua...</a><br /></td></tr>
+<tr class="memdesc:ac161a7b08246a3c864c0953ca0abaca8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numero delle file di alieni di cui è composta l'ondata.  <a href="#ac161a7b08246a3c864c0953ca0abaca8">Continua...</a><br /></td></tr>
 <tr class="separator:ac161a7b08246a3c864c0953ca0abaca8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3bc17e6a56587de6cbc0ea5fe1eb6a95"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#a3bc17e6a56587de6cbc0ea5fe1eb6a95">CARATTERI_NOME</a> = 3</td></tr>
-<tr class="memdesc:a3bc17e6a56587de6cbc0ea5fe1eb6a95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numero di caratteri per le stringhe contenti il nome di un giocatore.  <a href="#a3bc17e6a56587de6cbc0ea5fe1eb6a95">Continua...</a><br /></td></tr>
+<tr class="memdesc:a3bc17e6a56587de6cbc0ea5fe1eb6a95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numero di caratteri massimo del nome di un gicoatore.  <a href="#a3bc17e6a56587de6cbc0ea5fe1eb6a95">Continua...</a><br /></td></tr>
 <tr class="separator:a3bc17e6a56587de6cbc0ea5fe1eb6a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2a5a278a71c44feba6f080e34f9b4e0"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#ac2a5a278a71c44feba6f080e34f9b4e0">MAX_HIGHSCORES</a> = 10</td></tr>
-<tr class="memdesc:ac2a5a278a71c44feba6f080e34f9b4e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numero massimo di punteggi presenti nella classifica degli highscores.  <a href="#ac2a5a278a71c44feba6f080e34f9b4e0">Continua...</a><br /></td></tr>
+<tr class="memdesc:ac2a5a278a71c44feba6f080e34f9b4e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numero massimo di punteggi che possono essere memorizzati nella classifica degli highscores.  <a href="#ac2a5a278a71c44feba6f080e34f9b4e0">Continua...</a><br /></td></tr>
 <tr class="separator:ac2a5a278a71c44feba6f080e34f9b4e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a753558ee0bc69ae4dc0a784405f65dee"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#a753558ee0bc69ae4dc0a784405f65dee">MAX_N_VOCI_MENU</a> = 5</td></tr>
-<tr class="memdesc:a753558ee0bc69ae4dc0a784405f65dee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numero di voci massime presenti in un menu.  <a href="#a753558ee0bc69ae4dc0a784405f65dee">Continua...</a><br /></td></tr>
+<tr class="memdesc:a753558ee0bc69ae4dc0a784405f65dee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numero di voci massime che possono comporre un menù.  <a href="#a753558ee0bc69ae4dc0a784405f65dee">Continua...</a><br /></td></tr>
 <tr class="separator:a753558ee0bc69ae4dc0a784405f65dee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f1a6f2391cf2216379122ab09fe3b21"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strutture__dati_8h.html#a2f1a6f2391cf2216379122ab09fe3b21">MAX_VITE</a> = 10</td></tr>
 <tr class="memdesc:a2f1a6f2391cf2216379122ab09fe3b21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numero massimo di vite.  <a href="#a2f1a6f2391cf2216379122ab09fe3b21">Continua...</a><br /></td></tr>
@@ -245,7 +251,7 @@ Variabili</h2></td></tr>
 <tr class="separator:acd0c462f0481c1cc0f55455dac6ce971"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Documentazione delle definizioni</h2>
-<a class="anchor" id="a49e3064fc9acfb40caff8b137e5fd2c4"></a>
+<a class="anchor" id="add1d086621c53e74e15e72e316377f09"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -253,15 +259,23 @@ Variabili</h2></td></tr>
           <td class="memname">#define D1</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname">B</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="strutture__dati_8h.html#a9fd176efd6d22cb809550f0271c2a93d">DBG</a>(1, B)</td>
+          <td class="paramname">ISTRUZIONE</td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="strutture__dati_8h.html#a22493aa1cf973f3feae3f2a808e3d4e1">DBG</a>(1, ISTRUZIONE)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Esegue l'istruzione indicata se il livello di debug attivo è uguale a 1. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ISTRUZIONE</td><td>Istruzione da eseguire. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
-<a class="anchor" id="a263b14ae612de6499b23e7110481cbc8"></a>
+<a class="anchor" id="a23246a6cf312ef60c6f553c5308036b9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -269,15 +283,23 @@ Variabili</h2></td></tr>
           <td class="memname">#define D2</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname">B</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="strutture__dati_8h.html#a9fd176efd6d22cb809550f0271c2a93d">DBG</a>(2, B)</td>
+          <td class="paramname">ISTRUZIONE</td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="strutture__dati_8h.html#a22493aa1cf973f3feae3f2a808e3d4e1">DBG</a>(2, ISTRUZIONE)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>Esegue l'istruzione indicata se il livello di debug attivo è uguale a 2. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ISTRUZIONE</td><td>Istruzione da eseguire. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
-<a class="anchor" id="a9fd176efd6d22cb809550f0271c2a93d"></a>
+<a class="anchor" id="a22493aa1cf973f3feae3f2a808e3d4e1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -285,13 +307,13 @@ Variabili</h2></td></tr>
           <td class="memname">#define DBG</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname">A, </td>
+          <td class="paramname">MIN_DEBUG, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname">B&#160;</td>
+          <td class="paramname">ISTRUZIONE&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -300,6 +322,15 @@ Variabili</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Se si è in modalità debug controlla il livello di debug attivo e se esso è maggiore di quello passato per parametro, esegue l'istruzione indicata. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">MIN_DEBUG</td><td>Livello di debug minimo che deve essere attivo per poter eseguire l'istruzione indicata. </td></tr>
+    <tr><td class="paramname">ISTRUZIONE</td><td>Istruzione da eseguire nel caso in cui il livello di debug attivo sia consono. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -332,6 +363,21 @@ Variabili</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a0229c622e2f5ffe85ce727c022a9442f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef char name_string[<a class="el" href="strutture__dati_8h.html#a3bc17e6a56587de6cbc0ea5fe1eb6a95">CARATTERI_NOME</a>+1]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Stringa utilizzata per contenere il nome di un giocatore (Max. </p>
+<p>3 caratteri). </p>
+
+</div>
+</div>
 <a class="anchor" id="a84f11ad7f630d06f905b5353288a42ac"></a>
 <div class="memitem">
 <div class="memproto">
@@ -342,7 +388,7 @@ Variabili</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Stringa utilizzata per la numerazione nella classifica degli highscore. </p>
+<p>Stringa utilizzata per la numerazione nella classifica degli highscores. </p>
 
 </div>
 </div>
@@ -371,11 +417,11 @@ Variabili</h2></td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a4174ab8c7cb13bc1bf71bfea6718bcc2a0e8151930db4db1faf36ceeb37bde398"></a>blu&#160;</td><td class="fielddoc">
 </td></tr>
 </table>
-<div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{<a class="code" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a310285e608c37ba8f236b06da097c84a">verde</a>, <a class="code" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a3226bf95e2fad7dccac1089fb62a60d5">bianco</a>, <a class="code" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a215ac4b782642005e5eab2e814ca38bb">arancione</a>, <a class="code" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2aa22f2f415d1ddc962c7fc1e8c12342d0">giallo</a>, <a class="code" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a0e8151930db4db1faf36ceeb37bde398">blu</a>};</div><div class="ttc" id="strutture__dati_8h_html_a4174ab8c7cb13bc1bf71bfea6718bcc2a0e8151930db4db1faf36ceeb37bde398"><div class="ttname"><a href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a0e8151930db4db1faf36ceeb37bde398">blu</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:49</div></div>
-<div class="ttc" id="strutture__dati_8h_html_a4174ab8c7cb13bc1bf71bfea6718bcc2a3226bf95e2fad7dccac1089fb62a60d5"><div class="ttname"><a href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a3226bf95e2fad7dccac1089fb62a60d5">bianco</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:49</div></div>
-<div class="ttc" id="strutture__dati_8h_html_a4174ab8c7cb13bc1bf71bfea6718bcc2aa22f2f415d1ddc962c7fc1e8c12342d0"><div class="ttname"><a href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2aa22f2f415d1ddc962c7fc1e8c12342d0">giallo</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:49</div></div>
-<div class="ttc" id="strutture__dati_8h_html_a4174ab8c7cb13bc1bf71bfea6718bcc2a310285e608c37ba8f236b06da097c84a"><div class="ttname"><a href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a310285e608c37ba8f236b06da097c84a">verde</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:49</div></div>
-<div class="ttc" id="strutture__dati_8h_html_a4174ab8c7cb13bc1bf71bfea6718bcc2a215ac4b782642005e5eab2e814ca38bb"><div class="ttname"><a href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a215ac4b782642005e5eab2e814ca38bb">arancione</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:49</div></div>
+<div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;{<a class="code" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a310285e608c37ba8f236b06da097c84a">verde</a>, <a class="code" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a3226bf95e2fad7dccac1089fb62a60d5">bianco</a>, <a class="code" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a215ac4b782642005e5eab2e814ca38bb">arancione</a>, <a class="code" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2aa22f2f415d1ddc962c7fc1e8c12342d0">giallo</a>, <a class="code" href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a0e8151930db4db1faf36ceeb37bde398">blu</a>};</div><div class="ttc" id="strutture__dati_8h_html_a4174ab8c7cb13bc1bf71bfea6718bcc2a0e8151930db4db1faf36ceeb37bde398"><div class="ttname"><a href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a0e8151930db4db1faf36ceeb37bde398">blu</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:67</div></div>
+<div class="ttc" id="strutture__dati_8h_html_a4174ab8c7cb13bc1bf71bfea6718bcc2a3226bf95e2fad7dccac1089fb62a60d5"><div class="ttname"><a href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a3226bf95e2fad7dccac1089fb62a60d5">bianco</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:67</div></div>
+<div class="ttc" id="strutture__dati_8h_html_a4174ab8c7cb13bc1bf71bfea6718bcc2aa22f2f415d1ddc962c7fc1e8c12342d0"><div class="ttname"><a href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2aa22f2f415d1ddc962c7fc1e8c12342d0">giallo</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:67</div></div>
+<div class="ttc" id="strutture__dati_8h_html_a4174ab8c7cb13bc1bf71bfea6718bcc2a310285e608c37ba8f236b06da097c84a"><div class="ttname"><a href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a310285e608c37ba8f236b06da097c84a">verde</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:67</div></div>
+<div class="ttc" id="strutture__dati_8h_html_a4174ab8c7cb13bc1bf71bfea6718bcc2a215ac4b782642005e5eab2e814ca38bb"><div class="ttname"><a href="strutture__dati_8h.html#a4174ab8c7cb13bc1bf71bfea6718bcc2a215ac4b782642005e5eab2e814ca38bb">arancione</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:67</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -389,16 +435,15 @@ Variabili</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Tipo che indica una direzione. </p>
-<p>Gli alieni eseguono continuamentente un movimento a zig zag. Con questo tipo è possibile indicare la direzione nella quale si stanno muovendo. </p>
+<p>Tipo che indica una direzione laterale. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Valori del tipo enumerato</th></tr><tr><td class="fieldname"><a class="anchor" id="aed6e7c893fa0ed63b808c0def3f03f37a35f93f075e16b5c43c39b70af1a5ef5c"></a>destra&#160;</td><td class="fielddoc">
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="aed6e7c893fa0ed63b808c0def3f03f37a898515c7bcad93969fef96b0b8247719"></a>sinistra&#160;</td><td class="fielddoc">
 </td></tr>
 </table>
-<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;{<a class="code" href="strutture__dati_8h.html#aed6e7c893fa0ed63b808c0def3f03f37a35f93f075e16b5c43c39b70af1a5ef5c">destra</a>, <a class="code" href="strutture__dati_8h.html#aed6e7c893fa0ed63b808c0def3f03f37a898515c7bcad93969fef96b0b8247719">sinistra</a>};</div><div class="ttc" id="strutture__dati_8h_html_aed6e7c893fa0ed63b808c0def3f03f37a898515c7bcad93969fef96b0b8247719"><div class="ttname"><a href="strutture__dati_8h.html#aed6e7c893fa0ed63b808c0def3f03f37a898515c7bcad93969fef96b0b8247719">sinistra</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:56</div></div>
-<div class="ttc" id="strutture__dati_8h_html_aed6e7c893fa0ed63b808c0def3f03f37a35f93f075e16b5c43c39b70af1a5ef5c"><div class="ttname"><a href="strutture__dati_8h.html#aed6e7c893fa0ed63b808c0def3f03f37a35f93f075e16b5c43c39b70af1a5ef5c">destra</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:56</div></div>
+<div class="fragment"><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{<a class="code" href="strutture__dati_8h.html#aed6e7c893fa0ed63b808c0def3f03f37a35f93f075e16b5c43c39b70af1a5ef5c">destra</a>, <a class="code" href="strutture__dati_8h.html#aed6e7c893fa0ed63b808c0def3f03f37a898515c7bcad93969fef96b0b8247719">sinistra</a>};</div><div class="ttc" id="strutture__dati_8h_html_aed6e7c893fa0ed63b808c0def3f03f37a898515c7bcad93969fef96b0b8247719"><div class="ttname"><a href="strutture__dati_8h.html#aed6e7c893fa0ed63b808c0def3f03f37a898515c7bcad93969fef96b0b8247719">sinistra</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:72</div></div>
+<div class="ttc" id="strutture__dati_8h_html_aed6e7c893fa0ed63b808c0def3f03f37a35f93f075e16b5c43c39b70af1a5ef5c"><div class="ttname"><a href="strutture__dati_8h.html#aed6e7c893fa0ed63b808c0def3f03f37a35f93f075e16b5c43c39b70af1a5ef5c">destra</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:72</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -413,7 +458,6 @@ Variabili</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Tipo che indica una schermata dell'applicazione. </p>
-<p>All'esecuzione dell'applicaizone ci troveremo nel menù iniziale dal quale poi potremo cambiare schermata. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Valori del tipo enumerato</th></tr><tr><td class="fieldname"><a class="anchor" id="a3793f8b736c6c45f96ab767c8be973e8ad99d52f59fb23810ae235b01fb303755"></a>s_menu&#160;</td><td class="fielddoc">
 </td></tr>
@@ -432,14 +476,14 @@ Variabili</h2></td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a3793f8b736c6c45f96ab767c8be973e8aac215683674fc57bcaad944ae6ecae65"></a>s_esci&#160;</td><td class="fielddoc">
 </td></tr>
 </table>
-<div class="fragment"><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;{<a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8ad99d52f59fb23810ae235b01fb303755">s_menu</a>, <a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8ac89b19203cea6bd36701a86829199203">s_gioca</a>, <a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a75b8440498e5223c78dba7a1e09431fb">s_carica</a>, <a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a2ffabd979972b7d814cb350ed2e9a6ce">s_opzioni</a>, <a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8add216fa59dc89353d213a617c7b3ffd7">s_highscores</a>, <a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a24c9a3fb3dbefc8b618e1a392ede173b">s_pausa</a>, <a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a0bd1fe3fd1045a7090ca1b41db7f9c66">s_fine_partita</a>, <a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8aac215683674fc57bcaad944ae6ecae65">s_esci</a>};</div><div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8ac89b19203cea6bd36701a86829199203"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8ac89b19203cea6bd36701a86829199203">s_gioca</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:63</div></div>
-<div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8a2ffabd979972b7d814cb350ed2e9a6ce"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a2ffabd979972b7d814cb350ed2e9a6ce">s_opzioni</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:63</div></div>
-<div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8aac215683674fc57bcaad944ae6ecae65"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8aac215683674fc57bcaad944ae6ecae65">s_esci</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:63</div></div>
-<div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8add216fa59dc89353d213a617c7b3ffd7"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8add216fa59dc89353d213a617c7b3ffd7">s_highscores</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:63</div></div>
-<div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8a0bd1fe3fd1045a7090ca1b41db7f9c66"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a0bd1fe3fd1045a7090ca1b41db7f9c66">s_fine_partita</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:63</div></div>
-<div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8a75b8440498e5223c78dba7a1e09431fb"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a75b8440498e5223c78dba7a1e09431fb">s_carica</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:63</div></div>
-<div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8ad99d52f59fb23810ae235b01fb303755"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8ad99d52f59fb23810ae235b01fb303755">s_menu</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:63</div></div>
-<div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8a24c9a3fb3dbefc8b618e1a392ede173b"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a24c9a3fb3dbefc8b618e1a392ede173b">s_pausa</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:63</div></div>
+<div class="fragment"><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;{<a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8ad99d52f59fb23810ae235b01fb303755">s_menu</a>, <a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8ac89b19203cea6bd36701a86829199203">s_gioca</a>, <a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a75b8440498e5223c78dba7a1e09431fb">s_carica</a>, <a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a2ffabd979972b7d814cb350ed2e9a6ce">s_opzioni</a>, <a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8add216fa59dc89353d213a617c7b3ffd7">s_highscores</a>, <a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a24c9a3fb3dbefc8b618e1a392ede173b">s_pausa</a>, <a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a0bd1fe3fd1045a7090ca1b41db7f9c66">s_fine_partita</a>, <a class="code" href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8aac215683674fc57bcaad944ae6ecae65">s_esci</a>};</div><div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8ac89b19203cea6bd36701a86829199203"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8ac89b19203cea6bd36701a86829199203">s_gioca</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:77</div></div>
+<div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8a2ffabd979972b7d814cb350ed2e9a6ce"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a2ffabd979972b7d814cb350ed2e9a6ce">s_opzioni</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:77</div></div>
+<div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8aac215683674fc57bcaad944ae6ecae65"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8aac215683674fc57bcaad944ae6ecae65">s_esci</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:77</div></div>
+<div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8add216fa59dc89353d213a617c7b3ffd7"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8add216fa59dc89353d213a617c7b3ffd7">s_highscores</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:77</div></div>
+<div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8a0bd1fe3fd1045a7090ca1b41db7f9c66"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a0bd1fe3fd1045a7090ca1b41db7f9c66">s_fine_partita</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:77</div></div>
+<div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8a75b8440498e5223c78dba7a1e09431fb"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a75b8440498e5223c78dba7a1e09431fb">s_carica</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:77</div></div>
+<div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8ad99d52f59fb23810ae235b01fb303755"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8ad99d52f59fb23810ae235b01fb303755">s_menu</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:77</div></div>
+<div class="ttc" id="strutture__dati_8h_html_a3793f8b736c6c45f96ab767c8be973e8a24c9a3fb3dbefc8b618e1a392ede173b"><div class="ttname"><a href="strutture__dati_8h.html#a3793f8b736c6c45f96ab767c8be973e8a24c9a3fb3dbefc8b618e1a392ede173b">s_pausa</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:77</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -453,7 +497,7 @@ Variabili</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Tipo che indica lo stato di ogni unità che costituisce la barriera. </p>
+<p>Tipo che indica lo stato di una singola unità che costituisce la barriera. </p>
 <p>Ogni unità costituente la barriera all'interno del gioco inizialmente sarà rappresentato dallo stato "intero". La prima volta che verrà colpito esso si sgretolerà parzialmente e sarà rappresentato dallo stato "parziale". Infine, quando verrà colpito per la seconda volta, il suo stato diventerà "distrutto", e graficamente non sarà più visibile. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Valori del tipo enumerato</th></tr><tr><td class="fieldname"><a class="anchor" id="a8629197103af9028381c30b21454da4aa89b9359be7b90fea6e3e1ce0d3789594"></a>distrutta&#160;</td><td class="fielddoc">
@@ -463,9 +507,9 @@ Variabili</h2></td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a8629197103af9028381c30b21454da4aa3a598b30f5ffdb3eca9945aa939962d4"></a>integra&#160;</td><td class="fielddoc">
 </td></tr>
 </table>
-<div class="fragment"><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{<a class="code" href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa89b9359be7b90fea6e3e1ce0d3789594">distrutta</a>, <a class="code" href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa1e22d07d3c709fda63209561e423590e">parziale</a>, <a class="code" href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa3a598b30f5ffdb3eca9945aa939962d4">integra</a>};</div><div class="ttc" id="strutture__dati_8h_html_a8629197103af9028381c30b21454da4aa89b9359be7b90fea6e3e1ce0d3789594"><div class="ttname"><a href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa89b9359be7b90fea6e3e1ce0d3789594">distrutta</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:72</div></div>
-<div class="ttc" id="strutture__dati_8h_html_a8629197103af9028381c30b21454da4aa3a598b30f5ffdb3eca9945aa939962d4"><div class="ttname"><a href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa3a598b30f5ffdb3eca9945aa939962d4">integra</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:72</div></div>
-<div class="ttc" id="strutture__dati_8h_html_a8629197103af9028381c30b21454da4aa1e22d07d3c709fda63209561e423590e"><div class="ttname"><a href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa1e22d07d3c709fda63209561e423590e">parziale</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:72</div></div>
+<div class="fragment"><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;{<a class="code" href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa89b9359be7b90fea6e3e1ce0d3789594">distrutta</a>, <a class="code" href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa1e22d07d3c709fda63209561e423590e">parziale</a>, <a class="code" href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa3a598b30f5ffdb3eca9945aa939962d4">integra</a>};</div><div class="ttc" id="strutture__dati_8h_html_a8629197103af9028381c30b21454da4aa89b9359be7b90fea6e3e1ce0d3789594"><div class="ttname"><a href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa89b9359be7b90fea6e3e1ce0d3789594">distrutta</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:86</div></div>
+<div class="ttc" id="strutture__dati_8h_html_a8629197103af9028381c30b21454da4aa3a598b30f5ffdb3eca9945aa939962d4"><div class="ttname"><a href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa3a598b30f5ffdb3eca9945aa939962d4">integra</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:86</div></div>
+<div class="ttc" id="strutture__dati_8h_html_a8629197103af9028381c30b21454da4aa1e22d07d3c709fda63209561e423590e"><div class="ttname"><a href="strutture__dati_8h.html#a8629197103af9028381c30b21454da4aa1e22d07d3c709fda63209561e423590e">parziale</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:86</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -490,10 +534,10 @@ Variabili</h2></td></tr>
 <tr><td class="fieldname"><a class="anchor" id="aa3e6e45851f5266648bd38ec7a2811d2aa7631d4993d8493045eaf623c18dd551"></a>v_vite_iniziali&#160;</td><td class="fielddoc">
 </td></tr>
 </table>
-<div class="fragment"><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;{<a class="code" href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2a8e8ce2da7b2a6a7487df85f1aa9ca1c8">v_musica</a>, <a class="code" href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2ab9291d349ab4f8d7e42c627a94025697">v_eff_audio</a>, <a class="code" href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2a5b703de311e7098c1c6eafe1cc940cb0">v_colori_alieni</a>, <a class="code" href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2aa7631d4993d8493045eaf623c18dd551">v_vite_iniziali</a>};</div><div class="ttc" id="strutture__dati_8h_html_aa3e6e45851f5266648bd38ec7a2811d2aa7631d4993d8493045eaf623c18dd551"><div class="ttname"><a href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2aa7631d4993d8493045eaf623c18dd551">v_vite_iniziali</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:77</div></div>
-<div class="ttc" id="strutture__dati_8h_html_aa3e6e45851f5266648bd38ec7a2811d2a5b703de311e7098c1c6eafe1cc940cb0"><div class="ttname"><a href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2a5b703de311e7098c1c6eafe1cc940cb0">v_colori_alieni</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:77</div></div>
-<div class="ttc" id="strutture__dati_8h_html_aa3e6e45851f5266648bd38ec7a2811d2ab9291d349ab4f8d7e42c627a94025697"><div class="ttname"><a href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2ab9291d349ab4f8d7e42c627a94025697">v_eff_audio</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:77</div></div>
-<div class="ttc" id="strutture__dati_8h_html_aa3e6e45851f5266648bd38ec7a2811d2a8e8ce2da7b2a6a7487df85f1aa9ca1c8"><div class="ttname"><a href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2a8e8ce2da7b2a6a7487df85f1aa9ca1c8">v_musica</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:77</div></div>
+<div class="fragment"><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;{<a class="code" href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2a8e8ce2da7b2a6a7487df85f1aa9ca1c8">v_musica</a>, <a class="code" href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2ab9291d349ab4f8d7e42c627a94025697">v_eff_audio</a>, <a class="code" href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2a5b703de311e7098c1c6eafe1cc940cb0">v_colori_alieni</a>, <a class="code" href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2aa7631d4993d8493045eaf623c18dd551">v_vite_iniziali</a>};</div><div class="ttc" id="strutture__dati_8h_html_aa3e6e45851f5266648bd38ec7a2811d2aa7631d4993d8493045eaf623c18dd551"><div class="ttname"><a href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2aa7631d4993d8493045eaf623c18dd551">v_vite_iniziali</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:91</div></div>
+<div class="ttc" id="strutture__dati_8h_html_aa3e6e45851f5266648bd38ec7a2811d2a5b703de311e7098c1c6eafe1cc940cb0"><div class="ttname"><a href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2a5b703de311e7098c1c6eafe1cc940cb0">v_colori_alieni</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:91</div></div>
+<div class="ttc" id="strutture__dati_8h_html_aa3e6e45851f5266648bd38ec7a2811d2ab9291d349ab4f8d7e42c627a94025697"><div class="ttname"><a href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2ab9291d349ab4f8d7e42c627a94025697">v_eff_audio</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:91</div></div>
+<div class="ttc" id="strutture__dati_8h_html_aa3e6e45851f5266648bd38ec7a2811d2a8e8ce2da7b2a6a7487df85f1aa9ca1c8"><div class="ttname"><a href="strutture__dati_8h.html#aa3e6e45851f5266648bd38ec7a2811d2a8e8ce2da7b2a6a7487df85f1aa9ca1c8">v_musica</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:91</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -516,9 +560,9 @@ Variabili</h2></td></tr>
 <tr><td class="fieldname"><a class="anchor" id="af24ba4024741f66ef5a8590de1dd1ce9a415afaa0f19cbfe5db139b64cdd6ff14"></a>v_abbandona&#160;</td><td class="fielddoc">
 </td></tr>
 </table>
-<div class="fragment"><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;{<a class="code" href="strutture__dati_8h.html#af24ba4024741f66ef5a8590de1dd1ce9a09d87f519cebbf0c27fecc6d2b66e0e8">v_continua</a>, <a class="code" href="strutture__dati_8h.html#af24ba4024741f66ef5a8590de1dd1ce9ace98251ceae2f839da415377468d16e9">v_salva</a>, <a class="code" href="strutture__dati_8h.html#af24ba4024741f66ef5a8590de1dd1ce9a415afaa0f19cbfe5db139b64cdd6ff14">v_abbandona</a>};</div><div class="ttc" id="strutture__dati_8h_html_af24ba4024741f66ef5a8590de1dd1ce9a415afaa0f19cbfe5db139b64cdd6ff14"><div class="ttname"><a href="strutture__dati_8h.html#af24ba4024741f66ef5a8590de1dd1ce9a415afaa0f19cbfe5db139b64cdd6ff14">v_abbandona</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:82</div></div>
-<div class="ttc" id="strutture__dati_8h_html_af24ba4024741f66ef5a8590de1dd1ce9ace98251ceae2f839da415377468d16e9"><div class="ttname"><a href="strutture__dati_8h.html#af24ba4024741f66ef5a8590de1dd1ce9ace98251ceae2f839da415377468d16e9">v_salva</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:82</div></div>
-<div class="ttc" id="strutture__dati_8h_html_af24ba4024741f66ef5a8590de1dd1ce9a09d87f519cebbf0c27fecc6d2b66e0e8"><div class="ttname"><a href="strutture__dati_8h.html#af24ba4024741f66ef5a8590de1dd1ce9a09d87f519cebbf0c27fecc6d2b66e0e8">v_continua</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:82</div></div>
+<div class="fragment"><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;{<a class="code" href="strutture__dati_8h.html#af24ba4024741f66ef5a8590de1dd1ce9a09d87f519cebbf0c27fecc6d2b66e0e8">v_continua</a>, <a class="code" href="strutture__dati_8h.html#af24ba4024741f66ef5a8590de1dd1ce9ace98251ceae2f839da415377468d16e9">v_salva</a>, <a class="code" href="strutture__dati_8h.html#af24ba4024741f66ef5a8590de1dd1ce9a415afaa0f19cbfe5db139b64cdd6ff14">v_abbandona</a>};</div><div class="ttc" id="strutture__dati_8h_html_af24ba4024741f66ef5a8590de1dd1ce9a415afaa0f19cbfe5db139b64cdd6ff14"><div class="ttname"><a href="strutture__dati_8h.html#af24ba4024741f66ef5a8590de1dd1ce9a415afaa0f19cbfe5db139b64cdd6ff14">v_abbandona</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:96</div></div>
+<div class="ttc" id="strutture__dati_8h_html_af24ba4024741f66ef5a8590de1dd1ce9ace98251ceae2f839da415377468d16e9"><div class="ttname"><a href="strutture__dati_8h.html#af24ba4024741f66ef5a8590de1dd1ce9ace98251ceae2f839da415377468d16e9">v_salva</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:96</div></div>
+<div class="ttc" id="strutture__dati_8h_html_af24ba4024741f66ef5a8590de1dd1ce9a09d87f519cebbf0c27fecc6d2b66e0e8"><div class="ttname"><a href="strutture__dati_8h.html#af24ba4024741f66ef5a8590de1dd1ce9a09d87f519cebbf0c27fecc6d2b66e0e8">v_continua</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:96</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -545,11 +589,11 @@ Variabili</h2></td></tr>
 <tr><td class="fieldname"><a class="anchor" id="aad2676fe8517d359f06ec6dcff83fc4aa6dc08d9aae00f5bd05a90bd154174d68"></a>v_esci&#160;</td><td class="fielddoc">
 </td></tr>
 </table>
-<div class="fragment"><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;{<a class="code" href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa004d8733fcf46133dc984ac81468d12e">v_gioca</a>, <a class="code" href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa1e1cb73f0e926db0c9b392115a3ae4d2">v_carica</a>, <a class="code" href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa7769eb23181b80baad414d24db6d2d09">v_opzioni</a>, <a class="code" href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa2193af930bb1429eca01475df46cc115">v_highscores</a>, <a class="code" href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa6dc08d9aae00f5bd05a90bd154174d68">v_esci</a>};</div><div class="ttc" id="strutture__dati_8h_html_aad2676fe8517d359f06ec6dcff83fc4aa7769eb23181b80baad414d24db6d2d09"><div class="ttname"><a href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa7769eb23181b80baad414d24db6d2d09">v_opzioni</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:87</div></div>
-<div class="ttc" id="strutture__dati_8h_html_aad2676fe8517d359f06ec6dcff83fc4aa2193af930bb1429eca01475df46cc115"><div class="ttname"><a href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa2193af930bb1429eca01475df46cc115">v_highscores</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:87</div></div>
-<div class="ttc" id="strutture__dati_8h_html_aad2676fe8517d359f06ec6dcff83fc4aa004d8733fcf46133dc984ac81468d12e"><div class="ttname"><a href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa004d8733fcf46133dc984ac81468d12e">v_gioca</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:87</div></div>
-<div class="ttc" id="strutture__dati_8h_html_aad2676fe8517d359f06ec6dcff83fc4aa1e1cb73f0e926db0c9b392115a3ae4d2"><div class="ttname"><a href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa1e1cb73f0e926db0c9b392115a3ae4d2">v_carica</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:87</div></div>
-<div class="ttc" id="strutture__dati_8h_html_aad2676fe8517d359f06ec6dcff83fc4aa6dc08d9aae00f5bd05a90bd154174d68"><div class="ttname"><a href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa6dc08d9aae00f5bd05a90bd154174d68">v_esci</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:87</div></div>
+<div class="fragment"><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;{<a class="code" href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa004d8733fcf46133dc984ac81468d12e">v_gioca</a>, <a class="code" href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa1e1cb73f0e926db0c9b392115a3ae4d2">v_carica</a>, <a class="code" href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa7769eb23181b80baad414d24db6d2d09">v_opzioni</a>, <a class="code" href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa2193af930bb1429eca01475df46cc115">v_highscores</a>, <a class="code" href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa6dc08d9aae00f5bd05a90bd154174d68">v_esci</a>};</div><div class="ttc" id="strutture__dati_8h_html_aad2676fe8517d359f06ec6dcff83fc4aa7769eb23181b80baad414d24db6d2d09"><div class="ttname"><a href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa7769eb23181b80baad414d24db6d2d09">v_opzioni</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:101</div></div>
+<div class="ttc" id="strutture__dati_8h_html_aad2676fe8517d359f06ec6dcff83fc4aa2193af930bb1429eca01475df46cc115"><div class="ttname"><a href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa2193af930bb1429eca01475df46cc115">v_highscores</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:101</div></div>
+<div class="ttc" id="strutture__dati_8h_html_aad2676fe8517d359f06ec6dcff83fc4aa004d8733fcf46133dc984ac81468d12e"><div class="ttname"><a href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa004d8733fcf46133dc984ac81468d12e">v_gioca</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:101</div></div>
+<div class="ttc" id="strutture__dati_8h_html_aad2676fe8517d359f06ec6dcff83fc4aa1e1cb73f0e926db0c9b392115a3ae4d2"><div class="ttname"><a href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa1e1cb73f0e926db0c9b392115a3ae4d2">v_carica</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:101</div></div>
+<div class="ttc" id="strutture__dati_8h_html_aad2676fe8517d359f06ec6dcff83fc4aa6dc08d9aae00f5bd05a90bd154174d68"><div class="ttname"><a href="strutture__dati_8h.html#aad2676fe8517d359f06ec6dcff83fc4aa6dc08d9aae00f5bd05a90bd154174d68">v_esci</a></div><div class="ttdef"><b>Definition:</b> strutture_dati.h:101</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -578,7 +622,7 @@ Variabili</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Numero di caratteri per le stringhe contenti il nome di un giocatore. </p>
+<p>Numero di caratteri massimo del nome di un gicoatore. </p>
 
 </div>
 </div>
@@ -606,7 +650,7 @@ Variabili</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Numero massimo di punteggi presenti nella classifica degli highscores. </p>
+<p>Numero massimo di punteggi che possono essere memorizzati nella classifica degli highscores. </p>
 
 </div>
 </div>
@@ -620,7 +664,7 @@ Variabili</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Numero di voci massime presenti in un menu. </p>
+<p>Numero di voci massime che possono comporre un menù. </p>
 
 </div>
 </div>
@@ -662,7 +706,7 @@ Variabili</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Numero delle colonne di alieni. </p>
+<p>Numero delle colonne di alieni di cui è composta l'ondata. </p>
 
 </div>
 </div>
@@ -690,14 +734,14 @@ Variabili</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Numero delle file di alieni. </p>
+<p>Numero delle file di alieni di cui è composta l'ondata. </p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generato Mar 3 Gen 2017 16:38:10 per Space Invaders da &#160;<a href="http://www.doxygen.org/index.html">
+Generato Gio 5 Gen 2017 16:51:53 per Space Invaders da &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

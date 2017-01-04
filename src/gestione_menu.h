@@ -5,34 +5,29 @@
 //INIZIO COSTANTI RIGUARDANTI LE VOCI DI MENÙ
 const generic_string MENU_PRINCIPALE [] = {"Gioca", "Carica partita", "Opzioni", "Highscores", "Esci"}; /**<Voci del munù principale.*/
 const int N_VOCI_MENU_PRINC = 5; /**<Numero di voci del menù principale.*/
-const generic_string MENU_IMPOSTAZIONI [] = {"Musica: ", "Effetti audio: ", "Colore alieni: ", "Vite iniziali: "}; /**<Voci del munù impostazioni.*/
-const int N_VOCI_MENU_IMPO = 4; /**<Numero di voci del menù impostazioni.*/
+const generic_string MENU_IMPOSTAZIONI [] = {"Musica: ", "Effetti audio: ", "Colore alieni: ", "Vite iniziali: "}; /**<Voci del munù delle impostazioni.*/
+const int N_VOCI_MENU_IMPO = 4; /**<Numero di voci del menù delle impostazioni.*/
 const generic_string MENU_PAUSA [] = {"Continua partita", "Salva partita", "Abbandona partita"}; /**<Voci del menù di pausa.*/
 const int N_VOCI_MENU_PAUSA = 3; /**<Numero di voci del menù di pausa.*/
 //FINE COSTANTI RIGUARDANTI LE VOCI DI MENÙ
 
-//INIZIO COSTANTI RIGUARDANTI LE INDICAZIONI DEL MENÙ IMPOSTAZIONI
-const generic_long_string INDICAZIONI_IMPOSTAZIONI [] = {"Usa le frecce su e giu' per cambiare opzione", "Usa le frecce destra e sinistra per modificare il valore", "Premi enter per salvare e tornare al menu principale", "Premi R per ripristinare i valori di default"}; /**<Indicazioni del menù impostazioni.*/
-const int N_INDICAZIONI_MENU_IMPO = 4; /**<Numero di indicazioni del menù impostazioni.*/
-//FINE COSTANTI RIGUARDANTI LE INDICAZIONI DEL MENÙ IMPOSTAZIONI
-
 //INIZIO COSTANTI RIGUARDANTI I VALORI DELLE IMPOSTAZIONI
 const char STRINGA_ON [] = "On"; /**<Stringa per rappresentare il valore "on".*/
 const char STRINGA_OFF [] = "Off"; /**<Stringa per rappresentare il valore "off".*/
-const char STRINGA_VERDE [] = "Verde"; /**<Stringa per rappresentare il valore "verde".*/
-const char STRINGA_BIANCO [] = "Bianco"; /**<Stringa per rappresentare il valore "bianco".*/
-const char STRINGA_ARANCIONE [] = "Arancione"; /**<Stringa per rappresentare il valore "arancione".*/
-const char STRINGA_GIALLO [] = "Giallo"; /**<Stringa per rappresentare il valore "giallo".*/
-const char STRINGA_BLU [] = "Blu"; /**<Stringa per rappresentare il valore "blu".*/
+const char STRINGA_VERDE [] = "Verde"; /**<Stringa per rappresentare il {@link colore} "verde".*/
+const char STRINGA_BIANCO [] = "Bianco"; /**<Stringa per rappresentare il {@link colore} "bianco".*/
+const char STRINGA_ARANCIONE [] = "Arancione"; /**<Stringa per rappresentare il {@link colore} "arancione".*/
+const char STRINGA_GIALLO [] = "Giallo"; /**<Stringa per rappresentare il {@link colore} "giallo".*/
+const char STRINGA_BLU [] = "Blu"; /**<Stringa per rappresentare il {@link colore} "blu".*/
 //FINEquindi COSTANTI RIGUARDANTI I VALORI DELLE IMPOSTAZIONI
 
 //INIZIO INTERFACCIA
 /**
  * Calcola il valore della schermata da mostrare all'uscita dal menù di pausa e agisce di conseguenza sulla partita.
  * 
- * @param menu Menù di pausa.
+ * @param menu {@link Menu Menù} di pausa.
  * @param partita_in_corso Partita attualmente in pausa.
- * @param partita_salvata Valore booleano che indica se è presente una partita salvata.
+ * @param partita_salvata Valore che indica se è presente una partita salvata.
  *
  * @return il valore della prossima schermata da mostrare.
  */
@@ -41,103 +36,101 @@ schermata cambiaSchermataMenuPausa (Menu menu, Partita partita_in_corso, bool &p
 /**
  * Calcola il valore della prossima schermata da mostrare a seconda della selezione effettuta nel menù principale.
  * 
- * @param menu Menù principale.
+ * @param menu {@link Menu Menù} principale.
  *
  * @return il valore della prossima schermata da mostrare.
  */
 schermata cambiaSchermataMenuPrincipale (Menu menu);
 
 /**
- * Inizializza un {@link Menu menù} con i valori necessari per utilizzarlo come menù delle impostazioni.
+ * Inizializza il {@link Menu menù} delle impostazioni.
  *
- * @param menu Menu da inizializzare.
+ * @param menu {@link Menu Menù} da inizializzare.
  */
 void inizializzaMenuImpostazioni (Menu &menu);
 
 /**
- * Inizializza un {@link Menu menù} con i valori necessari per utilizzarlo come menù di pausa.
+ * Inizializza il {@link Menu menù} di pausa.
  *
- * @param menu Menu da inizializzare.
+ * @param menu {@link Menu Menù} da inizializzare.
  */
 void inizializzaMenuPausa (Menu &menu);
 
 /**
- * Inizializza un {@link Menu menù} con i valori necessari per utilizzarlo come menù principale.
+ * Inizializza il {@link Menu menù} principale.
  *
- * @param menu Menu da inizializzare.
+ * @param menu {@link Menu Menù} da inizializzare.
  */
 void inizializzaMenuPrincipale (Menu &menu);
 
 /**
- * Nel menù la voce selezionata diventa la prima.
+ * Seleziona la prima voce di menù.
  * 
- * @param menu Menù da modificare.
+ * @param menu {@link Menu Menù} da modificare.
  */
 void selezionaPrimaVoce (Menu &menu);
 
 /**
  * Genera una stringa in grado di rappresentare lo stato del valore di un particolare campo delle impostazioni.
- * Necessita di conoscere la voce del menù impostazioni alla quale ci si riferisce per poter capire di quale 
- * striga ritornare.
  *
- * @param stringa Stringa contenente il valore di una determinato campo delle {@link Impostazioni}.
- * @param dimensione_stringa Dimensione della stringa.
- * @param voce Voce del menù impostazioni della quale si vuole ottenere il valore come stringa.
- * @param impostazioni Struttura {@link Impostazioni} dal quale si controlla il valore del campo.
+ * @param stringa Stringa che conterrà il risultato.
+ * @param dimensione_stringa Dimensione massima della stringa.
+ * @param voce Voce del {@link Menu menù} delle impostazioni della quale si vuole ottenere la stringa rappresentante il valore.
+ * @param impostazioni {@link Impostazioni} dalle quali controllare il valore del campo.
  * 
- * @return "true" se la voce di menù passata corrispone ad un tipo {@link voce_menu_impostazioni}, "false" altrimenti.
+ * @return "true" se la voce di menù passata corrispone ad un tipo {@link voce_menu_impostazioni} valido, "false" altrimenti.
  */
 bool stringaValoreVoceImpostazioni (char stringa [], size_t dimensione_stringa, voce_menu_impostazioni voce, Impostazioni impostazioni);
 
-/*
- * Modifica il valore di un determinato campo della struttura {@link Impostazioni}, assegnandone il precedente.
- * Tramite la voce di menu passata come parametro capisce quale campo deve andare a modificare.
+/**
+ * Modifica il valore di un determinato campo delle Impostazioni, assegnandone il precedente.
+ * Identifica il campo da modificare attraverso la voce del {@link Menu menù} delle impostazioni selezionata.
  *
- * @param menu Menù delle impostazioni.
+ * @param menu_impostazioni {@link Menu Menù} delle impostazioni.
  * @param impostazioni Struttura {@link Impostazioni} da modificare.
  *
- * @return "true" se la voce di menù passata corrispone ad un tipo {@link voce_menu_impostazioni}, "false" altrimenti.
+ * @return "true" se la voce di menù passata corrispone ad un tipo {@link voce_menu_impostazioni} valido, "false" altrimenti.
  */
-bool valoreCampoImpostazioniPrec (Menu menu, Impostazioni &impostazioni);
+bool valoreCampoImpostazioniPrec (Menu menu_impostazioni, Impostazioni &impostazioni);
 
-/*
- * Modifica il valore di un determinato campo della struttura {@link Impostazioni}, assegnandone il successivo.
- * Tramite la voce di menu passata come parametro capisce quale campo deve andare a modificare.
+/**
+ * Modifica il valore di un determinato campo delle Impostazioni, assegnandone il successivo.
+ * Identifica il campo da modificare attraverso la voce del {@link Menu menù} delle impostazioni selezionata.
  *
- * @param menu Menù delle impostazioni.
+ * @param menu_impostazioni {@link Menu Menù} delle impostazioni.
  * @param impostazioni Struttura {@link Impostazioni} da modificare.
  *
- * @return "true" se la voce di menù passata corrispone ad un tipo {@link voce_menu_impostazioni}, "false" altrimenti.
+ * @return "true" se la voce di menù passata corrispone ad un tipo {@link voce_menu_impostazioni} valido, "false" altrimenti.
  */
-bool valoreCampoImpostazioniSuc (Menu menu, Impostazioni &impostazioni);
+bool valoreCampoImpostazioniSuc (Menu menu_impostazioni, Impostazioni &impostazioni);
 
 /**
  * Modifica il valore della voce selezionata impostandola alla precedente.
  * 
- * @param menu Menu nel quale modificare la voce di menù selezionata.
+ * @param menu {@link Menu Menù} nel quale modificare la voce selezionata.
  */
 void vocePrec (Menu &menu);
 
 /**
  * Modifica il valore della voce selezionata impostandola alla precedente.
  * 
- * @param menu Menu nel quale modificare la voce di menù selezionata.
- * @param voce_saltata Voce da saltare nella ricerca della voce precedente.
+ * @param menu {@link Menu Menù} nel quale modificare la voce selezionata.
+ * @param voce_saltata Voce da saltare nella ricerca della precedente.
  */
 void vocePrec (Menu &menu, int voce_saltata);
 
 /**
  * Modifica il valore della voce selezionata impostandola alla successiva.
  * 
- * @param menu Menu nel quale modificare la voce di menù selezionata.
+ * @param menu {@link Menu Menù} nel quale modificare la voce selezionata.
  */
 void voceSuc (Menu &menu);
 
 /**
  * Modifica il valore della voce selezionata impostandola alla successiva.
  * 
- * @param menu Menu nel quale modificare la voce di menù selezionata.
- * @param voce_saltata Voce da saltare nella ricerca della voce successiva.
+ * @param menu {@link Menu Menù} nel quale modificare la voce selezionata.
+ * @param voce_saltata Voce da saltare nella ricerca della successiva.
  */
 void voceSuc (Menu &menu, int voce_saltata);
 //FINE INTERFACCIA

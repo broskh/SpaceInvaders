@@ -95,7 +95,7 @@ bool caricaPunteggi (Classifica &classifica)
 		return false ;
 	}
 	int i = 0;
-	char nome [CARATTERI_NOME + 1];
+	name_string nome;
 	int valore;
 	while (f>>nome)
 	{
@@ -115,7 +115,7 @@ bool caricaPunteggi (Classifica &classifica)
 	return true;
 }
 
-void inizializzaClassifica (Classifica &classifica)
+void inizializzaClassificaVuota (Classifica &classifica)
 {
 	classifica.n_highscores = 0;
 }

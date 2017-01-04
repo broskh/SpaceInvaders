@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['d1',['D1',['../strutture__dati_8h.html#a49e3064fc9acfb40caff8b137e5fd2c4',1,'strutture_dati.h']]],
-  ['d2',['D2',['../strutture__dati_8h.html#a263b14ae612de6499b23e7110481cbc8',1,'strutture_dati.h']]],
-  ['dbg',['DBG',['../strutture__dati_8h.html#a9fd176efd6d22cb809550f0271c2a93d',1,'strutture_dati.h']]],
+  ['d1',['D1',['../strutture__dati_8h.html#add1d086621c53e74e15e72e316377f09',1,'strutture_dati.h']]],
+  ['d2',['D2',['../strutture__dati_8h.html#a23246a6cf312ef60c6f553c5308036b9',1,'strutture_dati.h']]],
+  ['dbg',['DBG',['../strutture__dati_8h.html#a22493aa1cf973f3feae3f2a808e3d4e1',1,'strutture_dati.h']]],
   ['default_5fcolore_5falieni',['DEFAULT_COLORE_ALIENI',['../gestione__impostazioni_8h.html#a32d925777d73133dde20debae372e0f3',1,'gestione_impostazioni.h']]],
   ['default_5feffetti_5faudio',['DEFAULT_EFFETTI_AUDIO',['../gestione__impostazioni_8h.html#a59b46ba88b98afaa2e0343fa29bcf17b',1,'gestione_impostazioni.h']]],
   ['default_5fmusica',['DEFAULT_MUSICA',['../gestione__impostazioni_8h.html#a0e15a605f772b076c880520f3a7025e1',1,'gestione_impostazioni.h']]],

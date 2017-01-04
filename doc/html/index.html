@@ -79,11 +79,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
 <div class="title">Space Invaders Documentazione</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Riproduzione del celebre videogioco <em>Space Invaders</em> che mantiene inalterate tutte le caratteristiche di base del gioco originale.<br />
+<div class="textblock"><h1>Introduzione</h1>
+<p>Riproduzione del celebre videogioco <em>Space Invaders</em> che mantiene inalterate tutte le caratteristiche di base del gioco originale.<br />
 Il giocatore quindi dovrà controllare un carro armato con il quale avrà il compito di abbattere, finchè avrà vite a disposizione, le ondate di alieni che ripetutamente si avvicineranno.</p>
+<h1>Descrizione delle schermate</h1>
+<h2>Schermata del menù principale</h2>
 <p>Il gioco è dotato di un menù principale, dal quale è possibile accedere alle varie schermate. </p><blockquote class="doxtable">
 <p>Per muoversi fra le voci di menù è necessario utilizzare <em>freccia su</em> e <em>freccia giù</em>, mentre per accedere all'area selezionata è sufficiente premere <em>enter</em>. </p>
 </blockquote>
+<h2>Schermata di gioco</h2>
 <p>Dalla schermata di gioco è possibile dilettarsi col gioco vero e proprio.<br />
 Il gioco ruota intorno ad un'ondata di alieni che si sposta costantemente con un movimento a zig-zag da destra a sinistra e viceversa. Ogni volta che raggiunge un margine laterale scende sensibilmente verso il basso e man mano che gli alieni vengono abbattuti l'ondata aumenta la propria velocità di movimento.<br />
 Ogni volta che un alieno viene colpito il punteggio del giocatore viene incrementato di un valore dipendente dal tipo di alieno colpito. Quando un'intera ondata viene abbattuta, ne ricompare immediatamente una nuova.<br />
@@ -93,25 +97,42 @@ Lo scopo del gioco è impedire che l'ondata di alieni raggiunga il carro armato 
 <p>È necessario utilizzare <em>freccia destra</em> e <em>freccia sinistra</em> per muovere il carro armato, mentre con <em>barra spaziatrice</em> è possibile sparare.<br />
 Durante una partita è possibile mettere il gioco in pausa premendo <em>esc</em>. </p>
 </blockquote>
+<h2>Schermata del menù di pausa</h2>
 <p>Dalla schermata di gioco è possibile accedere al menù di pausa dove il giocatore può continuare, abbandonare o salvare la partita in corso.<br />
 Se viene scelto di salvare la partita il giocatore viene riportato al menù principale e la voce che consente di caricare la partita sarà abilitata. Tramite quella voce di menù potrà appunto ricominciare la partita dall'esatto punto nel quale l'aveva precedentemente interrotta. </p><blockquote class="doxtable">
 <p>Per muoversi fra le voci è necessario utilizzare <em>freccia su</em> e <em>freccia giù</em>, mentre per scegliere un'operazione è sufficiente premere <em>enter</em>. </p>
 </blockquote>
+<h2>Schermata di fine partita</h2>
 <p>Al termine della partita, se è stato ottenuto un punteggio degno di essere inserito nella classifica degli highscores, è possibile digitare un nome di massimo tre lettere e salvarlo. </p><blockquote class="doxtable">
 <p>Premendo <em>enter</em> viene salvato il punteggio e si torna al menù principale. </p>
 </blockquote>
+<h2>Schermata del menù delle impostazioni</h2>
 <p>Dal menù principale è possibile accedere al menù delle impostazioni.<br />
 Questo menù consente di abilitare o meno la musica e gli effetti audio. Inoltre è possibile modificare la grafica cromatica degli alieni e impostare il numero di vite con le quali si intende iniziare le partite. </p><blockquote class="doxtable">
 <p>Usando <em>freccia su</em> e <em>freccia giù</em> è possibile muoversi fra i vari campi delle impostazioni. Con <em>freccia destra</em> e <em>freccia sinistra</em> è possibile modificare il valore selezionato. Con <em>r</em> vengono ripristinati i valori di default. Premendo <em>enter</em> le modifiche vengono salvate e si torna al menù principale. </p>
 </blockquote>
+<h2>Schermata degli highscores</h2>
 <p>Dal menù principale è inoltre possibile visualizzare la classifica dei dieci migliori punteggi raggiunti e il nome dei giocatori che hanno raggiunto tali risultati. </p><blockquote class="doxtable">
 <p>Premendo <em>enter</em> si torna al menù principale. </p>
 </blockquote>
-<dl class="section author"><dt>Autore</dt><dd>Alessio Scheri </dd></dl>
+<h1>Struttura del programma</h1>
+<p>Il progetto è composto da un <a class="el" href="SpaceInvaders_8cc.html">file sorgente</a> contenente la funzione <a class="el" href="SpaceInvaders_8cc.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a>, sette differenti moduli e un <a class="el" href="strutture__dati_8h.html">file d'intestazione</a> contenente le dichiarazioni di tutte le strutture, i tipi e gli enumerati utilizzati all'interno delle varie componenti del programma.</p>
+<p>I moduli sono i seguenti:</p><ul>
+<li><a class="el" href="gestione__audio_8h.html">gestione_audio</a> - Attraverso apposite funzioni, variabili e costanti fornisce il supporto necessario per la gestione delle componenti audio del gioco.</li>
+<li><a class="el" href="gestione__classifica_8h.html">gestione_classifica</a> - Attraverso apposite funzioni e costanti fornisce il supporto necessario per la gestione della classifica e dei punteggi del gioco.</li>
+<li><a class="el" href="gestione__grafica_8h.html">gestione_grafica</a> - Attraverso apposite funzioni, variabili e costanti fornisce il supporto necessario per la gestione delle componenti grafiche del gioco.</li>
+<li><a class="el" href="gestione__impostazioni_8h.html">gestione_impostazioni</a> - Attraverso apposite funzioni e costanti fornisce il supporto necessario per la gestione delle impostazioni del gioco.</li>
+<li><a class="el" href="gestione__menu_8h.html">gestione_menu</a> - Attraverso apposite funzioni e costanti fornisce il supporto necessario per la gestione dei vari menù presenti nel gioco.</li>
+<li><a class="el" href="gestione__partita_8h.html">gestione_partita</a> - Attraverso apposite funzioni e costanti fornisce il supporto necessario per la gestione delle partite vere e proprie.</li>
+<li><a class="el" href="gestione__timer_8h.html">gestione_timer</a> - Attraverso apposite funzioni, variabili e costanti fornisce il supporto necessario per la gestione dei timer del gioco.</li>
+</ul>
+<p>Per maggiori informazioni riguardanti la struttura del programma è possibile leggere la documentazione relativa alla funzione <a class="el" href="SpaceInvaders_8cc.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a>.</p>
+<dl class="section author"><dt>Autore</dt><dd>Alessio Scheri<br />
+E-mail: <a href="#" onclick="location.href='mai'+'lto:'+'ale'+'ss'+'io.'+'sc'+'her'+'i@'+'gma'+'il'+'.co'+'m'; return false;">aless<span style="display: none;">.nosp@m.</span>io.s<span style="display: none;">.nosp@m.</span>cheri<span style="display: none;">.nosp@m.</span>@gma<span style="display: none;">.nosp@m.</span>il.co<span style="display: none;">.nosp@m.</span>m</a> </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generato Mar 3 Gen 2017 16:38:10 per Space Invaders da &#160;<a href="http://www.doxygen.org/index.html">
+Generato Gio 5 Gen 2017 16:51:53 per Space Invaders da &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.11
 </small></address>

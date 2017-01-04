@@ -7,7 +7,7 @@ var searchData=
   ['spazio_5ftesto',['SPAZIO_TESTO',['../gestione__grafica_8h.html#a02885cc9c210f9b31ce19fa11634fa14',1,'gestione_grafica.h']]],
   ['spazio_5ftesto_5fgrande',['SPAZIO_TESTO_GRANDE',['../gestione__grafica_8h.html#a49448588c3e6c8d1a6d5af5912644045',1,'gestione_grafica.h']]],
   ['spostamento_5fondata_5fgiu',['SPOSTAMENTO_ONDATA_GIU',['../gestione__partita_8h.html#a58ce9c117a9ef01705b52538d8b57232',1,'gestione_partita.h']]],
-  ['stadi_5fincremento_5fvelocita_5fondata',['STADI_INCREMENTO_VELOCITA_ONDATA',['../gestione__timer_8h.html#acb1e8d689fcbb4c75db8989a528cf641',1,'gestione_timer.h']]],
+  ['stadi_5fincremento_5fvelocita_5fondata',['STADI_INCREMENTO_VELOCITA_ONDATA',['../SpaceInvaders_8cc.html#acb1e8d689fcbb4c75db8989a528cf641',1,'SpaceInvaders.cc']]],
   ['stato',['stato',['../structAlieno.html#abc7d610bb8dd4a126fb0895d01a75b8f',1,'Alieno::stato()'],['../structNavicella.html#a3b265ae0ba0c55758ee7ca569f5d9564',1,'Navicella::stato()'],['../structSparo.html#a1968f2577fd06fa2f4416c7c9c32a615',1,'Sparo::stato()']]],
   ['stringa_5farancione',['STRINGA_ARANCIONE',['../gestione__menu_8h.html#a36b44ea6b2c64f69c05ac3da3d79091a',1,'gestione_menu.h']]],
   ['stringa_5fbianco',['STRINGA_BIANCO',['../gestione__menu_8h.html#a4bf22ca487ee140f38a7d795661c88a4',1,'gestione_menu.h']]],

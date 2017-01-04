@@ -122,8 +122,9 @@ ALLEGRO_COLOR scelgliColore (colore colore_alieni)
  */
 ALLEGRO_BITMAP * scegliSparo (int pos_x)
 {
-	assert (spari_alieni [pos_x % 2]); 
-	return spari_alieni [pos_x % 2];
+	unsigned int resto = pos_x % 2;
+	assert (spari_alieni [resto]); 
+	return spari_alieni [resto];
 }
 //FINE FUNZIONI PRIVATE
 
@@ -346,7 +347,7 @@ void stampaFinePartita (Classifica classifica, Partita partita, int posizione_pu
 		generic_string str_valore = "";
 		if (i == posizione_punteggio_attuale)
 		{
-			char nome_visualizzato [CARATTERI_NOME];
+			name_string nome_visualizzato;
 			strncpy (nome_visualizzato, partita.punteggio.nome, sizeof (nome_visualizzato));
 			if (strlen (nome_visualizzato) < CARATTERI_NOME) //se il nome non ha raggiunto la dimensione massima metto come ultimo carattere _
 			{

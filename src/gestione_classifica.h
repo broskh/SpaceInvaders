@@ -8,8 +8,9 @@ const char FILE_HIGHSCORES [] = "highscores"; /**<Percorso del file contenente l
 
 //INIZIO INTERFACCIA
 /**
- * Aggiunge una lettera al nome del realizzatore del punteggio.
- * Se il nome ha giù raggiunto il numero massimo di caratteri, la nuova lettera sostituisce l'ultima all'interno del nome.
+ * Aggiunge una lettera al nome del giocatore che ha realizzato il punteggio.
+ * Se il nome ha già raggiunto il numero massimo di caratteri, la nuova lettera 
+ * sostituisce l'ultima precedentemente presente.
  *
  * @param punteggio Punteggio da modificare.
  * @param nuova_lettera Nuova lettera da aggiugnere al nome.
@@ -42,29 +43,28 @@ void cancellaUltimoCarattereNome (Punteggio &punteggio);
 bool caricaPunteggi (Classifica &classifica);
 
 /**
- * Inizializza una {@link Classifica} vuota.
+ * Inizializza una Classifica vuota.
  *
- * @param classifica {@link Classifica} da inizializzare.
+ * @param classifica Classifica da inizializzare.
  */
-void inizializzaClassifica (Classifica &classifica);
+void inizializzaClassificaVuota (Classifica &classifica);
 
 /**
- * Inizializza un {@link Punteggio} con i valori passati per parametro.
+ * Inizializza un Punteggio con i valori passati per parametro.
  *
- * @param punteggio {@link Punteggio} nel quale verranno memorizzati i valori.
+ * @param punteggio Punteggio da inizializzare.
  * @param nome Stringa contenente il nome del giocatore che ha raggiunto il punteggio.
  * @param valore Valore del punteggio.
  */
-void inizializzaPunteggio (Punteggio &punteggio, char nome [], int valore);
+void inizializzaPunteggio (Punteggio &punteggio, name_string nome, int valore);
 
 /**
  * Calcola in quale posizione della classifica il nuovo punteggio merita di essere inserito.
- * Se il punteggio non deve essere aggiunto alla classifica, il metodo ritorna il valore "-1".
  *
  * @param classifica Classifica analizzata.
- * @param nuovo_punteggio Punteggio da controllare.
+ * @param nuovo_punteggio Punteggio da valutare.
  * 
- * @return la posizione della classifica nella quale il nuovo punteggio andrebbe inserito. Ritorna "-1" se
+ * @return la posizione della classifica nella quale il nuovo punteggio andrebbe inserito, "-1" se
  * il punteggio non merita di essere inserito.
  */
 int posizionePunteggio (Classifica classifica, Punteggio nuovo_punteggio);
@@ -77,7 +77,7 @@ int posizionePunteggio (Classifica classifica, Punteggio nuovo_punteggio);
 void salvaPunteggi (Classifica classifica);
 
 /**
- * Stampa su console la {@link Classifica}.
+ * Stampa a console la {@link Classifica}.
  * 
  * @param classifica Classifica da stampare.
  */

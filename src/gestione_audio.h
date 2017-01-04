@@ -3,13 +3,13 @@
  */
 
 //INIZIO COSTANTI PER VELOCITA' AUDIO
-const float VELOCITA_SOTTOFONDO_ONDATA_MIN = 0.8; /**<Velocità minima utilizzata per la musica di sottofondo all'ondata aliena in movimento.*/
-const float VELOCITA_SOTTOFONDO_ONDATA_MAX = 1.55; /**<Velocità massima utilizzata per la musica di sottofondo all'ondata aliena in movimento.*/
+const float VELOCITA_SOTTOFONDO_ONDATA_MIN = 0.8; /**<Velocità minima utilizzata per la musica di sottofondo dell'ondata aliena in movimento.*/
+const float VELOCITA_SOTTOFONDO_ONDATA_MAX = 1.55; /**<Velocità massima utilizzata per la musica di sottofondo dell'ondata aliena in movimento.*/
 //FINE COSTANTI PER VELOCITA AUDIO
 
 //INIZIO COSTANTI PER FILE
 const char FILE_MUSICA_PRINCIPALE [] = "../media/Sounds/principale.wav"; /**<Percorso del file contenente la musica principale.*/
-const char FILE_MUSICA_SOTTOFONDO_ONDATA [] = "../media/Sounds/sottofondo_ondata.wav"; /**<Percorso del file contenente la musica di sottofondo all'ondata aliena in movimento.*/
+const char FILE_MUSICA_SOTTOFONDO_ONDATA [] = "../media/Sounds/sottofondo_ondata.wav"; /**<Percorso del file contenente la musica di sottofondo dell'ondata aliena in movimento.*/
 const char FILE_SUONO_ESPLOSIONE_CARRO_ARMATO [] = "../media/Sounds/esplosione_carro_armato.wav"; /**<Percorso del file contenente il suono dell'esplosione del carro armato.*/
 const char FILE_SUONO_ESPLOSIONE_ALIENO [] = "../media/Sounds/esplosione_alieno.wav"; /**<Percorso del file contenente il suono dell'esplosione di un alieno.*/
 const char FILE_SUONO_ESPLOSIONE_NAVICELLA_MISTERIOSA [] = "../media/Sounds/esplosione_navicella_misteriosa.wav"; /**<Percorso del file contenente il suono dell'esplosione della navicella misteriosa.*/
@@ -19,7 +19,7 @@ const char FILE_SUONO_NAVICELLA_MISTERIOSA [] = "../media/Sounds/navicella_miste
 
 //INIZIO INTERFACCIA
 /**
- * Avvia la musica di sottofondo all'ondata di alieni in movimento.
+ * Avvia la musica di sottofondo dell'ondata di alieni in movimento.
  */
 void avviaMusicaOndata ();
 
@@ -61,7 +61,7 @@ void avviaSuonoSparoCarroArmato ();
 void distruggiAudio ();
 
 /**
- * Ferma la musica di sottofondo all'ondata di alieni in movimento.
+ * Ferma la musica di sottofondo dell'ondata di alieni in movimento.
  */
 void fermaMusicaOndata ();
 
