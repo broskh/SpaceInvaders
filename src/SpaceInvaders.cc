@@ -99,6 +99,9 @@
  * Per maggiori informazioni riguardanti la struttura del programma è possibile leggere 
  * la documentazione relativa alla funzione {@link main}.
  * 
+ * Il programma è stato realizzato tramite l'utilizzo della libreria *Allegro*. Per qualsiasi
+ * informazione al riguardo consultare l'apposito [wiki](https://wiki.allegro.cc/index.php?title=Getting_Started).
+ * 
  * @author Alessio Scheri\n
  * E-mail: <alessio.scheri@gmail.com>
  */
