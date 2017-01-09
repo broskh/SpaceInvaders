@@ -10,9 +10,9 @@ const float FPS_GIOCO = 60; /**<FPS del gioco.*/
 const float FREQUENZA_LAMPEGGIO_MENU = 3.5; /**<Frequenza dell'effetto lampeggiante.*/
 const float FREQUENZA_SPOSTAMENTO_CARRO_ARMATO = 115; /**<Frequenza dello spostamento del carro armato.*/
 const float FREQUENZA_SPOSTAMENTO_NAVICELLA_MISTERIOSA = 150; /**<Frequenza dello spostamento della navicella misteriosa.*/
-const float FREQUENZA_SPOSTAMENTO_ONDATA_MAX = 120; /**<Frequenza massima del movimento dell'ondata.*/
-const float FREQUENZA_SPOSTAMENTO_ONDATA_MIN = 70; /**<Frequenza minima del movimento dell'ondata.*/
-const float FREQUENZA_SPOSTAMENTO_SPARI = 150; /**<Frequenza dello spostamento degli spari.*/
+const float FREQUENZA_SPOSTAMENTO_ONDATA_MAX = 130; /**<Frequenza massima del movimento dell'ondata.*/
+const float FREQUENZA_SPOSTAMENTO_ONDATA_MIN = 60; /**<Frequenza minima del movimento dell'ondata.*/
+const float FREQUENZA_SPOSTAMENTO_SPARI = 200; /**<Frequenza dello spostamento degli spari.*/
 //FINE COSTANTI PER VARI TIMER
 
 //INIZIO INTERFACCIA

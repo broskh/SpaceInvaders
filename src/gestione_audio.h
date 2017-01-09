@@ -3,7 +3,7 @@
  */
 
 //INIZIO COSTANTI PER VELOCITA' AUDIO
-const float VELOCITA_SOTTOFONDO_ONDATA_MIN = 0.8; /**<Velocità minima utilizzata per la musica di sottofondo dell'ondata aliena in movimento.*/
+const float VELOCITA_SOTTOFONDO_ONDATA_MIN = 0.75; /**<Velocità minima utilizzata per la musica di sottofondo dell'ondata aliena in movimento.*/
 const float VELOCITA_SOTTOFONDO_ONDATA_MAX = 1.55; /**<Velocità massima utilizzata per la musica di sottofondo dell'ondata aliena in movimento.*/
 //FINE COSTANTI PER VELOCITA AUDIO
 

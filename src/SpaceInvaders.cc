@@ -151,7 +151,7 @@ const char TITOLO_FINESTRA [] = "Space Invaders"; /**<Titolo della finestra del 
 //FINE OCSTANTI PER FINESTRA
 
 //INIZIO COSTANTI PER VELOCITA ONDATA
-const unsigned int STADI_INCREMENTO_VELOCITA_ONDATA = 3; /**<Numero di stadi di incremento della velocità dell'ondata aliena.*/
+const unsigned int STADI_INCREMENTO_VELOCITA_ONDATA = 5; /**<Numero di stadi di incremento della velocità dell'ondata aliena.*/
 const unsigned int RANGE_PERCENTUALE_INCREMENTO_VELOCITA_ONDATA = 100 / STADI_INCREMENTO_VELOCITA_ONDATA; /**<Range della percentuale di incremento della velocità dell'ondata aliena.*/
 //FINE COSTANTI PER VELOCITA ONDATA
 
