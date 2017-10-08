@@ -11,7 +11,7 @@ Il gioco è dotato di un menù principale, dal quale è possibile accedere alle 
 ![Space Invaders - Menù principale](http://imgur.com/ohHFaJy.png)
 > Per muoversi fra le voci di menù è necessario utilizzare *freccia su* e *freccia giù*, mentre per accedere all'area selezionata è sufficiente premere *enter*.
 
-###Gioca
+### Gioca
 Dalla schermata di gioco è possibile dilettarsi col gioco vero e proprio.<br>
 Il gioco ruota intorno ad un'ondata di alieni che si sposta costantemente con un movimento a zig-zag da destra a sinistra e viceversa. Ogni volta che raggiunge un margine laterale scende sensibilmente verso il basso e man mano che gli alieni vengono abbattuti l'ondata aumenta la propria velocità di movimento.
 <br>
@@ -28,7 +28,7 @@ Lo scopo del gioco è impedire che l'ondata di alieni raggiunga il carro armato 
 <br>
 > Durante una partita è possibile mettere il gioco in pausa premendo *esc*.
 
-###Menù di pausa
+### Menù di pausa
 Dalla schermata di gioco è possibile accedere al menù di pausa dove il giocatore può continuare, abbandonare o salvare la partita in corso.
 <br>
 Se viene scelto di salvare la partita il giocatore viene riportato al menù principale e la voce che consente di caricare la partita sarà abilitata. Tramite quella voce di menù potrà appunto ricominciare la partita dall'esatto punto nel quale l'aveva precedentemente interrotta.
@@ -36,13 +36,13 @@ Se viene scelto di salvare la partita il giocatore viene riportato al menù prin
 ![Space Invaders - Menù di pausa](http://imgur.com/o1t5O36.png)
 > Per muoversi fra le voci è necessario utilizzare *freccia su* e *freccia giù*, mentre per scegliere un'operazione è sufficiente premere *enter*.
 
-###Fine partita
+### Fine partita
 Al termine della partita, se è stato ottenuto un punteggio degno di essere inserito nella classifica degli highscores, è possibile digitare un nome di massimo tre lettere e salvarlo.
 
 ![Space Invaders - Fine partita](http://imgur.com/pXCDXam.png)
 > Premendo *enter* viene salvato il punteggio e si torna al menù principale.
 
-###Opzioni
+### Opzioni
 Dal menù principale è possibile accedere al menù delle impostazioni.
 <br>
 Questo menù consente di abilitare o meno la musica e gli effetti audio. Inoltre è possibile modificare la grafica cromatica degli alieni e impostare il numero di vite con le quali si intende iniziare le partite.
@@ -50,17 +50,17 @@ Questo menù consente di abilitare o meno la musica e gli effetti audio. Inoltre
 ![Space Invaders - Menù delle impostazioni](http://imgur.com/HPXLMAP.png)
 > Usando *freccia su* e *freccia giù* è possibile muoversi fra i vari campi delle impostazioni. Con *freccia destra* e *freccia sinistra* è possibile modificare il valore selezionato. Con *r* vengono ripristinati i valori di default. Premendo *enter* le modifiche vengono salvate e si torna al menù principale.
 
-###Highscores
+### Highscores
 Dal menù principale è inoltre possibile visualizzare la classifica dei dieci migliori punteggi raggiunti e il nome dei giocatori che hanno raggiunto tali risultati.
 
 ![Space Invaders - Highscores](http://imgur.com/Rv0TCdn.png)
 > Premendo *enter* si torna al menù principale.
 
-##Requisiti
+## Requisiti
 Un requisito fondamentale per la compilazione del codice è la libreria grafica *allegro*.
 Per informazioni riguardanti l'installazione di questa libreria è sufficiente seguire le istruzioni riportate [qui](https://wiki.allegro.cc/index.php?title=Getting_Started).
 
-##Come installarlo
+## Come installarlo
 Per poter installare il gioco su distruibuzioni basate su debian è sufficiente seguire questi semplici passi:
 - Scaricare da github l'archivio .zip.
 - Estrarre il contenuto dell'archivio appena scaricato.
@@ -73,7 +73,7 @@ Infine per giocare, sempre dall'interno della cartella, è sufficiente digitare 
 
 > Testato su *Ubuntu 16.04.1 64bit*.
 
-##Altre opzioni di make
+## Altre opzioni di make
 È possibile utilizzare make con altre opzioni per ottenere risultati differenti:
 - `make clean` per eliminare tutti i file generati in fase di compilazione.
 - `make cleanAll` per eliminare tutti i file generati in fase di compilazione e i vari file di salvataggio e configurazione.
@@ -82,12 +82,12 @@ Infine per giocare, sempre dall'interno della cartella, è sufficiente digitare 
 - `make depend` per generare il file *dependencies* che contiene le dipendenze (non presenti nelle directory di default del sistema) dei file da compilare.
 - `make noAsserts` per compilare il codice disabilitando le asserts.
 
-##Documentazione
+## Documentazione
 La documentazione in formato HTML è presente all'interno della cartella *doc/html/*. Aprendo il file *index.html* è possibile navigarla liberamente tramite qualsiasi browser.
 
 > Documentazione generata automaticamente con Doxygen.
 
-##Referenze
+## Referenze
 - La musica e gli effetti audio provengono da: (http://www.classicgaming.cc/classics/space-invaders/sounds) e (http://downloads.khinsider.com/game-soundtracks/album/space-invaders-gbc-gb-).
 - Il font utilizzato per il titolo nel menù principale proviene da: (http://www.fontspace.com/dustbust/invaders).
 - Il font utilizzato per tutto il testo del gioco proviene da: (http://it.fonts2u.com/space-invaders-regular.carattere).
