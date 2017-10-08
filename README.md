@@ -26,6 +26,7 @@ Lo scopo del gioco è impedire che l'ondata di alieni raggiunga il carro armato 
 ![Space Invaders - Gioca](http://imgur.com/2EChJ08.png)
 > È necessario utilizzare *freccia destra* e *freccia sinistra* per muovere il carro armato, mentre con *barra spaziatrice* è possibile sparare.
 <br>
+
 > Durante una partita è possibile mettere il gioco in pausa premendo *esc*.
 
 ### Menù di pausa
