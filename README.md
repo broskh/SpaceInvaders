@@ -1,95 +1,96 @@
 # Space Invaders
-## Introduzione
-Riproduzione del celebre videogioco *Space Invaders* che mantiene inalterate tutte le caratteristiche di base del gioco originale.
+## Introduction
+Reproduction of the famous *Space Invaders* videogame that keeps unchanged all the basic functionalities of the original game.
 <br>
-Il giocatore quindi dovrà controllare un carro armato con il quale avrà il compito di abbattere, finchè avrà vite a disposizione, le ondate di alieni che ripetutamente si avvicineranno.
+The player will then have to control a tank with which he will have the task of bringing down, as long as he has available lives, the waves of aliens that repeatedly approach.
 
-## Descrizione del gioco
-### Menù principale
-Il gioco è dotato di un menù principale, dal quale è possibile accedere alle varie schermate.
+## Game description
+### Main menù
+The game has a main menù with whom is possible to open the other screens.
 
-![Space Invaders - Menù principale](http://imgur.com/ohHFaJy.png)
-> Per muoversi fra le voci di menù è necessario utilizzare *freccia su* e *freccia giù*, mentre per accedere all'area selezionata è sufficiente premere *enter*.
+![Space Invaders - Main menù](http://imgur.com/ohHFaJy.png)
+> To move between the menu items, use *up arrow* and *down arrow*, while to enter the selected area press *enter*.
 
-### Gioca
-Dalla schermata di gioco è possibile dilettarsi col gioco vero e proprio.<br>
-Il gioco ruota intorno ad un'ondata di alieni che si sposta costantemente con un movimento a zig-zag da destra a sinistra e viceversa. Ogni volta che raggiunge un margine laterale scende sensibilmente verso il basso e man mano che gli alieni vengono abbattuti l'ondata aumenta la propria velocità di movimento.
+### The game
+From the game screen it's possible to really play.
 <br>
-Ogni volta che un alieno viene colpito il punteggio del giocatore viene incrementato di un valore dipendente dal tipo di alieno colpito. Quando un'intera ondata viene abbattuta, ne ricompare immediatamente una nuova.
+The game is based on a wave of aliens that move permanently with a zig-zag movment from right to the left an viceversa. Each time that a side margin is reached the wave go down and as soon as that aliens are killed the wave increase their movement speed.
 <br>
-Il giocatore, ad inizio partita, ha a disposizione tre barriere. Ogni qualvolta esse vengono colpite dagli alieni o dal carro armato, tendono prima a sgretolarsi, e infine a distruggersi.
+Whenever an alien is hit, the player's score is increased by a value that depends on the type of alien. When an entire wave is killed, a new wave is immediately displayed.
 <br>
-Inoltre, ad intervalli di tempo casuali, compare una navicella misteriosa. Se essa viene colpita il giocatore viene premiato con un incremento rilevante e casuale del proprio punteggio.
+The player, at the beginning of the game, has three barriers. Whenever they are hit by aliens or tanks, they first crumble and eventually they are destroyed.
 <br>
-Lo scopo del gioco è impedire che l'ondata di alieni raggiunga il carro armato poichè, nel momento in cui questo avviene, la partita giunge al termine.
+Moreover, at random intervals, a mysterious spaceship appears. If hit, the player wins a lot of points with a random value.
+<br>
+The goal of the game is to prevent that alien wave from reaching the tank because if this happens, the game ends.
 
-![Space Invaders - Gioca](http://imgur.com/2EChJ08.png)
-> È necessario utilizzare *freccia destra* e *freccia sinistra* per muovere il carro armato, mentre con *barra spaziatrice* è possibile sparare.
+![Space Invaders - Game](http://imgur.com/2EChJ08.png)
+> The user can use *right arrow* and *left arrow* to move the tank, while with *space bar* the user can shoot.
 <br>
 
-> Durante una partita è possibile mettere il gioco in pausa premendo *esc*.
+> During a match is possible to pause the game by pressing *esc*.
 
-### Menù di pausa
-Dalla schermata di gioco è possibile accedere al menù di pausa dove il giocatore può continuare, abbandonare o salvare la partita in corso.
+### Pause menu
+From the game screen you can access the pause menu where the player can continue, quit or save the game in progress.
 <br>
-Se viene scelto di salvare la partita il giocatore viene riportato al menù principale e la voce che consente di caricare la partita sarà abilitata. Tramite quella voce di menù potrà appunto ricominciare la partita dall'esatto punto nel quale l'aveva precedentemente interrotta.
+If the player saves the game, return to the main menu and the menu item that allows to load the game will be enabled.
 
-![Space Invaders - Menù di pausa](http://imgur.com/o1t5O36.png)
-> Per muoversi fra le voci è necessario utilizzare *freccia su* e *freccia giù*, mentre per scegliere un'operazione è sufficiente premere *enter*.
+![Space Invaders - Pause menu](http://imgur.com/o1t5O36.png)
+> To move between menu items the player must use *up arrow* and *down arrow*, while to select a function simply press *enter*.
 
-### Fine partita
-Al termine della partita, se è stato ottenuto un punteggio degno di essere inserito nella classifica degli highscores, è possibile digitare un nome di massimo tre lettere e salvarlo.
+### End of the match
+At the end of the game, if the player has obtained a score to be included in the highscore, you can enter a three-letter alias and save it.
 
-![Space Invaders - Fine partita](http://imgur.com/pXCDXam.png)
-> Premendo *enter* viene salvato il punteggio e si torna al menù principale.
+![Space Invaders - End game](http://imgur.com/pXCDXam.png)
+> By pressing *enter* the score is saved and the player returns to the main menu.
 
-### Opzioni
-Dal menù principale è possibile accedere al menù delle impostazioni.
+### Settings
+From main menu is possible to access the settings menu.
 <br>
-Questo menù consente di abilitare o meno la musica e gli effetti audio. Inoltre è possibile modificare la grafica cromatica degli alieni e impostare il numero di vite con le quali si intende iniziare le partite.
+This menu allows to enable or disable music and sound effects. In addition, the settings allow to change the color of the aliens and set the number of lives with which the player starts the games.
 
-![Space Invaders - Menù delle impostazioni](http://imgur.com/HPXLMAP.png)
-> Usando *freccia su* e *freccia giù* è possibile muoversi fra i vari campi delle impostazioni. Con *freccia destra* e *freccia sinistra* è possibile modificare il valore selezionato. Con *r* vengono ripristinati i valori di default. Premendo *enter* le modifiche vengono salvate e si torna al menù principale.
+![Space Invaders - Settings menu](http://imgur.com/HPXLMAP.png)
+> By pressing *arrow up* and *arrow down* can move between the various settings menu items. With *right arrow* and *left arrow* can change the selected value. With *r* the default values are reset. By pressing *enter* the new values are saved and the player returns to the main menu.
 
 ### Highscores
-Dal menù principale è inoltre possibile visualizzare la classifica dei dieci migliori punteggi raggiunti e il nome dei giocatori che hanno raggiunto tali risultati.
+From the main menu can view the ranking of the top ten scores and the aliases of the players who have achieved these results.
 
 ![Space Invaders - Highscores](http://imgur.com/Rv0TCdn.png)
-> Premendo *enter* si torna al menù principale.
+> By pressing *enter* the player can return to the main menu.
 
-## Requisiti
-Un requisito fondamentale per la compilazione del codice è la libreria grafica *allegro*.
-Per informazioni riguardanti l'installazione di questa libreria è sufficiente seguire le istruzioni riportate [qui](https://wiki.allegro.cc/index.php?title=Getting_Started).
+## Requirements
+A basic requirement for compiling the code is the *allegro* graphics library.
+For information on installing this library, simply follow the instructions [here](https://wiki.allegro.cc/index.php?title=Getting_Started).
 
-## Come installarlo
-Per poter installare il gioco su distruibuzioni basate su debian è sufficiente seguire questi semplici passi:
-- Scaricare da github l'archivio .zip.
-- Estrarre il contenuto dell'archivio appena scaricato.
-- Entrare con un terminale all'interno della directory.
-- Digitare sul terminale `cd src`.
-- Digitare sul terminale `make depend`.
-- Digitare sul terminale `make`. In questo modo avremo compilato e generato l'eseguibile *SpaceInvaders*.
+## How to install
+To install the game on debian-based distributions you can follow these simple steps:
+- Download from github the .zip archive.
+- Extract the archive content.
+- Open a terminal into the directory.
+- Enter on the terminal `cd src`.
+- Enter on the terminal `make depend`.
+- Enter on the terminal `make`. In this way you can compile and generate the executable *SpaceInvaders*.
 
-Infine per giocare, sempre dall'interno della cartella, è sufficiente digitare da console `./SpaceInvaders`.
+To play, with a terminal in the folder, enter  `./SpaceInvaders`.
 
-> Testato su *Ubuntu 16.04.1 64bit*.
+> Tested on *Ubuntu 16.04.1 64bit*.
 
-## Altre opzioni di make
-È possibile utilizzare make con altre opzioni per ottenere risultati differenti:
-- `make clean` per eliminare tutti i file generati in fase di compilazione.
-- `make cleanAll` per eliminare tutti i file generati in fase di compilazione e i vari file di salvataggio e configurazione.
-- `make debug` per compilare il codice in modalità debug (viene abilitato anche un tracing a console).
-- `make debugExtended` per compilare il codice in modalità debug (viene abilitato anche un tracing esteso a console).
-- `make depend` per generare il file *dependencies* che contiene le dipendenze (non presenti nelle directory di default del sistema) dei file da compilare.
-- `make noAsserts` per compilare il codice disabilitando le asserts.
+## Other make options
+You can use make with other options to get different results:
+- `make clean` to delete all files generated in compilation phase.
+- `make cleanAll` to delete all files generated in compilation phase and various save and configuration files.
+- `make debug` to compile the code in debug mode (also console tracing is enabled).
+- `make debugExtended` to compile the code in debug mode (also extended console tracing is enabled).
+- `make depend` to generate the file *dependencies* that contains the dependencies (not present in the system default directories) of the files to compile.
+- `make noAsserts` to compile the code disabling the asserts.
 
-## Documentazione
-La documentazione in formato HTML è presente all'interno della cartella *doc/html/*. Aprendo il file *index.html* è possibile navigarla liberamente tramite qualsiasi browser.
+## Documentation
+The documentation in HTML format is present in the *doc/html/* folder. By opening the *index.html* file you can browse it with any browser.
 
-> Documentazione generata automaticamente con Doxygen.
+> Documentation generated automatically with Doxygen.
 
-## Referenze
-- La musica e gli effetti audio provengono da: (http://www.classicgaming.cc/classics/space-invaders/sounds) e (http://downloads.khinsider.com/game-soundtracks/album/space-invaders-gbc-gb-).
-- Il font utilizzato per il titolo nel menù principale proviene da: (http://www.fontspace.com/dustbust/invaders).
-- Il font utilizzato per tutto il testo del gioco proviene da: (http://it.fonts2u.com/space-invaders-regular.carattere).
-- Per scaricare l'eseguibile pre-compilato per sistemi Windows cliccare [qui](https://drive.google.com/drive/folders/0ByFVa3igbMKoaF9xdnh0cTBrdU0?usp=sharing).
+## References
+- The music and the sound effects comes from: (http://www.classicgaming.cc/classics/space-invaders/sounds) and (http://downloads.khinsider.com/game-soundtracks/album/space-invaders-gbc-gb-).
+- The used font for main menu title comes from:  (http://www.fontspace.com/dustbust/invaders).
+- The font user in other game strings comes from: (http://it.fonts2u.com/space-invaders-regular.carattere).
+- To download the executable pre-compilated for Windows systems click [here](https://drive.google.com/drive/folders/0ByFVa3igbMKoaF9xdnh0cTBrdU0?usp=sharing).
