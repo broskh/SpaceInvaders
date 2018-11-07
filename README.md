@@ -93,4 +93,3 @@ The documentation in HTML format is present in the *doc/html/* folder. By openin
 - The music and the sound effects comes from: (http://www.classicgaming.cc/classics/space-invaders/sounds) and (http://downloads.khinsider.com/game-soundtracks/album/space-invaders-gbc-gb-).
 - The used font for main menu title comes from:  (http://www.fontspace.com/dustbust/invaders).
 - The font user in other game strings comes from: (http://it.fonts2u.com/space-invaders-regular.carattere).
-- To download the executable pre-compilated for Windows systems click [here](https://drive.google.com/drive/folders/0ByFVa3igbMKoaF9xdnh0cTBrdU0?usp=sharing).
